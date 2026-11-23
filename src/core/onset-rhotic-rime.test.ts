@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { createGenerator, createSeededRng, englishConfig, TraceCollector } from "../index.js";
+import { createGenerator, englishConfig, TraceCollector } from "../index.js";
 import type { LanguageConfig } from "../config/language.js";
 import type { Phoneme, Syllable, Word, WordGenerationContext } from "../types.js";
 import { findExample } from "../test-support/find-example.js";
@@ -121,8 +121,9 @@ describe("onset /r/ before an r-coloured rime (#497)", () => {
   it("removes the shape from roots and keeps finished words under the CMU rate", () => {
     const count = 10_000;
     const sample = (config: LanguageConfig): Word[] => {
-      const generator = createGenerator(config), rand = createSeededRng(497);
-      return Array.from({ length: count }, () => generator.generateWord({ rand }));
+      const generator = createGenerator(config);
+      // Pair each draw so an earlier word's RNG consumption cannot shift the later comparisons.
+      return Array.from({ length: count }, (_, index) => generator.generateWord({ seed: 497 + index }));
     };
     const summarize = (words: Word[]) => {
       let roots = 0, finished = 0, phones = 0, rhotics = 0, rs = 0;

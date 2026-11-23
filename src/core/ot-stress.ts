@@ -36,6 +36,8 @@ export interface ConstraintWeight {
   name: string;
   /** Numeric weight (higher = more influential). */
   weight: number;
+  /** Additional weight when the primary candidate has the given nucleus. */
+  nucleusWeightAdjustments?: Readonly<Record<string, number>>;
 }
 
 /** Full OT stress configuration stored on LanguageConfig. */
@@ -170,12 +172,16 @@ export function otEvaluate(
   const noise = config.noise ?? 0;
 
   // Resolve constraint objects + perturbed weights once per evaluation
-  const resolved: Array<{ constraint: OTConstraint; perturbedWeight: number }> = [];
+  const resolved: Array<{
+    constraint: OTConstraint;
+    perturbedWeight: number;
+    nucleusWeightAdjustments?: ConstraintWeight["nucleusWeightAdjustments"];
+  }> = [];
   for (const cw of config.constraints) {
     const constraint = BUILTIN_CONSTRAINTS.get(cw.name);
     if (!constraint) continue; // skip unknown constraints gracefully
     const perturbedWeight = cw.weight + gaussianNoise(noise, rand);
-    resolved.push({ constraint, perturbedWeight });
+    resolved.push({ constraint, perturbedWeight, nucleusWeightAdjustments: cw.nucleusWeightAdjustments });
   }
 
   let bestIndex = 0;
@@ -183,8 +189,11 @@ export function otEvaluate(
 
   for (let i = 0; i < n; i++) {
     let score = 0;
-    for (const { constraint, perturbedWeight } of resolved) {
-      score += perturbedWeight * constraint.evaluate(syllables, i, analysis);
+    const nucleus = syllables[i].nucleus[0]?.sound;
+    for (const { constraint, perturbedWeight, nucleusWeightAdjustments } of resolved) {
+      const adjustment = nucleus === undefined ? undefined : nucleusWeightAdjustments?.[nucleus];
+      const weight = typeof adjustment === "number" ? perturbedWeight + adjustment : perturbedWeight;
+      score += weight * constraint.evaluate(syllables, i, analysis);
     }
     if (score < bestScore) {
       bestScore = score;

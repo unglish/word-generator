@@ -178,7 +178,12 @@ Breaking change:
 
 ## Pronunciation Config
 
-Stress and aspiration are declarative under `pronunciation`.
+Stress, aspiration, and vowel reduction are declarative under `pronunciation`.
+In English, `stress.nucleus.secondaryStressBan` keeps secondary stress off
+schwa and /ɚ/. Full short root-final vowels are more likely to retain
+secondary stress. Unstressed vowels can reduce in the IPA, including at the
+end of a root before a syllabic suffix. The spelling uses the lexical vowel
+and stress.
 
 ```ts
 import { createGenerator, englishConfig } from "@unglish/word-generator";

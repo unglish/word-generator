@@ -24,6 +24,7 @@ import type {
   AspirationTargetSegment,
 } from "./trace.js";
 import { clonePhoneme, cloneSyllables } from "./lexical.js";
+import { allowsSecondaryStress } from "./stress-repair.js";
 
 /** Fast boolean probability check (avoids tuple array allocation). */
 export function coinFlip(rand: RNG, probability: number): boolean {
@@ -33,6 +34,7 @@ export function coinFlip(rand: RNG, probability: number): boolean {
 export interface PronunciationRuntimeConfig {
   aspiration: ResolvedAspirationRules;
   vowelReduction?: VowelReductionConfig;
+  secondaryStressBan?: readonly string[];
 }
 
 interface AspirationTargetMatch {
@@ -361,7 +363,9 @@ const applySecondaryStress = (
     stress.secondary.candidateWindow === "all-nonprimary"
       ? Array.from({ length: syllableCount }, (_, i) => i)
       : [0, 1, 2].filter((i) => i < syllableCount)
-  ).filter((i) => i !== primaryStressIndex);
+  ).filter((i) =>
+    i !== primaryStressIndex && allowsSecondaryStress(syllables[i], stress.nucleus),
+  );
 
   if (potentialIndices.length === 0) return skipped;
 
@@ -378,7 +382,16 @@ const applySecondaryStress = (
     rand,
   );
 
-  const applied = coinFlip(rand, stress.secondary.probability);
+  const finalNucleus = secondaryStressIndex === syllableCount - 1
+    ? syllables[secondaryStressIndex].nucleus[0]?.sound
+    : undefined;
+  const finalProbability = finalNucleus === undefined
+    ? undefined
+    : stress.secondary.finalNucleusProbabilities?.[finalNucleus];
+  const probability = typeof finalProbability === "number"
+    ? finalProbability
+    : stress.secondary.probability;
+  const applied = coinFlip(rand, probability);
   if (applied) {
     syllables[secondaryStressIndex].stress = "ˌ";
   }
@@ -395,6 +408,7 @@ const applyRhythmicStress = (
 
   for (let i = 1; i < syllables.length - 1; i++) {
     if (syllables[i].stress) continue;
+    if (!allowsSecondaryStress(syllables[i], stress.nucleus)) continue;
 
     const hasUnstressedNeighbors =
       !syllables[i - 1].stress && !syllables[i + 1].stress;
@@ -430,10 +444,9 @@ const codaMultiplier = (
  * Post-generation pass: reduce vowels in unstressed syllables.
  *
  * Only vowels with a matching rule in the config are candidates.
- * Tense vowels are skipped. Per-rule target and probability are used,
- * modified by syllable position, the following coda consonant and secondary
- * stress settings. Every candidate draws once, even at probability 0, so a
- * blocked reduction does not shift later random draws.
+ * Tense vowels require an explicit final-position rule. Reduction probability
+ * is modified by syllable position, the following coda consonant and secondary
+ * stress settings. Coda modifiers that block reduction still consume the draw.
  *
  * NOTE: Spelling intentionally does NOT update after vowel reduction.
  * English uses etymological/historical spelling — the written form is
@@ -446,6 +459,7 @@ const reduceUnstressedVowels = (
   context: WordGenerationContext,
   config: VowelReductionConfig,
   rand: RNG,
+  secondaryStressBan?: readonly string[],
 ): void => {
   const { word } = context;
   const syllables = word.syllables;
@@ -453,15 +467,17 @@ const reduceUnstressedVowels = (
   if (syllables.length <= 1) return;
 
   const ruleMap = new Map(config.rules.map((r) => [r.source, r]));
+  const rootFinal = word.lexical
+    ? word.lexical.rootSyllableStart + word.lexical.root.length - 1
+    : syllables.length - 1;
 
   for (let si = 0; si < syllables.length; si++) {
     const syllable = syllables[si];
+    const final = si === syllables.length - 1 || si === rootFinal;
 
     if (syllable.stress === "ˈ") continue;
 
-    if (syllable.stress === "ˌ") {
-      if (!config.reduceSecondaryStress) continue;
-    }
+    if (syllable.stress === "ˌ" && !config.reduceSecondaryStress) continue;
 
     let positionalMod = 1.0;
     if (config.positionalModifiers) {
@@ -477,13 +493,13 @@ const reduceUnstressedVowels = (
     for (let i = 0; i < syllable.nucleus.length; i++) {
       const vowel = syllable.nucleus[i];
 
-      // Skip tense vowels — they resist reduction
-      if (vowel.tense) continue;
-
       const rule = ruleMap.get(vowel.sound);
       if (!rule) continue;
+      const finalProbability = final ? rule.finalProbability : undefined;
+      if (vowel.tense && finalProbability === undefined) continue;
+      if (syllable.stress === "ˌ" && secondaryStressBan?.includes(rule.target)) continue;
 
-      let prob = rule.probability * positionalMod * codaMultiplier(rule, syllable);
+      let prob = (finalProbability ?? rule.probability * positionalMod) * codaMultiplier(rule, syllable);
       if (
         syllable.stress === "ˌ" &&
         config.secondaryStressProbability != null
@@ -516,7 +532,12 @@ export const generatePronunciation = (
   }
   applyAspiration(context, pronunciation.aspiration);
   if (pronunciation.vowelReduction?.enabled) {
-    reduceUnstressedVowels(context, pronunciation.vowelReduction, context.rand);
+    reduceUnstressedVowels(
+      context,
+      pronunciation.vowelReduction,
+      context.rand,
+      pronunciation.secondaryStressBan,
+    );
   }
   buildPronunciationGuide(context);
 };

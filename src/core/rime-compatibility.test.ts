@@ -46,7 +46,12 @@ function fixedRoot(nuclei: Phoneme[] = [schwa, rhotic, goose], syllables = 2): L
     pronunciation: {
       ...englishConfig.pronunciation, vowelReduction: undefined,
       aspiration: { enabled: false, targets: [{ segment: "onset" }], rules: [{ id: "off", when: {}, probability: 0 }], fallbackProbability: 0 },
-      stress: { ...englishConfig.pronunciation.stress, primary: { type: "fixed", fixedPosition: 0 } },
+      stress: {
+        ...englishConfig.pronunciation.stress,
+        primary: { type: "fixed", fixedPosition: 0 },
+        // Allow the fixture's unstressed-nucleus inventory to take secondary stress.
+        nucleus: { ...englishConfig.pronunciation.stress.nucleus, secondaryStressBan: undefined },
+      },
     },
   };
 }
