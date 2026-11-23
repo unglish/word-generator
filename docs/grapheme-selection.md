@@ -261,8 +261,8 @@ in English anyway.
 before front-vowel *sounds* (`c-soft-vowel`), but it cannot see the letters
 that follow: a schwa written `e` or `i` (`ececoontion`), /j/ → `y`
 (`facyorck`), the `e` that magic-e or silent-e adds (`brice`), or an e/i/y-initial
-suffix (`winwocive`). The suffix spelling was also doubled by the
-`double-consonant` boundary transform (`broccest`).
+suffix (`winwocive`). Vowel-suffix boundary transforms spell final hard `c`
+as `ck` in the cases described below.
 
 `writtenFormConstraints.hardLetters` declares such letters. The English
 `hard-c` rule runs once the root is written (after syllable rules, magic-e and
@@ -437,8 +437,9 @@ when the root's final syllable is stressed and its vowel reads short:
 *commit* → *committed*, but *visit* → *visited* and *letter* → *lettered*.
 
 `BoundaryTransform.boundarySyllable` is a list of phonological conditions
-(stress levels and a nucleus selector). The transform fires only if the root
-syllable at the join meets at least one of them: the root's final syllable for
+(stress levels, a nucleus selector, and a final coda phoneme selector).
+The transform fires only if the root syllable at the join meets at least
+one of them: the root's final syllable for
 a suffix, its first for a prefix. `attachRootWritten` passes that syllable from
 the lexical root being spelled. English doubles in these cases:
 
@@ -449,17 +450,21 @@ the lexical root being spelled. English doubles in these cases:
   *handicapped* and *zigzagged*: `pirtwigger` /ˈpʰɪrˌtʰwɪg.ɚ/. Secondary
   stress on /ɚ/ (#476) does not double: `wubering` /ˈwʌˌbɚ.ɪŋ/.
 
-Nothing else doubles:
+The letter and sound also matter (#518). A final `s` doubles when it spells
+/s/ (*bus* → *bussed*). When `s` spells /z/, it stays single. Final `h` stays
+single. Final `c` spelling /k/ takes `ck` under the same stress and vowel
+conditions. Final `-ic` spelling /ɪk/ also takes `ck` before e- and i-initial
+suffixes in this group, even when unstressed (*picnic* → *picnicked*).
 
-- An unstressed final syllable never doubles. This is the American rule
+- Ordinary consonant doubling requires stress. This is the American rule
   (*worshiped*, *traveled*). British spelling doubles `l` (*travelled*).
 - A long vowel or diphthong keeps its one letter reading long (`bated`
   /ˈbeɪt.əd/, `skiping`), which matches the open-reading rule above.
 - Schwa never doubles (*galloped*), even under secondary stress.
 
-The check draws no random numbers, and no other transform is blocked by
-`double-consonant`. Some words now have an unstressed full short vowel spelled
-with one letter before a vowel (`udgemed` /ˈʌdʒ.ɛmd/). English seldom has
+These boundary transforms draw no random numbers. Some words have an
+unstressed full short vowel spelled with one letter before a vowel
+(`udgemed` /ˈʌdʒ.ɛmd/). English seldom has
 these, because it reduces such vowels.
 
 ## Evidence

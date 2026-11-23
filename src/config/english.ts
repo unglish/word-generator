@@ -1,6 +1,6 @@
 import { lexiconReference } from "./lexicon-reference.js";
 import { englishDoublingRealizations } from "../elements/graphemes/doubling.js";
-import { Affix, BoundaryClusterConstraintRule, BoundaryTransform, LanguageConfig, defaultFallbackBridgeOnsets } from "./language.js";
+import { Affix, BoundaryClusterConstraintRule, BoundaryTransform, LanguageConfig, defaultFallbackBridgeOnsets, type BoundarySyllableCondition } from "./language.js";
 
 // ---------------------------------------------------------------------------
 // Shared boundary transforms
@@ -20,6 +20,10 @@ const DROP_SILENT_E: BoundaryTransform = { name: "drop-silent-e", match: /e$/i, 
  * a reduced vowel does not double (`gallop` → `galloped`).
  */
 const FULL_SHORT_NUCLEI = ["ɪ", "ɛ", "æ", "ʌ", "ʊ", "ɑ", "ɔ", "ɜ"] as const;
+const STRESSED_SHORT: readonly BoundarySyllableCondition[] = [
+  { stress: ["primary"], nucleus: { sounds: [...FULL_SHORT_NUCLEI, "ɚ"] } },
+  { stress: ["secondary"], nucleus: { sounds: FULL_SHORT_NUCLEI } },
+];
 /**
  * Double a root-final single consonant after a single vowel letter before a
  * vowel suffix only when the root's final syllable is stressed and its vowel
@@ -36,24 +40,42 @@ const FULL_SHORT_NUCLEI = ["ɪ", "ɛ", "æ", "ʌ", "ʊ", "ɑ", "ɔ", "ɜ"] as co
  */
 const DOUBLE_CONSONANT: BoundaryTransform = {
   name: "double-consonant",
-  match: /([^aeiou])([aeiou])([bcdfghlmnprst])$/i,
+  match: /([^aeiou])([aeiou])([bdfglmnprt])$/i,
   replace: "$1$2$3$3",
   blockedBy: ["drop-silent-e"],
-  boundarySyllable: [
-    { stress: ["primary"], nucleus: { sounds: [...FULL_SHORT_NUCLEI, "ɚ"] } },
-    { stress: ["secondary"], nucleus: { sounds: FULL_SHORT_NUCLEI } },
-  ],
+  boundarySyllable: STRESSED_SHORT,
+};
+const DOUBLE_VOICELESS_S: BoundaryTransform = {
+  ...DOUBLE_CONSONANT,
+  name: "double-voiceless-s",
+  match: /([^aeiou])([aeiou])(s)$/i,
+  boundarySyllable: STRESSED_SHORT.map((condition) => ({ ...condition, coda: { sounds: ["s"] } })),
+};
+const HARD_C_TO_CK: BoundaryTransform = {
+  ...DOUBLE_CONSONANT,
+  name: "hard-c-to-ck",
+  match: /([^aeiou][aeiou]c)$/i,
+  replace: "$1k",
+  boundarySyllable: STRESSED_SHORT.map((condition) => ({ ...condition, coda: { sounds: ["k"] } })),
+};
+/** Before e or i, final -ic keeps /k/ with ck even without stress (picnicked). */
+const UNSTRESSED_IC_TO_ICK: BoundaryTransform = {
+  ...HARD_C_TO_CK,
+  name: "unstressed-ic-to-ick",
+  match: /([^aeiou]ic)$/i,
+  boundarySyllable: [{ stress: ["unstressed"], nucleus: { sounds: ["ɪ"] }, coda: { sounds: ["k"] } }],
 };
 
-/** Drop silent-e / double consonant only — used by i-initial `-ing` (keep final y). */
-const BT_E_DOUBLE: BoundaryTransform[] = [DROP_SILENT_E, DOUBLE_CONSONANT];
+const BT_DOUBLE: BoundaryTransform[] = [DOUBLE_CONSONANT, DOUBLE_VOICELESS_S, HARD_C_TO_CK];
+/** Drop silent-e and double consonants — used by i-initial `-ing` (keep final y). */
+const BT_E_DOUBLE: BoundaryTransform[] = [DROP_SILENT_E, ...BT_DOUBLE, UNSTRESSED_IC_TO_ICK];
 /** Drop silent-e only — i-initial suffixes that still need it (`-ive`, `-ity`, `-ize`). */
 const BT_E: BoundaryTransform[] = [DROP_SILENT_E];
 /** y→i then drop silent-e — non-i Latinate suffixes. */
 const BT_Y_E: BoundaryTransform[] = [Y_TO_I, DROP_SILENT_E];
-/** y→i then the `-ed`/`-er`/`-est` cluster (and `-able`). */
-const BT_Y_E_DOUBLE: BoundaryTransform[] = [Y_TO_I, DROP_SILENT_E, DOUBLE_CONSONANT];
-const BT_ALL: BoundaryTransform[] = BT_Y_E_DOUBLE;
+/** y→i then the `-ed`/`-er`/`-est` cluster. */
+const BT_Y_E_DOUBLE: BoundaryTransform[] = [Y_TO_I, ...BT_E_DOUBLE];
+const BT_ABLE: BoundaryTransform[] = [Y_TO_I, DROP_SILENT_E, ...BT_DOUBLE];
 const BT_S: BoundaryTransform[] = [Y_TO_I_ES];
 
 /**
@@ -887,7 +909,7 @@ export const englishConfig: LanguageConfig = {
       { type: "suffix", written: "er", phonemes: ["ɚ"], syllables: [{ onset: [], nucleus: ["ɚ"], coda: [] }], syllableCount: 1, stressEffect: "none", frequency: 50, boundaryTransforms: BT_Y_E_DOUBLE },
       { type: "suffix", written: "est", phonemes: ["ɪ", "s", "t"], syllables: [{ onset: [], nucleus: ["ɪ"], coda: ["s", "t"] }], syllableCount: 1, stressEffect: "none", frequency: 15, boundaryTransforms: BT_Y_E_DOUBLE },
       { type: "suffix", written: "ment", phonemes: ["m", "ə", "n", "t"], syllables: [{ onset: ["m"], nucleus: ["ə"], coda: ["n", "t"] }], syllableCount: 1, stressEffect: "none", frequency: 23, boundaryTransforms: btYJoin("ment") },
-      { type: "suffix", written: "able", phonemes: ["ə", "b", "ə", "l"], syllables: [{ onset: [], nucleus: ["ə"], coda: [] }, { onset: ["b"], nucleus: ["ə"], coda: ["l"] }], syllableCount: 2, stressEffect: "none", frequency: 21, boundaryTransforms: BT_ALL },
+      { type: "suffix", written: "able", phonemes: ["ə", "b", "ə", "l"], syllables: [{ onset: [], nucleus: ["ə"], coda: [] }, { onset: ["b"], nucleus: ["ə"], coda: ["l"] }], syllableCount: 2, stressEffect: "none", frequency: 21, boundaryTransforms: BT_ABLE },
       { type: "suffix", written: "ful", phonemes: ["f", "ə", "l"], syllables: [{ onset: ["f"], nucleus: ["ə"], coda: ["l"] }], syllableCount: 1, stressEffect: "none", frequency: 15, boundaryTransforms: btYJoin("ful") },
       { type: "suffix", written: "less", phonemes: ["l", "ə", "s"], syllables: [{ onset: ["l"], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: "none", frequency: 12, boundaryTransforms: btYJoin("less") },
       { type: "suffix", written: "ous", phonemes: ["ə", "s"], syllables: [{ onset: [], nucleus: ["ə"], coda: ["s"] }], syllableCount: 1, stressEffect: "attract-preceding", frequency: 14, boundaryTransforms: BT_Y_E },
