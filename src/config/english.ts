@@ -61,6 +61,12 @@ const DOUBLE_VOICELESS_S: BoundaryTransform = {
   match: /([^aeiou])([aeiou])(s)$/i,
   boundarySyllable: STRESSED_SHORT.map((condition) => ({ ...condition, coda: { sounds: ["s"] } })),
 };
+const VOICED_S_TO_ZZ: BoundaryTransform = {
+  ...DOUBLE_VOICELESS_S,
+  name: "voiced-s-to-zz",
+  replace: "$1$2zz",
+  boundarySyllable: STRESSED_SHORT.map((condition) => ({ ...condition, coda: { sounds: ["z"] } })),
+};
 const HARD_C_TO_CK: BoundaryTransform = {
   ...DOUBLE_CONSONANT,
   name: "hard-c-to-ck",
@@ -76,7 +82,8 @@ const UNSTRESSED_IC_TO_ICK: BoundaryTransform = {
   boundarySyllable: [{ stress: ["unstressed"], nucleus: { sounds: ["ɪ"] }, coda: { sounds: ["k"] } }],
 };
 
-const BT_DOUBLE: BoundaryTransform[] = [DOUBLE_CONSONANT, DOUBLE_VOICELESS_S, HARD_C_TO_CK];
+/** Doubling-suffix joins (`-ing`, `-ed`, `-er`, `-est`, `-able`); /z/ after a stressed short vowel takes `zz` (#529). */
+const BT_DOUBLE: BoundaryTransform[] = [DOUBLE_CONSONANT, DOUBLE_VOICELESS_S, VOICED_S_TO_ZZ, HARD_C_TO_CK];
 /** Drop final e and double consonants — used by i-initial `-ing` (keep final y). */
 const BT_E_DOUBLE: BoundaryTransform[] = [DROP_FINAL_E, ...BT_DOUBLE, UNSTRESSED_IC_TO_ICK];
 /** Drop final e only — used by `-ive`, `-ity`, and `-ize`. */
@@ -87,7 +94,8 @@ const BT_Y_E: BoundaryTransform[] = [Y_TO_I, DROP_FINAL_E];
 const BT_Y_E_DOUBLE: BoundaryTransform[] = [Y_TO_I, ...BT_E_DOUBLE];
 const BT_ABLE: BoundaryTransform[] = [Y_TO_I, DROP_FINAL_E, ...BT_DOUBLE];
 const BT_SILENT_E: BoundaryTransform[] = [DROP_SILENT_E];
-const BT_S: BoundaryTransform[] = [Y_TO_I_ES, DROP_SILENT_E];
+/** Plural/3sg `-s`; its `-es` form also takes `zz` after a stressed short vowel (*quizzes*). */
+const BT_S: BoundaryTransform[] = [Y_TO_I_ES, DROP_SILENT_E, VOICED_S_TO_ZZ];
 
 /**
  * Nucleus phonemes whose e-digraph magic-e splits (ie, ye → i_e; ue → u_e;
