@@ -6,8 +6,7 @@ import { findExample, searchSeeds } from "../test-support/find-example.js";
 import {
   assertRootRimeCompatibility, buildBannedNucleusPairs, isNucleusCompatibleWithFollowingOnset,
 } from "./rime-compatibility.js";
-import { repairStressedNuclei } from "./stress-repair.js";
-import { repairNucleusWordPositions } from "./nucleus-position.js";
+import { repairRootNuclei, repairStressedNuclei } from "./nucleus-repair.js";
 
 // Issue #410: English has no /ɚ/ (or /ɝ/) directly followed by /r/ inside a
 // root. CMU has ER + R only across affix and compound joins (overrule,
@@ -49,7 +48,9 @@ const rhotic = { ...phone("ɚ"), nucleus: 10, startWord: 1, midWord: 1, endWord:
 const goose = { ...phone("u"), nucleus: 2, startWord: 1, midWord: 1, endWord: 1 };
 const codaPairs = buildBannedNucleusPairs(englishConfig.codaConstraints!.bannedNucleusCodaCombinations);
 const onsetPairs = buildBannedNucleusPairs(englishConfig.codaConstraints!.bannedNucleusCodaCombinations, true);
+const rimes = { nucleusCoda: codaPairs, followingOnset: onsetPairs };
 const stress = englishConfig.pronunciation.stress;
+const repairPolicy = (phonemes: Phoneme[]) => ({ phonemes, stress, rimes, forbidOpenCheckedFinal: false });
 function open(nucleus: Phoneme, onset: Phoneme[] = [phone("k")]): Syllable {
   return { onset, nucleus: [nucleus], coda: [], stress: "ˈ" };
 }
@@ -71,20 +72,20 @@ describe("rhotic vowel + /r/ (#410)", () => {
     expect(isNucleusCompatibleWithFollowingOnset("ɚ", [phone("t")], [phone("r")], onsetPairs)).toBe(true);
     expect(isNucleusCompatibleWithFollowingOnset("ɚ", [], undefined, onsetPairs)).toBe(true);
     expect(isNucleusCompatibleWithFollowingOnset("ə", [], [phone("r")], onsetPairs)).toBe(true);
-    expect(() => assertRootRimeCompatibility([open(rhotic), open(schwa, [phone("r")])], codaPairs, onsetPairs))
+    expect(() => assertRootRimeCompatibility([open(rhotic), open(schwa, [phone("r")])], rimes))
       .toThrow(/nucleus\/onset pair \/ɚ\/ \+ \/r\/ at syllables 0-1/);
-    expect(() => assertRootRimeCompatibility([open(rhotic), open(schwa, [phone("r")])], codaPairs)).not.toThrow();
+    expect(() => assertRootRimeCompatibility([open(rhotic), open(schwa, [phone("r")])], { nucleusCoda: codaPairs })).not.toThrow();
   });
 
   it("keeps stress and edge repairs from choosing a rhotic vowel before a root /r/ onset", () => {
     const stressed = repairContext([open(schwa), open(goose, [phone("r")])]);
-    repairStressedNuclei(stressed, [rhotic, goose], stress, codaPairs, undefined, onsetPairs);
+    repairStressedNuclei(stressed, repairPolicy([rhotic, goose]));
     expect(stressed.word.syllables[0].nucleus[0].sound).toBe("u");
     expect(stressed.trace!.repairs[0].nucleusReplacement).toMatchObject({ positivePairExclusions: 1 });
 
     const edgeSource = { ...schwa, nucleusWordPosition: { initial: 1, medial: 0, final: 1 } };
     const edged = repairContext([open(edgeSource), open(goose, [phone("r")])]);
-    repairNucleusWordPositions(edged, [rhotic, goose], stress, codaPairs, onsetPairs);
+    repairRootNuclei(edged, repairPolicy([rhotic, goose]));
     expect(edged.word.syllables[0].nucleus[0].sound).toBe("u");
   });
 
@@ -92,7 +93,7 @@ describe("rhotic vowel + /r/ (#410)", () => {
     // Root-final syllable 0 sits before suffix syllable 1, whose onset is /r/.
     const context = repairContext([open(schwa), open(goose, [phone("r")])]);
     const retained = open(schwa);
-    repairStressedNuclei(context, [rhotic], stress, codaPairs, { syllables: [retained], start: 0 }, onsetPairs);
+    repairStressedNuclei(context, repairPolicy([rhotic]), { syllables: [retained], start: 0 });
     expect(context.word.syllables[0].nucleus[0].sound).toBe("ɚ");
   });
 

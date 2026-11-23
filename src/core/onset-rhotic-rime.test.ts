@@ -6,8 +6,7 @@ import { findExample } from "../test-support/find-example.js";
 import {
   assertRootRimeCompatibility, buildOnsetRimeBans, excludedAfterOnset, isNucleusCompatibleWithOnset,
 } from "./rime-compatibility.js";
-import { repairStressedNuclei } from "./stress-repair.js";
-import { repairNucleusWordPositions } from "./nucleus-position.js";
+import { repairRootNuclei, repairStressedNuclei } from "./nucleus-repair.js";
 
 // Issue #497: an onset ending in /r/ before an r-coloured rime (drur /drɚ/,
 // trurlu /trɚ.lu/, brerts /brɛrts/). In CMU (first pronunciations, stratified
@@ -40,7 +39,9 @@ const schwa = { ...phone("ə"), nucleus: 1, startWord: 1, midWord: 1, endWord: 1
 const rhotic = { ...phone("ɚ"), nucleus: 10, startWord: 1, midWord: 1, endWord: 1 };
 const goose = { ...phone("u"), nucleus: 2, startWord: 1, midWord: 1, endWord: 1 };
 const bans = buildOnsetRimeBans(englishConfig.codaConstraints!.bannedOnsetRimeCombinations);
+const rimes = { onsetRime: bans };
 const stress = englishConfig.pronunciation.stress;
+const repairPolicy = (phonemes: Phoneme[]) => ({ phonemes, stress, rimes, forbidOpenCheckedFinal: false });
 function syllable(onset: string[], nucleus: Phoneme, coda: string[] = []): Syllable {
   return { onset: onset.map(phone), nucleus: [nucleus], coda: coda.map(phone), stress: "ˈ" };
 }
@@ -72,17 +73,17 @@ describe("onset /r/ before an r-coloured rime (#497)", () => {
   });
 
   it("rejects either shape in a lexical root", () => {
-    expect(() => assertRootRimeCompatibility([syllable(["d", "r"], rhotic)], undefined, undefined, bans))
+    expect(() => assertRootRimeCompatibility([syllable(["d", "r"], rhotic)], rimes))
       .toThrow(/onset\/rime pair \/r\/ \+ \/ɚ\/ at syllable 0/);
-    expect(() => assertRootRimeCompatibility([syllable(["k"], goose), syllable(["b", "r"], schwa, ["r", "t"])], undefined, undefined, bans))
+    expect(() => assertRootRimeCompatibility([syllable(["k"], goose), syllable(["b", "r"], schwa, ["r", "t"])], rimes))
       .toThrow(/onset\/rime pair \/r\/ \+ \/r\/ at syllable 1/);
-    expect(() => assertRootRimeCompatibility([syllable(["d", "r"], goose, ["t"])], undefined, undefined, bans)).not.toThrow();
-    expect(() => assertRootRimeCompatibility([syllable(["d", "r"], rhotic)])).not.toThrow();
+    expect(() => assertRootRimeCompatibility([syllable(["d", "r"], goose, ["t"])], rimes)).not.toThrow();
+    expect(() => assertRootRimeCompatibility([syllable(["d", "r"], rhotic)], {})).not.toThrow();
   });
 
   it("keeps stress and edge repairs from choosing /ɚ/ after an /r/ onset", () => {
     const stressed = repairContext([syllable(["d", "r"], schwa)]);
-    repairStressedNuclei(stressed, [rhotic, goose], stress, undefined, undefined, undefined, bans);
+    repairStressedNuclei(stressed, repairPolicy([rhotic, goose]));
     expect(stressed.word.syllables[0].nucleus[0].sound).toBe("u");
     expect(stressed.trace!.repairs[0].nucleusReplacement).toMatchObject({ positivePairExclusions: 1 });
 
@@ -90,7 +91,7 @@ describe("onset /r/ before an r-coloured rime (#497)", () => {
     // A medial /rə/ whose nucleus is barred word-medially must be re-picked.
     const edged = repairContext([syllable(["k"], goose), syllable(["r"], edgeSource), syllable(["k"], goose)]);
     edged.word.syllables[1].stress = undefined;
-    repairNucleusWordPositions(edged, [rhotic, goose], stress, undefined, undefined, bans);
+    repairRootNuclei(edged, repairPolicy([rhotic, goose]));
     expect(edged.word.syllables[1].nucleus[0].sound).toBe("u");
   });
 
@@ -98,7 +99,7 @@ describe("onset /r/ before an r-coloured rime (#497)", () => {
     // Root syllable 0 is retained; syllable 1 is a suffix whose onset is /r/.
     const context = repairContext([syllable(["k"], goose), syllable(["r"], schwa)]);
     context.word.syllables[0].stress = undefined;
-    repairStressedNuclei(context, [rhotic], stress, undefined, { syllables: [syllable(["k"], goose)], start: 0 }, undefined, bans);
+    repairStressedNuclei(context, repairPolicy([rhotic]), { syllables: [syllable(["k"], goose)], start: 0 });
     expect(context.word.syllables[1].nucleus[0].sound).toBe("ɚ");
   });
 

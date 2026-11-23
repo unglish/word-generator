@@ -507,7 +507,7 @@ export class TraceCollector {
       syllableCount: this.syllableCount,
       targetPhonemeCount: this.targetPhonemeCount,
       syllablePlans: this.syllablePlans,
-      attempts: this.attempts,
+      attempts: this.selection ? this.selection.attemptsExecuted - 1 : this.attempts,
       selection: this.selection,
       morphology: this.morphologyTrace,
       structural: this.structural,

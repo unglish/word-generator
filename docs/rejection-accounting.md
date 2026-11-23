@@ -19,6 +19,10 @@ previous releases could report the best candidate's index instead. Historical
 traces without `selection` cannot reveal whether search exhausted, how many
 attempts ran, or why other candidates were rejected. Treat those facts as unknown.
 
+The root selection result supplies both the winning attempt and the executed
+count. Run `npm run test:root-attempts:model` to check that the generator's
+selector and trace agree on every sequence in the model's four-attempt bound.
+
 Rejection reasons count failed conditions on rejected attempts and can overlap:
 
 - `phonemeTarget`: the root phoneme count differs from its target.
