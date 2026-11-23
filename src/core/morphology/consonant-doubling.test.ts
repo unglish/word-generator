@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 import { englishConfig } from "../../config/english.js";
 import type { BoundaryTransform } from "../../config/language.js";
 import { phonemes } from "../../elements/phonemes.js";
-import { generateWord } from "../../index.js";
+import { createGenerator, generateWord } from "../../index.js";
 import { findExample } from "../../test-support/find-example.js";
 import type { Syllable, Word } from "../../types.js";
 import { applyBoundaryTransforms, matchesBoundarySyllable, syllableStressLevel } from "./attach.js";
@@ -30,6 +30,13 @@ describe("double-consonant boundary condition", () => {
   it.each([
     { root: "stop", final: syllable(["s", "t"], "ɑ", ["p"], "ˈ"), expected: "stopp", why: "stressed lot vowel" },
     { root: "commit", final: syllable(["m"], "ɪ", ["t"], "ˈ"), expected: "committ", why: "primary-stressed checked vowel" },
+    { root: "bus", final: syllable(["b"], "ʌ", ["s"], "ˈ"), expected: "buss", why: "final s spells /s/" },
+    { root: "fes", final: syllable(["f"], "ɜ", ["z"], "ˈ"), expected: "fes", why: "final s spells /z/" },
+    { root: "tes", final: syllable(["t"], "ɛ", [], "ˈ"), expected: "tes", why: "there is no /s/ coda" },
+    { root: "bah", final: syllable(["b"], "ɑ", [], "ˈ"), expected: "bah", why: "final h stays single" },
+    { root: "picnic", final: syllable(["n"], "ɪ", ["k"]), expected: "picnick", why: "unstressed final -ic takes ck" },
+    { root: "tac", final: syllable(["t"], "æ", ["k"], "ˈ"), expected: "tack", why: "stressed hard c takes ck" },
+    { root: "tac", final: syllable(["t"], "eɪ", ["k"], "ˈ"), expected: "tac", why: "long vowel before hard c" },
     { root: "kidnap", final: syllable(["n"], "æ", ["p"], "ˌ"), expected: "kidnapp", why: "secondary-stressed checked vowel" },
     { root: "visit", final: syllable(["z"], "ɪ", ["t"]), expected: "visit", why: "unstressed final syllable" },
     { root: "gallop", final: syllable(["l"], "ə", ["p"], "ˌ"), expected: "gallop", why: "schwa, even under secondary stress" },
@@ -57,6 +64,12 @@ describe("double-consonant boundary condition", () => {
     expect(syllableStressLevel(syllable([], "ɪ", []))).toBe("unstressed");
     expect(matchesBoundarySyllable({ stress: ["primary"] }, undefined)).toBe(false);
   });
+
+  it("matches the final coda phoneme in a cluster", () => {
+    const condition = { coda: { sounds: ["s"] } };
+    expect(matchesBoundarySyllable(condition, syllable([], "ɪ", ["s", "t"]))).toBe(false);
+    expect(matchesBoundarySyllable(condition, syllable([], "ɪ", ["t", "s"]))).toBe(true);
+  });
 });
 
 const DOUBLING_SUFFIXES = new Set(["ing", "ed", "er", "est", "able"]);
@@ -65,21 +78,21 @@ const DOUBLING_SHAPE = /[^aeiou][aeiou][bcdfghlmnprst]$/i;
 const FULL_SHORT = new Set(["ɪ", "ɛ", "æ", "ʌ", "ʊ", "ɑ", "ɔ", "ɜ"]);
 
 interface DoublingCase {
-  word: Word;
   base: string;
-  doubled: boolean;
+  suffix: string;
+  assembledRoot: string | undefined;
   final: Syllable;
 }
 
-/** A suffixed word whose base root has the letter shape the transform doubles. */
+/** Include the old letter class so banned doubles are still checked. */
 function doublingCase(word: Word): DoublingCase | undefined {
   const morphology = word.trace?.morphology;
   if (!morphology?.suffix || !DOUBLING_SUFFIXES.has(morphology.suffix)) return undefined;
   const base = word.trace?.baseSpelling?.surface ?? "";
   if (!DOUBLING_SHAPE.test(base)) return undefined;
-  const root = morphology.realization?.assembledParts.find((part) => part.role === "root")?.text;
+  const assembledRoot = morphology.realization?.assembledParts.find((part) => part.role === "root")?.text;
   const lexicalRoot = word.lexical!.root;
-  return { word, base, doubled: root === base + base.slice(-1), final: lexicalRoot[lexicalRoot.length - 1] };
+  return { base, suffix: morphology.suffix, assembledRoot, final: lexicalRoot[lexicalRoot.length - 1] };
 }
 
 function isStressedShort(final: Syllable): boolean {
@@ -89,32 +102,54 @@ function isStressedShort(final: Syllable): boolean {
   return false;
 }
 
+function expectedRoot({ base, suffix, final }: DoublingCase): string {
+  const letter = base.slice(-1);
+  const coda = final.coda.at(-1)?.sound;
+  const stressedShort = isStressedShort(final);
+  if (letter === "c") {
+    const unstressedIc = !final.stress && /^[ei]/.test(suffix) && base.endsWith("ic")
+      && final.nucleus.every((phone) => phone.sound === "ɪ");
+    return coda === "k" && (stressedShort || unstressedIc) ? base + "k" : base;
+  }
+  if (letter === "h" || (letter === "s" && coda !== "s")) return base;
+  return stressedShort ? base + letter : base;
+}
+
 describe("consonant doubling over a seed sample", () => {
+  it.each([
+    { seed: 5_000_099, base: "fuliglozic", expected: "fuliglozicking" },
+    { seed: 5_009_761, base: "swac", expected: "swacked" },
+  ])("attaches $expected without hard-c repair", ({ seed, base, expected }) => {
+    const generator = createGenerator({
+      ...englishConfig,
+      writtenFormConstraints: { ...englishConfig.writtenFormConstraints, hardLetters: [] },
+    });
+    const word = generator.generateWord({ seed, trace: true });
+    expect(word.trace?.baseSpelling?.surface).toBe(base);
+    expect(doublingCase(word)?.assembledRoot).toBe(base + "k");
+    expect(word.written.clean).toBe(expected);
+  });
+
   it("finds a stressed short-vowel root that doubles", () => {
     const { word } = findExample((w) => {
       const c = doublingCase(w);
-      return !!c && isStressedShort(c.final);
+      return !!c && isStressedShort(c.final) && /[bdfglmnprt]$/.test(c.base);
     }, { property: "a stressed short-vowel CVC root before a vowel suffix", limit: 2_000, firstSeed: 5_000_000 });
-    expect(doublingCase(word)!.doubled).toBe(true);
+    const { base, assembledRoot } = doublingCase(word)!;
+    expect(assembledRoot).toBe(base + base.slice(-1));
   });
 
-  it("doubles exactly the stressed short-vowel roots", () => {
-    const tally = { stressedShort: 0, stressedShortDoubled: 0, other: 0, otherDoubled: 0 };
+  it("applies the letter and phoneme rules before final spelling repairs", () => {
+    const tally = { rewritten: 0, unchanged: 0 };
     for (let seed = 5_000_000; seed < 5_004_000; seed++) {
       const c = doublingCase(generateWord({ seed, trace: true }));
       if (!c) continue;
-      if (isStressedShort(c.final)) {
-        tally.stressedShort++;
-        if (c.doubled) tally.stressedShortDoubled++;
-      } else {
-        tally.other++;
-        if (c.doubled) tally.otherDoubled++;
-      }
+      const expected = expectedRoot(c);
+      expect(c.assembledRoot, `seed ${seed}, ${c.base} + ${c.suffix}`).toBe(expected);
+      if (expected === c.base) tally.unchanged++;
+      else tally.rewritten++;
     }
-    // Before the stress/vowel condition, every shape-eligible root doubled.
-    expect(tally.stressedShort).toBeGreaterThan(50);
-    expect(tally.other).toBeGreaterThan(50);
-    expect(tally.stressedShortDoubled).toBe(tally.stressedShort);
-    expect(tally.otherDoubled).toBe(0);
+    expect(tally.rewritten).toBeGreaterThan(50);
+    expect(tally.unchanged).toBeGreaterThan(50);
   });
 });

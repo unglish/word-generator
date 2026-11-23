@@ -1034,6 +1034,8 @@ export interface BoundarySyllableCondition {
   stress?: readonly SyllableStressLevel[];
   /** If set, every nucleus phoneme must match this selector. */
   nucleus?: PhonemeSelector;
+  /** If set, the syllable must have a coda whose final phoneme matches this selector. */
+  coda?: PhonemeSelector;
 }
 
 /** Orthographic transform applied at affix\u2194root junctions. */

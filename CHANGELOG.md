@@ -4,6 +4,9 @@
 
 ### Fixed
 
+- English vowel suffixes double final `s` only for /s/, keep final `h` single,
+  and write `ck` where final hard `c` needs it, as in *picnicked* (#518).
+  This changes seeded spellings.
 - English generation blocks incompatible consonant joins inside roots, such as
   /k.v/ and /p.dʒ/, while retaining joins found in words such as *envy* and
   *silver* (#485). This changes seeded output in lexicon and text mode.

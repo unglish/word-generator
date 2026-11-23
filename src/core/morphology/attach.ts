@@ -250,9 +250,13 @@ export function matchesBoundarySyllable(
   if (!syllable) return false;
   if (condition.stress && !condition.stress.includes(syllableStressLevel(syllable)))
     return false;
-  const { nucleus } = condition;
+  const { nucleus, coda } = condition;
   if (nucleus && !syllable.nucleus.every((phoneme) => matchesPhoneme(phoneme, nucleus)))
     return false;
+  if (coda) {
+    const finalCoda = syllable.coda.at(-1);
+    return finalCoda !== undefined && matchesPhoneme(finalCoda, coda);
+  }
   return true;
 }
 
