@@ -2,9 +2,9 @@ import { describe, expect, it, vi } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord, TraceCollector } from "../index.js";
 import type { LanguageConfig } from "../config/language.js";
 import type { Phoneme, Syllable, WordGenerationContext } from "../types.js";
+import { findExample } from "../test-support/find-example.js";
 import { assertRootRimeCompatibility, isNucleusCodaPairAllowed, isNucleusCompatibleWithCoda } from "./rime-compatibility.js";
-import { repairStressedNuclei } from "./stress-repair.js";
-import { repairNucleusWordPositions } from "./nucleus-position.js";
+import { repairRootNuclei, repairStressedNuclei } from "./nucleus-repair.js";
 
 const phone = (sound: string): Phoneme => englishConfig.phonemes.find(p => p.sound === sound)!;
 const schwa = { ...phone("ə"), nucleus: 1, startWord: 1, midWord: 1, endWord: 1 };
@@ -58,9 +58,47 @@ function repairContext(syllables: Syllable[], rand = vi.fn(() => 0)): WordGenera
   return { syllableCount: syllables.length, currSyllableIndex: 0, rand, trace: new TraceCollector(),
     word: { syllables, written: { clean: "", hyphenated: "" }, pronunciation: "" } };
 }
+const rimes = { nucleusCoda: excluded };
 const stress = englishConfig.pronunciation.stress;
+const repairPolicy = (phonemes: Phoneme[]) => ({ phonemes, stress, rimes, forbidOpenCheckedFinal: false });
 
 describe("lexical-root nucleus/coda compatibility", () => {
+  it("rechecks the root rime after a configured boundary repair drops its coda", () => {
+    const vowels = [
+      { ...rhotic, nucleus: 100, startWord: 1, midWord: 0 },
+      { ...goose, nucleus: 1, startWord: 1, endWord: 1 },
+    ];
+    const config = fixedRoot(vowels);
+    const k = { ...phone("k"), startWord: 1, midWord: 0, endWord: 0 };
+    const r = { ...phone("r"), startWord: 0, midWord: 1, endWord: 1, onset: 1_000_000, coda: 0 };
+    const l = { ...phone("l"), startWord: 1, midWord: 1, endWord: 1 };
+    config.phonemes = [...config.phonemes.filter(p => !["k", "r", "l"].includes(p.sound)), k, r, l];
+    config.phonemeMaps.onset = new Map([["k", [k]], ["r", [r]]]);
+    config.phonemeMaps.coda = new Map([["l", [l]], ["r", [r]]]);
+    config.clusterConstraint = { banned: [["l", "r"]], repair: "drop-coda" };
+    config.codaConstraints = { allowedFinal: ["l"] };
+    const before = createGenerator(config);
+    const fixed = createGenerator({ ...config, codaConstraints: {
+      ...config.codaConstraints,
+      bannedNucleusCodaCombinations: [{ nucleus: ["ɚ"], coda: ["r"], followingOnset: true }],
+    } });
+    const example = findExample(word => {
+      const trace = word.trace!;
+      return trace.repairs.some(({ rule, before, after }) => rule === "repairClusters" && before === "l|r" && after === "|r")
+        && word.syllables[0].nucleus[0].sound === "ɚ";
+    }, {
+      property: "an open /ɚ/ before /r/ exposed by a cluster repair", limit: 8, generator: before,
+      options: { syllableCount: 2, morphology: false, mode: "text" },
+    });
+    const word = fixed.generateWord(example.options);
+    const repairs = word.trace!.repairs;
+    expect(repairs).toContainEqual(expect.objectContaining({ rule: "repairClusters", before: "l|r", after: "|r" }));
+    expect(repairs).toContainEqual(expect.objectContaining({ rule: "repairNucleusRime", before: "ɚ", after: "u" }));
+    expect(word.syllables[0].coda).toEqual([]);
+    expect(word.syllables[0].nucleus[0].sound).toBe("u");
+    expect(word.syllables[1].onset[0].sound).toBe("r");
+  });
+
   it("filters copied-back final root repairs before spelling with a prefix offset", () => {
     const config = fixedRoot();
     const templates = { bare: 0, prefixed: 0, suffixed: 0, both: 1 };
@@ -92,7 +130,7 @@ describe("lexical-root nucleus/coda compatibility", () => {
   it("uses the retained root coda for copied-back repairs without constraining affix repairs", () => {
     const context = repairContext([shape([schwa]), shape([schwa], [])]);
     const retained = shape([schwa]);
-    repairStressedNuclei(context, [rhotic, goose], stress, excluded, { syllables: [retained], start: 1 });
+    repairStressedNuclei(context, repairPolicy([rhotic, goose]), { syllables: [retained], start: 1 });
     expect(context.word.syllables.map(syllable => syllable.nucleus[0].sound)).toEqual(["ɚ", "u"]);
     expect(context.trace!.repairs[0].nucleusReplacement).toBeUndefined();
     expect(context.trace!.repairs[1].nucleusReplacement).toMatchObject({ syllableIndex: 0, coda: ["ŋ"] });
@@ -104,7 +142,7 @@ describe("lexical-root nucleus/coda compatibility", () => {
     const options = [goose, phone("ɑ")].map(phoneme => ({ ...phoneme, nucleus: weight,
       nucleusWordPosition: { initial: 1, medial: 2, final: 1 } }));
     const context = repairContext([shape([source])]);
-    expect(() => repairNucleusWordPositions(context, options, stress, excluded)).toThrow(/finite positive weight/);
+    expect(() => repairRootNuclei(context, repairPolicy(options))).toThrow(/finite positive weight/);
     expect(context.rand).not.toHaveBeenCalled();
   });
 
@@ -116,7 +154,7 @@ describe("lexical-root nucleus/coda compatibility", () => {
     ];
     for (const [roll, expected] of [[0.249, "u"], [0.25, "ɑ"]] as const) {
       const context = repairContext([shape([source])], vi.fn(() => roll));
-      repairNucleusWordPositions(context, options, stress, excluded);
+      repairRootNuclei(context, repairPolicy(options));
       expect(context.word.syllables[0].nucleus[0].sound).toBe(expected);
       expect(context.rand).toHaveBeenCalledTimes(1);
     }
@@ -126,9 +164,9 @@ describe("lexical-root nucleus/coda compatibility", () => {
     expect(isNucleusCodaPairAllowed("ɚ", "ŋ", excluded)).toBe(false);
     expect(isNucleusCompatibleWithCoda("ɚ", [phone("k"), phone("ŋ")], excluded)).toBe(false);
     const syllables = [shape([goose, rhotic], [phone("k"), phone("ŋ")])];
-    expect(() => assertRootRimeCompatibility(syllables, excluded)).toThrow(/nucleus 1, coda 1/);
-    expect(() => assertRootRimeCompatibility(syllables)).not.toThrow();
-    expect(() => assertRootRimeCompatibility([shape([rhotic], [])], excluded)).not.toThrow();
+    expect(() => assertRootRimeCompatibility(syllables, rimes)).toThrow(/nucleus 1, coda 1/);
+    expect(() => assertRootRimeCompatibility(syllables, {})).not.toThrow();
+    expect(() => assertRootRimeCompatibility([shape([rhotic], [])], rimes)).not.toThrow();
   });
 
   it("preserves a retained coda during public stress repair and records excluded candidates", () => {
@@ -165,7 +203,7 @@ describe("lexical-root nucleus/coda compatibility", () => {
     const source = { ...schwa, nucleusWordPosition: { initial: 0, medial: 1, final: 0 } };
     const alternatives = [rhotic, goose].map(p => ({ ...p, nucleusWordPosition: { initial: 3, medial: 0, final: 0 } }));
     const context = repairContext([{ onset: [], nucleus: [source], coda: [phone("ŋ")] }]);
-    repairNucleusWordPositions(context, [source, ...alternatives], stress, excluded);
+    repairRootNuclei(context, repairPolicy([source, ...alternatives]));
     expect(context.word.syllables[0].nucleus[0].sound).toBe("u");
     expect(context.word.syllables[0].coda.map(p => p.sound)).toEqual(["ŋ"]);
     expect(context.trace!.repairs[0].nucleusReplacement).toEqual({
@@ -182,7 +220,7 @@ describe("lexical-root nucleus/coda compatibility", () => {
       expect(() => createGenerator(config).generateWord({ seed: 17, syllableCount: 2, morphology: false })).toThrow(/No eligible stressed nucleus/);
       expect(() => createGenerator(fixedRoot([schwa, ...alternatives], 1)).generateWord({ seed: 17, syllableCount: 1, morphology: false })).toThrow(/No eligible stressed nucleus/);
       const context = repairContext([shape([schwa])]);
-      expect(() => repairStressedNuclei(context, [schwa, ...alternatives], stress, excluded)).toThrow(/No eligible stressed nucleus/);
+      expect(() => repairStressedNuclei(context, repairPolicy([schwa, ...alternatives]))).toThrow(/No eligible stressed nucleus/);
       expect(context.rand).not.toHaveBeenCalled();
     });
 
@@ -190,7 +228,7 @@ describe("lexical-root nucleus/coda compatibility", () => {
     for (const [roll, expected] of [[0.24, "u"], [0.25, "ɑ"]] as const) {
       const context = repairContext([shape([schwa])], vi.fn(() => roll));
       const pool = [rhotic, { ...goose, nucleus: 1 }, { ...phone("ɑ"), nucleus: 3, startWord: 500 }];
-      repairStressedNuclei(context, pool, stress, excluded);
+      repairStressedNuclei(context, repairPolicy(pool));
       expect(context.word.syllables[0].nucleus[0].sound).toBe(expected);
       expect(context.rand).toHaveBeenCalledTimes(1);
       expect(context.trace!.repairs[0].nucleusReplacement).toMatchObject({ eligibleCandidateEntries: 2, totalWeight: 4, positivePairExclusions: 1 });
@@ -200,19 +238,19 @@ describe("lexical-root nucleus/coda compatibility", () => {
   it("rejects overflowing total weight before a stress selection draw", () => {
     const context = repairContext([shape([schwa])]);
     const pool = [{ ...goose, nucleus: Number.MAX_VALUE }, { ...phone("ɑ"), nucleus: Number.MAX_VALUE }];
-    expect(() => repairStressedNuclei(context, pool, stress, excluded)).toThrow(/finite positive weight/);
+    expect(() => repairStressedNuclei(context, repairPolicy(pool))).toThrow(/finite positive weight/);
     expect(context.rand).not.toHaveBeenCalled();
   });
 
   it("does not count zero-weight pair exclusions as positive candidates", () => {
     const context = repairContext([shape([schwa])]);
-    repairStressedNuclei(context, [{ ...rhotic, nucleus: 0 }, goose], stress, excluded);
+    repairStressedNuclei(context, repairPolicy([{ ...rhotic, nucleus: 0 }, goose]));
     expect(context.trace!.repairs[0].nucleusReplacement).toMatchObject({ positivePairExclusions: 0, totalWeight: 2 });
   });
 
   it("does not broaden first-nucleus stress repair to a later banned stress nucleus", () => {
     const context = repairContext([shape([goose, schwa])]);
-    repairStressedNuclei(context, [goose], stress, excluded);
+    repairStressedNuclei(context, repairPolicy([goose]));
     expect(context.word.syllables[0].nucleus).toEqual([goose, schwa]);
     expect(context.rand).not.toHaveBeenCalled();
   });
@@ -221,18 +259,18 @@ describe("lexical-root nucleus/coda compatibility", () => {
     const invalid = { ...rhotic, nucleusWordPosition: { initial: 1, medial: 0, final: 1 } };
     const allowed = { ...goose, nucleusWordPosition: { initial: 1, medial: 1, final: 1 } };
     const context = repairContext([shape([invalid, invalid])]);
-    repairNucleusWordPositions(context, [invalid, allowed], stress, excluded);
+    repairRootNuclei(context, repairPolicy([invalid, allowed]));
     expect(context.word.syllables[0].nucleus.map(p => p.sound)).toEqual(["u", "u"]);
     expect(context.rand).toHaveBeenCalledTimes(2);
     expect(context.trace!.repairs.map(repair => repair.nucleusReplacement!.nucleusIndex)).toEqual([0, 1]);
-    expect(() => assertRootRimeCompatibility(context.word.syllables, excluded)).not.toThrow();
+    expect(() => assertRootRimeCompatibility(context.word.syllables, rimes)).not.toThrow();
   });
 
   it("throws before an edge selection draw if all positive candidates conflict with the coda", () => {
     const source = { ...schwa, nucleusWordPosition: { initial: 1, medial: 0, final: 1 } };
     const alternative = { ...rhotic, nucleusWordPosition: { initial: 1, medial: 1, final: 1 } };
     const context = repairContext([shape([source])]);
-    expect(() => repairNucleusWordPositions(context, [source, alternative], stress, excluded)).toThrow(/No eligible nucleus/);
+    expect(() => repairRootNuclei(context, repairPolicy([source, alternative]))).toThrow(/No eligible nucleus/);
     expect(context.rand).not.toHaveBeenCalled();
   });
 

@@ -54,20 +54,21 @@ import {
   repairClusterShape,
   repairHAfterBackVowel,
 } from "./repair.js";
-import { repairStressedNuclei } from "./stress-repair.js";
+import {
+  repairRootNuclei,
+  repairStressedNuclei,
+  type NucleusRepairPolicy,
+} from "./nucleus-repair.js";
 import { RejectionTraceCollector } from "./rejection-trace.js";
 import {
   assertRootRimeCompatibility,
-  buildBannedNucleusPairs,
-  buildOnsetRimeBans,
+  buildRootRimePolicy,
   excludedAfterOnset,
   isNucleusCodaPairAllowed,
 } from "./rime-compatibility.js";
-import type { OnsetRimeBans } from "./rime-compatibility.js";
 import {
   nucleusWordPositionWeight,
   isCheckedOpenFinalAllowed,
-  repairNucleusWordPositions,
 } from "./nucleus-position.js";
 import {
   attachRootWritten,
@@ -127,12 +128,7 @@ interface GeneratorRuntime {
   clusterRepair?: "drop-coda" | "drop-onset";
   allowedFinalSet?: Set<string>;
   bannedCodaSet?: Set<string>;
-  /** Map from nucleus sound to set of banned coda sounds. */
-  bannedNucleusCodaMap?: Map<string, Set<string>>;
-  /** Nucleus sound to consonants banned as the next root onset's first phoneme after an open syllable. */
-  bannedNucleusOnsetMap?: Map<string, Set<string>>;
-  /** Last onset sound to the nuclei and coda sounds it excludes from its root syllable. */
-  onsetRimeBans?: OnsetRimeBans;
+  nucleusRepair: NucleusRepairPolicy;
   clusterLimits?: ClusterLimits;
   sonorityConstraints?: SonorityConstraints;
   codaAppendantSet?: Set<string>;
@@ -154,8 +150,6 @@ interface GeneratorRuntime {
   rootFinalCodas: Partial<Record<GenerationMode, FinalCodasByNucleus>>;
   /** Pre-resolved bridge phoneme options for vowel hiatus repair. */
   bridgePhonemeOptions: [Phoneme, number][];
-  /** Ban checked vowels at open final base-word edges (English default). */
-  forbidOpenCheckedFinal: boolean;
 }
 
 type FinalCodasByNucleus = Map<string, Map<number, [Phoneme[], number][]>>;
@@ -277,11 +271,6 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     }
     : undefined;
 
-  const nucleusCodaRules =
-    config.codaConstraints?.bannedNucleusCodaCombinations;
-  const bannedNucleusCodaMap = buildBannedNucleusPairs(nucleusCodaRules);
-  const bannedNucleusOnsetMap = buildBannedNucleusPairs(nucleusCodaRules, true);
-
   const bridgePairs =
     config.hiatusPolicy?.fallbackBridgeOnsets ?? defaultFallbackBridgeOnsets();
   const bridgePhonemeOptions: [Phoneme, number][] = [];
@@ -309,11 +298,12 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     bannedCodaSet: config.codaConstraints?.bannedCodas
       ? new Set(config.codaConstraints.bannedCodas)
       : undefined,
-    bannedNucleusCodaMap,
-    bannedNucleusOnsetMap,
-    onsetRimeBans: buildOnsetRimeBans(
-      config.codaConstraints?.bannedOnsetRimeCombinations,
-    ),
+    nucleusRepair: {
+      phonemes: positionPhonemes.nucleus,
+      stress: resolvedStress,
+      rimes: buildRootRimePolicy(config.codaConstraints),
+      forbidOpenCheckedFinal: config.forbidOpenCheckedFinal === true,
+    },
     clusterLimits: cl,
     sonorityConstraints: sc,
     codaAppendantSet: cl?.codaAppendants
@@ -338,7 +328,6 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     clusterWeights,
     rootFinalCodas: {},
     bridgePhonemeOptions,
-    forbidOpenCheckedFinal: config.forbidOpenCheckedFinal === true,
   };
   for (const mode of ["text", "lexicon"] as const) {
     const profile = config.generationWeights.codaLength.rootFinalByMode?.[mode];
@@ -490,11 +479,11 @@ function clusterCandidateRejection(
   if (
     context.position === "coda" &&
     context.nucleus &&
-    rt.bannedNucleusCodaMap
+    rt.nucleusRepair.rimes.nucleusCoda
   ) {
     for (const nuc of context.nucleus) {
       if (
-        !isNucleusCodaPairAllowed(nuc.sound, sound, rt.bannedNucleusCodaMap)
+        !isNucleusCodaPairAllowed(nuc.sound, sound, rt.nucleusRepair.rimes.nucleusCoda)
       ) {
         return "nucleus-coda";
       }
@@ -830,7 +819,7 @@ function pickOnset(
     ? prevSyllable.nucleus.at(-1)
     : undefined;
   const bannedFirstOnset = prevNucleus
-    ? rt.bannedNucleusOnsetMap?.get(prevNucleus.sound)
+    ? rt.nucleusRepair.rimes.followingOnset?.get(prevNucleus.sound)
     : undefined;
 
   return buildCluster(rt, {
@@ -868,8 +857,8 @@ function pickNucleus(
       initial: isStartOfWord && onset.length === 0,
       final: isEndOfWord && plannedCodaLength === 0,
     },
-    forbidOpenCheckedFinal: rt.forbidOpenCheckedFinal,
-    excludedAfterOnset: excludedAfterOnset(onset, "nucleus", rt.onsetRimeBans),
+    forbidOpenCheckedFinal: rt.nucleusRepair.forbidOpenCheckedFinal,
+    excludedAfterOnset: excludedAfterOnset(onset, "nucleus", rt.nucleusRepair.rimes.onsetRime),
     maxLength: 1,
     syllableCount: context.syllableCount,
   });
@@ -980,7 +969,7 @@ function pickRootFinalCoda(
   rand: RNG,
 ): Phoneme[] {
   const byLength = choices.get(syllable.nucleus[0].sound);
-  const excluded = excludedAfterOnset(syllable.onset, "coda", rt.onsetRimeBans);
+  const excluded = excludedAfterOnset(syllable.onset, "coda", rt.nucleusRepair.rimes.onsetRime);
   const listed = byLength?.get(length) ?? byLength?.get(1);
   const options = excluded
     ? listed?.filter(([coda]) => !coda.some((phoneme) => excluded.has(phoneme.sound)))
@@ -1036,7 +1025,7 @@ function pickCoda(
     excludedAfterOnset: excludedAfterOnset(
       newSyllable.onset,
       "coda",
-      rt.onsetRimeBans,
+      rt.nucleusRepair.rimes.onsetRime,
     ),
   };
   const coda = buildCluster(rt, codaContext);
@@ -1847,12 +1836,7 @@ function spellLexicalRoot(
     },
   };
   const source: OrthographySource = { kind: "lexical-root", wordSyllableStart };
-  assertRootRimeCompatibility(
-    root,
-    rt.bannedNucleusCodaMap,
-    rt.bannedNucleusOnsetMap,
-    rt.onsetRimeBans,
-  );
+  assertRootRimeCompatibility(root, rt.nucleusRepair.rimes);
   const baseSpelling = traceStage(
     context.trace,
     "generateWrittenForm",
@@ -1966,16 +1950,7 @@ function resolveAffixedRoot(
     ...syllable.nucleus,
   ]);
   traceStage(traceCollector, "repairFinalStressedNuclei", context.word, () => {
-    repairStressedNuclei(
-      lexicalContext,
-      rt.positionPhonemes.nucleus,
-      rt.resolvedStress,
-      rt.bannedNucleusCodaMap,
-      { syllables: lexicalRoot, start: rootSyllableStart },
-      rt.bannedNucleusOnsetMap,
-      rt.onsetRimeBans,
-      rt.forbidOpenCheckedFinal,
-    );
+    repairStressedNuclei(lexicalContext, rt.nucleusRepair, { syllables: lexicalRoot, start: rootSyllableStart });
     carryRootStressRepairs(
       lexicalRoot,
       context.word.syllables,
@@ -2347,27 +2322,10 @@ function runPipeline(
   );
   traceStage(t, "applyStress", word, () => applyStress(context, stressRules));
   traceStage(t, "repairStressedNuclei", word, () =>
-    repairStressedNuclei(
-      context,
-      rt.positionPhonemes.nucleus,
-      stressRules,
-      rt.bannedNucleusCodaMap,
-      undefined,
-      rt.bannedNucleusOnsetMap,
-      rt.onsetRimeBans,
-      rt.forbidOpenCheckedFinal,
-    ),
+    repairStressedNuclei(context, rt.nucleusRepair),
   );
   traceStage(t, "repairNucleusWordPositions", word, () =>
-    repairNucleusWordPositions(
-      context,
-      rt.positionPhonemes.nucleus,
-      stressRules,
-      rt.bannedNucleusCodaMap,
-      rt.bannedNucleusOnsetMap,
-      rt.onsetRimeBans,
-      rt.forbidOpenCheckedFinal,
-    ),
+    repairRootNuclei(context, rt.nucleusRepair),
   );
 }
 
