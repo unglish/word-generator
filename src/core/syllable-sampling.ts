@@ -1,76 +1,56 @@
-/**
- * Pure helpers for top-down syllable / phoneme-length sampling.
- *
- * These encode the intended proposal distribution: syllable counts for a given
- * phone count come from {@link phonemeToSyllableWeights} with no letter-peak
- * (or other) reweighting. Forced-syllable phoneme draws use Bayes via
- * P(syllables | phonemes) only.
- */
+import type { LanguageConfig } from "../config/language.js";
+import type { GenerationMode } from "../types.js";
+import type { RNG } from "../utils/random.js";
+import getWeightedOption from "../utils/getWeightedOption.js";
+import { computePhonemeTargetBounds, resolveRootPhonemeTarget } from "./length-semantics.js";
 
-/** Share of a phoneme count's syllable-count weights that falls on `syllableCount`. */
-export function syllableShare(
-  row: [number, number][] | undefined,
-  syllableCount: number,
-): number {
+export type RootLengthPolicy = Pick<LanguageConfig, "phonemeLengthWeights" | "phonemeToSyllableWeights"> & {
+  maxOnsetLength: number;
+  maxCodaLength: number;
+};
+
+type Weights = [number, number][];
+
+function syllableShare(row: Weights | undefined, count: number): number {
   if (!row?.length) return 0;
   const total = row.reduce((sum, [, weight]) => sum + weight, 0);
-  return total > 0
-    ? (row.find(([count]) => count === syllableCount)?.[1] ?? 0) / total
-    : 0;
+  return total > 0 ? (row.find(([syllables]) => syllables === count)?.[1] ?? 0) / total : 0;
 }
 
-/**
- * Syllable-count sampling weights for a target phoneme count.
- * Returns the config table row unchanged — no letter-length peak reweighting.
- */
-export function syllableCountSamplingWeights(
-  phonemeToSyllableTable: Record<number, [number, number][]>,
-  phonemeCount: number,
-): [number, number][] {
-  const weights = phonemeToSyllableTable[phonemeCount];
-  if (!weights?.length) {
-    throw new Error(
-      `Missing phonemeToSyllableWeights entry for phoneme count ${phonemeCount}`,
-    );
-  }
-  return weights;
+function weightsForRequestedSyllables(
+  weights: Weights,
+  table: Record<number, Weights> | undefined,
+  { minRoot, maxRoot }: ReturnType<typeof computePhonemeTargetBounds>,
+): Weights {
+  const feasible = weights.filter(([phonemes]) => phonemes >= minRoot && phonemes <= maxRoot);
+  const conditioned: Weights = feasible.map(([phonemes, weight]): [number, number] =>
+    [phonemes, weight * syllableShare(table?.[phonemes], minRoot)],
+  ).filter(([, weight]) => weight > 0);
+  if (conditioned.length) return conditioned;
+  return feasible.length ? feasible : weights;
 }
 
-/**
- * Normalise weight pairs to probabilities that sum to 1.
- */
-export function normalizeWeightPairs(
-  weights: readonly [number, number][],
-): Map<number, number> {
-  const total = weights.reduce((sum, [, weight]) => sum + weight, 0);
-  if (total <= 0) {
-    throw new Error("weight total must be positive");
-  }
-  return new Map(weights.map(([value, weight]) => [value, weight / total]));
-}
-
-/**
- * P(phonemes | forced syllables) ∝ P(phonemes) · P(syllables | phonemes).
- * No letter-peak reweighting. Falls back to feasible phoneme lengths, then all.
- */
-export function phonemeLengthWeightsForForcedSyllables(
-  phonemeLengthWeights: readonly [number, number][],
-  phonemeToSyllableTable: Record<number, [number, number][]>,
-  forcedSyllableCount: number,
-  maxPhonemes: number,
-): [number, number][] {
-  const filtered = phonemeLengthWeights.filter(
-    ([phonemeCount]) =>
-      phonemeCount >= forcedSyllableCount && phonemeCount <= maxPhonemes,
+export function sampleRootLengths(
+  policy: RootLengthPolicy,
+  mode: GenerationMode,
+  rand: RNG,
+  requestedSyllables?: number,
+): { phonemes: number; syllables: number } {
+  const { maxOnsetLength, maxCodaLength } = policy;
+  const bounds = computePhonemeTargetBounds(requestedSyllables, maxOnsetLength, maxCodaLength);
+  const phonemeWeights = policy.phonemeLengthWeights[mode];
+  const table = policy.phonemeToSyllableWeights[mode];
+  if (!phonemeWeights?.length) throw new Error(`Missing phonemeLengthWeights.${mode} in language config`);
+  const candidates = requestedSyllables
+    ? weightsForRequestedSyllables(phonemeWeights, table, bounds)
+    : phonemeWeights;
+  const phonemes = resolveRootPhonemeTarget(getWeightedOption(candidates, rand), bounds);
+  if (requestedSyllables) return { phonemes, syllables: requestedSyllables };
+  if (!table) throw new Error(`Missing phonemeToSyllableWeights.${mode} in language config`);
+  const syllableWeights = table[phonemes];
+  if (!syllableWeights?.length) throw new Error(`Missing phonemeToSyllableWeights entry for phoneme count ${phonemes}`);
+  const feasible = syllableWeights.filter(([count]) =>
+    phonemes <= computePhonemeTargetBounds(count, maxOnsetLength, maxCodaLength).maxRoot,
   );
-  const conditioned = filtered
-    .map(([phonemeCount, weight]): [number, number] => [
-      phonemeCount,
-      weight *
-        syllableShare(phonemeToSyllableTable[phonemeCount], forcedSyllableCount),
-    ])
-    .filter(([, weight]) => weight > 0);
-  if (conditioned.length > 0) return conditioned;
-  if (filtered.length > 0) return [...filtered];
-  return [...phonemeLengthWeights];
+  return { phonemes, syllables: getWeightedOption(feasible.length ? feasible : syllableWeights, rand) };
 }

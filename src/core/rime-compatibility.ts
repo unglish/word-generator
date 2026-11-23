@@ -13,6 +13,21 @@ export interface OnsetRimeBans {
   coda?: BannedNucleusCodaPairs;
 }
 
+export interface RootRimePolicy {
+  readonly nucleusCoda?: BannedNucleusCodaPairs;
+  readonly followingOnset?: BannedNucleusCodaPairs;
+  readonly onsetRime?: OnsetRimeBans;
+}
+
+export function buildRootRimePolicy(constraints: CodaConstraints | undefined): RootRimePolicy {
+  const pairs = constraints?.bannedNucleusCodaCombinations;
+  return {
+    nucleusCoda: buildBannedNucleusPairs(pairs),
+    followingOnset: buildBannedNucleusPairs(pairs, true),
+    onsetRime: buildOnsetRimeBans(constraints?.bannedOnsetRimeCombinations),
+  };
+}
+
 /**
  * Index configured nucleus/coda rules by nucleus sound. With
  * `followingOnsetOnly`, keep only the rules that also ban the consonant as the
@@ -62,8 +77,10 @@ export function excludedAfterOnset(
   part: RimePart,
   bans?: OnsetRimeBans,
 ): ReadonlySet<string> | undefined {
+  const indexed = bans?.[part];
+  if (!indexed) return undefined;
   const last = onset?.at(-1);
-  return last ? bans?.[part]?.get(last.sound) : undefined;
+  return last ? indexed.get(last.sound) : undefined;
 }
 
 export function isNucleusCompatibleWithOnset(
@@ -88,7 +105,12 @@ export function isNucleusCompatibleWithCoda(
   coda: readonly Phoneme[],
   bannedPairs?: BannedNucleusCodaPairs,
 ): boolean {
-  return coda.every(phoneme => isNucleusCodaPairAllowed(nucleus, phoneme.sound, bannedPairs));
+  return conflictingCodaIndex(nucleus, coda, bannedPairs) === -1;
+}
+
+function conflictingCodaIndex(nucleus: string, coda: readonly Phoneme[], pairs?: BannedNucleusCodaPairs): number {
+  const excluded = pairs?.get(nucleus);
+  return excluded ? coda.findIndex(phoneme => excluded.has(phoneme.sound)) : -1;
 }
 
 /**
@@ -105,33 +127,61 @@ export function isNucleusCompatibleWithFollowingOnset(
   return isNucleusCodaPairAllowed(nucleus, nextOnset[0].sound, followingOnsetPairs);
 }
 
-/** Check the lexical root before spelling, surface reduction, and affix assembly. */
+export function permitsRootNucleus(
+  sound: string,
+  syllable: Syllable,
+  followingOnset: readonly Phoneme[] | undefined,
+  policy: RootRimePolicy,
+): boolean {
+  return rootNucleusRejection(sound, syllable, followingOnset, policy) === undefined;
+}
+
+type NucleusRejection = { kind: "onset-rime"; onset: string }
+  | { kind: "nucleus-coda"; codaIndex: number }
+  | { kind: "nucleus-onset"; onset: string };
+
+function rootNucleusRejection(
+  sound: string,
+  syllable: Syllable,
+  followingOnset: readonly Phoneme[] | undefined,
+  policy: RootRimePolicy,
+): NucleusRejection | undefined {
+  if (!isNucleusCompatibleWithOnset(sound, syllable.onset, policy.onsetRime)) {
+    return { kind: "onset-rime", onset: syllable.onset[syllable.onset.length - 1].sound };
+  }
+  const codaIndex = conflictingCodaIndex(sound, syllable.coda, policy.nucleusCoda);
+  if (codaIndex !== -1) return { kind: "nucleus-coda", codaIndex };
+  const next = followingOnset?.[0];
+  if (next && !isNucleusCompatibleWithFollowingOnset(sound, syllable.coda, followingOnset, policy.followingOnset)) {
+    return { kind: "nucleus-onset", onset: next.sound };
+  }
+  return undefined;
+}
+
 export function assertRootRimeCompatibility(
   syllables: readonly Syllable[],
-  bannedPairs?: BannedNucleusCodaPairs,
-  followingOnsetPairs?: BannedNucleusCodaPairs,
-  onsetRimeBans?: OnsetRimeBans,
+  policy: RootRimePolicy,
 ): void {
-  if (!bannedPairs?.size && !followingOnsetPairs?.size && !onsetRimeBans) return;
+  if (!policy.nucleusCoda?.size && !policy.followingOnset?.size && !policy.onsetRime) return;
   for (const [si, syllable] of syllables.entries()) {
-    const nucleusBans = excludedAfterOnset(syllable.onset, "nucleus", onsetRimeBans);
-    const codaBans = excludedAfterOnset(syllable.onset, "coda", onsetRimeBans);
-    const onsetBanned = syllable.nucleus.find(phoneme => nucleusBans?.has(phoneme.sound))
-      ?? syllable.coda.find(phoneme => codaBans?.has(phoneme.sound));
+    const codaBans = excludedAfterOnset(syllable.onset, "coda", policy.onsetRime);
+    const onsetBanned = codaBans && syllable.coda.find(phoneme => codaBans.has(phoneme.sound));
     if (onsetBanned) {
       throw new Error(`Excluded lexical-root onset/rime pair /${syllable.onset.at(-1)!.sound}/ + /${onsetBanned.sound}/ at syllable ${si}.`);
     }
     for (const [ni, nucleus] of syllable.nucleus.entries()) {
-      for (const [ci, coda] of syllable.coda.entries()) {
-        if (!isNucleusCodaPairAllowed(nucleus.sound, coda.sound, bannedPairs)) {
-          throw new Error(`Excluded lexical-root nucleus/coda pair /${nucleus.sound}/ + /${coda.sound}/ at syllable ${si}, nucleus ${ni}, coda ${ci}.`);
-        }
+      const nextOnset = ni === syllable.nucleus.length - 1 ? syllables[si + 1]?.onset : undefined;
+      const rejection = rootNucleusRejection(nucleus.sound, syllable, nextOnset, policy);
+      if (rejection?.kind === "onset-rime") {
+        throw new Error(`Excluded lexical-root onset/rime pair /${rejection.onset}/ + /${nucleus.sound}/ at syllable ${si}.`);
       }
-    }
-    const lastNucleus = syllable.nucleus.at(-1);
-    const nextOnset = syllables[si + 1]?.onset;
-    if (lastNucleus && !isNucleusCompatibleWithFollowingOnset(lastNucleus.sound, syllable.coda, nextOnset, followingOnsetPairs)) {
-      throw new Error(`Excluded lexical-root nucleus/onset pair /${lastNucleus.sound}/ + /${nextOnset![0].sound}/ at syllables ${si}-${si + 1}.`);
+      if (rejection?.kind === "nucleus-coda") {
+        const ci = rejection.codaIndex;
+        throw new Error(`Excluded lexical-root nucleus/coda pair /${nucleus.sound}/ + /${syllable.coda[ci].sound}/ at syllable ${si}, nucleus ${ni}, coda ${ci}.`);
+      }
+      if (rejection?.kind === "nucleus-onset") {
+        throw new Error(`Excluded lexical-root nucleus/onset pair /${nucleus.sound}/ + /${rejection.onset}/ at syllables ${si}-${si + 1}.`);
+      }
     }
   }
 }

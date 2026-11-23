@@ -23,6 +23,7 @@ jobs:
       - uses: ./.github/actions/setup-deps
       - run: npm run lint
       - run: npm run typecheck
+      - run: npm run test:root-attempts:model
       - run: npm test
       - name: Diagnostic sampling and metric regressions
         run: npm run test:diagnostics
@@ -33,3 +34,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-deps
       - run: npm run test:review
+      - run: npm run test:review:model

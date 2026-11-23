@@ -1,9 +1,9 @@
 # Root nucleus/coda compatibility
 
-Nucleus replacement preserves configured compatibility with the retained root
-coda. Original coda selection (including optional extensions), stress replacement,
-edge replacement, and the check immediately before root spelling use the same
-configured pair predicate. No exclusions or sampling weights are added.
+The generator compiles one root rime policy from the language configuration.
+Generation, nucleus repair, and the check before spelling use that policy.
+Stress and word-position repairs both choose replacements through the same
+candidate selector.
 
 ## Contract and boundaries
 
@@ -30,6 +30,11 @@ selection after an open syllable (rejection reason `nucleus-onset`), stress and
 edge repair (counted in `positivePairExclusions`), and the root check before
 spelling. Only a following root syllable counts. Prefix and suffix joins are
 exempt, so *over-* + an /r/-initial root keeps its /ɚ r/.
+
+The nucleus repair also runs after a coda deletion exposes a forbidden pair.
+For example, a custom boundary rule can remove /l/ from /ɚl.r/. The nucleus
+selector then chooses a vowel licensed before /r/ and records
+`repairNucleusRime` in the `repairNucleusWordPositions` stage.
 
 Stress repair keeps its existing trigger: the first nucleus of a primary-marked
 syllable whose sound belongs to `stressedNucleusBan`. This includes lexical

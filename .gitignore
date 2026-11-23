@@ -161,6 +161,7 @@ REVIEW-*.md
 /.impeccable/review/
 
 # Agent workspace artifacts (analysis scripts, diagnostic dumps, sample data)
+/tasks/
 memory/
 # Full benchmark traces live alongside versionable manifests and summaries.
 /evaluation/quality/baselines/*/words/
