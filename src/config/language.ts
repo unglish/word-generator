@@ -254,6 +254,24 @@ export interface HiatusPolicy {
   fallbackBridgeOnsets: [string, number][];
 }
 
+/** Relative weights for repeated sounds in lexical roots. */
+export interface RootRepetitionPolicy {
+  /** Apply this policy in one mode. Omit to apply it in both. */
+  mode?: GenerationMode;
+  /** Minimum root syllable count for the two nucleus multipliers. Defaults to three. */
+  minimumNucleusSyllables?: number;
+  /** Weight multiplier for a nucleus that would extend two equal nuclei in a row. */
+  tripleNucleusMultiplier?: number;
+  /** Probability multiplier when vowel reduction would create a three-nucleus run in a root. */
+  tripleReductionMultiplier?: number;
+  /** Weight multiplier for a coda that starts with the last sound of its onset. */
+  matchingCodaMultiplier?: number;
+  /** Overrides for individual matching consonants, keyed by phoneme sound. */
+  matchingCodaOverrides?: Readonly<Record<string, number>>;
+  /** Coda-initial sounds whose probability is preserved when redistributing a penalty. */
+  preserveCodaInitials?: readonly string[];
+}
+
 /** Shared default fallback bridge onsets used to repair vowel hiatus. */
 export function defaultFallbackBridgeOnsets(): [string, number][] {
   return [["h", 100]];
@@ -914,6 +932,8 @@ export interface LanguageConfig {
   generationWeights: GenerationWeights;
   /** Policy knobs for hiatus prevention and post-vowel glide behavior. */
   hiatusPolicy?: HiatusPolicy;
+  /** Optional dissimilation weights for lexical roots. */
+  rootRepetition?: RootRepetitionPolicy;
 
   /**
    * Required top-down targets for root generation, excluding affixes.
@@ -1492,6 +1512,46 @@ export function expandClusterConstraintBans(
       if (onsetA > onsetB) return 1;
       return 0;
     });
+}
+
+function validateRootRepetition(config: LanguageConfig): void {
+  const policy = config.rootRepetition;
+  if (!policy) return;
+
+  if (policy.mode !== undefined && policy.mode !== "lexicon" && policy.mode !== "text") {
+    throw new Error("rootRepetition.mode must be lexicon or text");
+  }
+  const minimum = policy.minimumNucleusSyllables ?? 3;
+  if (!Number.isInteger(minimum) || minimum < 3) {
+    throw new Error("rootRepetition.minimumNucleusSyllables must be an integer >= 3");
+  }
+  validateRepetitionMultiplier("tripleNucleusMultiplier", policy.tripleNucleusMultiplier);
+  validateRepetitionMultiplier("tripleReductionMultiplier", policy.tripleReductionMultiplier);
+  validateRepetitionMultiplier("matchingCodaMultiplier", policy.matchingCodaMultiplier);
+
+  const codaSounds = new Set(
+    config.phonemes.filter((phoneme) => (phoneme.coda ?? 0) > 0).map((phoneme) => phoneme.sound),
+  );
+  const onsetSounds = new Set(
+    config.phonemes.filter((phoneme) => (phoneme.onset ?? 0) > 0).map((phoneme) => phoneme.sound),
+  );
+  for (const [sound, weight] of Object.entries(policy.matchingCodaOverrides ?? {})) {
+    if (!onsetSounds.has(sound) || !codaSounds.has(sound)) {
+      throw new Error(`rootRepetition.matchingCodaOverrides has no onset/coda phoneme "${sound}"`);
+    }
+    validateRepetitionMultiplier(`matchingCodaOverrides.${sound}`, weight);
+  }
+  for (const sound of policy.preserveCodaInitials ?? []) {
+    if (!codaSounds.has(sound)) {
+      throw new Error(`rootRepetition.preserveCodaInitials has no coda phoneme "${sound}"`);
+    }
+  }
+}
+
+function validateRepetitionMultiplier(key: string, weight: number | undefined): void {
+  if (weight !== undefined && (!Number.isFinite(weight) || weight <= 0 || weight > 1)) {
+    throw new Error(`rootRepetition.${key} must be a finite number in (0, 1]`);
+  }
 }
 
 /**
@@ -2158,6 +2218,8 @@ export function validateConfig(config: LanguageConfig): void {
       "hiatusPolicy.fallbackBridgeOnsets",
     );
   }
+
+  validateRootRepetition(config);
 
   if (config.morphology?.boundaryPolicy?.fallbackBridgeOnsets) {
     validateBridgeOnsets(

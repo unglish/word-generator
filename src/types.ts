@@ -2,6 +2,7 @@ import { RNG } from "./utils/random";
 import type { NuclearQuantity } from "./core/syllable-weight.js";
 import type { WordTrace } from "./core/trace";
 import type { TraceCollector } from "./core/trace";
+import type { RootRepetitionPolicy } from "./config/language.js";
 
 /**
  * Generation mode controlling syllable-count distribution and letter-length targeting.
@@ -374,6 +375,8 @@ export interface WordGenerationContext {
   syllableCount: number;
   /** Index of the syllable currently being generated. */
   currSyllableIndex: number;
+  /** Repetition weights for this generation mode. */
+  rootRepetition?: RootRepetitionPolicy;
   /** Target total phoneme count for top-down generation. */
   targetPhonemeCount?: number;
   /** Per-syllable onset/coda length targets for top-down generation. */
@@ -431,4 +434,6 @@ export interface ClusterContext {
   nucleus?: Phoneme[];
   /** Nucleus or coda sounds this syllable's onset excludes (see `bannedOnsetRimeCombinations`). */
   excludedAfterOnset?: ReadonlySet<string>;
+  /** A sound whose selection completes a root repetition pattern. */
+  repetitionPenalty?: { sound: string; multiplier: number };
 }
