@@ -225,6 +225,8 @@ export interface Grapheme {
   form: string;
   /** Baseline frequency weight (higher → more likely to be chosen). */
   frequency: number;
+  /** Use the multiletter stress discount for a single-letter spelling. */
+  discountAsMultigraph?: true;
 
   /** Weighting modifier when used in a syllable onset. */
   onset?: number;

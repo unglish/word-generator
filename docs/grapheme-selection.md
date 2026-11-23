@@ -46,6 +46,15 @@ The inventory also permits `n`/`ng` in legal /ŋ/ clusters (think, length) and
 final /dʒ/→`ge` after tense vowels (age), removing contradictory exclusions that
 previously depended on implicit restoration.
 
+Medial coda /dʒ/ can use `di` before a central vowel (*soldier*, *cordial*).
+Before a consonant, this low-weight slot uses `dg` directly after a short vowel
+(*judgment*, *fledgling*) and `ge` after a long vowel or consonant
+(*pageboy*, *changeful*). Before /g/, `ge` keeps the following hard `g`
+separate at the original two-letter width. The slot uses `j` before /j/ and before /w/
+outside the short-vowel context. The one-letter spelling keeps the affricate
+where `iy-to-y` or `iw-to-w` previously left a bare `d`, and takes the same
+stress discount as the original `di` draw.
+
 ## Ordinary `e` before /t/ (#312)
 
 /ɛ/ → `e` is legal before /t/, within a syllable (*pet*) and across a syllable
