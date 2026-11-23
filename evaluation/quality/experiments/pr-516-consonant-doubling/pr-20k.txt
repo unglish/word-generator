@@ -1,0 +1,19 @@
+total=20000 eligibleShape=1016 skippedMismatch=995 doubled=339
+mono       checked eligible=  141 doubled=  141 (100.0%)  fratter /ˈfræt.ɚ/, snonning /ˈsnʌn.ɪŋ/, protting /ˈpʰrʌt.ɪŋ/, trinned /tʰrɪnd/, retted /ˈrɛt.ɪd/, instrimmed /ˌɪnˈstrɪmd/
+mono       long    eligible=   17 doubled=    0 (0.0%)  
+mono       lot/r   eligible=   62 doubled=   62 (100.0%)  pronned /pʰrɔnd/, fessed /fɜzd/, disbrodded /ˌdəsˈbrɑd.ɪd/, smodding /ˈsmɔd.ɪŋ/, pragging /ˈpʰrɑg.ɪŋ/, untronning /ˌʌnˈtʰrɔn.ɪŋ/
+mono       ɚ       eligible=   13 doubled=   13 (100.0%)  cerring /ˈsɚ.ɪŋ/, cerrable /ˈsɚ.ə.bəl/, derred /dɚd/, perred /pʰɚd/, resirring /ˌrɪˈsɚ.ɪŋ/, werring /ˈwɚ.ɪŋ/
+primary    checked eligible=   21 doubled=   21 (100.0%)  futalletted /fu.təˈlɛt.ɪd/, rummopping /ˌrʌmˈʌp.ɪŋ/, blomilled /ˌblɔmˈɪld/, fooltanned /ˌfulˈtʰænd/, nachillest /nəˈkʰɪl.əst/, ashictorrer /əˌʃɪkˈtʰʌr.ɚ/
+primary    long    eligible=   13 doubled=    0 (0.0%)  
+primary    lot/r   eligible=   10 doubled=   10 (100.0%)  sunthcenned /sənθˈsɜnd/, feclolled /fɪkˈlɑld/, vabratting /ˌvəˈbrɑt.ɪŋ/, smolcrotting /ˌsmɔlˈkʰrɑt.ɪŋ/, banshrosser /bənˈʃrɔz.ɚ/, lasconning /ləˈskɔn.ɪŋ/
+primary    ɚ       eligible=   20 doubled=   20 (100.0%)  sazzorrer /ˌsəˈzɚ.ɚ/, naturred /næˈtʰɚd/, rogarrable /ˌrɑgˈɚ.ə.bəl/, mathuretting /məˈθɚt.ɪŋ/, sheterring /ʃɪˈtʰɚ.ɪŋ/, fosterrest /ˌfʌsˈtɚ.ɪst/
+secondary  checked eligible=   46 doubled=   46 (100.0%)  pirtwigger /ˈpʰɪrˌtʰwɪg.ɚ/, gunledded /ˈgʌnˌlɛd.ɪd/, nippeacsonned /nəˈpʰɛkˌsənd/, festrenning /ˈfɛsˌtrɛn.ɪŋ/, nillilpinned /ˈnɪl.əlpˌɪnd/, flezetting /ˈflɛˌzɛt.ɪŋ/
+secondary  long    eligible=   36 doubled=    0 (0.0%)  
+secondary  lot/r   eligible=   26 doubled=   26 (100.0%)  uscrodded /ˈʊˌskrɔd.ɪd/, eactorrer /ˈi:ktˌɔr.ɚ/, bewnbossed /ˈbunˌbɔzd/, tothcanned /ˈtʰɔθˌkʰɑnd/, loflotted /ˈlɔˌflɔt.əd/, fratarred /ˈfrætˌɑrd/
+secondary  schwa   eligible=   27 doubled=    0 (0.0%)  
+secondary  ɚ       eligible=   85 doubled=    0 (0.0%)  
+unstressed checked eligible=  150 doubled=    0 (0.0%)  
+unstressed long    eligible=   86 doubled=    0 (0.0%)  
+unstressed lot/r   eligible=   43 doubled=    0 (0.0%)  
+unstressed schwa   eligible=   88 doubled=    0 (0.0%)  
+unstressed ɚ       eligible=  132 doubled=    0 (0.0%)  

@@ -1,0 +1,19 @@
+total=20000 eligibleShape=1016 skippedMismatch=995 doubled=1016
+mono       checked eligible=  141 doubled=  141 (100.0%)  fratter /ˈfræt.ɚ/, snonning /ˈsnʌn.ɪŋ/, protting /ˈpʰrʌt.ɪŋ/, trinned /tʰrɪnd/, retted /ˈrɛt.ɪd/, instrimmed /ˌɪnˈstrɪmd/
+mono       long    eligible=   17 doubled=   17 (100.0%)  bliller /ˈblaɪl.ɚ/, redralled /ˌrəˈdreɪld/, repropped /ˌrɪˈpʰrəʊpt/, rebedded /ˌrɪˈbi:d.ɪd/, skipping /ˈskaɪp.ɪŋ/, plimmest /ˈpʰlaɪm.əst/
+mono       lot/r   eligible=   62 doubled=   62 (100.0%)  pronned /pʰrɔnd/, fessed /fɜzd/, disbrodded /ˌdəsˈbrɑd.ɪd/, smodding /ˈsmɔd.ɪŋ/, pragging /ˈpʰrɑg.ɪŋ/, untronning /ˌʌnˈtʰrɔn.ɪŋ/
+mono       ɚ       eligible=   13 doubled=   13 (100.0%)  cerring /ˈsɚ.ɪŋ/, cerrable /ˈsɚ.ə.bəl/, derred /dɚd/, perred /pʰɚd/, resirring /ˌrɪˈsɚ.ɪŋ/, werring /ˈwɚ.ɪŋ/
+primary    checked eligible=   21 doubled=   21 (100.0%)  futalletted /fu.təˈlɛt.ɪd/, rummopping /ˌrʌmˈʌp.ɪŋ/, blomilled /ˌblɔmˈɪld/, fooltanned /ˌfulˈtʰænd/, nachillest /nəˈkʰɪl.əst/, ashictorrer /əˌʃɪkˈtʰʌr.ɚ/
+primary    long    eligible=   13 doubled=   13 (100.0%)  tochiribbed /tʰɑˌtʃɪˈraɪbd/, cepritting /sɛˈpʰraɪt.ɪŋ/, yeasrotted /ˌji:zˈrəʊt.ɪd/, unvalchonner /ˌʌn.vəlˈtʃəʊn.ɚ/, joctsommed /dʒɔktˈsəʊmd/, keemplogging /ˌkʰi:mˈpʰləʊg.ɪŋ/
+primary    lot/r   eligible=   10 doubled=   10 (100.0%)  sunthcenned /sənθˈsɜnd/, feclolled /fɪkˈlɑld/, vabratting /ˌvəˈbrɑt.ɪŋ/, smolcrotting /ˌsmɔlˈkʰrɑt.ɪŋ/, banshrosser /bənˈʃrɔz.ɚ/, lasconning /ləˈskɔn.ɪŋ/
+primary    ɚ       eligible=   20 doubled=   20 (100.0%)  sazzorrer /ˌsəˈzɚ.ɚ/, naturred /næˈtʰɚd/, rogarrable /ˌrɑgˈɚ.ə.bəl/, mathuretting /məˈθɚt.ɪŋ/, sheterring /ʃɪˈtʰɚ.ɪŋ/, fosterrest /ˌfʌsˈtɚ.ɪst/
+secondary  checked eligible=   46 doubled=   46 (100.0%)  pirtwigger /ˈpʰɪrˌtʰwɪg.ɚ/, gunledded /ˈgʌnˌlɛd.ɪd/, nippeacsonned /nəˈpʰɛkˌsənd/, festrenning /ˈfɛsˌtrɛn.ɪŋ/, nillilpinned /ˈnɪl.əlpˌɪnd/, flezetting /ˈflɛˌzɛt.ɪŋ/
+secondary  long    eligible=   36 doubled=   36 (100.0%)  monskeaconning /ˈmʌns.kɪkˌəʊn.ɪŋ/, gualorring /ˈgæˌləʊr.ɪŋ/, banzodded /ˈbænˌzəʊd.ɪd/, fasnolling /ˈfæsˌnəʊl.ɪŋ/, narscolled /ˈnɑrˌskəʊld/, aitsalpolled /eɪtsˈælpˌəʊld/
+secondary  lot/r   eligible=   26 doubled=   26 (100.0%)  uscrodded /ˈʊˌskrɔd.ɪd/, eactorrer /ˈi:ktˌɔr.ɚ/, bewnbossed /ˈbunˌbɔzd/, tothcanned /ˈtʰɔθˌkʰɑnd/, loflotted /ˈlɔˌflɔt.əd/, fratarred /ˈfrætˌɑrd/
+secondary  schwa   eligible=   27 doubled=   27 (100.0%)  solsonning /ˈsɑlˌsən.ɪŋ/, rebilbamming /ˌrɪˈbɪlˌbəm.ɪŋ/, treestanning /ˈtʰri:sˌtʰən.ɪŋ/, bockatting /ˈbʌˌkʰət.ɪŋ/, palgecnarring /ˈpʰæl.gɪkˌnər.ɪŋ/, heflatted /ˈhɛˌflət.ɪd/
+secondary  ɚ       eligible=   85 doubled=   85 (100.0%)  wuberring /ˈwʌˌbɚ.ɪŋ/, satiporring /ˈsɑ.təˌpʰɚ.ɪŋ/, urtworring /ˈɚˌtʰwɚ.ɪŋ/, rolkorred /ˈrɑlˌkʰɚd/, weltarred /ˈwɜlˌtʰɚd/, jazzerring /ˈdʒæˌzɚ.ɪŋ/
+unstressed checked eligible=  150 doubled=  150 (100.0%)  wetretting /ˈwɛ.trɛt.ɪŋ/, surribornitted /sʌˈrɪ.bər.nɪt.ɪd/, glemitted /ˈgli:.mɪt.əd/, secralled /ˈsɛk.ræld/, bremolled /ˈbrɜ.mʌld/, naschesser /ˈneɪ.ʃɛs.ɚ/
+unstressed long    eligible=   86 doubled=   86 (100.0%)  susconning /ˈsʌz.kʰəʊn.ɪŋ/, creclifproller /kʰrɪkˈlɪf.pʰrəʊl.ɚ/, munshicutting /mʊnˈʃɪ.kut.ɪŋ/, cractotting /ˈkʰræk.təʊt.ɪŋ/, upbnosser /ˈʌb.nəʊs.ɚ/, ockyopping /ˈʌk.jəʊp.ɪŋ/
+unstressed lot/r   eligible=   43 doubled=   43 (100.0%)  spoomdalled /ˈspum.dɑld/, thalranning /ˈðæl.rɑn.ɪŋ/, drinjellable /ˈdrɪn.dʒəl.ə.bəl/, olbsotting /ˈəʊlb.sɔt.ɪŋ/, nupaitithotting /ˈnup.eɪ.taɪθ.ɑt.ɪŋ/, andelled /ˈæn.dɜld/
+unstressed schwa   eligible=   88 doubled=   88 (100.0%)  bratratted /ˈbræ.trət.ɪd/, jodooclassed /ˈdʒɔ.dʊk.ləst/, grooptassed /ˈgrupt.əst/, mistilesilmepassing /ˌmɪsˈtaɪl.sɪlm.ə.pʰəs.ɪŋ/, chordammed /ˈtʃɑr.dəmd/, mecnatted /ˈmɛk.nət.ɪd/
+unstressed ɚ       eligible=  132 doubled=  132 (100.0%)  ginkuretted /ˈgɪn.kɚt.ɪd/, tachwerring /ˈtʰɑʃ.wɚ.ɪŋ/, middorred /ˈmɪd.ɚd/, yadacfurred /jɑˈdɑk.fɚd/, cekorring /ˈsɜ.kɚ.ɪŋ/, valnerring /ˈvɑl.nɚ.ɪŋ/
