@@ -93,6 +93,7 @@ The command uses the public generator API and records full generated Word object
 
 ```sh
 npm run test:review
+npm run test:review:model
 npm run review:typecheck
 npm run lint
 npx playwright install chromium
@@ -105,7 +106,9 @@ npm run build
 npm run demo:check-worker-sync
 ```
 
-Docker is required for local Supabase tests. The DB runner reads local CLI credentials without printing them and refuses a hosted test target. Tests create synthetic `test-*` studies and clean them up. Browser tests mock network failures, exercise desktop and mobile flows, and save light/dark captures under the ignored `.impeccable/review/` directory. CI runs both browser and actual database API checks without production credentials on every push to `main` (`.github/workflows/review-e2e.yml`); dispatch that workflow manually to run them on a branch before merging.
+Run `npm run test:review:model` to check the durable session transitions in Node. The checker runs the production store through two IndexedDB connections. It explores replies arriving late or twice, reopening a tab, and continuing after all responses have been acknowledged.
+
+Docker is required for local Supabase tests. The DB runner reads local CLI credentials without printing them and refuses a hosted test target. Tests create synthetic `test-*` studies and clean them up. Browser tests mock network failures, exercise desktop and mobile flows, and save light/dark captures under the ignored `.impeccable/review/` directory. The Review E2E workflow also exercises the real database API and browser smoke flow on every push to `main`. Dispatch it manually to run the same checks on a branch.
 
 The local stack enables Supabase's Auth service to issue its API keys, with both normal and anonymous signups disabled. The reviewer never calls Auth or creates a user.
 
