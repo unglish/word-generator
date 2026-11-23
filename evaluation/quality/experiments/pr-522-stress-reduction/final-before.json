@@ -1,0 +1,2440 @@
+{
+  "first": 5000000,
+  "count": 20000,
+  "tally": {
+    "poly": 17508,
+    "final.0": 12262,
+    "eligible.secondary-rhotic": 85,
+    "final.ˌ": 3473,
+    "final.ˈ": 1773,
+    "secondarySchwa": 1494,
+    "finalFull": 723,
+    "finalFull.ɛ": 167,
+    "eligible.unstressed": 499,
+    "rhotic.ˈ": 310,
+    "rhotic.ˌ": 695,
+    "eligible.lexicalUnstressedFull": 114,
+    "eligible.surfaceUnstressedFull": 71,
+    "rhotic.0": 1972,
+    "finalFull.ɑ": 244,
+    "eligible.primary-short": 31,
+    "doubled.primary-short": 31,
+    "finalFull.ɔ": 136,
+    "finalFull.æ": 98,
+    "eligible.stressed-long-other": 66,
+    "eligible.secondary-short": 72,
+    "doubled.secondary-short": 72,
+    "finalFull.ʌ": 78,
+    "eligible.mono-short": 203,
+    "doubled.mono-short": 203,
+    "eligible.lot.mono-short": 32,
+    "doubled.lot.mono-short": 32,
+    "eligible.stressed-schwa": 27,
+    "eligible.mono-rhotic": 13,
+    "doubled.mono-rhotic": 13,
+    "eligible.primary-rhotic": 20,
+    "doubled.primary-rhotic": 20,
+    "eligible.lot.secondary-short": 12,
+    "doubled.lot.secondary-short": 12,
+    "eligible.lot.primary-short": 6,
+    "doubled.lot.primary-short": 6
+  },
+  "trigramDistance": {
+    "jensenShannonBits": 0.15030658471930092,
+    "missingReferenceMass": 0.056067214501401584,
+    "unseenGeneratedMass": 0.006803766401174313
+  },
+  "examples": {
+    "5000000": {
+      "spelling": "wubering",
+      "pronunciation": "ˈwʌˌbɚ.ɪŋ",
+      "stages": [
+        {
+          "name": "applyStress",
+          "before": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ʌ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": []
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ʌ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            }
+          ]
+        },
+        {
+          "name": "repairNucleusWordPositions",
+          "before": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ʌ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ʌ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            }
+          ]
+        },
+        {
+          "name": "repairFinalStressedNuclei",
+          "before": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ʌ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "ŋ"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ʌ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "ŋ"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "generatePronunciation",
+          "before": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ʌ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "ŋ"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ʌ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "b"
+              ],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "ŋ"
+              ]
+            }
+          ]
+        }
+      ],
+      "repairs": [],
+      "realization": {
+        "suffix": {
+          "planned": {
+            "written": "ing",
+            "phonemes": [
+              "ɪ",
+              "ŋ"
+            ],
+            "syllableCount": 1,
+            "syllables": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "ɪ"
+                ],
+                "coda": [
+                  "ŋ"
+                ]
+              }
+            ]
+          },
+          "resolved": {
+            "written": "ing",
+            "phonemes": [
+              "ɪ",
+              "ŋ"
+            ],
+            "syllableCount": 1,
+            "syllables": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "ɪ"
+                ],
+                "coda": [
+                  "ŋ"
+                ]
+              }
+            ]
+          },
+          "allomorphIndex": null,
+          "boundaryPhoneme": {
+            "sound": "ɚ",
+            "voiced": true,
+            "mannerOfArticulation": "midVowel",
+            "placeOfArticulation": "central"
+          }
+        },
+        "assembledParts": [
+          {
+            "role": "root",
+            "text": "wuber"
+          },
+          {
+            "role": "suffix",
+            "text": "ing"
+          }
+        ],
+        "emittedParts": [
+          {
+            "role": "root",
+            "text": "wuber"
+          },
+          {
+            "role": "suffix",
+            "text": "ing"
+          }
+        ]
+      }
+    },
+    "5000009": {
+      "spelling": "hagittechel",
+      "pronunciation": "hæˈgɪˌtʰə.tʃɛl",
+      "stages": [
+        {
+          "name": "applyStress",
+          "before": [
+            {
+              "onset": [
+                "h"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "g"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "t"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "tʃ"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "h"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "g"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [
+                "tʃ"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "repairNucleusWordPositions",
+          "before": [
+            {
+              "onset": [
+                "h"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "g"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [
+                "tʃ"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "h"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "g"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [
+                "tʃ"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "generatePronunciation",
+          "before": [
+            {
+              "onset": [
+                "h"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "g"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [
+                "tʃ"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "h"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "g"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [],
+              "stress": "ˌ",
+              "aspirated": [
+                {
+                  "segment": "onset",
+                  "index": 0
+                }
+              ]
+            },
+            {
+              "onset": [
+                "tʃ"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ]
+        }
+      ],
+      "repairs": []
+    },
+    "5000011": {
+      "spelling": "bratrated",
+      "pronunciation": "ˈbræ.trət.ɪd",
+      "stages": [
+        {
+          "name": "applyStress",
+          "before": [
+            {
+              "onset": [
+                "b",
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "t"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "b",
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "t"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "repairNucleusWordPositions",
+          "before": [
+            {
+              "onset": [
+                "b",
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "t"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "b",
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "t"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "repairFinalStressedNuclei",
+          "before": [
+            {
+              "onset": [
+                "b",
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "t"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "d"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "b",
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "t"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "d"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "generatePronunciation",
+          "before": [
+            {
+              "onset": [
+                "b",
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "t"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "d"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "b",
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [
+                "t"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "d"
+              ]
+            }
+          ]
+        }
+      ],
+      "repairs": [],
+      "realization": {
+        "suffix": {
+          "planned": {
+            "written": "ed",
+            "phonemes": [
+              "d"
+            ],
+            "syllableCount": 0,
+            "syllables": []
+          },
+          "resolved": {
+            "written": "ed",
+            "phonemes": [
+              "ɪ",
+              "d"
+            ],
+            "syllableCount": 1,
+            "syllables": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "ɪ"
+                ],
+                "coda": [
+                  "d"
+                ]
+              }
+            ]
+          },
+          "allomorphIndex": 2,
+          "boundaryPhoneme": {
+            "sound": "t",
+            "voiced": false,
+            "mannerOfArticulation": "stop",
+            "placeOfArticulation": "alveolar"
+          }
+        },
+        "assembledParts": [
+          {
+            "role": "root",
+            "text": "bratrat"
+          },
+          {
+            "role": "suffix",
+            "text": "ed"
+          }
+        ],
+        "emittedParts": [
+          {
+            "role": "root",
+            "text": "bratrat"
+          },
+          {
+            "role": "suffix",
+            "text": "ed"
+          }
+        ]
+      }
+    },
+    "5000022": {
+      "spelling": "rejitkene",
+      "pronunciation": "ˌrəˈjɪtˌkʰi:n",
+      "stages": [
+        {
+          "name": "applyStress",
+          "before": [
+            {
+              "onset": [
+                "j"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "t"
+              ]
+            },
+            {
+              "onset": [
+                "k"
+              ],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": [
+                "n"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "j"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "k"
+              ],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": [
+                "n"
+              ],
+              "stress": "ˌ"
+            }
+          ]
+        },
+        {
+          "name": "repairNucleusWordPositions",
+          "before": [
+            {
+              "onset": [
+                "j"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "k"
+              ],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": [
+                "n"
+              ],
+              "stress": "ˌ"
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "j"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "k"
+              ],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": [
+                "n"
+              ],
+              "stress": "ˌ"
+            }
+          ]
+        },
+        {
+          "name": "repairFinalStressedNuclei",
+          "before": [
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [
+                "j"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "k"
+              ],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": [
+                "n"
+              ],
+              "stress": "ˌ"
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [
+                "j"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "k"
+              ],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": [
+                "n"
+              ],
+              "stress": "ˌ"
+            }
+          ]
+        },
+        {
+          "name": "generatePronunciation",
+          "before": [
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [
+                "j"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "k"
+              ],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": [
+                "n"
+              ],
+              "stress": "ˌ"
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "ə"
+              ],
+              "coda": [],
+              "stress": "ˌ",
+              "reducedNuclei": [
+                0
+              ]
+            },
+            {
+              "onset": [
+                "j"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "k"
+              ],
+              "nucleus": [
+                "i:"
+              ],
+              "coda": [
+                "n"
+              ],
+              "stress": "ˌ",
+              "aspirated": [
+                {
+                  "segment": "onset",
+                  "index": 0
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "repairs": [],
+      "realization": {
+        "prefix": {
+          "planned": {
+            "written": "re",
+            "phonemes": [
+              "r",
+              "ɪ"
+            ],
+            "syllableCount": 1,
+            "syllables": [
+              {
+                "onset": [
+                  "r"
+                ],
+                "nucleus": [
+                  "ɪ"
+                ],
+                "coda": []
+              }
+            ]
+          },
+          "resolved": {
+            "written": "re",
+            "phonemes": [
+              "r",
+              "ɪ"
+            ],
+            "syllableCount": 1,
+            "syllables": [
+              {
+                "onset": [
+                  "r"
+                ],
+                "nucleus": [
+                  "ɪ"
+                ],
+                "coda": []
+              }
+            ]
+          },
+          "allomorphIndex": null,
+          "boundaryPhoneme": {
+            "sound": "j",
+            "voiced": true,
+            "mannerOfArticulation": "glide",
+            "placeOfArticulation": "palatal"
+          }
+        },
+        "assembledParts": [
+          {
+            "role": "prefix",
+            "text": "re"
+          },
+          {
+            "role": "root",
+            "text": "jitkene"
+          }
+        ],
+        "emittedParts": [
+          {
+            "role": "prefix",
+            "text": "re"
+          },
+          {
+            "role": "root",
+            "text": "jitkene"
+          }
+        ]
+      }
+    },
+    "5000028": {
+      "spelling": "wetreting",
+      "pronunciation": "ˈwɛ.trɛt.ɪŋ",
+      "stages": [
+        {
+          "name": "applyStress",
+          "before": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": []
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "repairNucleusWordPositions",
+          "before": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "repairFinalStressedNuclei",
+          "before": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "ŋ"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "ŋ"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "generatePronunciation",
+          "before": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "ŋ"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "w"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "r"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "ŋ"
+              ]
+            }
+          ]
+        }
+      ],
+      "repairs": [],
+      "realization": {
+        "suffix": {
+          "planned": {
+            "written": "ing",
+            "phonemes": [
+              "ɪ",
+              "ŋ"
+            ],
+            "syllableCount": 1,
+            "syllables": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "ɪ"
+                ],
+                "coda": [
+                  "ŋ"
+                ]
+              }
+            ]
+          },
+          "resolved": {
+            "written": "ing",
+            "phonemes": [
+              "ɪ",
+              "ŋ"
+            ],
+            "syllableCount": 1,
+            "syllables": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "ɪ"
+                ],
+                "coda": [
+                  "ŋ"
+                ]
+              }
+            ]
+          },
+          "allomorphIndex": null,
+          "boundaryPhoneme": {
+            "sound": "t",
+            "voiced": false,
+            "mannerOfArticulation": "stop",
+            "placeOfArticulation": "alveolar"
+          }
+        },
+        "assembledParts": [
+          {
+            "role": "root",
+            "text": "wetret"
+          },
+          {
+            "role": "suffix",
+            "text": "ing"
+          }
+        ],
+        "emittedParts": [
+          {
+            "role": "root",
+            "text": "wetret"
+          },
+          {
+            "role": "suffix",
+            "text": "ing"
+          }
+        ]
+      }
+    },
+    "5000553": {
+      "spelling": "secraled",
+      "pronunciation": "ˈsɛk.ræld",
+      "stages": [
+        {
+          "name": "applyStress",
+          "before": [
+            {
+              "onset": [
+                "s"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "k"
+              ]
+            },
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "s"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "k"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "repairNucleusWordPositions",
+          "before": [
+            {
+              "onset": [
+                "s"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "k"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "s"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "k"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [
+                "l"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "repairFinalStressedNuclei",
+          "before": [
+            {
+              "onset": [
+                "s"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "k"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [
+                "l",
+                "d"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "s"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "k"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [
+                "l",
+                "d"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "generatePronunciation",
+          "before": [
+            {
+              "onset": [
+                "s"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "k"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [
+                "l",
+                "d"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "s"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "k"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "r"
+              ],
+              "nucleus": [
+                "æ"
+              ],
+              "coda": [
+                "l",
+                "d"
+              ]
+            }
+          ]
+        }
+      ],
+      "repairs": [],
+      "realization": {
+        "suffix": {
+          "planned": {
+            "written": "ed",
+            "phonemes": [
+              "d"
+            ],
+            "syllableCount": 0,
+            "syllables": []
+          },
+          "resolved": {
+            "written": "ed",
+            "phonemes": [
+              "d"
+            ],
+            "syllableCount": 0,
+            "syllables": []
+          },
+          "allomorphIndex": 1,
+          "boundaryPhoneme": {
+            "sound": "l",
+            "voiced": true,
+            "mannerOfArticulation": "liquid",
+            "placeOfArticulation": "alveolar"
+          }
+        },
+        "assembledParts": [
+          {
+            "role": "root",
+            "text": "secral"
+          },
+          {
+            "role": "suffix",
+            "text": "ed"
+          }
+        ],
+        "emittedParts": [
+          {
+            "role": "root",
+            "text": "secral"
+          },
+          {
+            "role": "suffix",
+            "text": "ed"
+          }
+        ]
+      }
+    },
+    "5000660": {
+      "spelling": "pirtwigger",
+      "pronunciation": "ˈpʰɪrˌtʰwɪg.ɚ",
+      "stages": [
+        {
+          "name": "applyStress",
+          "before": [
+            {
+              "onset": [
+                "p"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "r"
+              ]
+            },
+            {
+              "onset": [
+                "t",
+                "w"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "g"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "p"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "r"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "w"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "g"
+              ],
+              "stress": "ˌ"
+            }
+          ]
+        },
+        {
+          "name": "repairNucleusWordPositions",
+          "before": [
+            {
+              "onset": [
+                "p"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "r"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "w"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "g"
+              ],
+              "stress": "ˌ"
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "p"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "r"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "w"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "g"
+              ],
+              "stress": "ˌ"
+            }
+          ]
+        },
+        {
+          "name": "repairFinalStressedNuclei",
+          "before": [
+            {
+              "onset": [
+                "p"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "r"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "w"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "g"
+              ],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": []
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "p"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "r"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "w"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "g"
+              ],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": []
+            }
+          ]
+        },
+        {
+          "name": "generatePronunciation",
+          "before": [
+            {
+              "onset": [
+                "p"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "r"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [
+                "t",
+                "w"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "g"
+              ],
+              "stress": "ˌ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": []
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "p"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "r"
+              ],
+              "stress": "ˈ",
+              "aspirated": [
+                {
+                  "segment": "onset",
+                  "index": 0
+                }
+              ]
+            },
+            {
+              "onset": [
+                "t",
+                "w"
+              ],
+              "nucleus": [
+                "ɪ"
+              ],
+              "coda": [
+                "g"
+              ],
+              "stress": "ˌ",
+              "aspirated": [
+                {
+                  "segment": "onset",
+                  "index": 0
+                }
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": []
+            }
+          ]
+        }
+      ],
+      "repairs": [],
+      "realization": {
+        "suffix": {
+          "planned": {
+            "written": "er",
+            "phonemes": [
+              "ɚ"
+            ],
+            "syllableCount": 1,
+            "syllables": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "ɚ"
+                ],
+                "coda": []
+              }
+            ]
+          },
+          "resolved": {
+            "written": "er",
+            "phonemes": [
+              "ɚ"
+            ],
+            "syllableCount": 1,
+            "syllables": [
+              {
+                "onset": [],
+                "nucleus": [
+                  "ɚ"
+                ],
+                "coda": []
+              }
+            ]
+          },
+          "allomorphIndex": null,
+          "boundaryPhoneme": {
+            "sound": "g",
+            "voiced": true,
+            "mannerOfArticulation": "stop",
+            "placeOfArticulation": "velar"
+          }
+        },
+        "assembledParts": [
+          {
+            "role": "root",
+            "text": "pirtwigg"
+          },
+          {
+            "role": "suffix",
+            "text": "er"
+          }
+        ],
+        "emittedParts": [
+          {
+            "role": "root",
+            "text": "pirtwigg"
+          },
+          {
+            "role": "suffix",
+            "text": "er"
+          }
+        ]
+      }
+    },
+    "5015506": {
+      "spelling": "lettered",
+      "pronunciation": "ˈlɛt.ɚd",
+      "stages": [
+        {
+          "name": "applyStress",
+          "before": [
+            {
+              "onset": [
+                "l"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ]
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": []
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "l"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": []
+            }
+          ]
+        },
+        {
+          "name": "repairNucleusWordPositions",
+          "before": [
+            {
+              "onset": [
+                "l"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": []
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "l"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": []
+            }
+          ]
+        },
+        {
+          "name": "repairFinalStressedNuclei",
+          "before": [
+            {
+              "onset": [
+                "l"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": [
+                "d"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "l"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": [
+                "d"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "generatePronunciation",
+          "before": [
+            {
+              "onset": [
+                "l"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": [
+                "d"
+              ]
+            }
+          ],
+          "after": [
+            {
+              "onset": [
+                "l"
+              ],
+              "nucleus": [
+                "ɛ"
+              ],
+              "coda": [
+                "t"
+              ],
+              "stress": "ˈ"
+            },
+            {
+              "onset": [],
+              "nucleus": [
+                "ɚ"
+              ],
+              "coda": [
+                "d"
+              ]
+            }
+          ]
+        }
+      ],
+      "repairs": [],
+      "realization": {
+        "suffix": {
+          "planned": {
+            "written": "ed",
+            "phonemes": [
+              "d"
+            ],
+            "syllableCount": 0,
+            "syllables": []
+          },
+          "resolved": {
+            "written": "ed",
+            "phonemes": [
+              "d"
+            ],
+            "syllableCount": 0,
+            "syllables": []
+          },
+          "allomorphIndex": 1,
+          "boundaryPhoneme": {
+            "sound": "ɚ",
+            "voiced": true,
+            "mannerOfArticulation": "midVowel",
+            "placeOfArticulation": "central"
+          }
+        },
+        "assembledParts": [
+          {
+            "role": "root",
+            "text": "letter"
+          },
+          {
+            "role": "suffix",
+            "text": "ed"
+          }
+        ],
+        "emittedParts": [
+          {
+            "role": "root",
+            "text": "letter"
+          },
+          {
+            "role": "suffix",
+            "text": "ed"
+          }
+        ]
+      }
+    },
+    "suffixFull": {
+      "seed": 5000028,
+      "spelling": "wetreting",
+      "pronunciation": "ˈwɛ.trɛt.ɪŋ"
+    }
+  }
+}
