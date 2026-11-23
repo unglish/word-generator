@@ -1,0 +1,44 @@
+e lost from another open vowel spelling {'before eligible': 126, 'before': 124, 'after eligible': 126, 'after': 0}
+ 	5000106	wondibue	wondibuer	wondibueer	wɔndʒˈbu.ɚ
+ 	5000112	apthirre	apthirred	apthirreed	æpθˈɪr.əd
+ 	5001177	cabie	cabied	cabieed	kʰɑˈbi:d
+ 	5001302	amochtre	amochtring	amochtreing	əmˈɑtʃ.tɚ.ɪŋ
+ee shared before initial e {'before eligible': 16, 'before': 16, 'after eligible': 16, 'after': 16}
+ee shortened before initial non-e vowel {'before eligible': 18, 'before': 18, 'after eligible': 18, 'after': 0}
+ 	5000592	hee	heing	heeing	ˈhi:.ɪŋ
+ 	5001722	mee	meing	meeing	ˈmi:.ɪŋ
+ 	5003566	mee	meable	meeable	ˈmi:.ə.bəl
+ 	5004681	ree	reing	reeing	ˈri:.ɪŋ
+plain -s with silent e intact {'before eligible': 604, 'before': 604, 'after eligible': 604, 'after': 604}
+planned -s {'before': 4362, 'after': 4362}
+retained silent e before -able {'before eligible': 17, 'before': 0, 'after eligible': 17, 'after': 0}
+retained silent e before -al {'before eligible': 31, 'before': 0, 'after eligible': 31, 'after': 0}
+retained silent e before -ed {'before eligible': 324, 'before': 0, 'after eligible': 324, 'after': 0}
+retained silent e before -er {'before eligible': 95, 'before': 0, 'after eligible': 95, 'after': 0}
+retained silent e before -es {'before eligible': 178, 'before': 178, 'after eligible': 178, 'after': 0}
+ 	5000104	widge	widgees	widges	ˈwɪdʒ.ɪz
+ 	5000136	sterdge	sterdgees	sterdges	ˈstɚdʒ.ɪz
+ 	5000210	soneege	soneegees	soneeges	ˈsɔn.i:dʒ.ɪz
+ 	5000256	cerazese	cerazesees	cerazeses	ˈsɛ.ræˌzi:z.ɪz
+retained silent e before -est {'before eligible': 16, 'before': 0, 'after eligible': 16, 'after': 0}
+retained silent e before -ing {'before eligible': 308, 'before': 0, 'after eligible': 308, 'after': 0}
+retained silent e before -ism {'before eligible': 4, 'before': 4, 'after eligible': 4, 'after': 0}
+ 	5000906	trolssitame	trolssitameism	trolssitamism	ˈtʰrɔlʃ.teɪm.ɪz.əm
+ 	5004659	sheloge	shelogeism	shelogism	ˈʃɛ.ləʊdʒ.ɪz.əm
+ 	5016188	gedge	gedgeism	gedgism	ˈgɛdʒ.əz.əm
+ 	5019771	moche	mocheism	mochism	ˈməʊʃ.ɪz.əm
+retained silent e before -ist {'before eligible': 6, 'before': 6, 'after eligible': 6, 'after': 0}
+ 	5005190	fake	fakeist	fakist	ˈfeɪk.əst
+ 	5011428	cale	caleist	calist	ˈseɪl.əst
+ 	5014720	crike	crikeist	crikist	ˈkʰraɪk.ɪst
+ 	5015155	kwuruce	kwuruceist	kwurucist	ˈkʰwu.rus.əst
+retained silent e before -ity {'before eligible': 13, 'before': 0, 'after eligible': 13, 'after': 0}
+retained silent e before -ive {'before eligible': 17, 'before': 0, 'after eligible': 17, 'after': 0}
+retained silent e before -ize {'before eligible': 5, 'before': 0, 'after eligible': 5, 'after': 0}
+retained silent e before -ory {'before eligible': 2, 'before': 0, 'after eligible': 2, 'after': 0}
+retained silent e before -ous {'before eligible': 10, 'before': 0, 'after eligible': 10, 'after': 0}
+spelling-only -es {'before': 141, 'after': 141}
+syllabic -es {'before': 599, 'after': 599}
+Consonant doubling {'before': 339, 'after': 339}
+Doubling seed set unchanged True
+Changes {'spelling': 330}
