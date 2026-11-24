@@ -478,6 +478,11 @@ export const englishConfig: LanguageConfig = {
     suppressAfterReduction: true,
     suppressBeforeTense: true,
     unstressedModifier: 0,
+    medialOnset: {
+      nucleusSpellings: { "æ": "a", "ɛ": "e", "ɪ": "i", "ʌ": "u" },
+      consonants: ["b", "d", "f", "g", "l", "m", "n", "p", "s", "t"],
+      probability: { two: 45, three: 28, longer: 0 },
+    },
     doubledForms: { k: "ck", c: "ck" },
     realizations: englishDoublingRealizations,
     neverDoubleFinal: ["b", "d", "g"],

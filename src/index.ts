@@ -17,6 +17,7 @@ export type {
   LanguageConfig,
   DoublingConfig,
   DoublingRealization,
+  MedialOnsetDoubling,
   BySyllablePosition,
   SonorityHierarchy,
   SyllableStructureRules,
