@@ -1,0 +1,1002 @@
+[
+  {
+    "category": "ca",
+    "mode": "lexicon",
+    "seed": 8172032,
+    "before": "carge",
+    "after": "sarge",
+    "pronunciation": "særdʒ",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "carge",
+      "after": "sarge",
+      "detail": "c before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "ca",
+    "mode": "lexicon",
+    "seed": 78,
+    "before": "clicase",
+    "after": "clisase",
+    "pronunciation": "ˈkʰlɪs.eɪs",
+    "changedAt": 3,
+    "from": "c",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "clicase",
+      "after": "clisase",
+      "detail": "c before \"a\" (selection 3)"
+    }
+  },
+  {
+    "category": "ca",
+    "mode": "lexicon",
+    "seed": 79,
+    "before": "ocaished",
+    "after": "osaished",
+    "pronunciation": "ˈəʊˌseɪʃt",
+    "changedAt": 1,
+    "from": "c",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "ocaish",
+      "after": "osaish",
+      "detail": "c before \"a\" (selection 1)"
+    }
+  },
+  {
+    "category": "ca",
+    "mode": "lexicon",
+    "seed": 689,
+    "before": "cadzues",
+    "after": "sadzues",
+    "pronunciation": "ˈsæd.zuz",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "cadzue",
+      "after": "sadzue",
+      "detail": "c before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "ca",
+    "mode": "lexicon",
+    "seed": 731,
+    "before": "calewechrit",
+    "after": "salewechrit",
+    "pronunciation": "ˈseɪl.wətʃ.rət",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "calewechrit",
+      "after": "salewechrit",
+      "detail": "c before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "ca",
+    "mode": "lexicon",
+    "seed": 875,
+    "before": "cairspifas",
+    "after": "sairspifas",
+    "pronunciation": "ˈseɪrs.pə.fəs",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "cairspifas",
+      "after": "sairspifas",
+      "detail": "c before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "ca",
+    "mode": "lexicon",
+    "seed": 951,
+    "before": "calnees",
+    "after": "salnees",
+    "pronunciation": "ˈsæl.ni:s",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "calnees",
+      "after": "salnees",
+      "detail": "c before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "ca",
+    "mode": "lexicon",
+    "seed": 1123,
+    "before": "cainsing",
+    "after": "sainsing",
+    "pronunciation": "ˈseɪnz.ɪŋ",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "cains",
+      "after": "sains",
+      "detail": "c before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "co",
+    "mode": "lexicon",
+    "seed": 1533,
+    "before": "coikeafs",
+    "after": "soikeafs",
+    "pronunciation": "ˈsɔɪk.ɛfs",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "o",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "coikeaf",
+      "after": "soikeaf",
+      "detail": "c before \"o\" (selection 0)"
+    }
+  },
+  {
+    "category": "co",
+    "mode": "lexicon",
+    "seed": 1564,
+    "before": "wiecoik",
+    "after": "wiesoik",
+    "pronunciation": "ˈwaɪ.sɔɪk",
+    "changedAt": 3,
+    "from": "c",
+    "to": "s",
+    "vowel": "o",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "wiecoik",
+      "after": "wiesoik",
+      "detail": "c before \"o\" (selection 2)"
+    }
+  },
+  {
+    "category": "co",
+    "mode": "lexicon",
+    "seed": 2153,
+    "before": "durlvecork",
+    "after": "durlvesork",
+    "pronunciation": "ˈdɚl.vəs.ɚk",
+    "changedAt": 6,
+    "from": "c",
+    "to": "s",
+    "vowel": "o",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "durlvecork",
+      "after": "durlvesork",
+      "detail": "c before \"o\" (selection 5)"
+    }
+  },
+  {
+    "category": "co",
+    "mode": "lexicon",
+    "seed": 2186,
+    "before": "snelcort",
+    "after": "snelsort",
+    "pronunciation": "ˈsnɛl.sɚt",
+    "changedAt": 4,
+    "from": "c",
+    "to": "s",
+    "vowel": "o",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "snelcort",
+      "after": "snelsort",
+      "detail": "c before \"o\" (selection 4)"
+    }
+  },
+  {
+    "category": "co",
+    "mode": "lexicon",
+    "seed": 4786,
+    "before": "macorm",
+    "after": "masorm",
+    "pronunciation": "məˈsɚm",
+    "changedAt": 2,
+    "from": "c",
+    "to": "s",
+    "vowel": "o",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "macorm",
+      "after": "masorm",
+      "detail": "c before \"o\" (selection 2)"
+    }
+  },
+  {
+    "category": "co",
+    "mode": "lexicon",
+    "seed": 5507,
+    "before": "coilan",
+    "after": "soilan",
+    "pronunciation": "ˈsɔɪ.lən",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "o",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "coilan",
+      "after": "soilan",
+      "detail": "c before \"o\" (selection 0)"
+    }
+  },
+  {
+    "category": "co",
+    "mode": "lexicon",
+    "seed": 5887,
+    "before": "ocoist",
+    "after": "osoist",
+    "pronunciation": "əˈsɔɪst",
+    "changedAt": 1,
+    "from": "c",
+    "to": "s",
+    "vowel": "o",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "ocoist",
+      "after": "osoist",
+      "detail": "c before \"o\" (selection 1)"
+    }
+  },
+  {
+    "category": "co",
+    "mode": "lexicon",
+    "seed": 6082,
+    "before": "coicable",
+    "after": "soicable",
+    "pronunciation": "ˈsɔɪk.ə.bəl",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "o",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "coic",
+      "after": "soic",
+      "detail": "c before \"o\" (selection 0)"
+    }
+  },
+  {
+    "category": "cu",
+    "mode": "lexicon",
+    "seed": 8172171,
+    "before": "racurch",
+    "after": "rasurch",
+    "pronunciation": "ˈrɑs.ɚtʃ",
+    "changedAt": 2,
+    "from": "c",
+    "to": "s",
+    "vowel": "u",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "racurch",
+      "after": "rasurch",
+      "detail": "c before \"u\" (selection 2)"
+    }
+  },
+  {
+    "category": "cu",
+    "mode": "lexicon",
+    "seed": 229,
+    "before": "meckecur",
+    "after": "meckesur",
+    "pronunciation": "ˈmɛ.kəs.ɚ",
+    "changedAt": 5,
+    "from": "c",
+    "to": "s",
+    "vowel": "u",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "meckecur",
+      "after": "meckesur",
+      "detail": "c before \"u\" (selection 4)"
+    }
+  },
+  {
+    "category": "cu",
+    "mode": "lexicon",
+    "seed": 1014,
+    "before": "curlas",
+    "after": "surlas",
+    "pronunciation": "ˈsɚl.əz",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "u",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "curla",
+      "after": "surla",
+      "detail": "c before \"u\" (selection 0)"
+    }
+  },
+  {
+    "category": "cu",
+    "mode": "lexicon",
+    "seed": 1876,
+    "before": "curs",
+    "after": "surs",
+    "pronunciation": "sɚz",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "u",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "cur",
+      "after": "sur",
+      "detail": "c before \"u\" (selection 0)"
+    }
+  },
+  {
+    "category": "cu",
+    "mode": "lexicon",
+    "seed": 2806,
+    "before": "nodcur",
+    "after": "nodsur",
+    "pronunciation": "ˈnɑd.sɚ",
+    "changedAt": 3,
+    "from": "c",
+    "to": "s",
+    "vowel": "u",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "nodcur",
+      "after": "nodsur",
+      "detail": "c before \"u\" (selection 3)"
+    }
+  },
+  {
+    "category": "cu",
+    "mode": "lexicon",
+    "seed": 2871,
+    "before": "curlmetes",
+    "after": "surlmetes",
+    "pronunciation": "ˈsɚl.mi:ts",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "u",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "curlmete",
+      "after": "surlmete",
+      "detail": "c before \"u\" (selection 0)"
+    }
+  },
+  {
+    "category": "cu",
+    "mode": "lexicon",
+    "seed": 3106,
+    "before": "recurek",
+    "after": "resurek",
+    "pronunciation": "ˈrɛs.ɚk",
+    "changedAt": 2,
+    "from": "c",
+    "to": "s",
+    "vowel": "u",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "recurek",
+      "after": "resurek",
+      "detail": "c before \"u\" (selection 2)"
+    }
+  },
+  {
+    "category": "cu",
+    "mode": "lexicon",
+    "seed": 3379,
+    "before": "curlos",
+    "after": "surlos",
+    "pronunciation": "ˈsɚlˌəʊz",
+    "changedAt": 0,
+    "from": "c",
+    "to": "s",
+    "vowel": "u",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "curlo",
+      "after": "surlo",
+      "detail": "c before \"u\" (selection 0)"
+    }
+  },
+  {
+    "category": "sc",
+    "mode": "lexicon",
+    "seed": 941,
+    "before": "scarands",
+    "after": "sarands",
+    "pronunciation": "ˈsæˌrændz",
+    "changedAt": 0,
+    "from": "sc",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "scarand",
+      "after": "sarand",
+      "detail": "sc before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "sc",
+    "mode": "lexicon",
+    "seed": 1358,
+    "before": "scapiclasnin",
+    "after": "sapiclasnin",
+    "pronunciation": "ˈseɪ.pɪk.ləs.nən",
+    "changedAt": 0,
+    "from": "sc",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "scapiclasnin",
+      "after": "sapiclasnin",
+      "detail": "sc before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "sc",
+    "mode": "lexicon",
+    "seed": 1447,
+    "before": "scadral",
+    "after": "sadral",
+    "pronunciation": "ˈsæ.drəl",
+    "changedAt": 0,
+    "from": "sc",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "scadral",
+      "after": "sadral",
+      "detail": "sc before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "sc",
+    "mode": "lexicon",
+    "seed": 4158,
+    "before": "scamameander",
+    "after": "samameander",
+    "pronunciation": "ˈseɪm.ə.mi:nd.ɚ",
+    "changedAt": 0,
+    "from": "sc",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "scamameand",
+      "after": "samameand",
+      "detail": "sc before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "sc",
+    "mode": "lexicon",
+    "seed": 4565,
+    "before": "scantroak",
+    "after": "santroak",
+    "pronunciation": "ˈsæn.trəʊk",
+    "changedAt": 0,
+    "from": "sc",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "scantroak",
+      "after": "santroak",
+      "detail": "sc before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "sc",
+    "mode": "lexicon",
+    "seed": 4898,
+    "before": "scalcaterks",
+    "after": "salcaterks",
+    "pronunciation": "ˈsæl.kʰə.tʰɚks",
+    "changedAt": 0,
+    "from": "sc",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "scalcaterk",
+      "after": "salcaterk",
+      "detail": "sc before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "sc",
+    "mode": "lexicon",
+    "seed": 7486,
+    "before": "scant",
+    "after": "sant",
+    "pronunciation": "sænt",
+    "changedAt": 0,
+    "from": "sc",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "scant",
+      "after": "sant",
+      "detail": "sc before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "sc",
+    "mode": "lexicon",
+    "seed": 10833,
+    "before": "scackiloats",
+    "after": "sackiloats",
+    "pronunciation": "ˈsæk.ɪl.əʊts",
+    "changedAt": 0,
+    "from": "sc",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "scackiloat",
+      "after": "sackiloat",
+      "detail": "sc before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "suffix",
+    "mode": "lexicon",
+    "seed": 276,
+    "before": "wonimecal",
+    "after": "wonimesal",
+    "pronunciation": "ˌwʌˌnaɪmˈɛs.əl",
+    "changedAt": 6,
+    "from": "c",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": "al",
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "wonimece",
+      "after": "wonimese",
+      "detail": "c before \"a\" (selection 6)"
+    }
+  },
+  {
+    "category": "suffix",
+    "mode": "lexicon",
+    "seed": 2958,
+    "before": "prekeecal",
+    "after": "prekeesal",
+    "pronunciation": "ˌpʰri:ˈki:s.əl",
+    "changedAt": 6,
+    "from": "c",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": "al",
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "keece",
+      "after": "keese",
+      "detail": "c before \"a\" (selection 2)"
+    }
+  },
+  {
+    "category": "suffix",
+    "mode": "text",
+    "seed": 2964,
+    "before": "glercary",
+    "after": "glersary",
+    "pronunciation": "ˈglɚs.ɪr.i:",
+    "changedAt": 4,
+    "from": "c",
+    "to": "s",
+    "vowel": "a",
+    "followingSound": null,
+    "suffix": "ary",
+    "repair": {
+      "rule": "letterContext:soft-c",
+      "before": "glerce",
+      "after": "glerse",
+      "detail": "c before \"a\" (selection 3)"
+    }
+  },
+  {
+    "category": "eɪ",
+    "mode": "lexicon",
+    "seed": 102,
+    "before": "vakairkist",
+    "after": "vacairkist",
+    "pronunciation": "ˈveɪˌkʰeɪrk.əst",
+    "changedAt": 2,
+    "from": "k",
+    "to": "c",
+    "vowel": "a",
+    "followingSound": "eɪ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "vakairk",
+      "after": "vacairk",
+      "detail": "k before \"a\" (selection 2)"
+    }
+  },
+  {
+    "category": "eɪ",
+    "mode": "lexicon",
+    "seed": 170,
+    "before": "kamicaromoos",
+    "after": "camicaromoos",
+    "pronunciation": "ˈkʰeɪm.ɪk.ə.rəm.uz",
+    "changedAt": 0,
+    "from": "k",
+    "to": "c",
+    "vowel": "a",
+    "followingSound": "eɪ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "kamicaromoos",
+      "after": "camicaromoos",
+      "detail": "k before \"a\" (selection 0)"
+    }
+  },
+  {
+    "category": "eɪ",
+    "mode": "lexicon",
+    "seed": 455,
+    "before": "ikawanes",
+    "after": "icawanes",
+    "pronunciation": "ɪˈkʰeɪ.weɪnz",
+    "changedAt": 1,
+    "from": "k",
+    "to": "c",
+    "vowel": "a",
+    "followingSound": "eɪ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "ikawane",
+      "after": "icawane",
+      "detail": "k before \"a\" (selection 1)"
+    }
+  },
+  {
+    "category": "eɪ",
+    "mode": "lexicon",
+    "seed": 722,
+    "before": "sakaneat",
+    "after": "sacaneat",
+    "pronunciation": "sɑˈkʰeɪn.ət",
+    "changedAt": 2,
+    "from": "k",
+    "to": "c",
+    "vowel": "a",
+    "followingSound": "eɪ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "sakaneat",
+      "after": "sacaneat",
+      "detail": "k before \"a\" (selection 2)"
+    }
+  },
+  {
+    "category": "eɪ",
+    "mode": "lexicon",
+    "seed": 1896,
+    "before": "brakays",
+    "after": "bracays",
+    "pronunciation": "brəˈkʰeɪz",
+    "changedAt": 3,
+    "from": "k",
+    "to": "c",
+    "vowel": "a",
+    "followingSound": "eɪ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "brakay",
+      "after": "bracay",
+      "detail": "k before \"a\" (selection 3)"
+    }
+  },
+  {
+    "category": "eɪ",
+    "mode": "lexicon",
+    "seed": 1902,
+    "before": "denkaisowvos",
+    "after": "dencaisowvos",
+    "pronunciation": "ˈdɛŋ.keɪ.səʊ.vəʊz",
+    "changedAt": 3,
+    "from": "k",
+    "to": "c",
+    "vowel": "a",
+    "followingSound": "eɪ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "denkaisowvo",
+      "after": "dencaisowvo",
+      "detail": "k before \"a\" (selection 3)"
+    }
+  },
+  {
+    "category": "eɪ",
+    "mode": "lexicon",
+    "seed": 2273,
+    "before": "menkades",
+    "after": "mencades",
+    "pronunciation": "ˈmɛn.kʰeɪdz",
+    "changedAt": 3,
+    "from": "k",
+    "to": "c",
+    "vowel": "a",
+    "followingSound": "eɪ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "menkade",
+      "after": "mencade",
+      "detail": "k before \"a\" (selection 3)"
+    }
+  },
+  {
+    "category": "eɪ",
+    "mode": "lexicon",
+    "seed": 2380,
+    "before": "canikaity",
+    "after": "canicaity",
+    "pronunciation": "kʰən.əˈkʰeɪt.i:",
+    "changedAt": 4,
+    "from": "k",
+    "to": "c",
+    "vowel": "a",
+    "followingSound": "eɪ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "canikaity",
+      "after": "canicaity",
+      "detail": "k before \"a\" (selection 4)"
+    }
+  },
+  {
+    "category": "ɚ",
+    "mode": "lexicon",
+    "seed": 221,
+    "before": "pefkurt",
+    "after": "pefcurt",
+    "pronunciation": "ˈpʰɛf.kɚt",
+    "changedAt": 3,
+    "from": "k",
+    "to": "c",
+    "vowel": "u",
+    "followingSound": "ɚ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "pefkurt",
+      "after": "pefcurt",
+      "detail": "k before \"u\" (selection 3)"
+    }
+  },
+  {
+    "category": "ɚ",
+    "mode": "lexicon",
+    "seed": 503,
+    "before": "vokurer",
+    "after": "vocurer",
+    "pronunciation": "ˈvɑ.kɚ.ɚ",
+    "changedAt": 2,
+    "from": "k",
+    "to": "c",
+    "vowel": "u",
+    "followingSound": "ɚ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "vokur",
+      "after": "vocur",
+      "detail": "k before \"u\" (selection 2)"
+    }
+  },
+  {
+    "category": "ɚ",
+    "mode": "lexicon",
+    "seed": 640,
+    "before": "humeckikorn",
+    "after": "humeckicorn",
+    "pronunciation": "ˈhʌ.mək.ə.kɚn",
+    "changedAt": 7,
+    "from": "k",
+    "to": "c",
+    "vowel": "o",
+    "followingSound": "ɚ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "humeckikorn",
+      "after": "humeckicorn",
+      "detail": "k before \"o\" (selection 6)"
+    }
+  },
+  {
+    "category": "ɚ",
+    "mode": "lexicon",
+    "seed": 915,
+    "before": "sattikursh",
+    "after": "satticursh",
+    "pronunciation": "səˈtʰɪ.kʰɚʃ",
+    "changedAt": 5,
+    "from": "k",
+    "to": "c",
+    "vowel": "u",
+    "followingSound": "ɚ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "sattikursh",
+      "after": "satticursh",
+      "detail": "k before \"u\" (selection 4)"
+    }
+  },
+  {
+    "category": "ɚ",
+    "mode": "lexicon",
+    "seed": 984,
+    "before": "mukard",
+    "after": "mucard",
+    "pronunciation": "ˈmu.kɚd",
+    "changedAt": 2,
+    "from": "k",
+    "to": "c",
+    "vowel": "a",
+    "followingSound": "ɚ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "mukard",
+      "after": "mucard",
+      "detail": "k before \"a\" (selection 2)"
+    }
+  },
+  {
+    "category": "ɚ",
+    "mode": "lexicon",
+    "seed": 1016,
+    "before": "ekithepidukor",
+    "after": "ekithepiducor",
+    "pronunciation": "ˈɜkˌɪθ.i:.pə.də.kɚ",
+    "changedAt": 10,
+    "from": "k",
+    "to": "c",
+    "vowel": "o",
+    "followingSound": "ɚ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "ekithepidukor",
+      "after": "ekithepiducor",
+      "detail": "k before \"o\" (selection 9)"
+    }
+  },
+  {
+    "category": "ɚ",
+    "mode": "lexicon",
+    "seed": 1325,
+    "before": "dakording",
+    "after": "dacording",
+    "pronunciation": "ˈdæ.kɚd.ɪŋ",
+    "changedAt": 2,
+    "from": "k",
+    "to": "c",
+    "vowel": "o",
+    "followingSound": "ɚ",
+    "suffix": null,
+    "repair": {
+      "rule": "letterContext:hard-c-onset",
+      "before": "dakord",
+      "after": "dacord",
+      "detail": "k before \"o\" (selection 2)"
+    }
+  }
+]
