@@ -19,6 +19,22 @@ def syllable_count(tokens):
     return sum(phone[-1].isdigit() for phone in tokens)
 
 
+def nuclei_by_stress(tokens, projection):
+    vowels = [phone for phone in tokens if phone[-1] in "012"]
+    for index, phone in enumerate(vowels):
+        if len(vowels) == 1:
+            position = "isolated"
+        elif index == 0:
+            position = "initial"
+        elif index == len(vowels) - 1:
+            position = "final"
+        else:
+            position = "medial"
+        stress = ("unstressed", "primary", "secondary")[int(phone[-1])]
+        sound = "ʌ" if phone in ("AH1", "AH2") else projection[phone[:-1]]
+        yield (stress, position, sound)
+
+
 def probabilities(counts):
     total = sum(counts.values())
     return {key: count / total for key, count in counts.items()}
@@ -95,6 +111,7 @@ def build(artifact, source, transition_sample):
     rows = [row for row in ledger if row["status"] == "included" and row["stem"] not in exclusions]
     templates = defaultdict(Counter)
     root_phones_by_length = defaultdict(Counter)
+    root_nuclei_by_length = defaultdict(Counter)
     coda_lengths = defaultdict(lambda: defaultdict(Counter))
     joint, affixes, codas = Counter(), Counter(), Counter()
     for row in rows:
@@ -109,6 +126,7 @@ def build(artifact, source, transition_sample):
         if coda:
             codas[coda] += 1
         root_phones_by_length[syllables].update(projection[phone.rstrip("012")] for phone in tokens)
+        root_nuclei_by_length[syllables].update(nuclei_by_stress(tokens, projection))
 
     full_phones = Counter(projection[phone.rstrip("012")] for tokens in full.values() for phone in tokens)
     full_syllables = Counter(syllable_count(tokens) for tokens in full.values())
@@ -133,20 +151,27 @@ def build(artifact, source, transition_sample):
                              for s, by_phone in sorted(coda_lengths.items())},
     }
     root_phones = Counter()
+    root_nuclei = Counter()
     expected_coda_lengths = Counter()
     for root, mass in fitted.items():
         factor = len(rows) * mass / measured[root]
         for sound, count in root_phones_by_length[root].items():
             root_phones[sound] += count * factor
+        for key, count in root_nuclei_by_length[root].items():
+            root_nuclei[key] += count * factor
         for counts in coda_lengths[root].values():
             for length, count in counts.items():
                 expected_coda_lengths[length] += count * factor
+    nuclei = defaultdict(lambda: defaultdict(dict))
+    for (stress, position, sound), count in sorted(root_nuclei.items()):
+        nuclei[stress][position][sound] = round(count, 8)
     reference = {
         "fullCmu": {"phonemes": dict(sorted(full_phones.items())), "syllables": dict(sorted(full_syllables.items()))},
         "roots": {
             "phonemes": {phone: round(count, 8) for phone, count in sorted(root_phones.items())},
             "syllables": {root: round(mass * len(rows), 8) for root, mass in sorted(fitted.items())},
             "finalCodaLengths": {length: round(count, 8) for length, count in sorted(expected_coda_lengths.items())},
+            "nucleiByStress": nuclei,
         },
     }
     print(json.dumps({"included": len(rows), "excludedRoots": len(exclusions),

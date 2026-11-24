@@ -155,17 +155,37 @@ describe("consonant doubling over a seed sample", () => {
   });
 
   it.each([
-    { seed: 5_000_099, base: "fuliglozic", expected: "fuliglozicking" },
-    { seed: 5_009_761, base: "swac", expected: "swacked" },
-  ])("attaches $expected without hard-c repair", ({ seed, base, expected }) => {
+    { suffix: "ing", unstressed: true },
+    { suffix: "ed", unstressed: false },
+  ])("attaches -$suffix to hard c without a writer repair", ({ suffix, unstressed }) => {
+    const morphology = englishConfig.morphology!;
+    const suffixed = { bare: 0, prefixed: 0, suffixed: 100, both: 0 };
     const generator = createGenerator({
       ...englishConfig,
       writtenFormConstraints: { ...englishConfig.writtenFormConstraints, hardLetters: [] },
+      morphology: {
+        ...morphology,
+        suffixes: morphology.suffixes.filter(affix => affix.written === suffix),
+        templateWeights: { lexicon: suffixed, text: suffixed },
+      },
     });
-    const word = generator.generateWord({ seed, trace: true });
-    expect(word.trace?.baseSpelling?.surface).toBe(base);
-    expect(doublingCase(word)?.assembledRoot).toBe(base + "k");
-    expect(word.written.clean).toBe(expected);
+    const { word } = findExample((candidate) => {
+      const boundary = doublingCase(candidate);
+      if (!boundary || boundary.suffix !== suffix || boundary.final.coda.at(-1)?.sound !== "k") {
+        return false;
+      }
+      return unstressed
+        ? !boundary.final.stress && boundary.final.nucleus[0]?.sound === "ɪ" && boundary.base.endsWith("ic")
+        : isStressedShort(boundary.final) && boundary.base.endsWith("c");
+    }, {
+      property: `a c-final root taking -${suffix}`,
+      options: { syllableCount: unstressed ? 2 : 1 },
+      generator,
+      limit: 3_000,
+    });
+    const { base, assembledRoot } = doublingCase(word)!;
+    expect(assembledRoot).toBe(base + "k");
+    expect(word.written.clean.endsWith(base + "k" + suffix)).toBe(true);
   });
 
   it("doubles when a root-final full short vowel retains secondary stress", () => {

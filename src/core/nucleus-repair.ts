@@ -1,4 +1,4 @@
-import type { StressRules } from "../config/language.js";
+import type { StressRules, UnstressedRootNuclei } from "../config/language.js";
 import type { Phoneme, Syllable, WordGenerationContext } from "../types.js";
 import getWeightedOption from "../utils/getWeightedOption.js";
 import {
@@ -10,6 +10,7 @@ import {
 import type { WordEdges } from "./nucleus-position.js";
 import { permitsRootNucleus } from "./rime-compatibility.js";
 import type { RootRimePolicy } from "./rime-compatibility.js";
+import type { MorphologyPlan } from "./morphology/plan.js";
 
 export interface NucleusRepairPolicy {
   readonly phonemes: readonly Phoneme[];
@@ -122,4 +123,49 @@ export function repairRootNuclei(context: WordGenerationContext, policy: Nucleus
       }
     }
   }
+}
+
+function alternateUnstressedNucleus(
+  context: WordGenerationContext,
+  policy: NucleusRepairPolicy,
+  index: number,
+  alternations: UnstressedRootNuclei,
+): void {
+  const syllables = context.word.syllables;
+  const syllable = syllables[index];
+  if (syllable.stress || syllable.nucleus.length !== 1) return;
+  const codaInitial = syllable.coda[0]?.sound;
+  if (codaInitial && alternations.preserveCodaInitials?.includes(codaInitial)) return;
+
+  const rules = index === 0 ? alternations.initial : alternations.final;
+  const source = syllable.nucleus[0].sound;
+  const rule = rules.find(alternation => alternation.source === source);
+  if (!rule) return;
+
+  const neighbor = syllables[index === 0 ? 1 : index - 1];
+  // This calibration must not add a repeated nucleus to the lexical root.
+  if (rule.target === neighbor.nucleus[0]?.sound) return;
+
+  const edges = nucleusWordEdges(syllable, index, syllables.length, 0);
+  const target = policy.phonemes.find(phoneme =>
+    phoneme.sound === rule.target && permitsWordPosition(phoneme, edges, policy),
+  );
+  if (!target || !permitsRootNucleus(target.sound, syllable, syllables[index + 1]?.onset, policy.rimes)) return;
+  if (context.rand() * 100 >= rule.probability) return;
+
+  syllable.nucleus[0] = target;
+  context.trace?.recordRepair("alternateUnstressedRootNucleus", source, target.sound, `root syllable ${index}`);
+}
+
+export function alternateUnstressedRootNuclei(
+  context: WordGenerationContext,
+  policy: NucleusRepairPolicy,
+  alternations: UnstressedRootNuclei,
+  affixes?: Pick<MorphologyPlan, "prefix" | "suffix">,
+): void {
+  const length = context.word.syllables.length;
+  if (length < 2) return;
+  // An attaching affix can retain or resound the stem vowel at its own edge.
+  if (!affixes?.prefix) alternateUnstressedNucleus(context, policy, 0, alternations);
+  if (!affixes?.suffix) alternateUnstressedNucleus(context, policy, length - 1, alternations);
 }

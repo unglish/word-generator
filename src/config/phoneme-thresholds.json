@@ -8,8 +8,10 @@
     "maxTotalVariationPct": 7.39,
     "maxOverRepresentation": 2.283,
     "minRepresentation": 0.661,
-    "maxAbsoluteGapPct": 2.47,
-    "maxRootFinalCodaTV": 0.58
+    "maxAbsoluteGapPct": 2.326,
+    "maxRootFinalCodaTV": 0.58,
+    "maxUnstressedWeakVowelGapPct": 4,
+    "maxUnstressedFullVowelGapPct": 6
   },
   "fullCmu": {
     "maxTotalVariationPct": 6.76,

@@ -56,6 +56,7 @@ import {
 } from "./repair.js";
 import { clearBannedSecondaryStress } from "./stress-repair.js";
 import {
+  alternateUnstressedRootNuclei,
   repairRootNuclei,
   repairStressedNuclei,
   type NucleusRepairPolicy,
@@ -2103,7 +2104,7 @@ function generateOneWord(
       syllablePlans,
       trace: traceCollector,
     };
-    runPipeline(rt, context, mode);
+    runPipeline(rt, context, mode, affixPlan);
     return {
       context,
       lengths: { syllables: context.word.syllables.length, phonemes: countPhonemes(context.word.syllables) },
@@ -2144,6 +2145,7 @@ function runPipeline(
   rt: GeneratorRuntime,
   context: PlannedRootContext,
   mode: GenerationMode,
+  affixes?: NonBareMorphologyPlan,
 ): void {
   const t = context.trace;
   const word = context.word;
@@ -2191,6 +2193,12 @@ function runPipeline(
     repairRootNuclei(context, rt.nucleusRepair);
     clearBannedSecondaryStress(context, stressRules.nucleus);
   });
+  const alternations = rt.config.unstressedRootNuclei;
+  if (alternations?.mode === mode && word.syllables.length > 1) {
+    traceStage(t, "alternateUnstressedRootNuclei", word, () =>
+      alternateUnstressedRootNuclei(context, rt.nucleusRepair, alternations, affixes),
+    );
+  }
 }
 
 const MAX_FORCED_SYLLABLE_COUNT = 7;

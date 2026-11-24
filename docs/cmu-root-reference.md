@@ -574,3 +574,23 @@ The review tests check the generated files and their inputs against the
 [pinned digests](../evaluation/corpus/stage-reference-pins.json). To reproduce
 the empirical transitions, clone the archived `transition-generator.bundle`
 and pass its checkout to `node --import tsx evaluation/corpus/sample-stage-transitions.ts`.
+
+### Nuclei by stress
+
+`roots.nucleiByStress` uses the same audited rows and fitted root-length weights
+as the root phoneme reference. It retains CMU's primary, secondary, and
+unstressed labels and distinguishes isolated, initial, medial, and final
+syllables. Stressed `AH1` and `AH2` are /ʌ/ in this table, and `AH0` is /ə/.
+The phoneme reference still pools the three `AH` values.
+
+The stage gate compares bare polysyllabic lexicon roots with the unstressed
+CMU rows. It measures /ə/ plus /ɪ/ as one group and full non-rhotic vowels as
+another. `ER0` is counted separately as rhotic, with the corresponding
+generator symbols /ɚ/ and /ɜ/. The aggregate bands allow position-specific
+differences while catching a return to the former full-vowel-heavy mix.
+
+English lexicon roots can choose a weak nucleus after stress and before
+spelling at an exposed initial or final syllable. The same position and rime
+constraints used by the root repairs govern these choices. Morphology handles
+vowel alternations at attached edges. English preserves the vowel before coda
+/r/, where the choice is tied to the rhotic rime inventory.

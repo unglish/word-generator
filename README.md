@@ -141,6 +141,10 @@ Nuclei can opt into explicit base-word segment weights with
 `nucleusWordPosition`. See [nucleus edge semantics and migration](./docs/phoneme-edge-contexts.md)
 for the distinction from legacy syllable-position weights.
 
+English lexicon mode also favors weak vowels in unstressed root-edge syllables
+before spelling. The optional `unstressedRootNuclei` policy sets those choices
+by mode and edge. See [the stress-conditioned CMU reference](./docs/cmu-root-reference.md#nuclei-by-stress).
+
 After retuning those tables, run:
 
 ```bash
@@ -154,7 +158,7 @@ described in [quality baselines](./docs/quality-baselines.md).
 ### Root repetition
 
 In lexicon mode, English lowers the chance of three consecutive identical vowel nuclei in
-roots of four syllables or more. It also lowers the chance of
+roots of three syllables or more. It also lowers the chance of
 the same consonant immediately before and after a syllable's vowel. Both
 patterns remain possible. During pronunciation, a separate multiplier lowers the chance of a
 vowel reduction that would complete a run of three in the root.

@@ -272,6 +272,22 @@ export interface RootRepetitionPolicy {
   preserveCodaInitials?: readonly string[];
 }
 
+export interface UnstressedNucleusAlternation {
+  readonly source: string;
+  readonly target: string;
+  /** A percentage from 0 through 100. */
+  readonly probability: number;
+}
+
+/** Lexical vowel choices at unattached edges of a polysyllabic root. */
+export interface UnstressedRootNuclei {
+  readonly mode: GenerationMode;
+  readonly initial: readonly UnstressedNucleusAlternation[];
+  readonly final: readonly UnstressedNucleusAlternation[];
+  /** Keep the existing vowel before these coda-initial sounds. */
+  readonly preserveCodaInitials?: readonly string[];
+}
+
 /** Shared default fallback bridge onsets used to repair vowel hiatus. */
 export function defaultFallbackBridgeOnsets(): [string, number][] {
   return [["h", 100]];
@@ -934,6 +950,8 @@ export interface LanguageConfig {
   hiatusPolicy?: HiatusPolicy;
   /** Optional dissimilation weights for lexical roots. */
   rootRepetition?: RootRepetitionPolicy;
+  /** Rebalance unstressed root-edge vowels before spelling. */
+  unstressedRootNuclei?: UnstressedRootNuclei;
 
   /**
    * Required top-down targets for root generation, excluding affixes.
@@ -1560,6 +1578,32 @@ function validateRepetitionMultiplier(key: string, weight: number | undefined): 
   }
 }
 
+function assertProbability(value: number, label: string): void {
+  if (!Number.isFinite(value) || value < 0 || value > 100) {
+    throw new Error(`${label} is ${String(value)}, must be in [0, 100]`);
+  }
+}
+
+function validateUnstressedRootNuclei(config: LanguageConfig): void {
+  const policy = config.unstressedRootNuclei;
+  if (!policy) return;
+  if (policy.mode !== "lexicon" && policy.mode !== "text") {
+    throw new Error("unstressedRootNuclei.mode must be lexicon or text");
+  }
+  for (const edge of ["initial", "final"] as const) {
+    const seen = new Set<string>();
+    for (const [index, { source, target, probability }] of policy[edge].entries()) {
+      const path = `unstressedRootNuclei.${edge}[${index}]`;
+      assertProbability(probability, `${path}.probability`);
+      if (typeof source !== "string" || typeof target !== "string" || !source || !target || source === target) {
+        throw new Error(`${path} must name two different non-empty sounds`);
+      }
+      if (seen.has(source)) throw new Error(`${path} repeats source "${source}"`);
+      seen.add(source);
+    }
+  }
+}
+
 /**
  * Validate a LanguageConfig, throwing on any detected inconsistency.
  *
@@ -1633,12 +1677,6 @@ export function validateConfig(config: LanguageConfig): void {
   if (!config.pronunciation.stress) {
     throw new Error("pronunciation.stress is required");
   }
-
-  const assertProbability = (value: number, label: string): void => {
-    if (!Number.isFinite(value) || value < 0 || value > 100) {
-      throw new Error(`${label} is ${String(value)}, must be in [0, 100]`);
-    }
-  };
 
   const assertAllowedKeys = (
     obj: object,
@@ -2226,6 +2264,7 @@ export function validateConfig(config: LanguageConfig): void {
   }
 
   validateRootRepetition(config);
+  validateUnstressedRootNuclei(config);
 
   if (config.morphology?.boundaryPolicy?.fallbackBridgeOnsets) {
     validateBridgeOnsets(
