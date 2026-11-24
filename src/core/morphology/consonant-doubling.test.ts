@@ -189,7 +189,15 @@ describe("consonant doubling over a seed sample", () => {
   });
 
   it("doubles when a root-final full short vowel retains secondary stress", () => {
-    const word = generateWord({ seed: 5_000_028, trace: true });
+    const { word } = findExample((candidate) => {
+      const boundary = doublingCase(candidate);
+      return !!boundary && boundary.final.stress === "ˌ"
+        && isStressedShort(boundary.final) && /[bdfglmnprt]$/.test(boundary.base);
+    }, {
+      property: "a secondary-stressed short-vowel CVC root before a doubling suffix",
+      limit: 2_000,
+      firstSeed: 5_000_000,
+    });
     const example = doublingCase(word)!;
     const rootEnd = word.lexical!.rootSyllableStart + word.lexical!.root.length - 1;
     expect(example.final.stress).toBe("ˌ");

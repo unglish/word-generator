@@ -270,6 +270,7 @@ export const englishConfig: LanguageConfig = {
 
   generationWeights: {
     onsetLength: {
+      rootInitialByMode: { lexicon: lexiconReference.initialOnsetLengths },
       monosyllabic: ONSET_LENGTH_MONOSYLLABIC,
       followingNucleus: ONSET_LENGTH_FOLLOWING_NUCLEUS,
       default: ONSET_LENGTH_DEFAULT,
@@ -301,8 +302,8 @@ export const englishConfig: LanguageConfig = {
   },
 
   hiatusPolicy: {
-    // Keep most plan decrements from creating V.V boundaries, but allow a
-    // small tail so hiatus remains possible (not hard-zeroed).
+    // Legacy plans can rarely create a V.V boundary. Profiled root edges
+    // reserve a consonant per medial boundary when this guard is enabled.
     planGuardProbability: 98,
     // Rare-but-nonzero post-vowel glide onsets (CMU-aligned direction).
     postVowelGlideMultiplier: 0.08,

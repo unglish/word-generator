@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parents[2]
 PHASE_ONE_DIGEST = "2eacf788dd396e5207908c613d6689390e462d0488fa6e847606e08c124ce467"
 CMU_SHA256 = "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22"
 TEMPLATES = ("bare", "suffixed", "prefixed", "both")
+MAX_ONSET = 3
+MAX_CODA = 3
 
 
 def syllable_count(tokens):
@@ -86,6 +88,63 @@ def target_root_weights(measured, transitions, target):
     return fitted
 
 
+def fit_initial_onsets(syllables, phone_rows):
+    """Keep row masses fixed while fitting the audited onset-length marginal."""
+    medial_boundaries = syllables - 1
+    medial_capacity = medial_boundaries * (MAX_ONSET + MAX_CODA)
+    target = Counter()
+    supported = {}
+    fitted = {}
+    for phones, by_coda in sorted(phone_rows.items()):
+        fitted[phones] = {coda: counts.copy() for coda, counts in sorted(by_coda.items())}
+        for counts in by_coda.values():
+            target.update(counts)
+        budget = phones - syllables
+        usable = {coda: counts for coda, counts in fitted[phones].items()
+                  if coda <= MAX_CODA and budget - coda <= medial_capacity + MAX_ONSET}
+        if not usable:
+            raise ValueError(f"No supported final coda for {syllables} syllables and {phones} phones")
+        # The final-coda sampler redistributes unreachable coda mass within the phone budget.
+        row_masses = {coda: sum(counts.values()) for coda, counts in by_coda.items()}
+        scale = sum(row_masses.values()) / sum(row_masses[coda] for coda in usable)
+        for coda, counts in usable.items():
+            mass = row_masses[coda] * scale
+            feasible = {length: count for length, count in counts.items()
+                        if length <= MAX_ONSET and medial_boundaries <= budget - coda - length <= medial_capacity}
+            if feasible:
+                supported[phones, coda] = (mass, feasible)
+            else:
+                # These short budgets use the planner's onsetless legacy fallback.
+                target[0] -= mass
+
+    if any(mass < 0 for mass in target.values()):
+        raise ValueError(f"Onsetless fallback exceeds the reference for {syllables} syllables")
+    multipliers = {length: float(mass > 0) for length, mass in target.items()}
+    for _ in range(200):
+        projected = Counter()
+        weighted_rows = {}
+        for key, (mass, counts) in supported.items():
+            weights = {length: count * multipliers[length] for length, count in counts.items()
+                       if multipliers[length] > 0}
+            total = sum(weights.values())
+            if total == 0:
+                raise ValueError(f"No positive onset target for {syllables} syllables in row {key}")
+            weighted_rows[key] = {length: mass * weight / total for length, weight in weights.items()}
+            projected.update(weighted_rows[key])
+        if all(abs(projected[length] - mass) < 1e-7 for length, mass in target.items()):
+            for (phones, coda), weights in weighted_rows.items():
+                row_mass = sum(phone_rows[phones][coda].values())
+                fitted[phones][coda] = {length: round(weight * row_mass / supported[phones, coda][0], 10)
+                                        for length, weight in weights.items()}
+            return fitted
+        for length, mass in target.items():
+            if mass > 0:
+                if projected[length] == 0:
+                    raise ValueError(f"No compatible support for onset {length} of {syllables}-syllable roots")
+                multipliers[length] *= mass / projected[length]
+    raise ValueError(f"Initial onset fit did not converge for {syllables} syllables")
+
+
 def write_json(path, value):
     with path.open("x", encoding="utf-8") as handle:
         json.dump(value, handle, ensure_ascii=False, indent=2)
@@ -113,6 +172,7 @@ def build(artifact, source, transition_sample):
     root_phones_by_length = defaultdict(Counter)
     root_nuclei_by_length = defaultdict(Counter)
     coda_lengths = defaultdict(lambda: defaultdict(Counter))
+    initial_onset_lengths = defaultdict(lambda: defaultdict(lambda: defaultdict(Counter)))
     joint, affixes, codas = Counter(), Counter(), Counter()
     for row in rows:
         tokens = roots[row["stem"]]
@@ -122,7 +182,11 @@ def build(artifact, source, transition_sample):
         for step in row["steps"]:
             affixes[step["affix"]] += 1
         coda = final_coda(tokens)
-        coda_lengths[syllables][len(tokens)][len(coda.split())] += 1
+        coda_length = len(coda.split())
+        coda_lengths[syllables][len(tokens)][coda_length] += 1
+        if syllables > 1:
+            onset_length = next(i for i, phone in enumerate(tokens) if phone[-1].isdigit())
+            initial_onset_lengths[syllables][len(tokens)][coda_length][onset_length] += 1
         if coda:
             codas[coda] += 1
         root_phones_by_length[syllables].update(projection[phone.rstrip("012")] for phone in tokens)
@@ -142,6 +206,13 @@ def build(artifact, source, transition_sample):
         if mass > 0:
             fitted_joint[phones][syllables] = mass
 
+    fitted_onsets = {syllables: fit_initial_onsets(syllables, by_phone)
+                     for syllables, by_phone in sorted(initial_onset_lengths.items())}
+    measured_onsets = {}
+    for syllables, by_phone in sorted(initial_onset_lengths.items()):
+        counts = sum((row for by_coda in by_phone.values() for row in by_coda.values()), Counter())
+        measured_onsets[syllables] = dict(sorted(counts.items()))
+
     runtime = {
         "rootLengths": fitted_joint,
         "templates": {s: {t: templates[s][t] for t in TEMPLATES} for s in sorted(templates)},
@@ -149,6 +220,13 @@ def build(artifact, source, transition_sample):
         "finalCodaCounts": {",".join(coda.split()): count for coda, count in sorted(codas.items())},
         "finalCodaLengths": {s: {p: sorted(counts.items()) for p, counts in sorted(by_phone.items())}
                              for s, by_phone in sorted(coda_lengths.items())},
+        "initialOnsetLengths": {
+            syllables: {
+                phones: {coda: sorted(counts.items()) for coda, counts in sorted(by_coda.items())}
+                for phones, by_coda in sorted(by_phone.items())
+            }
+            for syllables, by_phone in fitted_onsets.items()
+        },
     }
     root_phones = Counter()
     root_nuclei = Counter()
@@ -171,6 +249,7 @@ def build(artifact, source, transition_sample):
             "phonemes": {phone: round(count, 8) for phone, count in sorted(root_phones.items())},
             "syllables": {root: round(mass * len(rows), 8) for root, mass in sorted(fitted.items())},
             "finalCodaLengths": {length: round(count, 8) for length, count in sorted(expected_coda_lengths.items())},
+            "initialOnsetLengths": measured_onsets,
             "nucleiByStress": nuclei,
         },
     }
@@ -218,7 +297,7 @@ def main():
         handle.write("// Generated by evaluation/corpus/stage-reference.py.\n")
         handle.write("export const lexiconReference = ")
         rendered = json.dumps(runtime, ensure_ascii=False, indent=2)
-        handle.write(re.sub(r"\[\s*(\d+),\s*(\d+)\s*\]", r"[\1, \2]", rendered))
+        handle.write(re.sub(r"\[\s*(\d+),\s*(\d+(?:\.\d+)?(?:e-?\d+)?)\s*\]", r"[\1, \2]", rendered))
         handle.write(" as const;\n")
     write_json(options.reference_out, reference)
     inputs = {

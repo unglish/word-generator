@@ -125,9 +125,11 @@ Generation plans roots top-down, then attaches the selected affixes:
    pronunciation and spelling.
 
 English lexicon mode uses [audited CMU roots](./docs/cmu-root-reference.md#lexicon-stage-references-phase-2)
-for its root shapes and affix rates. Its root length weights are fitted to the
-full-CMU finished syllable distribution. Text mode uses the running-prose
-profile for root lengths, affixes, and final codas.
+for its root shapes and affix rates. For roots with two or more syllables,
+initial onset lengths are sampled with the root's phone budget and final coda
+length. Root length weights are fitted to the full-CMU finished syllable
+distribution. Text mode uses the running-prose profile for root lengths,
+affixes, and final codas.
 
 The built-in English config ships with this wired through:
 

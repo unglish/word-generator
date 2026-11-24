@@ -522,6 +522,24 @@ and extension behavior. The legacy whitelist also governs medial roots and
 affix-boundary repairs. The audited sampler is configured with the coda-length
 profile. A custom config that supplies its own coda-length plan can omit it.
 
+### Root-initial onsets
+
+The polysyllabic lexicon onset profile counts the consonant phones before the
+first vowel of each audited root. It conditions onset length on root syllable
+count, root phoneme count, and the sampled final coda length. This preserves the
+observed relationship between the opening cluster and the available consonant
+budget. With the hiatus guard enabled, the profiled planner reserves a
+consonant per internal syllable boundary and protects those slots during
+budget adjustment. Conditioning on the reserve alone would overproduce vowel starts.
+The builder fits the conditional onset weights to the audited onset proportions
+for each syllable count, preserving the mass of each phoneme and coda budget.
+Insufficient budgets keep the legacy planner, whose onsetless outcomes contribute
+to the fit. The raw counts are recorded in `roots.initialOnsetLengths`.
+
+In the audited rows, 16.2% of two-syllable roots and 11.2% of three-syllable roots
+start with two consonant phones. The previous planner produced 9.8% and 5.3%,
+respectively, in the 20,000-word sample on #461.
+
 ### Fit and gates
 
 The fitted model minimizes KL divergence from the audited syllable mix while

@@ -1,5 +1,6 @@
 """Independent constraints and negative cases for the Phase 2 stage builder."""
 
+from collections import Counter
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 import unittest
@@ -33,6 +34,25 @@ class StageReferenceTest(unittest.TestCase):
              ("unstressed", "medial", "ə"), ("unstressed", "final", "i:")],
         )
         self.assertEqual(list(stage.nuclei_by_stress(["AH1"], projection)), [("primary", "isolated", "ʌ")])
+
+    def test_onset_fit_preserves_row_mass_and_audited_length_mix(self):
+        rows = {
+            4: {0: Counter({0: 10, 1: 5})},
+            5: {0: Counter({0: 20, 1: 10})},
+            6: {0: Counter({0: 25, 1: 40})},
+        }
+        fitted = stage.fit_initial_onsets(3, rows)
+        self.assertEqual(fitted[4], rows[4])  # Insufficient medial reserve uses legacy planning.
+        self.assertEqual(fitted[5], {0: {0: 30}})
+        self.assertAlmostEqual(fitted[6][0][0], 10, places=6)
+        self.assertAlmostEqual(fitted[6][0][1], 55, places=6)
+        self.assertAlmostEqual(sum(fitted[6][0].values()), 65, places=6)
+        self.assertEqual(rows[5][0], {0: 20, 1: 10})
+
+    def test_onset_fit_rejects_unsupported_marginal(self):
+        rows = {4: {0: Counter({0: 10})}, 5: {0: Counter({0: 20, 1: 5})}}
+        with self.assertRaisesRegex(ValueError, "No compatible support"):
+            stage.fit_initial_onsets(3, rows)
 
     def test_transition_provenance_and_count_digest(self):
         from hashlib import sha256

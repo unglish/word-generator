@@ -427,7 +427,9 @@ describe("GOAT spelling in closed syllables (#508)", () => {
     let splitO = 0;
     let oaBeforeVowel = 0;
     const shortReadings: string[] = [];
-    for (const word of generateWords(5_000, { seed: 508, morphology: false, trace: true })) {
+    // Medial checked codas are sparse. Cover enough of them without lowering
+    // the witness count for the medial writer path.
+    for (const word of generateWords(8_000, { seed: 508, morphology: false, trace: true })) {
       for (const n of longNuclei(word, goat)) {
         const spelling = word.written.clean;
         if (n.coda.length === 0) {

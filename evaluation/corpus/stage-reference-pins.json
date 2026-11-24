@@ -1,7 +1,7 @@
 {
-  "evaluation/corpus/stage-reference.py": "8fdef5d6817683734435a3b6f1e57567986648291dff55a2c347f43b151d47b4",
+  "evaluation/corpus/stage-reference.py": "52a7e5deafa77f6cd89c8fe9128fde6cfcf06d2d93985221e36a8ede7a5cbea9",
   "evaluation/corpus/root-coda-exclusions.json": "e8076811e7dd4a7a1a47daec6fd60284ee7bdd984e5765fb93cadd4c4ff08dbd",
   "evaluation/corpus/stage-transitions.json": "5b8feaefb2a1eaf492f1fbcee814cf6fcb3faa0b6c15fb5e20a87a3dcdbde54b",
-  "evaluation/corpus/stage-references.json": "384186b545165e906a99adec02f45f744f1304731944bf4e5e34abc945ac147e",
-  "src/config/lexicon-reference.ts": "197c055d148f300553c2e857f1fb78ed8121a0ca195f3db716aa981e7414426e"
+  "evaluation/corpus/stage-references.json": "6c502163a39d328c8cf3617f26bb05ee7d197beab4dd0e352630e7db1223c518",
+  "src/config/lexicon-reference.ts": "7f592d1b7f78295430f4c5b91f5868e1d393eba77dde1411d76fc70992309a8b"
 }

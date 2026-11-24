@@ -2,6 +2,19 @@ import { describe, expect, it } from "vitest";
 import { createGenerator, englishConfig, generateWord } from "../../index.js";
 import { findExample } from "../../test-support/find-example.js";
 
+function generatorWithSuffix(suffix: string) {
+  const morphology = englishConfig.morphology!;
+  const suffixed = { bare: 0, prefixed: 0, suffixed: 100, both: 0 };
+  return createGenerator({
+    ...englishConfig,
+    morphology: {
+      ...morphology,
+      suffixes: morphology.suffixes.filter(affix => affix.written === suffix),
+      templateWeights: { lexicon: suffixed, text: suffixed },
+    },
+  });
+}
+
 describe("final e at the root-suffix boundary", () => {
   it.each([
     { seed: 5_000_104, base: "widge", suffix: "es", phones: ["ɪ", "z"], written: "widges" },
@@ -9,8 +22,6 @@ describe("final e at the root-suffix boundary", () => {
     { seed: 5_007_891, base: "spy", suffix: "es", phones: ["z"], written: "spies" },
     { seed: 5_011_428, base: "cale", suffix: "ist", phones: ["ɪ", "s", "t"], written: "calist" },
     { seed: 4_011_935, base: "zite", suffix: "ian", phones: ["i:", "ə", "n"], written: "zitian" },
-    { seed: 5_038_488, base: "siepure", suffix: "ism", phones: ["ɪ", "z", "ə", "m"], written: "siepureism" },
-    { seed: 5_010_510, base: "sellure", suffix: "ist", phones: ["ɪ", "s", "t"], written: "sellureist" },
     { seed: 5_004_681, base: "ree", suffix: "ing", phones: ["ɪ", "ŋ"], written: "reing" },
     { seed: 5_002_295, base: "blue", suffix: "ing", phones: ["ɪ", "ŋ"], written: "bluing" },
     { seed: 5_014_397, base: "free", suffix: "ed", phones: ["d"], written: "freed" },
@@ -26,22 +37,35 @@ describe("final e at the root-suffix boundary", () => {
   });
 
   it.each([
+    { suffix: "ism", onsetLength: 1, phones: ["ɪ", "z", "ə", "m"] },
+    { suffix: "ist", onsetLength: 0, phones: ["ɪ", "s", "t"] },
+  ])("keeps the e in rhotic ure before -$suffix", ({ suffix, onsetLength, phones }) => {
+    const generator = generatorWithSuffix(suffix);
+    const { word, options } = findExample(candidate => {
+      const last = candidate.trace?.graphemeSelections.at(-1);
+      return last?.position === "nucleus" && last.phoneme === "ɚ" && last.emitted === "ure"
+        && candidate.trace?.baseSpelling?.surface.endsWith("ure") === true
+        && candidate.lexical?.root.at(-1)?.onset.length === onsetLength;
+    }, {
+      property: `a final /ɚ/ spelled ure with an onset of length ${onsetLength}`,
+      limit: 3_000,
+      generator,
+      options: { syllableCount: 2 },
+    });
+    const base = word.trace!.baseSpelling!.surface;
+    expect(word.trace?.morphology?.realization?.suffix?.resolved).toMatchObject({ written: suffix, phonemes: phones });
+    expect(word.written.clean).toBe(base + suffix);
+    expect(generator.generateWord({ ...options, trace: false }).written).toEqual(word.written);
+  });
+
+  it.each([
     { suffix: "ism", position: "coda", ending: /[^aeiou]e$/, phones: ["ɪ", "z", "ə", "m"] },
     { suffix: "ed", position: "nucleus", ending: /ie$/, phones: ["d"] },
     { suffix: "ial", position: "coda", ending: /[^aeiou]e$/, phones: ["i:", "ə", "l"] },
     { suffix: "ed", position: "coda", ending: /[^aeiou]e$/, phones: ["d"] },
     { suffix: "er", position: "nucleus", ending: /ue$/, phones: ["ɚ"] },
   ])("drops the redundant e before -$suffix on a $position-final root", ({ suffix, position, ending, phones }) => {
-    const morphology = englishConfig.morphology!;
-    const suffixed = { bare: 0, prefixed: 0, suffixed: 100, both: 0 };
-    const generator = createGenerator({
-      ...englishConfig,
-      morphology: {
-        ...morphology,
-        suffixes: morphology.suffixes.filter(affix => affix.written === suffix),
-        templateWeights: { lexicon: suffixed, text: suffixed },
-      },
-    });
+    const generator = generatorWithSuffix(suffix);
     const { word, options } = findExample(candidate => {
       const orthography = candidate.trace?.orthography;
       const resolved = candidate.trace?.morphology?.realization?.suffix?.resolved;

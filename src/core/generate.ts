@@ -1354,11 +1354,46 @@ function sampleRootFinalCodaLength(
   return options.length ? getWeightedOption(options, rand) : undefined;
 }
 
+function sampleRootInitialOnsetLength(
+  rt: GeneratorRuntime,
+  mode: GenerationMode,
+  phones: number,
+  syllables: number,
+  finalCodaLength: number | undefined,
+  rand: RNG,
+): number | undefined {
+  if (finalCodaLength === undefined || syllables === 1) return undefined;
+  const profile = rt.config.generationWeights.onsetLength.rootInitialByMode?.[mode];
+  const weights = profile?.[syllables]?.[phones]?.[finalCodaLength];
+  if (!weights) return undefined;
+
+  const maxOnset = rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
+  const maxCoda = rt.clusterLimits?.maxCoda ?? rt.config.syllableStructure.maxCodaLength;
+  const remainingConsonants = phones - syllables - finalCodaLength;
+  const medialBoundaries = syllables - 1;
+  const medialCapacity = medialBoundaries * (maxOnset + maxCoda);
+  // Reserve a consonant per medial boundary when the hiatus guard is enabled.
+  const medialMinimum = getPlanGuardProbability(rt) > 0 ? medialBoundaries : 0;
+  const options: [number, number][] = [];
+  for (const [length, weight] of weights) {
+    const medial = remainingConsonants - length;
+    if (length <= maxOnset && medial >= medialMinimum && medial <= medialCapacity) {
+      options.push([length, weight]);
+    }
+  }
+  return options.length ? getWeightedOption(options, rand) : undefined;
+}
+
+interface RootEdgeLengths {
+  initialOnsetLength: number | undefined;
+  finalCodaLength: number | undefined;
+}
+
 function sampleConsonantPlan(
   rt: GeneratorRuntime,
   syllableCount: number,
   rand: RNG,
-  finalCodaLength?: number,
+  { initialOnsetLength, finalCodaLength }: RootEdgeLengths,
 ): SyllableShapePlan[] {
   const plan: SyllableShapePlan[] = [];
   let prevCodaLength = 0;
@@ -1370,7 +1405,9 @@ function sampleConsonantPlan(
       syllableCount,
       prevCodaLength,
     );
-    const onsetLength = getWeightedOption(onsetWeights, rand);
+    const onsetLength = i === 0 && initialOnsetLength !== undefined
+      ? initialOnsetLength
+      : getWeightedOption(onsetWeights, rand);
     const codaWeights = getCodaLengthWeights(
       rt,
       syllableCount,
@@ -1392,10 +1429,12 @@ function tweakConsonantPlanToBudget(
   plan: SyllableShapePlan[],
   targetConsonants: number,
   rand: RNG,
-  lockFinalCoda: boolean,
+  { initialOnsetLength, finalCodaLength }: RootEdgeLengths,
 ): SyllableShapePlan[] {
   const adjusted = plan.map((s) => ({ ...s }));
   const syllableCount = adjusted.length;
+  const canAdjustOnset = (index: number) => index !== 0 || initialOnsetLength === undefined;
+  const canAdjustCoda = (index: number) => index !== syllableCount - 1 || finalCodaLength === undefined;
   const maxOnset =
     rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
   const maxCoda =
@@ -1415,6 +1454,7 @@ function tweakConsonantPlanToBudget(
   const planGuardProbability = getPlanGuardProbability(rt);
   const shouldBlockHiatusMutation = (wouldCreateHiatus: boolean): boolean => {
     if (!wouldCreateHiatus) return false;
+    if (initialOnsetLength !== undefined && planGuardProbability > 0) return true;
     return coinFlip(rand, planGuardProbability);
   };
 
@@ -1445,7 +1485,7 @@ function tweakConsonantPlanToBudget(
         isEndOfWord,
       );
 
-      if (adjusted[i].onsetLength < maxOnset) {
+      if (canAdjustOnset(i) && adjusted[i].onsetLength < maxOnset) {
         const next = adjusted[i].onsetLength + 1;
         candidates.push({
           syllableIndex: i,
@@ -1453,7 +1493,7 @@ function tweakConsonantPlanToBudget(
           weight: getLengthWeight(onsetWeights, next),
         });
       }
-      if ((!isEndOfWord || !lockFinalCoda) && adjusted[i].codaLength < maxCoda) {
+      if (canAdjustCoda(i) && adjusted[i].codaLength < maxCoda) {
         const next = adjusted[i].codaLength + 1;
         candidates.push({
           syllableIndex: i,
@@ -1496,7 +1536,7 @@ function tweakConsonantPlanToBudget(
         isEndOfWord,
       );
 
-      if (adjusted[i].onsetLength > 0) {
+      if (canAdjustOnset(i) && adjusted[i].onsetLength > 0) {
         const curr = adjusted[i].onsetLength;
         const next = curr - 1;
         if (!shouldBlockHiatusMutation(createsHiatus(i, "onset", next))) {
@@ -1507,7 +1547,7 @@ function tweakConsonantPlanToBudget(
           });
         }
       }
-      if ((!isEndOfWord || !lockFinalCoda) && adjusted[i].codaLength > 0) {
+      if (canAdjustCoda(i) && adjusted[i].codaLength > 0) {
         const curr = adjusted[i].codaLength;
         const next = curr - 1;
         if (!shouldBlockHiatusMutation(createsHiatus(i, "coda", next))) {
@@ -1539,7 +1579,7 @@ function distributePhonemes(
   targetPhonemes: number,
   syllableCount: number,
   rand: RNG,
-  finalCodaLength?: number,
+  edges: RootEdgeLengths,
 ): SyllableShapePlan[] {
   const maxOnset =
     rt.clusterLimits?.maxOnset ?? rt.config.syllableStructure.maxOnsetLength;
@@ -1553,13 +1593,13 @@ function distributePhonemes(
     Math.min(rawTargetConsonants, maxConsonants),
   );
 
-  const plan = sampleConsonantPlan(rt, syllableCount, rand, finalCodaLength);
+  const plan = sampleConsonantPlan(rt, syllableCount, rand, edges);
   const consonants = plan.reduce(
     (sum, s) => sum + s.onsetLength + s.codaLength,
     0,
   );
   if (consonants === targetConsonants) return plan;
-  return tweakConsonantPlanToBudget(rt, plan, targetConsonants, rand, finalCodaLength !== undefined);
+  return tweakConsonantPlanToBudget(rt, plan, targetConsonants, rand, edges);
 }
 
 function generateSyllable(
@@ -2082,6 +2122,13 @@ function generateOneWord(
   const finalCodaLength = sampleRootFinalCodaLength(
     rt, mode, targetPhonemeCountRoot, sampledSyllableCount, rand,
   );
+  // Keep root edges fixed through retries so acceptance cannot reweight these draws.
+  const edges = {
+    finalCodaLength,
+    initialOnsetLength: sampleRootInitialOnsetLength(
+      rt, mode, targetPhonemeCountRoot, sampledSyllableCount, finalCodaLength, rand,
+    ),
+  };
   // One draw per affixed word seeds the per-attempt look-ahead streams.
   const lookaheadSeed = affixPlan ? Math.floor(rand() * 4294967296) : 0;
   const rejectionTrace = enableTrace ? new RejectionTraceCollector(ATTEMPT_CRITERIA) : undefined;
@@ -2092,7 +2139,7 @@ function generateOneWord(
       targetPhonemeCountRoot,
       sampledSyllableCount,
       rand,
-      finalCodaLength,
+      edges,
     );
     const traceCollector = enableTrace ? new TraceCollector() : undefined;
     if (traceCollector && morphPlan) {
