@@ -127,7 +127,7 @@ Generation plans roots top-down, then attaches the selected affixes:
 English lexicon mode uses [audited CMU roots](./docs/cmu-root-reference.md#lexicon-stage-references-phase-2)
 for its root shapes and affix rates. Its root length weights are fitted to the
 full-CMU finished syllable distribution. Text mode uses the running-prose
-profile and its original affix and coda weights.
+profile for root lengths, affixes, and final codas.
 
 The built-in English config ships with this wired through:
 
@@ -140,6 +140,9 @@ Custom language configs should provide both tables. They are required parts of
 Nuclei can opt into explicit base-word segment weights with
 `nucleusWordPosition`. See [nucleus edge semantics and migration](./docs/phoneme-edge-contexts.md)
 for the distinction from legacy syllable-position weights.
+
+Phonemes can set a `medialCodaMultiplier` for sampling at the end of a non-final
+root syllable. See [medial root codas](./docs/phoneme-edge-contexts.md#medial-root-codas).
 
 English lexicon mode also favors weak vowels in unstressed root-edge syllables
 before spelling. The optional `unstressedRootNuclei` policy sets those choices

@@ -10,6 +10,7 @@ import {
 } from "./language.js";
 import { VOICED_BONUS, TENSE_BONUS } from "./weights.js";
 import { sonorityLevels } from "../elements/phonemes.js";
+import { withPhonemeWeights } from "../test-support/phoneme-weights.js";
 import { Phoneme } from "../types.js";
 
 describe("LanguageConfig", () => {
@@ -121,6 +122,10 @@ describe("LanguageConfig", () => {
         "m|dʒ",
         "n|ð",
         "l|ʒ",
+        // Medial root coda /z/ before voiceless stops (#496).
+        "z|p",
+        "z|t",
+        "z|k",
       ];
       const actual = expandClusterConstraintBans(englishConfig).map(
         ([coda, onset]) => `${coda}|${onset}`,
@@ -129,7 +134,7 @@ describe("LanguageConfig", () => {
       for (const pair of [
         "n|v", "l|v", "n|z", "m|z", "n|dʒ", "l|dʒ",
         "b|v", "d|v", "b|z", "d|z", "g|z", "b|dʒ", "d|dʒ",
-        "b|s", "d|s", "s|b", "s|d", "s|g", "z|p", "z|t", "z|k",
+        "b|s", "d|s", "s|b", "s|d", "s|g", "s|p", "s|t", "s|k",
       ]) {
         expect(actual).not.toContain(pair);
       }
@@ -655,6 +660,15 @@ describe("validateConfig", () => {
 
   it("should keep the English gap-spelling count on a ratchet", () => {
     expect(englishConfig.gapSpellings).toHaveLength(16);
+  });
+
+  it.each([0, -1, Infinity, NaN])("rejects a medial coda multiplier of %s", (medialCodaMultiplier) => {
+    const config = withPhonemeWeights(englishConfig, (phoneme) =>
+      phoneme.sound === "z" ? { ...phoneme, medialCodaMultiplier } : phoneme,
+    );
+    expect(() => validateConfig(config)).toThrow(
+      "medialCodaMultiplier must be a finite number > 0",
+    );
   });
 
   it("should throw when a phonemeMap references a phoneme not in phonemes[]", () => {

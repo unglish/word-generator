@@ -101,6 +101,8 @@ export interface Phoneme {
   onset?: number;
   /** Weighting for appearing in a syllable coda (final consonant cluster). */
   coda?: number;
+  /** Positive multiplier for coda sampling in non-final root syllables. */
+  medialCodaMultiplier?: number;
   /** Legacy tense classification used by existing sonority, reduction and spelling rules; not quantity or duration. */
   tense?: boolean;
   /** Explicit phonological quantity under a named analysis. Missing means unspecified. */
@@ -118,8 +120,8 @@ export interface Phoneme {
 
   /**
    * Explicit segment-position weights for this phoneme when used as a nucleus.
-   * Overrides startWord/midWord/endWord for nuclei only; consonant clusters retain
-   * their legacy semantics. An isolated segment must pass both edge restrictions.
+   * Overrides startWord/midWord/endWord during nucleus selection.
+   * An isolated segment must pass both edge restrictions.
    */
   nucleusWordPosition?: NucleusWordPositionWeights;
 }
