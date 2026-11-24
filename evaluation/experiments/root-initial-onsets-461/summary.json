@@ -1,0 +1,108 @@
+{
+  "by_group": {
+    "gained": {
+      "spellings": {
+        "Before": 394,
+        "After": 587,
+        "Tie": 19
+      },
+      "pronunciations": {
+        "Before": 374,
+        "Tie": 89,
+        "After": 537
+      }
+    },
+    "shared": {
+      "spellings": {
+        "Before": 344,
+        "Tie": 274,
+        "After": 382
+      },
+      "pronunciations": {
+        "Before": 307,
+        "Tie": 330,
+        "After": 363
+      }
+    }
+  },
+  "by_rater": {
+    "1": {
+      "gained": {
+        "spellings": {
+          "Before": 127,
+          "After": 178,
+          "Tie": 7
+        },
+        "pronunciations": {
+          "Before": 119,
+          "Tie": 12,
+          "After": 181
+        }
+      },
+      "shared": {
+        "spellings": {
+          "Before": 116,
+          "Tie": 88,
+          "After": 134
+        },
+        "pronunciations": {
+          "Before": 118,
+          "Tie": 89,
+          "After": 131
+        }
+      }
+    },
+    "2": {
+      "gained": {
+        "spellings": {
+          "After": 191,
+          "Before": 130,
+          "Tie": 3
+        },
+        "pronunciations": {
+          "After": 170,
+          "Before": 115,
+          "Tie": 39
+        }
+      },
+      "shared": {
+        "spellings": {
+          "Tie": 99,
+          "Before": 110,
+          "After": 117
+        },
+        "pronunciations": {
+          "Tie": 130,
+          "After": 110,
+          "Before": 86
+        }
+      }
+    },
+    "3": {
+      "gained": {
+        "spellings": {
+          "After": 218,
+          "Before": 137,
+          "Tie": 9
+        },
+        "pronunciations": {
+          "Before": 140,
+          "After": 186,
+          "Tie": 38
+        }
+      },
+      "shared": {
+        "spellings": {
+          "After": 131,
+          "Before": 118,
+          "Tie": 87
+        },
+        "pronunciations": {
+          "After": 122,
+          "Before": 103,
+          "Tie": 111
+        }
+      }
+    }
+  }
+}

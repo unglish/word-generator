@@ -1,0 +1,36 @@
+baseline 20261124 size 22429 boundaries (roots with 2–5 syllables)
+  generator split as written   overall width 1.4735, coda 0.5924, onset 0.8811, empty onset 19.36%
+  generator projected split    overall width 1.4735, coda 0.2918, onset 1.1817, empty onset 0.32%
+  audited CMU projected split  overall width 1.4104, coda 0.2819, onset 1.1285, empty onset 6.69%
+  width (phones across vowel boundaries), unchanged by split model
+     generated 0 0.0% 1 58.5% 2 36.2% 3 4.7% 4 0.6% 5 0.0%
+     expected  0 6.6% 1 54.2% 2 31.6% 3 6.4% 4 1.1% 5 0.0%
+    width TV distance 8.797
+    projected split TV distance 8.958
+baseline 26410157 size 22205 boundaries (roots with 2–5 syllables)
+  generator split as written   overall width 1.4754, coda 0.6031, onset 0.8723, empty onset 20.31%
+  generator projected split    overall width 1.4754, coda 0.2893, onset 1.1861, empty onset 0.38%
+  audited CMU projected split  overall width 1.4123, coda 0.2829, onset 1.1293, empty onset 6.66%
+  width (phones across vowel boundaries), unchanged by split model
+     generated 0 0.0% 1 58.2% 2 36.4% 3 4.8% 4 0.5% 5 0.0%
+     expected  0 6.6% 1 54.2% 2 31.7% 3 6.5% 4 1.1% 5 0.0%
+    width TV distance 8.744
+    projected split TV distance 8.933
+candidate 20261124 size 22517 boundaries (roots with 2–5 syllables)
+  generator split as written   overall width 1.4152, coda 0.5967, onset 0.8185, empty onset 25.23%
+  generator projected split    overall width 1.4152, coda 0.2563, onset 1.1589, empty onset 0.44%
+  audited CMU projected split  overall width 1.4101, coda 0.2817, onset 1.1283, empty onset 6.70%
+  width (phones across vowel boundaries), unchanged by split model
+     generated 0 0.1% 1 64.2% 2 30.3% 3 4.8% 4 0.5%
+     expected  0 6.6% 1 54.2% 2 31.6% 3 6.4% 4 1.0% 5 0.0%
+    width TV distance 10.010
+    projected split TV distance 10.255
+candidate 26410157 size 22523 boundaries (roots with 2–5 syllables)
+  generator split as written   overall width 1.4090, coda 0.5897, onset 0.8193, empty onset 24.99%
+  generator projected split    overall width 1.4090, coda 0.2493, onset 1.1597, empty onset 0.50%
+  audited CMU projected split  overall width 1.4096, coda 0.2816, onset 1.1280, empty onset 6.72%
+  width (phones across vowel boundaries), unchanged by split model
+     generated 0 0.1% 1 64.6% 2 30.3% 3 4.5% 4 0.5%
+     expected  0 6.7% 1 54.2% 2 31.6% 3 6.4% 4 1.0% 5 0.0%
+    width TV distance 10.319
+    projected split TV distance 10.886
