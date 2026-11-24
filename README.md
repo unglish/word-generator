@@ -246,7 +246,7 @@ Additional checks:
 - `npm run analyze:phoneme-length`
 - `npm run test:perf` (local words/sec floor) and `npm run perf:compare -- --base <other-checkout>` (paired slowdown check, what CI runs on `main`)
 - `npm run analyze:phonemes`
-- `npm run analyze:trigrams`
+- `npm run analyze:trigrams` compares against the [ordinary English spelling reference](./data/cmu/ordinary/README.md), also used for KenLM training.
 - `npm run audit:trace`
 - `npm run calibrate:phonemes` (recalibrates phoneme gate limits from multi-seed spread; see [`TUNING.md`](./TUNING.md#phoneme-guardrail-ratchet))
 

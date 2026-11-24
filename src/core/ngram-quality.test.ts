@@ -106,7 +106,7 @@ describe("N-gram quality gates", () => {
 
   it("no bigram exceeds threshold over-representation", async () => {
     const thresholds = loadThresholds();
-    const cmuFreq = loadCmuFreqs("cmu-lexicon-bigrams.json");
+    const cmuFreq = loadCmuFreqs("ordinary/bigrams.json");
 
     let worst = { ngram: "", ratio: 0 };
 
@@ -137,7 +137,7 @@ describe("N-gram quality gates", () => {
 
   it("no trigram exceeds threshold over-representation", async () => {
     const thresholds = loadThresholds();
-    const cmuFreq = loadCmuFreqs("cmu-lexicon-trigrams.json");
+    const cmuFreq = loadCmuFreqs("ordinary/trigrams.json");
 
     let worst = { ngram: "", ratio: 0 };
 
@@ -170,7 +170,7 @@ describe("N-gram quality gates", () => {
 
   it("no common bigram is severely under-represented", async () => {
     const thresholds = loadThresholds();
-    const cmuFreq = loadCmuFreqs("cmu-lexicon-bigrams.json");
+    const cmuFreq = loadCmuFreqs("ordinary/bigrams.json");
 
     let worst = { ngram: "", ratio: Infinity };
 
@@ -196,7 +196,7 @@ describe("N-gram quality gates", () => {
 
   it("no common trigram is severely under-represented", async () => {
     const thresholds = loadThresholds();
-    const cmuFreq = loadCmuFreqs("cmu-lexicon-trigrams.json");
+    const cmuFreq = loadCmuFreqs("ordinary/trigrams.json");
 
     let worst = { ngram: "", ratio: Infinity };
 

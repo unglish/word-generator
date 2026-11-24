@@ -28,8 +28,8 @@ function loadCmuFreqs(filename: string): Record<string, number> {
   return freq;
 }
 
-const cmuBigrams = loadCmuFreqs('cmu-lexicon-bigrams.json');
-const cmuTrigrams = loadCmuFreqs('cmu-lexicon-trigrams.json');
+const cmuBigrams = loadCmuFreqs('ordinary/bigrams.json');
+const cmuTrigrams = loadCmuFreqs('ordinary/trigrams.json');
 
 // Filter to common patterns only
 const commonBigrams = Object.entries(cmuBigrams).filter(([, f]) => f > MIN_BIGRAM_BASELINE_FREQ);

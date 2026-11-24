@@ -5,6 +5,7 @@ import type { ReviewExport, Snapshot } from "../model.js";
 import { digest } from "../snapshot.js";
 import { LEGACY_RUBRIC } from "../protocol.js";
 import { buildReference, contextKey, contexts, syllabify, type SoundSyllable } from "./model.js";
+import { buildOrdinaryReference } from "./ordinary.js";
 import { scoreSound, scoreSpelling, scoreWord } from "./score.js";
 import { scoreSnapshots, validateMachineArtifact } from "./artifact.js";
 import { evaluate, evaluationMarkdown, ranks, spearman, splitSpelling } from "./evaluate.js";
@@ -20,6 +21,12 @@ describe("reference construction and prosody", () => {
     expect(result.corpus.excluded).toEqual({ alternate_pronunciation: 1, duplicate_spelling: 1, non_ascii_spelling: 1, unsupported_pronunciation: 1, no_vowel: 1 });
     expect(result.characters).toEqual(model.characters);
     expect(() => buildReference("invalid X", "test")).toThrow("no supported entries");
+  });
+  it("uses only the selected spelling types for character counts and retains the pronunciation reference", () => {
+    const selected = buildOrdinaryReference(corpus, "synthetic", "bat\ncat\n");
+    expect(selected.characters["^^"].counts).toEqual({ b: 1, c: 1 });
+    expect(selected.spellingCorpus?.accepted).toBe(2);
+    expect(selected.constituents).toEqual(model.constituents);
   });
   it("has exactly the paper's eight onset/rime stress and position categories", () => {
     const keys = new Set([false, true].flatMap(stressed => [0, 1, 2].flatMap(index => contexts(index, 3, stressed).map(contextKey))));

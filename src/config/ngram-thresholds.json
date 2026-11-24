@@ -1,13 +1,14 @@
 {
-  "maxBigramOverRepresentation": 4.25,
-  "maxTrigramOverRepresentation": 3.21,
-  "minBigramRepresentation": 0.0089,
+  "maxBigramOverRepresentation": 4.01,
+  "maxTrigramOverRepresentation": 2.82,
+  "minBigramRepresentation": 0.0112,
   "reportOnlyUnderrepresentedBigrams": ["cc", "tz"],
   "minTrigramRepresentation": 0.0062,
   "minBigramBaselineFreq": 0.001,
   "minTrigramBaselineFreq": 0.0005,
   "sampleSize": 200000,
-  "lastUpdated": "2026-11-21",
+  "reference": "cmu-scowl60-ordinary-v1",
+  "lastUpdated": "2026-11-24",
   "history": [
     {
       "date": "2026-02-16",
@@ -60,6 +61,10 @@
       "reportOnlyMorphologyNgrams": ["ia", "ian"],
       "previousFloors": { "ia": 0.2, "ian": 0.45 },
       "note": "#491: the earlier surface floors primarily measured over-weighted -ian/-ial and other suffix joins. The seed-2028 trace on main attributes 480 of 486 ia hits and all 191 ian hits to joins or affixes. Lower measured affix rates reduce those surface counts. A separate traced test checks that ia remains reachable in the root."
+    },
+    {
+      "date": "2026-11-24",
+      "note": "Moved spelling counts to CMU × SCOWL size 60. Across the five calibration seeds the largest common bigram/trigram ratios were 3.6428 and 2.5632 (rounded up), and the lowest blocking bigram ratio was 0.01253. Applied the existing ten-percent margins. The opt-in underrepresented trigram check still flags missing patterns."
     }
   ],
   "_comment": "Quality ratchet: after each tuning fix, re-run 5× analysis (seeds 42/123/456/789/1337), update thresholds to new max + 10% margin (over-rep) or new min - 10% margin (under-rep), commit as part of fix PR."

@@ -11,6 +11,8 @@ candidate from its head, with one harness in one environment, and compares the t
 Raw word archives are an optional local cache. The committed `summary.json` and
 `review-samples.json.gz` files remain the durable historical record.
 
+New captures compare spelling trigrams with the [ordinary spelling corpus](../data/cmu/ordinary/README.md). Archived runs retain the reference recorded in their manifest. Compare generator revisions with the same harness and reference digest.
+
 ## Fixed protocol
 
 `evaluation/quality/protocol.json` defines four profiles: default lexicon, bare

@@ -31,7 +31,7 @@ function getArg(name, fallback) {
 }
 
 function loadCmuFrequencies() {
-  const raw = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "cmu-lexicon-trigrams.json"), "utf8"));
+  const raw = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "ordinary/trigrams.json"), "utf8"));
   const total = Object.values(raw).reduce((sum, value) => sum + value, 0);
   const freq = {};
   for (const [tri, count] of Object.entries(raw)) {
@@ -137,6 +137,7 @@ function toMarkdown(report) {
   lines.push(``);
   lines.push(`## Configuration`);
   lines.push(`- Seeds: ${report.config.seeds.join(", ")}`);
+  lines.push(`- Spelling reference: ${report.config.reference}`);
   lines.push(`- Sampling: ${report.config.sampling}`);
   lines.push(`- Words per seed: ${report.config.countPerSeed.toLocaleString()}`);
   lines.push(`- Total generated words: ${report.config.totalWords.toLocaleString()}`);
@@ -242,6 +243,7 @@ function main() {
     generatedAt: new Date().toISOString(),
     config: {
       sampling: SAMPLING_METHOD,
+      reference: "cmu-scowl60-ordinary-v1",
       seeds,
       countPerSeed,
       totalWords: countPerSeed * seeds.length,

@@ -5,12 +5,14 @@ import { parseArgs } from "node:util";
 import type { ReviewExport, Snapshot } from "../model.js";
 import { digest } from "../snapshot.js";
 import { buildReference, CMU_REVISION, CMU_SHA256, SCORING_VERSION, sha256, type ReferenceModel } from "./model.js";
+import { buildOrdinaryReference, type OrdinaryReference } from "./ordinary.js";
 import { scoreSnapshots, type MachineArtifact } from "./artifact.js";
 import { evaluate, evaluationMarkdown } from "./evaluate.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const [command, ...args] = process.argv.slice(2);
 const { values } = parseArgs({ args, options: {
+  "historical-full-cmu": { type: "boolean" },
   corpus: { type: "string" }, model: { type: "string" }, scores: { type: "string" },
   snapshot: { type: "string", multiple: true }, input: { type: "string", multiple: true },
   out: { type: "string" }, run: { type: "string" },
@@ -32,21 +34,30 @@ async function save(path: string, value: unknown): Promise<void> {
 async function sourceDigest(paths: string[]): Promise<string> {
   return digest(await Promise.all(paths.map(async path => ({ path, sha256: sha256(await readFile(resolve(root, path), "utf8")) }))));
 }
-interface ModelArtifact { version: string; digest: string; implementation_digest: string; model: ReferenceModel }
+interface ModelArtifact { version: string; digest: string; implementation_digest: string; model: ReferenceModel & Partial<Pick<OrdinaryReference, "spellingCorpus">> }
 async function main(): Promise<void> {
-  const implementationDigest = await sourceDigest([
+  const historicalSources = [
     ...["model.ts", "score.ts", "artifact.ts"].map(path => `evaluation/review/wordlikeness/${path}`),
     "evaluation/corpus/cmu.ts",
-  ]);
+  ];
+  const historicalDigest = await sourceDigest(historicalSources);
+  const ordinaryDigest = await sourceDigest([...historicalSources, "evaluation/review/wordlikeness/ordinary.ts"]);
+  const implementationOf = (model: ReferenceModel) => "spellingCorpus" in model ? ordinaryDigest : historicalDigest;
   const comparatorDigest = await sourceDigest(["src/phonotactic/score.ts", "src/phonotactic/arpabet-bigrams.ts", "src/phonotactic/ipa-to-arpabet.ts"]);
   if (command === "build") {
     const text = await readFile(required(values.corpus, "corpus"), "utf8");
     if (sha256(text) !== CMU_SHA256) throw new Error("Corpus checksum does not match the pinned CMU revision.");
-    const model = buildReference(text, CMU_REVISION);
-    await save(resolve(required(values.out, "out")), { version: SCORING_VERSION, digest: digest(model), implementation_digest: implementationDigest, model });
-    console.log(`Built reference model from ${model.corpus.accepted} spellings.`);
+    const spellingList = values["historical-full-cmu"] ? undefined
+      : await readFile(resolve(root, "data/cmu/ordinary/spellings.txt"), "utf8");
+    if (spellingList !== undefined && sha256(spellingList) !== "9b61f2af444a2177d3cac89464d81e39970ef65a0fab54b3a18465a5dc6c5f3b") {
+      throw new Error("Ordinary spelling list differs from the pinned reference.");
+    }
+    const model: ModelArtifact["model"] = spellingList === undefined ? buildReference(text, CMU_REVISION) : buildOrdinaryReference(text, CMU_REVISION, spellingList);
+    await save(resolve(required(values.out, "out")), { version: SCORING_VERSION, digest: digest(model), implementation_digest: implementationOf(model), model });
+    console.log(`Built reference model from ${model.spellingCorpus?.accepted ?? model.corpus.accepted} spellings.`);
   } else if (command === "score") {
     const reference = await load<ModelArtifact>(required(values.model, "model"));
+    const implementationDigest = implementationOf(reference.model);
     if (reference.version !== SCORING_VERSION || reference.model.corpus.sha256 !== CMU_SHA256 || reference.digest !== digest(reference.model) || reference.implementation_digest !== implementationDigest) throw new Error("Reference model provenance mismatch; rebuild with this scoring version.");
     if (!values.snapshot?.length) throw new Error("At least one --snapshot is required.");
     const snapshots = await Promise.all(values.snapshot.map(path => load<Snapshot>(path)));
@@ -58,7 +69,7 @@ async function main(): Promise<void> {
     if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(run)) throw new Error("Use a lowercase alphanumeric/hyphen run name.");
     const exports = await Promise.all(values.input.map(path => load<ReviewExport>(path)));
     const artifact = await load<MachineArtifact>(required(values.scores, "scores"));
-    if (artifact.implementation_digest !== implementationDigest || artifact.comparator_digest !== comparatorDigest) throw new Error("Machine scores were produced by different scoring code; rebuild before evaluating.");
+    if (![historicalDigest, ordinaryDigest].includes(artifact.implementation_digest) || artifact.comparator_digest !== comparatorDigest) throw new Error("Machine scores were produced by different scoring code; rebuild before evaluating.");
     const report = evaluate(exports, artifact);
     const parent = resolve(root, "review-exports/wordlikeness");
     await mkdir(parent, { recursive: true, mode: 0o700 });

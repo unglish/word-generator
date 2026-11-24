@@ -612,10 +612,7 @@
 
             // ===== STATS TAB =====
 
-            // CMU Pronouncing Dictionary baselines (surface dictionary entries,
-            // alternate pronunciations collapsed). Stats worker uses lexicon mode
-            // with morphology enabled to compare against this same population.
-            const engLetterFreq = {e:11.46,a:8.80,r:7.76,i:7.65,n:7.28,s:6.92,o:6.42,t:5.85,l:5.83,c:3.91,d:3.52,m:3.11,u:3.07,h:2.88,g:2.77,p:2.29,b:2.25,k:1.80,y:1.60,f:1.39,w:1.10,v:1.05,z:0.65,j:0.26,x:0.23,q:0.14};
+            const engLetterFreq = cmuLetters;
             const engLengthDist = {1:0,2:0.2,3:1.3,4:5.2,5:11.5,6:17.4,7:18.6,8:15.5,9:11.7,10:8.1,11:4.8,12:2.7,13:2.4};
 
             function pearsonR(xs, ys) {
@@ -707,6 +704,7 @@
             // Paginated chart helper
             const PAGE_SIZE = 50;
             const legendHtml = '<span style="display:inline-block;width:0.8em;height:0.8em;background:steelblue;vertical-align:middle"></span> Generated &nbsp; <span style="display:inline-block;width:0.8em;height:0.8em;background:darkgrey;vertical-align:middle"></span> CMU Dictionary';
+            const spellingLegend = legendHtml.replace('CMU Dictionary', 'Filtered CMU Dictionary');
 
             function renderPaginatedChart(chartId, pagerId, items, maxPct, labelWidth, decimals, sortMode) {
                 // items: [{key, gen, eng}] sorted by gen desc
@@ -783,7 +781,7 @@
                 const letterGenPcts = letterItems.map(x => x.gen);
                 const letterEngPcts = letterItems.map(x => x.eng);
                 $('stats-letter-r').textContent = 'Pearson r = ' + pearsonR(letterGenPcts, letterEngPcts).toFixed(4);
-                $('stats-letter-legend').innerHTML = legendHtml;
+                $('stats-letter-legend').innerHTML = spellingLegend;
 
                 // Bigram frequency — all generated bigrams
                 const bigramCounts = {};
@@ -803,7 +801,7 @@
                 // Pearson r on shared keys only
                 const sharedBi = bigramItems.filter(x => x.eng !== null);
                 if (sharedBi.length > 1) $('stats-bigram-r').textContent = 'Pearson r = ' + pearsonR(sharedBi.map(x => x.gen), sharedBi.map(x => x.eng)).toFixed(4) + ' (on ' + sharedBi.length + ' shared)';
-                $('stats-bigram-legend').innerHTML = legendHtml;
+                $('stats-bigram-legend').innerHTML = spellingLegend;
 
                 // Trigram frequency — all generated trigrams
                 const trigramCounts = {};
@@ -822,7 +820,7 @@
                     .sort((a, b) => b.gen - a.gen);
                 const sharedTri = trigramItems.filter(x => x.eng !== null);
                 if (sharedTri.length > 1) $('stats-trigram-r').textContent = 'Pearson r = ' + pearsonR(sharedTri.map(x => x.gen), sharedTri.map(x => x.eng)).toFixed(4) + ' (on ' + sharedTri.length + ' shared)';
-                $('stats-trigram-legend').innerHTML = legendHtml;
+                $('stats-trigram-legend').innerHTML = spellingLegend;
 
                 // Phoneme frequency — all generated phonemes
                 let phonemeItems = [];
@@ -1504,7 +1502,7 @@
                 </label>
             </div>
             <div class="card">
-                <h2>Letter Frequency — Generated vs CMU Dictionary</h2>
+                <h2>Letter Frequency — Generated vs Filtered CMU Dictionary</h2>
                 <button class="refresh" id="refresh-stats" title="Regenerate">&#x21bb;</button>
                 <div id="stats-status" class="stat-line">Click Regenerate or switch to this tab to generate 200,000 words.</div>
                 <div id="stats-diagnostics" class="stat-line"></div>
@@ -1515,7 +1513,7 @@
             </div>
 
             <div class="card">
-                <h2>Bigram Frequency — Generated vs CMU Dictionary</h2>
+                <h2>Bigram Frequency — Generated vs Filtered CMU Dictionary</h2>
                 <div id="stats-bigram-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
                 <div class="legend" id="stats-bigram-legend"></div>
                 <div id="stats-bigram-chart"></div>
@@ -1523,7 +1521,7 @@
             </div>
 
             <div class="card">
-                <h2>Trigram Frequency — Generated vs CMU Dictionary</h2>
+                <h2>Trigram Frequency — Generated vs Filtered CMU Dictionary</h2>
                 <div id="stats-trigram-r" style="font-size:1.1em;font-weight:bold;margin:0.5em 0"></div>
                 <div class="legend" id="stats-trigram-legend"></div>
                 <div id="stats-trigram-chart"></div>
