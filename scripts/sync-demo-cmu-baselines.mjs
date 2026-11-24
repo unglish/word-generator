@@ -4,8 +4,8 @@
  * Keep demo CMU baselines in sync with committed `data/cmu` baselines.
  *
  * Source:
- *   - data/cmu/cmu-lexicon-bigrams.json
- *   - data/cmu/cmu-lexicon-trigrams.json
+ *   - data/cmu/ordinary/bigrams.json
+ *   - data/cmu/ordinary/trigrams.json
  *   - data/cmu/cmu-lexicon-phonemes.json
  *   - data/cmu/phoneme-normalization.json
  *
@@ -54,8 +54,8 @@ function upsertConstSource(fileText, constName, replacementObjectLiteral) {
 function main() {
   const checkOnly = process.argv.includes("--check");
 
-  const bigramsRaw = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "cmu-lexicon-bigrams.json"), "utf8"));
-  const trigramsRaw = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "cmu-lexicon-trigrams.json"), "utf8"));
+  const bigramsRaw = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "ordinary/bigrams.json"), "utf8"));
+  const trigramsRaw = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "ordinary/trigrams.json"), "utf8"));
   const phonemesRaw = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "cmu-lexicon-phonemes.json"), "utf8"));
   const phonemeNormalization = JSON.parse(readFileSync(join(process.cwd(), "data", "cmu", "phoneme-normalization.json"), "utf8"));
   const baselinesPath = join(process.cwd(), "demo", "cmuBaselines.js");
@@ -66,10 +66,12 @@ function main() {
 
   const file = readFileSync(baselinesPath, "utf8");
 
+  const letters = JSON.parse(readFileSync(join(process.cwd(), "data/cmu/ordinary/letters.json"), "utf8"));
+  const withLetters = upsertConstSource(file, "cmuLetters", JSON.stringify(normalizeToPercentMap(letters)));
   const next = upsertConstSource(
     replaceConstSource(
       replaceConstSource(
-        replaceConstSource(file, "cmuBigrams", JSON.stringify(bigrams)),
+        replaceConstSource(withLetters, "cmuBigrams", JSON.stringify(bigrams)),
         "cmuTrigrams",
         JSON.stringify(trigrams)
       ),

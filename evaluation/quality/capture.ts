@@ -151,7 +151,11 @@ async function evaluateCorpus(
   };
   const normalization = sourceJson<{ generatedAliases: Record<string, string> }>(sources, "data/cmu/phoneme-normalization.json");
   const phonemeReference = sourceJson<Record<string, number>>(sources, "data/cmu/cmu-lexicon-phonemes.json");
-  const trigramReference = sourceJson<Record<string, number>>(sources, "data/cmu/cmu-lexicon-trigrams.json");
+  // A rescore uses the population recorded with its original draws.
+  const filteredTrigrams = "data/cmu/ordinary/trigrams.json";
+  const trigramPath = sources.references.some(file => file.path === filteredTrigrams)
+    ? filteredTrigrams : "data/cmu/cmu-lexicon-trigrams.json";
+  const trigramReference = sourceJson<Record<string, number>>(sources, trigramPath);
 
   await mkdir(dirname(out), { recursive: true });
   await mkdir(out); // Existing runs are never replaced, including interrupted captures.

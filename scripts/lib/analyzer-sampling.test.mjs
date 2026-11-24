@@ -12,6 +12,24 @@ import { loadPhonemeNormalization } from './phoneme-normalization.mjs';
 
 const options = { seed: 42, count: 25, mode: 'lexicon', morphology: false };
 
+test('ordinary spelling targets count every within-word window from the KenLM vocabulary', () => {
+  const directory = 'data/cmu/ordinary';
+  const words = readFileSync(directory + '/spellings.txt', 'utf8').trimEnd().split('\n');
+  assert.equal(words.length, 45904);
+  assert.deepEqual(words, [...new Set(words)].sort());
+  for (const [i, file] of ['letters', 'bigrams', 'trigrams'].entries()) {
+    const order = i + 1;
+    const counts = {};
+    for (const word of words) {
+      for (let start = 0; start + order <= word.length; start++) {
+        const gram = word.slice(start, start + order);
+        counts[gram] = (counts[gram] ?? 0) + 1;
+      }
+    }
+    assert.deepEqual(counts, JSON.parse(readFileSync(directory + '/' + file + '.json', 'utf8')));
+  }
+});
+
 test('each replicate consumes a continuous public-API RNG stream, reproducibly', () => {
   const first = [...sampleWords(options)];
   assert.deepEqual([...sampleWords(options)], first);
