@@ -260,3 +260,5 @@ all 20 `words/` shards listed in
 are external, Git-ignored inputs. Their full historical archive analyses were
 not rerun. The observer's integrity fixtures and 2,000-word public-API parity
 test pass; the runtime and observer source tree matches current main exactly.
+
+See [Offline diagnostics for English wordlikeness](wordlikeness-tools.md) for the findings and proposed roles of Lingua, KenLM and the UCI Phonotactic Calculator.
