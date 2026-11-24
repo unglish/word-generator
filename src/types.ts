@@ -433,6 +433,8 @@ export interface ClusterContext {
   followingOpenNucleus?: boolean;
   /** Sounds that may not open this onset, given the preceding open syllable's nucleus. */
   bannedFirstOnset?: ReadonlySet<string>;
+  /** First-onset weight multipliers for the preceding root coda. */
+  firstOnsetWeights?: ReadonlyMap<string, number>;
   /**
    * Nucleus phonemes of the syllable being built (for nucleus-aware coda filtering).
    * Only populated when position === "coda".

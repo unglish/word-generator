@@ -671,6 +671,13 @@ describe("validateConfig", () => {
     );
   });
 
+  it.each([0, -1, Infinity, NaN])("rejects a root boundary multiplier of %s", (multiplier) => {
+    expect(() => validateConfig({
+      ...englishConfig,
+      clusterWeights: { ...englishConfig.clusterWeights, boundary: { n: { k: multiplier } } },
+    })).toThrow("clusterWeights.boundary.n.k must be a finite number > 0");
+  });
+
   it("should throw when a phonemeMap references a phoneme not in phonemes[]", () => {
     const bad = {
       ...englishConfig,

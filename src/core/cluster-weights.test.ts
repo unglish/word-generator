@@ -87,7 +87,7 @@ describe("Position-based cluster weighting", () => {
     expect(words.every(w => w.written.clean.length > 0)).toBe(true);
   });
 
-  it("reduces ts/ns frequency compared to no weights", () => {
+  it("reduces ts/ns frequency compared to unweighted codas", () => {
     // Give both configurations the same seed for each word.
     const sample = (generator: ReturnType<typeof createGenerator>) =>
       Array.from({ length: 10_000 }, (_, index) =>
@@ -95,7 +95,7 @@ describe("Position-based cluster weighting", () => {
       );
     const noWeightsConfig = {
       ...englishConfig,
-      clusterWeights: undefined,
+      clusterWeights: { ...englishConfig.clusterWeights, coda: undefined },
     };
     const wordsWithWeights = sample(createGenerator(englishConfig));
     const wordsNoWeights = sample(createGenerator(noWeightsConfig));

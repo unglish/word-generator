@@ -143,6 +143,8 @@ for the distinction from legacy syllable-position weights.
 
 Phonemes can set a `medialCodaMultiplier` for sampling at the end of a non-final
 root syllable. See [medial root codas](./docs/phoneme-edge-contexts.md#medial-root-codas).
+Use `clusterWeights.boundary` to weight the following onset according to the
+[root syllable join](./docs/phoneme-edge-contexts.md#root-syllable-joins).
 
 English lexicon mode also favors weak vowels in unstressed root-edge syllables
 before spelling. The optional `unstressedRootNuclei` policy sets those choices

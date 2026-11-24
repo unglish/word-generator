@@ -136,6 +136,7 @@ interface GeneratorRuntime {
   attestedCodaPrefixSet?: Set<string>;
   clusterWeights?: {
     onset?: Map<string, number>;
+    boundary?: ReadonlyMap<string, ReadonlyMap<string, number>>;
     coda?:
       | Map<string, number>
       | {
@@ -245,6 +246,11 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     ? {
       onset: config.clusterWeights.onset
         ? new Map(Object.entries(config.clusterWeights.onset))
+        : undefined,
+      boundary: config.clusterWeights.boundary
+        ? new Map(Object.entries(config.clusterWeights.boundary).map(([coda, onsets]) =>
+          [coda, new Map(Object.entries(onsets))],
+        ))
         : undefined,
       coda: config.clusterWeights.coda
         ? // Check if position-based format (has 'final' or 'nonFinal' keys)
@@ -686,6 +692,7 @@ function selectPhoneme(
 ): Phoneme | null {
   const { position, isStartOfWord, isEndOfWord, rand, clusterSounds } = context;
   const isMedialCoda = position === "coda" && !isEndOfWord;
+  const firstOnsetWeights = clusterSounds.length === 0 ? context.firstOnsetWeights : undefined;
   const repetition = clusterSounds.length === 0 ? context.repetitionPenalty : undefined;
   const repeatedNucleus = position === "nucleus" ? repetition : undefined;
 
@@ -731,6 +738,7 @@ function selectPhoneme(
 
     let baseWeight = positionWeight * wordPositionModifier;
     if (isMedialCoda) baseWeight *= p.medialCodaMultiplier ?? 1;
+    if (firstOnsetWeights) baseWeight *= firstOnsetWeights.get(p.sound) ?? 1;
 
     if (weightMap) {
       const multiplier = findClusterWeightMultiplier(
@@ -838,6 +846,8 @@ function pickOnset(
   const bannedFirstOnset = prevNucleus
     ? rt.nucleusRepair.rimes.followingOnset?.get(prevNucleus.sound)
     : undefined;
+  const boundaryWeights = rt.clusterWeights?.boundary;
+  const previousCoda = boundaryWeights && prevSyllable && lastItem(prevSyllable.coda);
 
   return buildCluster(rt, {
     rand,
@@ -851,6 +861,7 @@ function pickOnset(
     maxLength,
     followingOpenNucleus: !!isFollowingNucleus,
     bannedFirstOnset,
+    firstOnsetWeights: previousCoda && boundaryWeights?.get(previousCoda.sound),
   });
 }
 

@@ -1044,8 +1044,10 @@ export interface LanguageConfig {
    * weight (if defined), or 1.0 (no reduction).
    */
   clusterWeights?: {
-    /** Weights for onset clusters (not currently used in English). */
+    /** Weights for onset clusters. */
     onset?: Record<string, number>;
+    /** First-onset weight multipliers, keyed by preceding root coda sound and then onset sound. */
+    boundary?: Readonly<Record<string, Readonly<Record<string, number>>>>;
     /** Weights for coda clusters. */
     coda?:
       | Record<string, number>
@@ -1672,6 +1674,13 @@ export function validateConfig(config: LanguageConfig): void {
       throw new Error(
         `generationWeights.boundaryPolicy.${key} is ${value}, must be in [0, 100]`,
       );
+    }
+  }
+  for (const [coda, onsets] of Object.entries(config.clusterWeights?.boundary ?? {})) {
+    for (const [onset, multiplier] of Object.entries(onsets)) {
+      if (!Number.isFinite(multiplier) || multiplier <= 0) {
+        throw new Error(`clusterWeights.boundary.${coda}.${onset} must be a finite number > 0`);
+      }
     }
   }
 
