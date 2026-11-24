@@ -297,21 +297,25 @@ it("samples root stop junctions near the audited English rates (#499, #540)", ()
   const pairs = new Set(Object.keys(rootStopJunctionReference[1].hits));
   const observed = new Map<string, number>();
   const lengths = rootStopJunctionReference.map(() => 0);
-  const rand = createSeededRng(20261123);
+  // Pool independent streams for rare junctions while keeping the historical sample.
+  const streams = [[20261123, 40_000], [20261124, 10_000], [69212153, 10_000]];
 
-  for (let i = 0; i < 40_000; i++) {
-    const { lexical } = generateWord({ mode: "lexicon", rand, trace: true });
-    const parsed = parseReferenceSyllables(lexical!.root);
-    lengths[Math.min(parsed.length, lengths.length) - 1]++;
+  for (const [seed, count] of streams) {
+    const rand = createSeededRng(seed);
+    for (let i = 0; i < count; i++) {
+      const { lexical } = generateWord({ mode: "lexicon", rand, trace: true });
+      const parsed = parseReferenceSyllables(lexical!.root);
+      lengths[Math.min(parsed.length, lengths.length) - 1]++;
 
-    const joins = new Set<string>();
-    for (let j = 1; j < parsed.length; j++) {
-      const { coda } = parsed[j - 1];
-      const { onset } = parsed[j];
-      if (coda.length === 1 && onset.length === 1) joins.add(`${coda[0]}|${onset[0]}`);
-    }
-    for (const pair of joins) {
-      if (pairs.has(pair)) observed.set(pair, (observed.get(pair) ?? 0) + 1);
+      const joins = new Set<string>();
+      for (let j = 1; j < parsed.length; j++) {
+        const { coda } = parsed[j - 1];
+        const { onset } = parsed[j];
+        if (coda.length === 1 && onset.length === 1) joins.add(`${coda[0]}|${onset[0]}`);
+      }
+      for (const pair of joins) {
+        if (pairs.has(pair)) observed.set(pair, (observed.get(pair) ?? 0) + 1);
+      }
     }
   }
 
