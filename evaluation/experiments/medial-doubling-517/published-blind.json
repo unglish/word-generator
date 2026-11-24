@@ -1,0 +1,22 @@
+{
+  "held_pairs": 49,
+  "totals": {
+    "control": {
+      "seen": 16,
+      "correct": 16
+    },
+    "candidate": {
+      "seen": 49,
+      "correct": 48
+    },
+    "baseline": {
+      "seen": 49,
+      "correct": 37
+    }
+  },
+  "pair_results": {
+    "False\u2192True": 11,
+    "True\u2192True": 37,
+    "False\u2192False": 1
+  }
+}

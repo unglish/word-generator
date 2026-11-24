@@ -1,0 +1,818 @@
+{
+  "A": {
+    "3bcbe575bd": {
+      "spelling": "ribbon",
+      "condition": "control",
+      "expected": "IH",
+      "pair": "ribbon",
+      "stratum": "control"
+    },
+    "d14888fe85": {
+      "spelling": "annangurl",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "anangurl",
+      "stratum": "3"
+    },
+    "be15d23aa9": {
+      "spelling": "cetildern",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "cetildern",
+      "stratum": "3"
+    },
+    "3036ead396": {
+      "spelling": "plattin",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "platin",
+      "stratum": "2"
+    },
+    "b86ef7f91e": {
+      "spelling": "hanurce",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "hanurce",
+      "stratum": "2"
+    },
+    "b4a35ac7d1": {
+      "spelling": "sniteten",
+      "condition": "baseline",
+      "expected": "IH",
+      "pair": "sniteten",
+      "stratum": "3"
+    },
+    "6454a086a0": {
+      "spelling": "gratim",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "gratim",
+      "stratum": "2"
+    },
+    "712e30768b": {
+      "spelling": "tibedete",
+      "condition": "baseline",
+      "expected": "IH",
+      "pair": "tibedete",
+      "stratum": "3"
+    },
+    "e35b33382b": {
+      "spelling": "habinga",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "habinga",
+      "stratum": "3"
+    },
+    "3f7e96da99": {
+      "spelling": "bebboter",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "beboter",
+      "stratum": "3"
+    },
+    "0558ea1965": {
+      "spelling": "cipurl",
+      "condition": "baseline",
+      "expected": "IH",
+      "pair": "cipurl",
+      "stratum": "2"
+    },
+    "7476b68564": {
+      "spelling": "snannet",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "snanet",
+      "stratum": "2"
+    },
+    "d40ae30d5e": {
+      "spelling": "wedomort",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "wedomort",
+      "stratum": "3"
+    },
+    "a69aff6e45": {
+      "spelling": "naggazoag",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "nagazoag",
+      "stratum": "3"
+    },
+    "30b0145956": {
+      "spelling": "bepporst",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "beporst",
+      "stratum": "2"
+    },
+    "277e7f2a75": {
+      "spelling": "badilpeat",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "badilpeat",
+      "stratum": "3"
+    },
+    "654b0de6e7": {
+      "spelling": "riggugeil",
+      "condition": "candidate",
+      "expected": "IH",
+      "pair": "rigugeil",
+      "stratum": "3"
+    },
+    "5cc8aba01a": {
+      "spelling": "appadge",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "apadge",
+      "stratum": "2"
+    },
+    "0057002d95": {
+      "spelling": "ruggatap",
+      "condition": "candidate",
+      "expected": "AH",
+      "pair": "rugatap",
+      "stratum": "3"
+    },
+    "8fe8ef50a3": {
+      "spelling": "heditone",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "heditone",
+      "stratum": "3"
+    },
+    "9c75862b30": {
+      "spelling": "libbied",
+      "condition": "candidate",
+      "expected": "IH",
+      "pair": "libied",
+      "stratum": "2"
+    },
+    "756f45d693": {
+      "spelling": "bigures",
+      "condition": "baseline",
+      "expected": "IH",
+      "pair": "bigures",
+      "stratum": "2"
+    },
+    "018ff5336f": {
+      "spelling": "chappor",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "chapor",
+      "stratum": "2"
+    },
+    "644fe1faa9": {
+      "spelling": "lemon",
+      "condition": "control",
+      "expected": "EH",
+      "pair": "lemon",
+      "stratum": "control"
+    },
+    "4e1bad924f": {
+      "spelling": "naficant",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "naficant",
+      "stratum": "3"
+    },
+    "3d05e34705": {
+      "spelling": "nederl",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "nederl",
+      "stratum": "2"
+    },
+    "442921a15d": {
+      "spelling": "habit",
+      "condition": "control",
+      "expected": "AE",
+      "pair": "habit",
+      "stratum": "control"
+    },
+    "74f9416cce": {
+      "spelling": "rippital",
+      "condition": "candidate",
+      "expected": "IH",
+      "pair": "ripital",
+      "stratum": "3"
+    },
+    "e6174367d8": {
+      "spelling": "spinnat",
+      "condition": "candidate",
+      "expected": "IH",
+      "pair": "spinat",
+      "stratum": "2"
+    },
+    "c8827a248e": {
+      "spelling": "happy",
+      "condition": "control",
+      "expected": "AE",
+      "pair": "happy",
+      "stratum": "control"
+    },
+    "3c2ce5dcba": {
+      "spelling": "epulant",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "epulant",
+      "stratum": "3"
+    },
+    "0223b7b6b7": {
+      "spelling": "shrammenor",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "shramenor",
+      "stratum": "3"
+    },
+    "30a0ad0647": {
+      "spelling": "ammilock",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "amilock",
+      "stratum": "3"
+    },
+    "3ee9cd3936": {
+      "spelling": "wattorg",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "watorg",
+      "stratum": "2"
+    },
+    "d3a7063937": {
+      "spelling": "summer",
+      "condition": "control",
+      "expected": "AH",
+      "pair": "summer",
+      "stratum": "control"
+    },
+    "1e5d096c58": {
+      "spelling": "gettomow",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "getomow",
+      "stratum": "3"
+    },
+    "e5054d3942": {
+      "spelling": "snaffis",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "snafis",
+      "stratum": "2"
+    },
+    "a09ba7406a": {
+      "spelling": "drassit",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "drasit",
+      "stratum": "2"
+    },
+    "02f9ee54d8": {
+      "spelling": "visit",
+      "condition": "control",
+      "expected": "IH",
+      "pair": "visit",
+      "stratum": "control"
+    },
+    "1932a8c5cf": {
+      "spelling": "bennirdy",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "benirdy",
+      "stratum": "3"
+    },
+    "df91162c46": {
+      "spelling": "blunin",
+      "condition": "baseline",
+      "expected": "AH",
+      "pair": "blunin",
+      "stratum": "2"
+    },
+    "20b6164768": {
+      "spelling": "amornt",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "amornt",
+      "stratum": "2"
+    },
+    "e8c6e8e370": {
+      "spelling": "bettapiek",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "betapiek",
+      "stratum": "3"
+    },
+    "95609f24dc": {
+      "spelling": "spetitar",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "spetitar",
+      "stratum": "3"
+    },
+    "18a781e07b": {
+      "spelling": "ditterl",
+      "condition": "candidate",
+      "expected": "IH",
+      "pair": "diterl",
+      "stratum": "2"
+    },
+    "83cfb6cfac": {
+      "spelling": "satageat",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "satageat",
+      "stratum": "3"
+    },
+    "49e20da8f4": {
+      "spelling": "letter",
+      "condition": "control",
+      "expected": "EH",
+      "pair": "letter",
+      "stratum": "control"
+    },
+    "caabc4def3": {
+      "spelling": "glefit",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "glefit",
+      "stratum": "2"
+    },
+    "28ebd197d8": {
+      "spelling": "weddurn",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "wedurn",
+      "stratum": "2"
+    },
+    "4096e811e6": {
+      "spelling": "grapurp",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "grapurp",
+      "stratum": "2"
+    },
+    "7bf54de820": {
+      "spelling": "udigact",
+      "condition": "baseline",
+      "expected": "AH",
+      "pair": "udigact",
+      "stratum": "3"
+    },
+    "77ed054acf": {
+      "spelling": "study",
+      "condition": "control",
+      "expected": "AH",
+      "pair": "study",
+      "stratum": "control"
+    },
+    "5ac7aeac13": {
+      "spelling": "peteve",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "peteve",
+      "stratum": "2"
+    },
+    "3897da88e6": {
+      "spelling": "tridur",
+      "condition": "baseline",
+      "expected": "IH",
+      "pair": "tridur",
+      "stratum": "2"
+    },
+    "0649b1ce28": {
+      "spelling": "mitinry",
+      "condition": "baseline",
+      "expected": "IH",
+      "pair": "mitinry",
+      "stratum": "3"
+    },
+    "4a4ce8871b": {
+      "spelling": "smuttin",
+      "condition": "candidate",
+      "expected": "AH",
+      "pair": "smutin",
+      "stratum": "2"
+    },
+    "be8233fe34": {
+      "spelling": "ettecose",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "etecose",
+      "stratum": "3"
+    },
+    "bcfdb393be": {
+      "spelling": "anidge",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "anidge",
+      "stratum": "2"
+    }
+  },
+  "B": {
+    "450b9c95df": {
+      "spelling": "platin",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "platin",
+      "stratum": "2"
+    },
+    "bcd4fab35a": {
+      "spelling": "happy",
+      "condition": "control",
+      "expected": "AE",
+      "pair": "happy",
+      "stratum": "control"
+    },
+    "1746bf7d78": {
+      "spelling": "libied",
+      "condition": "baseline",
+      "expected": "IH",
+      "pair": "libied",
+      "stratum": "2"
+    },
+    "52d038758f": {
+      "spelling": "study",
+      "condition": "control",
+      "expected": "AH",
+      "pair": "study",
+      "stratum": "control"
+    },
+    "a2aa69a64e": {
+      "spelling": "apadge",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "apadge",
+      "stratum": "2"
+    },
+    "879eebc371": {
+      "spelling": "betapiek",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "betapiek",
+      "stratum": "3"
+    },
+    "55565f5476": {
+      "spelling": "snanet",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "snanet",
+      "stratum": "2"
+    },
+    "23b36aa180": {
+      "spelling": "benirdy",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "benirdy",
+      "stratum": "3"
+    },
+    "a079a892e5": {
+      "spelling": "nagazoag",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "nagazoag",
+      "stratum": "3"
+    },
+    "62013f9e09": {
+      "spelling": "chapor",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "chapor",
+      "stratum": "2"
+    },
+    "02e91ca03d": {
+      "spelling": "blunnin",
+      "condition": "candidate",
+      "expected": "AH",
+      "pair": "blunin",
+      "stratum": "2"
+    },
+    "30b6f4a0ef": {
+      "spelling": "nafficant",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "naficant",
+      "stratum": "3"
+    },
+    "286bed21e9": {
+      "spelling": "amilock",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "amilock",
+      "stratum": "3"
+    },
+    "4a1cc366c5": {
+      "spelling": "watorg",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "watorg",
+      "stratum": "2"
+    },
+    "be5eb12747": {
+      "spelling": "hannurce",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "hanurce",
+      "stratum": "2"
+    },
+    "d70d2c5ab9": {
+      "spelling": "ripital",
+      "condition": "baseline",
+      "expected": "IH",
+      "pair": "ripital",
+      "stratum": "3"
+    },
+    "bf4767f660": {
+      "spelling": "snafis",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "snafis",
+      "stratum": "2"
+    },
+    "b84c39ff76": {
+      "spelling": "etecose",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "etecose",
+      "stratum": "3"
+    },
+    "459ef87129": {
+      "spelling": "summer",
+      "condition": "control",
+      "expected": "AH",
+      "pair": "summer",
+      "stratum": "control"
+    },
+    "eda05efb11": {
+      "spelling": "getomow",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "getomow",
+      "stratum": "3"
+    },
+    "2b1848fa2c": {
+      "spelling": "beporst",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "beporst",
+      "stratum": "2"
+    },
+    "f51517a51e": {
+      "spelling": "rigugeil",
+      "condition": "baseline",
+      "expected": "IH",
+      "pair": "rigugeil",
+      "stratum": "3"
+    },
+    "d8ade6634b": {
+      "spelling": "cettildern",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "cetildern",
+      "stratum": "3"
+    },
+    "84f1494884": {
+      "spelling": "uddigact",
+      "condition": "candidate",
+      "expected": "AH",
+      "pair": "udigact",
+      "stratum": "3"
+    },
+    "5043328756": {
+      "spelling": "lemon",
+      "condition": "control",
+      "expected": "EH",
+      "pair": "lemon",
+      "stratum": "control"
+    },
+    "90a775460c": {
+      "spelling": "spinat",
+      "condition": "baseline",
+      "expected": "IH",
+      "pair": "spinat",
+      "stratum": "2"
+    },
+    "44c5cc5356": {
+      "spelling": "ribbon",
+      "condition": "control",
+      "expected": "IH",
+      "pair": "ribbon",
+      "stratum": "control"
+    },
+    "f91395076d": {
+      "spelling": "shramenor",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "shramenor",
+      "stratum": "3"
+    },
+    "cab0bccd00": {
+      "spelling": "biggures",
+      "condition": "candidate",
+      "expected": "IH",
+      "pair": "bigures",
+      "stratum": "2"
+    },
+    "7819256ca8": {
+      "spelling": "wedurn",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "wedurn",
+      "stratum": "2"
+    },
+    "b92433f669": {
+      "spelling": "hedditone",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "heditone",
+      "stratum": "3"
+    },
+    "07db8a6137": {
+      "spelling": "habbinga",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "habinga",
+      "stratum": "3"
+    },
+    "c521dc491c": {
+      "spelling": "gleffit",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "glefit",
+      "stratum": "2"
+    },
+    "6e2657e334": {
+      "spelling": "smutin",
+      "condition": "baseline",
+      "expected": "AH",
+      "pair": "smutin",
+      "stratum": "2"
+    },
+    "5f2fd31a9e": {
+      "spelling": "weddomort",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "wedomort",
+      "stratum": "3"
+    },
+    "98fb17cdff": {
+      "spelling": "anangurl",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "anangurl",
+      "stratum": "3"
+    },
+    "f273027a5a": {
+      "spelling": "grappurp",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "grapurp",
+      "stratum": "2"
+    },
+    "85eb20fdfd": {
+      "spelling": "nedderl",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "nederl",
+      "stratum": "2"
+    },
+    "8cbfed1283": {
+      "spelling": "eppulant",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "epulant",
+      "stratum": "3"
+    },
+    "e0d0ed2e00": {
+      "spelling": "sattageat",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "satageat",
+      "stratum": "3"
+    },
+    "c1fb43efbc": {
+      "spelling": "mittinry",
+      "condition": "candidate",
+      "expected": "IH",
+      "pair": "mitinry",
+      "stratum": "3"
+    },
+    "ab5333433c": {
+      "spelling": "visit",
+      "condition": "control",
+      "expected": "IH",
+      "pair": "visit",
+      "stratum": "control"
+    },
+    "404fc21ce8": {
+      "spelling": "tibbedete",
+      "condition": "candidate",
+      "expected": "IH",
+      "pair": "tibedete",
+      "stratum": "3"
+    },
+    "48f2f7ad02": {
+      "spelling": "habit",
+      "condition": "control",
+      "expected": "AE",
+      "pair": "habit",
+      "stratum": "control"
+    },
+    "63d6654195": {
+      "spelling": "diterl",
+      "condition": "baseline",
+      "expected": "IH",
+      "pair": "diterl",
+      "stratum": "2"
+    },
+    "2970db1f39": {
+      "spelling": "rugatap",
+      "condition": "baseline",
+      "expected": "AH",
+      "pair": "rugatap",
+      "stratum": "3"
+    },
+    "d0c57b5b3b": {
+      "spelling": "ammornt",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "amornt",
+      "stratum": "2"
+    },
+    "b02c3988eb": {
+      "spelling": "drasit",
+      "condition": "baseline",
+      "expected": "AE",
+      "pair": "drasit",
+      "stratum": "2"
+    },
+    "f7203f4e7b": {
+      "spelling": "triddur",
+      "condition": "candidate",
+      "expected": "IH",
+      "pair": "tridur",
+      "stratum": "2"
+    },
+    "706b1e8379": {
+      "spelling": "annidge",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "anidge",
+      "stratum": "2"
+    },
+    "62444f4ca0": {
+      "spelling": "baddilpeat",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "badilpeat",
+      "stratum": "3"
+    },
+    "05bba4f435": {
+      "spelling": "letter",
+      "condition": "control",
+      "expected": "EH",
+      "pair": "letter",
+      "stratum": "control"
+    },
+    "032e2ee4e9": {
+      "spelling": "cippurl",
+      "condition": "candidate",
+      "expected": "IH",
+      "pair": "cipurl",
+      "stratum": "2"
+    },
+    "32ee9580e2": {
+      "spelling": "beboter",
+      "condition": "baseline",
+      "expected": "EH",
+      "pair": "beboter",
+      "stratum": "3"
+    },
+    "3b98ea2003": {
+      "spelling": "grattim",
+      "condition": "candidate",
+      "expected": "AE",
+      "pair": "gratim",
+      "stratum": "2"
+    },
+    "d435065c06": {
+      "spelling": "spettitar",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "spetitar",
+      "stratum": "3"
+    },
+    "b7460b8ac5": {
+      "spelling": "snitteten",
+      "condition": "candidate",
+      "expected": "IH",
+      "pair": "sniteten",
+      "stratum": "3"
+    },
+    "8b2d14f0e0": {
+      "spelling": "petteve",
+      "condition": "candidate",
+      "expected": "EH",
+      "pair": "peteve",
+      "stratum": "2"
+    }
+  }
+}

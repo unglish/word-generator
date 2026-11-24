@@ -1,0 +1,1 @@
+5 locked 10,000-word monosyllable archives are byte-identical between baseline and final.

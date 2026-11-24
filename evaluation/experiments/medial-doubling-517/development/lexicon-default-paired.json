@@ -1,0 +1,861 @@
+{
+  "lexicon-default": {
+    "before": {
+      "count": 50000,
+      "eligible": 3975,
+      "doubled": 191,
+      "byRootLength": {
+        "2": {
+          "eligible": 1860,
+          "doubled": 42
+        },
+        "3": {
+          "eligible": 1151,
+          "doubled": 97
+        },
+        "4+": {
+          "eligible": 964,
+          "doubled": 52
+        }
+      },
+      "byFollowingStress": {
+        "unstressed": {
+          "eligible": 3024,
+          "doubled": 0
+        },
+        "stressed": {
+          "eligible": 951,
+          "doubled": 191
+        }
+      },
+      "trigrams": {
+        "jensenShannonBits": 0.13658369217937333,
+        "missingReferenceMass": 0.04036303895486494,
+        "unseenGeneratedMass": 0.006203988229208631,
+        "total": 291909,
+        "named": {
+          "tte": {
+            "observed": 224,
+            "expected": 455.2004290689487
+          },
+          "err": {
+            "observed": 131,
+            "expected": 307.6051384314411
+          },
+          "arr": {
+            "observed": 122,
+            "expected": 304.38654953903443
+          },
+          "ott": {
+            "observed": 90,
+            "expected": 212.8866653120437
+          },
+          "ann": {
+            "observed": 193,
+            "expected": 369.21812580036953
+          },
+          "rre": {
+            "observed": 114,
+            "expected": 221.62283516286192
+          },
+          "rri": {
+            "observed": 175,
+            "expected": 239.55497327769928
+          }
+        }
+      }
+    },
+    "after": {
+      "count": 50000,
+      "eligible": 3975,
+      "doubled": 553,
+      "byRootLength": {
+        "2": {
+          "eligible": 1860,
+          "doubled": 270
+        },
+        "3": {
+          "eligible": 1151,
+          "doubled": 231
+        },
+        "4+": {
+          "eligible": 964,
+          "doubled": 52
+        }
+      },
+      "byFollowingStress": {
+        "unstressed": {
+          "eligible": 3024,
+          "doubled": 326
+        },
+        "stressed": {
+          "eligible": 951,
+          "doubled": 227
+        }
+      },
+      "trigrams": {
+        "jensenShannonBits": 0.13624200801778655,
+        "missingReferenceMass": 0.04036303895486494,
+        "unseenGeneratedMass": 0.006196304115016719,
+        "total": 292271,
+        "named": {
+          "tte": {
+            "observed": 248,
+            "expected": 455.76492881141286
+          },
+          "err": {
+            "observed": 131,
+            "expected": 307.98660340892445
+          },
+          "arr": {
+            "observed": 122,
+            "expected": 304.7640231041973
+          },
+          "ott": {
+            "observed": 90,
+            "expected": 213.15066872695368
+          },
+          "ann": {
+            "observed": 206,
+            "expected": 369.67599781370154
+          },
+          "rre": {
+            "observed": 114,
+            "expected": 221.89767241121314
+          },
+          "rri": {
+            "observed": 175,
+            "expected": 239.852048394693
+          }
+        }
+      }
+    },
+    "checks": {
+      "editedWords": 362,
+      "allNewEdits": 362,
+      "visibleNewDoubles": 362,
+      "originalPayloadDifferences": 0,
+      "vowelChanged": 0,
+      "stressLost": 0,
+      "nextTense": 0,
+      "unmatchedEdits": 0
+    },
+    "examples": [
+      {
+        "seed": 69212153,
+        "drawIndex": 119,
+        "before": "siperled",
+        "after": "sipperled",
+        "pronunciation": "ˈsɪ.pɚld",
+        "rootLength": 2
+      },
+      {
+        "seed": 69212153,
+        "drawIndex": 303,
+        "before": "frelorping",
+        "after": "frellorping",
+        "pronunciation": "ˈfrɛ.lɚp.ɪŋ",
+        "rootLength": 2
+      },
+      {
+        "seed": 69212153,
+        "drawIndex": 448,
+        "before": "ilacenils",
+        "after": "illacenils",
+        "pronunciation": "ˈɪ.ləʃ.nɪlz",
+        "rootLength": 3
+      },
+      {
+        "seed": 69212153,
+        "drawIndex": 527,
+        "before": "ankisen",
+        "after": "ankissen",
+        "pronunciation": "ənˈkʰɪ.sɪn",
+        "rootLength": 3
+      },
+      {
+        "seed": 69212153,
+        "drawIndex": 643,
+        "before": "fipangs",
+        "after": "fippangs",
+        "pronunciation": "ˈfɪ.pʰəŋz",
+        "rootLength": 2
+      },
+      {
+        "seed": 69212153,
+        "drawIndex": 692,
+        "before": "knetitanses",
+        "after": "knettitanses",
+        "pronunciation": "ˈnɛ.tʰə.tʰæns.ɪz",
+        "rootLength": 3
+      }
+    ],
+    "replicates": [
+      {
+        "seed": 69212153,
+        "before": {
+          "count": 10000,
+          "eligible": 784,
+          "doubled": 33,
+          "byRootLength": {
+            "2": {
+              "eligible": 363,
+              "doubled": 6
+            },
+            "3": {
+              "eligible": 233,
+              "doubled": 17
+            },
+            "4+": {
+              "eligible": 188,
+              "doubled": 10
+            }
+          },
+          "byFollowingStress": {
+            "unstressed": {
+              "eligible": 602,
+              "doubled": 0
+            },
+            "stressed": {
+              "eligible": 182,
+              "doubled": 33
+            }
+          },
+          "trigrams": {
+            "jensenShannonBits": 0.151327266562808,
+            "missingReferenceMass": 0.07142485859154167,
+            "unseenGeneratedMass": 0.006080273270709038,
+            "total": 58550,
+            "named": {
+              "tte": {
+                "observed": 44,
+                "expected": 91.30237547313358
+              },
+              "err": {
+                "observed": 26,
+                "expected": 61.69827191063269
+              },
+              "arr": {
+                "observed": 23,
+                "expected": 61.05269955880245
+              },
+              "ott": {
+                "observed": 18,
+                "expected": 42.6999998424857
+              },
+              "ann": {
+                "observed": 28,
+                "expected": 74.05637121709724
+              },
+              "rre": {
+                "observed": 21,
+                "expected": 44.45226765459635
+              },
+              "rri": {
+                "observed": 31,
+                "expected": 48.04902790050767
+              }
+            }
+          }
+        },
+        "after": {
+          "count": 10000,
+          "eligible": 784,
+          "doubled": 106,
+          "byRootLength": {
+            "2": {
+              "eligible": 363,
+              "doubled": 50
+            },
+            "3": {
+              "eligible": 233,
+              "doubled": 46
+            },
+            "4+": {
+              "eligible": 188,
+              "doubled": 10
+            }
+          },
+          "byFollowingStress": {
+            "unstressed": {
+              "eligible": 602,
+              "doubled": 66
+            },
+            "stressed": {
+              "eligible": 182,
+              "doubled": 40
+            }
+          },
+          "trigrams": {
+            "jensenShannonBits": 0.150997532060783,
+            "missingReferenceMass": 0.07142485859154167,
+            "unseenGeneratedMass": 0.006072701840574731,
+            "total": 58623,
+            "named": {
+              "tte": {
+                "observed": 46,
+                "expected": 91.41621105655867
+              },
+              "err": {
+                "observed": 26,
+                "expected": 61.77519716852297
+              },
+              "arr": {
+                "observed": 23,
+                "expected": 61.12881991862811
+              },
+              "ott": {
+                "observed": 18,
+                "expected": 42.75323810018855
+              },
+              "ann": {
+                "observed": 32,
+                "expected": 74.14870452365314
+              },
+              "rre": {
+                "observed": 21,
+                "expected": 44.50769063561745
+              },
+              "rri": {
+                "observed": 31,
+                "expected": 48.10893531360309
+              }
+            }
+          }
+        }
+      },
+      {
+        "seed": 101601885,
+        "before": {
+          "count": 10000,
+          "eligible": 784,
+          "doubled": 36,
+          "byRootLength": {
+            "2": {
+              "eligible": 370,
+              "doubled": 4
+            },
+            "3": {
+              "eligible": 225,
+              "doubled": 20
+            },
+            "4+": {
+              "eligible": 189,
+              "doubled": 12
+            }
+          },
+          "byFollowingStress": {
+            "unstressed": {
+              "eligible": 588,
+              "doubled": 0
+            },
+            "stressed": {
+              "eligible": 196,
+              "doubled": 36
+            }
+          },
+          "trigrams": {
+            "jensenShannonBits": 0.15181012300174684,
+            "missingReferenceMass": 0.07178084090583634,
+            "unseenGeneratedMass": 0.005981436919904092,
+            "total": 58180,
+            "named": {
+              "tte": {
+                "observed": 47,
+                "expected": 90.7254005982393
+              },
+              "err": {
+                "observed": 24,
+                "expected": 61.30837676790111
+              },
+              "arr": {
+                "observed": 20,
+                "expected": 60.66688403639841
+              },
+              "ott": {
+                "observed": 18,
+                "expected": 42.43016209796444
+              },
+              "ann": {
+                "observed": 39,
+                "expected": 73.58838048523855
+              },
+              "rre": {
+                "observed": 21,
+                "expected": 44.17135665490035
+              },
+              "rri": {
+                "observed": 30,
+                "expected": 47.74538758755826
+              }
+            }
+          }
+        },
+        "after": {
+          "count": 10000,
+          "eligible": 784,
+          "doubled": 119,
+          "byRootLength": {
+            "2": {
+              "eligible": 370,
+              "doubled": 54
+            },
+            "3": {
+              "eligible": 225,
+              "doubled": 53
+            },
+            "4+": {
+              "eligible": 189,
+              "doubled": 12
+            }
+          },
+          "byFollowingStress": {
+            "unstressed": {
+              "eligible": 588,
+              "doubled": 76
+            },
+            "stressed": {
+              "eligible": 196,
+              "doubled": 43
+            }
+          },
+          "trigrams": {
+            "jensenShannonBits": 0.15148144325857635,
+            "missingReferenceMass": 0.07178084090583634,
+            "unseenGeneratedMass": 0.00597291591576169,
+            "total": 58263,
+            "named": {
+              "tte": {
+                "observed": 54,
+                "expected": 90.85483009720207
+              },
+              "err": {
+                "observed": 24,
+                "expected": 61.3958397323517
+              },
+              "arr": {
+                "observed": 20,
+                "expected": 60.75343184277553
+              },
+              "ott": {
+                "observed": 18,
+                "expected": 42.49069326768137
+              },
+              "ann": {
+                "observed": 42,
+                "expected": 73.6933621899528
+              },
+              "rre": {
+                "observed": 21,
+                "expected": 44.23437182510242
+              },
+              "rri": {
+                "observed": 30,
+                "expected": 47.81350149559826
+              }
+            }
+          }
+        }
+      },
+      {
+        "seed": 3921817393,
+        "before": {
+          "count": 10000,
+          "eligible": 778,
+          "doubled": 47,
+          "byRootLength": {
+            "2": {
+              "eligible": 366,
+              "doubled": 18
+            },
+            "3": {
+              "eligible": 225,
+              "doubled": 21
+            },
+            "4+": {
+              "eligible": 187,
+              "doubled": 8
+            }
+          },
+          "byFollowingStress": {
+            "unstressed": {
+              "eligible": 597,
+              "doubled": 0
+            },
+            "stressed": {
+              "eligible": 181,
+              "doubled": 47
+            }
+          },
+          "trigrams": {
+            "jensenShannonBits": 0.15113440923576035,
+            "missingReferenceMass": 0.0680461768917108,
+            "unseenGeneratedMass": 0.0062470958748516445,
+            "total": 58107,
+            "named": {
+              "tte": {
+                "observed": 48,
+                "expected": 90.61156501481422
+              },
+              "err": {
+                "observed": 29,
+                "expected": 61.23145151001082
+              },
+              "arr": {
+                "observed": 24,
+                "expected": 60.59076367657274
+              },
+              "ott": {
+                "observed": 14,
+                "expected": 42.3769238402616
+              },
+              "ann": {
+                "observed": 44,
+                "expected": 73.49604717868264
+              },
+              "rre": {
+                "observed": 24,
+                "expected": 44.11593367387925
+              },
+              "rri": {
+                "observed": 39,
+                "expected": 47.68548017446284
+              }
+            }
+          }
+        },
+        "after": {
+          "count": 10000,
+          "eligible": 778,
+          "doubled": 110,
+          "byRootLength": {
+            "2": {
+              "eligible": 366,
+              "doubled": 60
+            },
+            "3": {
+              "eligible": 225,
+              "doubled": 42
+            },
+            "4+": {
+              "eligible": 187,
+              "doubled": 8
+            }
+          },
+          "byFollowingStress": {
+            "unstressed": {
+              "eligible": 597,
+              "doubled": 55
+            },
+            "stressed": {
+              "eligible": 181,
+              "doubled": 55
+            }
+          },
+          "trigrams": {
+            "jensenShannonBits": 0.15070960356603402,
+            "missingReferenceMass": 0.06787921173544874,
+            "unseenGeneratedMass": 0.006240330067044926,
+            "total": 58170,
+            "named": {
+              "tte": {
+                "observed": 54,
+                "expected": 90.70980668270163
+              },
+              "err": {
+                "observed": 29,
+                "expected": 61.297839061340795
+              },
+              "arr": {
+                "observed": 24,
+                "expected": 60.65645658984695
+              },
+              "ott": {
+                "observed": 14,
+                "expected": 42.422869185950354
+              },
+              "ann": {
+                "observed": 44,
+                "expected": 73.5757320870802
+              },
+              "rre": {
+                "observed": 24,
+                "expected": 44.163764465719375
+              },
+              "rri": {
+                "observed": 39,
+                "expected": 47.73718109261368
+              }
+            }
+          }
+        }
+      },
+      {
+        "seed": 3948943232,
+        "before": {
+          "count": 10000,
+          "eligible": 837,
+          "doubled": 44,
+          "byRootLength": {
+            "2": {
+              "eligible": 394,
+              "doubled": 8
+            },
+            "3": {
+              "eligible": 240,
+              "doubled": 21
+            },
+            "4+": {
+              "eligible": 203,
+              "doubled": 15
+            }
+          },
+          "byFollowingStress": {
+            "unstressed": {
+              "eligible": 635,
+              "doubled": 0
+            },
+            "stressed": {
+              "eligible": 202,
+              "doubled": 44
+            }
+          },
+          "trigrams": {
+            "jensenShannonBits": 0.15144477773914447,
+            "missingReferenceMass": 0.07322997245075236,
+            "unseenGeneratedMass": 0.006122065085418562,
+            "total": 58477,
+            "named": {
+              "tte": {
+                "observed": 44,
+                "expected": 91.1885398897085
+              },
+              "err": {
+                "observed": 24,
+                "expected": 61.6213466527424
+              },
+              "arr": {
+                "observed": 31,
+                "expected": 60.976579198976786
+              },
+              "ott": {
+                "observed": 27,
+                "expected": 42.64676158478286
+              },
+              "ann": {
+                "observed": 36,
+                "expected": 73.96403791054134
+              },
+              "rre": {
+                "observed": 28,
+                "expected": 44.396844673575245
+              },
+              "rri": {
+                "observed": 34,
+                "expected": 47.989120487412244
+              }
+            }
+          }
+        },
+        "after": {
+          "count": 10000,
+          "eligible": 837,
+          "doubled": 112,
+          "byRootLength": {
+            "2": {
+              "eligible": 394,
+              "doubled": 55
+            },
+            "3": {
+              "eligible": 240,
+              "doubled": 42
+            },
+            "4+": {
+              "eligible": 203,
+              "doubled": 15
+            }
+          },
+          "byFollowingStress": {
+            "unstressed": {
+              "eligible": 635,
+              "doubled": 63
+            },
+            "stressed": {
+              "eligible": 202,
+              "doubled": 49
+            }
+          },
+          "trigrams": {
+            "jensenShannonBits": 0.15110271604036962,
+            "missingReferenceMass": 0.07325674988147363,
+            "unseenGeneratedMass": 0.006114954308651815,
+            "total": 58545,
+            "named": {
+              "tte": {
+                "observed": 50,
+                "expected": 91.29457851536473
+              },
+              "err": {
+                "observed": 24,
+                "expected": 61.693003057352534
+              },
+              "arr": {
+                "observed": 31,
+                "expected": 61.04748583552672
+              },
+              "ott": {
+                "observed": 27,
+                "expected": 42.696353386478656
+              },
+              "ann": {
+                "observed": 41,
+                "expected": 74.05004701801806
+              },
+              "rre": {
+                "observed": 28,
+                "expected": 44.448471560005856
+              },
+              "rri": {
+                "observed": 34,
+                "expected": 48.04492465303538
+              }
+            }
+          }
+        }
+      },
+      {
+        "seed": 2089697863,
+        "before": {
+          "count": 10000,
+          "eligible": 792,
+          "doubled": 31,
+          "byRootLength": {
+            "2": {
+              "eligible": 367,
+              "doubled": 6
+            },
+            "3": {
+              "eligible": 228,
+              "doubled": 18
+            },
+            "4+": {
+              "eligible": 197,
+              "doubled": 7
+            }
+          },
+          "byFollowingStress": {
+            "unstressed": {
+              "eligible": 602,
+              "doubled": 0
+            },
+            "stressed": {
+              "eligible": 190,
+              "doubled": 31
+            }
+          },
+          "trigrams": {
+            "jensenShannonBits": 0.15020114224702116,
+            "missingReferenceMass": 0.07261566668714657,
+            "unseenGeneratedMass": 0.006587592798020069,
+            "total": 58595,
+            "named": {
+              "tte": {
+                "observed": 41,
+                "expected": 91.37254809305314
+              },
+              "err": {
+                "observed": 28,
+                "expected": 61.745691590154095
+              },
+              "arr": {
+                "observed": 24,
+                "expected": 61.099623068284025
+              },
+              "ott": {
+                "observed": 13,
+                "expected": 42.7328179465491
+              },
+              "ann": {
+                "observed": 46,
+                "expected": 74.11328900880977
+              },
+              "rre": {
+                "observed": 20,
+                "expected": 44.48643250591073
+              },
+              "rri": {
+                "observed": 41,
+                "expected": 48.08595712775827
+              }
+            }
+          }
+        },
+        "after": {
+          "count": 10000,
+          "eligible": 792,
+          "doubled": 106,
+          "byRootLength": {
+            "2": {
+              "eligible": 367,
+              "doubled": 51
+            },
+            "3": {
+              "eligible": 228,
+              "doubled": 48
+            },
+            "4+": {
+              "eligible": 197,
+              "doubled": 7
+            }
+          },
+          "byFollowingStress": {
+            "unstressed": {
+              "eligible": 602,
+              "doubled": 66
+            },
+            "stressed": {
+              "eligible": 190,
+              "doubled": 40
+            }
+          },
+          "trigrams": {
+            "jensenShannonBits": 0.1498910534503962,
+            "missingReferenceMass": 0.07261566668714657,
+            "unseenGeneratedMass": 0.0065791716379749315,
+            "total": 58670,
+            "named": {
+              "tte": {
+                "observed": 44,
+                "expected": 91.48950245958576
+              },
+              "err": {
+                "observed": 28,
+                "expected": 61.82472438935645
+              },
+              "arr": {
+                "observed": 24,
+                "expected": 61.17782891741998
+              },
+              "ott": {
+                "observed": 13,
+                "expected": 42.78751478665476
+              },
+              "ann": {
+                "observed": 47,
+                "expected": 74.20815199499735
+              },
+              "rre": {
+                "observed": 20,
+                "expected": 44.54337392476802
+              },
+              "rri": {
+                "observed": 41,
+                "expected": 48.14750583984261
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

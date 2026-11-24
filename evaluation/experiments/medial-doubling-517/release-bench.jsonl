@@ -1,0 +1,7 @@
+{"round":1,"sides":["base","production"],"base":{"ms":1275.8350839999998,"words":5000,"errors":0,"checksum":3846930},"production":{"ms":1268.579208,"words":5000,"errors":0,"checksum":2239591913},"ratio":0.9943128417685058}
+{"round":2,"sides":["production","base"],"production":{"ms":1631.301916,"words":5000,"errors":0,"checksum":2239591913},"base":{"ms":1485.879958,"words":5000,"errors":0,"checksum":3846930},"ratio":1.0978692506195038}
+{"round":3,"sides":["base","production"],"base":{"ms":1537.5064579999998,"words":5000,"errors":0,"checksum":3846930},"production":{"ms":1370.018208,"words":5000,"errors":0,"checksum":2239591913},"ratio":0.8910650104079109}
+{"round":4,"sides":["production","base"],"production":{"ms":1307.315291,"words":5000,"errors":0,"checksum":2239591913},"base":{"ms":2107.8412500000004,"words":5000,"errors":0,"checksum":3846930},"ratio":0.620215251504353}
+{"round":5,"sides":["base","production"],"base":{"ms":1145.4065,"words":5000,"errors":0,"checksum":3846930},"production":{"ms":1072.18925,"words":5000,"errors":0,"checksum":2239591913},"ratio":0.9360774973775684}
+{"round":6,"sides":["production","base"],"production":{"ms":1021.11825,"words":5000,"errors":0,"checksum":2239591913},"base":{"ms":958.328333,"words":5000,"errors":0,"checksum":3846930},"ratio":1.065520255258904}
+{"round":7,"sides":["base","production"],"base":{"ms":932.105916,"words":5000,"errors":0,"checksum":3846930},"production":{"ms":943.037,"words":5000,"errors":0,"checksum":2239591913},"ratio":1.011727298166832}
