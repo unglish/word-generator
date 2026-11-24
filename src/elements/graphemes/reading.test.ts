@@ -58,6 +58,7 @@ describe("English grapheme reading obligations", () => {
   it.each([
     ["j", "y"], ["ɪ", "y"], ["i:", "ea"], ["ɛ", "ea"], ["ə", "e"],
     ["θ", "th"], ["ð", "th"], ["aɪ", "ie"], ["dʒ", "dge"],
+    ["əʊ", "oa"], ["ɔ", "au"],
   ])("retains the whole configured unit /%s/ -> %s without a letter blacklist", (phoneme, form) => {
     expect(reading(phoneme, form)).toEqual({ kind: "single-phone" });
   });

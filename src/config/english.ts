@@ -104,6 +104,7 @@ const BT_S: BoundaryTransform[] = [Y_TO_I_ES, DROP_SILENT_E, VOICED_S_TO_ZZ];
  * /aɪ/ (vutice → vutiek, as in shriek; urlifeful → urliefful, as in chief).
  */
 const SPLIT_VOWELS = ["aɪ", "u", "eɪ", "əʊ", "ɑ"];
+const GOAT_SPLIT_CODAS = ["b", "d", "k", "l", "m", "n", "p", "s", "t", "v", "z"];
 
 /**
  * A root-final double consonant before a suffix starting with the same letter
@@ -519,11 +520,13 @@ export const englishConfig: LanguageConfig = {
     ],
     // A split reads long across one consonant (time, tune), not a cluster or a
     // digraph consonant (#470: rinse; snunde, bakadse). /eɪ/ keeps change and
-    // paste. /əʊ/ is left as it was (most, folk).
+    // paste. For /əʊ/ use the common split shapes (globe, code, smoke, hole,
+    // home, bone, hope, dose, note, stove, rose). Keep oa before hard g.
     codaLimit: {
-      phonemes: ["aɪ", "eɪ", "i:", "u"],
+      phonemes: ["aɪ", "eɪ", "i:", "u", "əʊ"],
       clusters: { "eɪ": [["n", "dʒ"], ["s", "t"]] },
       heldCodas: HELD_CODAS,
+      singleCodas: { "əʊ": GOAT_SPLIT_CODAS },
     },
   },
 
@@ -670,6 +673,20 @@ export const englishConfig: LanguageConfig = {
         { group: 1, segment: "nucleus" },
         { group: 2, segment: "nucleus" },
         { group: 3, segment: "coda" },
+      ],
+    },
+    {
+      // oa stays whole across clusters and before hard g. A single suitable
+      // coda letter can sit between o and the split marker (boat/hope).
+      name: "oa-to-split",
+      pattern: "(oa)([bcdklmnpstvz])$",
+      replacement: "o$2e",
+      probability: 86,
+      scope: "syllable",
+      skipBeforeVowel: true,
+      letterRoles: [
+        { group: 1, segment: "nucleus", sounds: ["əʊ"] },
+        { group: 2, segment: "coda", sounds: GOAT_SPLIT_CODAS },
       ],
     },
     {

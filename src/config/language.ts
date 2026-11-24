@@ -685,6 +685,8 @@ export interface SilentECodaLimit {
   clusters?: Record<string, string[][]>;
   /** One-consonant codas the marker cannot reach across for those phonemes (ŋ in singe). */
   heldCodas?: string[];
+  /** Optional per-nucleus allowlists for splits across a single coda sound. */
+  singleCodas?: Record<string, string[]>;
 }
 
 /**
@@ -708,6 +710,8 @@ export interface SpellingRule {
   probability?: number;
   /** When to apply: "syllable" (per-syllable), "word" (full word), or "both" (default). */
   scope?: "syllable" | "word" | "both";
+  /** Skip a syllable rule when the next root syllable starts with a vowel. */
+  skipBeforeVowel?: boolean;
   /**
    * Phoneme roles the matched letters must spell. Each entry names a capture
    * group and the syllable segment whose phonemes must own every letter in it,

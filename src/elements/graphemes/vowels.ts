@@ -246,8 +246,19 @@ export const vowelGraphemes: Grapheme[] = [
     startWord: 10,
     midWord: 10,
     endWord: 5,
-    // Comparator ~52% "o". Digraph ceiling without inventory "au"/"oa" is aw+ough.
+    // Comparator ~52% "o".
     isolatedSyllableWeight: 3,
+  },
+  // baud, clause — also used before clusters, unlike closed "aw".
+  {
+    phoneme: "ɔ",
+    form: "au",
+    frequency: 10,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+    isolatedSyllableWeight: 0.3,
+    condition: { syllableShape: { coda: "nonEmpty" } },
   },
   // Open monos (law, saw): comparator open /ɔ/ is essentially all "aw".
   {

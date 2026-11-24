@@ -14,6 +14,7 @@ import { findExample } from "../test-support/find-example.js";
 // (kind), or one consonant that a reader moves onto a following vowel (ti-ger).
 
 const BARE: Record<string, string> = { "aɪ": "i", "eɪ": "a", "i:": "e", "u": "u" };
+const LONG_VOWEL_SOUNDS = new Set(Object.keys(BARE));
 const ISSUE_SEEDS = [2000002, 2000201, 2000133, 2000319, 2000001] as const;
 
 /** The shipped openReading requirement of each bare long-vowel letter. */
@@ -29,13 +30,13 @@ interface LongNucleus {
   final: boolean;
 }
 
-/** /aɪ eɪ i: u/ nuclei with their coda sounds and whether a vowel follows the coda, from the trace. */
-function longNuclei(word: Word): LongNucleus[] {
+/** Nuclei with their coda sounds and whether a vowel follows the coda, from the trace. */
+function longNuclei(word: Word, sounds: ReadonlySet<string> = LONG_VOWEL_SOUNDS): LongNucleus[] {
   const selections = word.trace!.graphemeSelections;
   // The root is spelled before its resolved suffix (s → es after a sibilant).
   const suffix = word.trace!.morphology?.realization?.suffix?.resolved.written ?? "";
   return selections.flatMap((nucleus) => {
-    if (nucleus.position !== "nucleus" || !(nucleus.phoneme in BARE)) return [];
+    if (nucleus.position !== "nucleus" || !sounds.has(nucleus.phoneme)) return [];
     const rest = selections.filter(g => g.index > nucleus.index);
     const coda = rest.filter(g => g.syllableIndex === nucleus.syllableIndex && g.position === "coda").map(g => g.phoneme);
     const after = rest.find(g => g.syllableIndex !== nucleus.syllableIndex);
@@ -59,7 +60,7 @@ const SPLIT_HELD = new Set(englishConfig.silentE!.codaLimit!.heldCodas);
 const SPLIT_CLUSTERS = englishConfig.silentE!.codaLimit!.clusters ?? {};
 
 /** Rules that leave a nucleus split by an e after its coda. */
-const SPLIT_RULES = /^spellingRule:(magic-e|magic-e-ie-ue|ie-ue-before-e-coda)$/;
+const SPLIT_RULES = /^spellingRule:(magic-e|magic-e-ie-ue|ie-ue-before-e-coda|oa-to-split)$/;
 
 interface WrittenRime {
   /** Letters spelling the nucleus before the coda. */
@@ -411,5 +412,57 @@ describe("long-vowel single letters read long (#470)", () => {
     }
     expect(closed).toBeGreaterThan(100);
     expect(fallback).toBeGreaterThan(0);
+  });
+});
+
+describe("GOAT spelling in closed syllables (#508)", () => {
+  it("keeps long readings after the writer's changes, including valid bare o and split o_e", () => {
+    const goat = new Set(["əʊ"]);
+    // A closed bare o before these codas reads short (cot, cod, con, Tom, cop, cock).
+    const shortO = new Set(["t", "d", "n", "m", "p", "k", "g"]);
+    let checkedFinal = 0;
+    let checkedMedial = 0;
+    let openO = 0;
+    let ost = 0;
+    let splitO = 0;
+    let oaBeforeVowel = 0;
+    const shortReadings: string[] = [];
+    for (const word of generateWords(5_000, { seed: 508, morphology: false, trace: true })) {
+      for (const n of longNuclei(word, goat)) {
+        const spelling = word.written.clean;
+        if (n.coda.length === 0) {
+          if (n.final && n.nucleus.selected === "o" && spelling.endsWith("o")) openO++;
+          continue;
+        }
+        const rime = writtenRime(word, n);
+        if (n.final && rime?.vowel === "o" && spelling.endsWith("ost") && n.coda.join(" ") === "s t") ost++;
+        if (!n.final && n.vowelAfter && n.nucleus.selected === "oa" && n.coda.length === 1) {
+          const part = n.nucleus.syllableIndex;
+          const coda = codaSpelling(word, n);
+          if (coda.length === 1 && /^[bcdklmnpstvz]$/.test(coda) && n.coda[0] !== "g") {
+            const split = word.trace!.repairs.find((repair) =>
+              repair.rule === "spellingRule:oa-to-split" && repair.detail === `syllable:${part}`,
+            );
+            expect(split, spelling).toBeUndefined();
+            oaBeforeVowel++;
+          }
+        }
+        if (n.vowelAfter || n.coda.length !== 1 || !shortO.has(n.coda[0])) continue;
+        if (n.final) checkedFinal++;
+        else checkedMedial++;
+        expect(rime, spelling).toBeDefined();
+        if (rime?.vowel !== "o") continue;
+        const validSplit = rime.split && (!n.final || /o[dkmnpt]e$/.test(spelling));
+        if (!validSplit) shortReadings.push(`${spelling} /${word.pronunciation}/`);
+        if (n.final && validSplit) splitO++;
+      }
+    }
+    expect(checkedFinal).toBeGreaterThan(100);
+    expect(checkedMedial).toBeGreaterThan(15);
+    expect(shortReadings).toEqual([]);
+    expect(openO).toBeGreaterThan(20);
+    expect(ost).toBeGreaterThan(0);
+    expect(splitO).toBeGreaterThan(10);
+    expect(oaBeforeVowel).toBeGreaterThan(0);
   });
 });

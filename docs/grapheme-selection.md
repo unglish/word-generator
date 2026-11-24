@@ -346,7 +346,7 @@ that value: in an open syllable (*ti-ger*, *ba-con*), or before a few codas
 /laɪz/ read `lis-`, `kalmrel` /keɪl/ read `kal-`, `celstorn` /si:lz/ read
 `cels-`, in every syllable, not only the last.
 
-The bare letters /aɪ/ `i`, /eɪ/ `a`, /i:/ `e` and /u/ `u` now carry an
+The bare letters /aɪ/ `i`, /eɪ/ `a`, /i:/ `e`, /u/ `u` and /əʊ/ `o` carry an
 `openReading` condition. It holds in three cases:
 
 - the syllable has no coda;
@@ -367,6 +367,7 @@ letter. The suffix's consonant doubling does not fire after a long vowel
 | /eɪ/ `a` | /dʒ/, /ndʒ/ | *age*, *change*, *angel* |
 | /u/ `u` | /dʒ/ | *huge* |
 | /i:/ `e` | none | |
+| /əʊ/ `o` | st, ld, lt, lk, lf, lm | *most*, *cold*, *bolt* and names such as *Volk*, *Rolf*, *Holm* |
 
 After a long vowel, /dʒ/ is spelled `ge`, and that `e` is the split marker.
 English has no spelling for /aɪŋ/ (#463), and `ie` would become `iing` through
@@ -429,7 +430,14 @@ Spelling rules finish the job:
   (`snoond`, `bakaids`).
   The swap's random draw is still taken.
 
-/əʊ/ `o` is unchanged (*most*, *folk*, *control*).
+Closed /əʊ/ rimes can use `oa` (*boat*, *coast*). A syllable spelling rule can
+change `oa` to `o…e` when a single coda letter gives a familiar split reading
+(*bone*, *hope*). The rule checks that `oa` spells /əʊ/ and that the consonant
+belongs to the coda. It keeps the digraph before hard /g/ and across clusters.
+Before an onsetless syllable it keeps `oa` so a split marker cannot combine
+with the next vowel's spelling.
+Closed /ɔ/ rimes can use `au` before single consonants or clusters (*baud*,
+*clause*).
 
 ## /ɑ/ `au` in final syllables
 
