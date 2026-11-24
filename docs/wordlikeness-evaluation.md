@@ -5,6 +5,8 @@ pure scoring functions in `evaluation/review/wordlikeness/`. They do not change
 any generator configuration, sampling weights, repairs, or public generation API.
 No acceptance gate, calibrated prediction, or “percentage English” is defined.
 
+New spelling models use the [ordinary spelling corpus](../data/cmu/ordinary/README.md) for their character counts. The v1 artifacts and reproduction procedure below describe the historical full-CMU comparison.
+
 ## What is replicated, adapted, and proposed
 
 [Frisch, Large, and Pisoni (2000)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3129706/)
@@ -48,7 +50,7 @@ and excludes numbered pronunciation alternatives, punctuation/apostrophes,
 digits, unsupported ARPABET, and entries without a vowel. It does not remove
 proper names, acronyms spelled entirely with letters, or inflections. Every
 accepted spelling has equal lexical weight; this is not token-frequency weighting.
-The spelling and sound models use exactly the same accepted spelling set.
+The historical spelling and sound models use exactly the same accepted spelling set.
 The pinned model accepts 117,485 entries and records exclusions by reason.
 
 CMUdict provides stressed phonemes but no syllable boundaries. This adaptation
@@ -126,7 +128,7 @@ artifacts and the complete comparison proof are kept at
 ```bash
 curl -fL https://raw.githubusercontent.com/cmusphinx/cmudict/74790861f652b15e4ac49015a90074ad62a27690/cmudict.dict -o /tmp/wordlikeness-cmudict.dict
 node --import tsx evaluation/corpus/audit.ts --source /tmp/wordlikeness-cmudict.dict --out /tmp/cmu-parser-audit.json
-npm run review:wordlikeness -- build --corpus /tmp/wordlikeness-cmudict.dict --out /tmp/reference-v1.json
+npm run review:wordlikeness -- build --historical-full-cmu --corpus /tmp/wordlikeness-cmudict.dict --out /tmp/reference-v1.json
 npm run review:wordlikeness -- score --model /tmp/reference-v1.json --snapshot evaluation/review/studies/written-v1-baseline.json --snapshot evaluation/review/studies/written-v2-baseline.json --out /tmp/frozen-scores-v1.json
 python3 evaluation/corpus/verify-parser.py --source /tmp/wordlikeness-cmudict.dict --audit /tmp/cmu-parser-audit.json --reference /tmp/reference-v1.json --scores /tmp/frozen-scores-v1.json --out /tmp/cmu-parser-parity.json
 ```

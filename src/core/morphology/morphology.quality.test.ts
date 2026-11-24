@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { createGenerator, englishConfig, generateWord, generateWords } from "../../index.js";
 import { createSeededRng } from "../../utils/random.js";
-import cmuBigrams from "../../../data/cmu/cmu-lexicon-bigrams.json";
-import cmuTrigrams from "../../../data/cmu/cmu-lexicon-trigrams.json";
+import cmuBigrams from "../../../data/cmu/ordinary/bigrams.json";
+import cmuTrigrams from "../../../data/cmu/ordinary/trigrams.json";
 describe("Morphology quality benchmarks", () => {
   const words = generateWords(1000, { seed: 42, morphology: true, trace: true });
 

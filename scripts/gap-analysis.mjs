@@ -1,7 +1,7 @@
 /**
  * Issue #162 Step 1: Full bigram/trigram gap analysis
  * Generate 200k lexicon words, compute letter + bigram + trigram frequencies,
- * compare to English reference data from Norvig corpus files.
+ * compare to English reference data from the filtered CMU spelling reference.
  */
 
 import { generateWord } from '../dist/index.js';
@@ -10,44 +10,18 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const dataDir = join(__dirname, '..', 'data', 'norvig');
+const dataDir = join(__dirname, '..', 'data', 'cmu', 'ordinary');
 
-// English letter frequencies (from Norvig/Google Books, lowercase)
-const ENGLISH_LETTER_FREQ = {
-  e: 12.49, t: 9.28, a: 8.04, o: 7.64, i: 7.57, n: 7.23,
-  s: 6.51, r: 6.28, h: 5.05, l: 4.07, d: 3.82, c: 3.34,
-  u: 2.73, m: 2.51, f: 2.40, p: 2.14, g: 1.87, w: 1.68,
-  y: 1.66, b: 1.48, v: 1.05, k: 0.54, x: 0.23, j: 0.16,
-  q: 0.12, z: 0.09
-};
-
-/**
- * Load n-gram frequencies from a Norvig TSV file.
- * Returns { ngram: percentage } using the *\/* (total) column.
- */
-function loadNgramFreqs(filename) {
-  const lines = readFileSync(join(dataDir, filename), 'utf8').trim().split('\n');
-  const freqs = {};
-  let total = 0;
-  const entries = [];
-  for (let i = 1; i < lines.length; i++) {
-    const parts = lines[i].split('\t');
-    const ngram = parts[0].toLowerCase();
-    const count = parseInt(parts[1], 10);
-    if (isNaN(count)) continue;
-    entries.push({ ngram, count });
-    total += count;
-  }
-  for (const { ngram, count } of entries) {
-    freqs[ngram] = (count / total) * 100;
-  }
-  return freqs;
+function referencePercentages(name) {
+  const counts = JSON.parse(readFileSync(join(dataDir, name + '.json'), 'utf8'));
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+  return Object.fromEntries(Object.entries(counts).map(([gram, count]) => [gram, 100 * count / total]));
 }
 
-const ENGLISH_BIGRAM_FREQ = loadNgramFreqs('ngrams2.tsv');
-const ENGLISH_TRIGRAM_FREQ = loadNgramFreqs('ngrams3.tsv');
-
-console.log(`Loaded ${Object.keys(ENGLISH_BIGRAM_FREQ).length} English bigrams, ${Object.keys(ENGLISH_TRIGRAM_FREQ).length} trigrams from Norvig corpus`);
+const ENGLISH_LETTER_FREQ = referencePercentages('letters');
+const ENGLISH_BIGRAM_FREQ = referencePercentages('bigrams');
+const ENGLISH_TRIGRAM_FREQ = referencePercentages('trigrams');
+console.log('Spelling reference: CMU × SCOWL size 60');
 
 // Pearson correlation
 function pearson(x, y) {

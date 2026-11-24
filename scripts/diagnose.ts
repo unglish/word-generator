@@ -21,6 +21,7 @@ function parseArgs(): { pattern: string; sampleSize: number; tracePercent: numbe
   }
 
   const pattern = args[0].toLowerCase();
+  if (!/^[a-z]+$/.test(pattern)) throw new Error("Expected a nonempty ASCII letter pattern.");
   let sampleSize = 50000;
   let tracePercent = 10;
   let seed: number | undefined;
@@ -52,29 +53,26 @@ interface CmuResult {
 
 function checkCmu(pattern: string): CmuResult {
   const len = pattern.length;
-  let jsonFile: string;
-  if (len === 1) {
-    jsonFile = 'data/cmu/cmu-lexicon-letters.json';
-  } else if (len === 2) {
-    jsonFile = 'data/cmu/cmu-lexicon-bigrams.json';
-  } else if (len === 3) {
-    jsonFile = 'data/cmu/cmu-lexicon-trigrams.json';
+  const directory = path.resolve(process.cwd(), 'data/cmu/ordinary');
+  const countsFile = ['letters.json', 'bigrams.json', 'trigrams.json'][len - 1];
+  let data: Record<string, number>;
+  if (countsFile) {
+    data = JSON.parse(fs.readFileSync(path.join(directory, countsFile), 'utf8'));
   } else {
-    // For longer patterns, try trigrams as fallback
-    jsonFile = 'data/cmu/cmu-lexicon-trigrams.json';
+    data = Object.create(null);
+    const words = fs.readFileSync(path.join(directory, 'spellings.txt'), 'utf8').trimEnd().split('\n');
+    for (const word of words) {
+      for (let i = 0; i + len <= word.length; i++) {
+        const gram = word.slice(i, i + len);
+        data[gram] = (data[gram] ?? 0) + 1;
+      }
+    }
   }
-
-  const filePath = path.resolve(process.cwd(), jsonFile);
-  if (!fs.existsSync(filePath)) {
-    return { frequency: 0, rank: -1, totalNgrams: 0, count: 0, verdict: 'LEXICON FILE NOT FOUND', examples: [] };
-  }
-
-  const data: Record<string, number> = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   const entries = Object.entries(data).sort((a, b) => b[1] - a[1]);
   const totalCount = entries.reduce((sum, [, v]) => sum + v, 0);
 
   const count = data[pattern] ?? 0;
-  const frequency = count / totalCount;
+  const frequency = totalCount ? count / totalCount : 0;
   const rank = count > 0 ? entries.findIndex(([k]) => k === pattern) + 1 : -1;
 
   let verdict: string;
@@ -305,18 +303,24 @@ function main() {
   const sortedCategories = [...categories.entries()].sort((a, b) => b[1].count - a[1].count);
 
   // ═══ Step 5: Build report ═══
-  const overRep = cmu.frequency > 0 ? matchPercent / cmu.frequency : Infinity;
+  const windows = allWords.reduce((sum, w) => sum + Math.max(0, w.written.clean.length - pattern.length + 1), 0);
+  let occurrences = 0;
+  for (const w of matches) {
+    for (let i = w.written.clean.indexOf(pattern); i >= 0; i = w.written.clean.indexOf(pattern, i + 1)) occurrences++;
+  }
+  const generatedFrequency = windows ? occurrences / windows : 0;
+  const overRep = cmu.frequency > 0 ? generatedFrequency / cmu.frequency : Infinity;
 
   const lines: string[] = [];
   lines.push('═══════════════════════════════════════════');
   lines.push(`  Diagnostic: "${pattern}"`);
   lines.push('═══════════════════════════════════════════');
   lines.push('');
-  lines.push('CMU Lexicon Check');
+  lines.push('Filtered CMU × SCOWL spelling reference');
   lines.push('─────────────────');
   if (cmu.count > 0) {
     lines.push(`  Frequency: ${(cmu.frequency * 100).toFixed(4)}% (rank #${cmu.rank} of ${cmu.totalNgrams})`);
-    lines.push(`  Occurrences: ${cmu.count.toLocaleString()} words`);
+    lines.push(`  Within-word occurrences: ${cmu.count.toLocaleString()}`);
   } else {
     lines.push(`  Frequency: 0%`);
   }
