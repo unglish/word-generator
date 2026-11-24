@@ -1,0 +1,293 @@
+{
+  "letters": {
+    "unionKeyCount": 26,
+    "unionPearsonR": 0.9863701776035823,
+    "jensenShannonBits": 0.004697321682530971,
+    "missingReferenceMassPct": 0,
+    "nonReferenceMassPct": 0,
+    "referenceWindows": 369805,
+    "generatedWindows": 156116,
+    "over": [
+      {
+        "gram": "a",
+        "observed": 13690,
+        "reference": 27987,
+        "generatedPct": 8.769120397653028,
+        "referencePct": 7.568042617054934
+      },
+      {
+        "gram": "k",
+        "observed": 3180,
+        "reference": 3417,
+        "generatedPct": 2.0369468856491326,
+        "referencePct": 0.9240004867430132
+      },
+      {
+        "gram": "e",
+        "observed": 19501,
+        "reference": 43092,
+        "generatedPct": 12.491352583976019,
+        "referencePct": 11.652627736239369
+      },
+      {
+        "gram": "l",
+        "observed": 8977,
+        "reference": 18864,
+        "generatedPct": 5.750211381280586,
+        "referencePct": 5.101066778437285
+      },
+      {
+        "gram": "w",
+        "observed": 2033,
+        "reference": 3342,
+        "generatedPct": 1.3022367982782035,
+        "referencePct": 0.9037195278592772
+      },
+      {
+        "gram": "h",
+        "observed": 4035,
+        "reference": 8114,
+        "generatedPct": 2.5846165671680033,
+        "referencePct": 2.194129338435121
+      }
+    ],
+    "under": [
+      {
+        "gram": "i",
+        "observed": 12076,
+        "reference": 31726,
+        "generatedPct": 7.735273770785826,
+        "referencePct": 8.579116020605454
+      },
+      {
+        "gram": "t",
+        "observed": 9679,
+        "reference": 26019,
+        "generatedPct": 6.199877014527659,
+        "referencePct": 7.035870255945701
+      },
+      {
+        "gram": "p",
+        "observed": 3433,
+        "reference": 10930,
+        "generatedPct": 2.1990058674319095,
+        "referencePct": 2.9556117413231298
+      },
+      {
+        "gram": "u",
+        "observed": 4318,
+        "reference": 12057,
+        "generatedPct": 2.765892029004074,
+        "referencePct": 3.260366950149403
+      },
+      {
+        "gram": "c",
+        "observed": 5853,
+        "reference": 15372,
+        "generatedPct": 3.749135258397602,
+        "referencePct": 4.156785332810535
+      },
+      {
+        "gram": "r",
+        "observed": 10947,
+        "reference": 27401,
+        "generatedPct": 7.012093571446873,
+        "referencePct": 7.409580724976677
+      }
+    ]
+  },
+  "bigrams": {
+    "unionKeyCount": 566,
+    "unionPearsonR": 0.9179013168765601,
+    "jensenShannonBits": 0.04836764066494536,
+    "missingReferenceMassPct": 0.3439322509038258,
+    "nonReferenceMassPct": 0.14766816538834537,
+    "referenceWindows": 323901,
+    "generatedWindows": 136116,
+    "over": [
+      {
+        "gram": "ee",
+        "observed": 1313,
+        "reference": 1005,
+        "generatedPct": 0.9646184137059567,
+        "referencePct": 0.3102799929608121
+      },
+      {
+        "gram": "ke",
+        "observed": 1138,
+        "reference": 1105,
+        "generatedPct": 0.836051603044462,
+        "referencePct": 0.34115362410119143
+      },
+      {
+        "gram": "an",
+        "observed": 2099,
+        "reference": 3459,
+        "generatedPct": 1.542067060448441,
+        "referencePct": 1.0679189011457204
+      },
+      {
+        "gram": "sa",
+        "observed": 971,
+        "reference": 781,
+        "generatedPct": 0.7133621322989215,
+        "referencePct": 0.24112305920636243
+      },
+      {
+        "gram": "ea",
+        "observed": 1437,
+        "reference": 1960,
+        "generatedPct": 1.0557171824032443,
+        "referencePct": 0.6051231703514346
+      },
+      {
+        "gram": "ki",
+        "observed": 816,
+        "reference": 533,
+        "generatedPct": 0.599488671427312,
+        "referencePct": 0.16455645397822175
+      }
+    ],
+    "under": [
+      {
+        "gram": "on",
+        "observed": 965,
+        "reference": 4978,
+        "generatedPct": 0.708954127361956,
+        "referencePct": 1.5368893581680823
+      },
+      {
+        "gram": "io",
+        "observed": 18,
+        "reference": 2701,
+        "generatedPct": 0.013224014810896589,
+        "referencePct": 0.8338967771016452
+      },
+      {
+        "gram": "ti",
+        "observed": 1239,
+        "reference": 5583,
+        "generatedPct": 0.9102530194833818,
+        "referencePct": 1.7236748265673771
+      },
+      {
+        "gram": "st",
+        "observed": 904,
+        "reference": 4165,
+        "generatedPct": 0.6641394105028064,
+        "referencePct": 1.2858867369967983
+      },
+      {
+        "gram": "er",
+        "observed": 2478,
+        "reference": 7605,
+        "generatedPct": 1.8205060389667636,
+        "referencePct": 2.347939648225847
+      },
+      {
+        "gram": "at",
+        "observed": 1432,
+        "reference": 4976,
+        "generatedPct": 1.052043844955773,
+        "referencePct": 1.5362718855452746
+      }
+    ]
+  },
+  "trigrams": {
+    "unionKeyCount": 6612,
+    "unionPearsonR": 0.7693320898668836,
+    "jensenShannonBits": 0.16623769497918314,
+    "missingReferenceMassPct": 3.5925085334667126,
+    "nonReferenceMassPct": 3.572289779186203,
+    "referenceWindows": 278023,
+    "generatedWindows": 116116,
+    "over": [
+      {
+        "gram": "ean",
+        "observed": 325,
+        "reference": 101,
+        "generatedPct": 0.2798925212718316,
+        "referencePct": 0.03632792970365761
+      },
+      {
+        "gram": "ses",
+        "observed": 379,
+        "reference": 366,
+        "generatedPct": 0.32639774019084367,
+        "referencePct": 0.13164378486671965
+      },
+      {
+        "gram": "een",
+        "observed": 261,
+        "reference": 109,
+        "generatedPct": 0.22477522477522477,
+        "referencePct": 0.03920538948216514
+      },
+      {
+        "gram": "eck",
+        "observed": 229,
+        "reference": 95,
+        "generatedPct": 0.19721657652692134,
+        "referencePct": 0.03416983486977696
+      },
+      {
+        "gram": "cki",
+        "observed": 230,
+        "reference": 100,
+        "generatedPct": 0.19807778428468084,
+        "referencePct": 0.03596824723134417
+      },
+      {
+        "gram": "ane",
+        "observed": 234,
+        "reference": 149,
+        "generatedPct": 0.20152261531571877,
+        "referencePct": 0.05359268837470281
+      }
+    ],
+    "under": [
+      {
+        "gram": "ion",
+        "observed": 16,
+        "reference": 2224,
+        "generatedPct": 0.01377932412415171,
+        "referencePct": 0.7999338184250944
+      },
+      {
+        "gram": "tio",
+        "observed": 13,
+        "reference": 1834,
+        "generatedPct": 0.011195700850873265,
+        "referencePct": 0.659657654222852
+      },
+      {
+        "gram": "ati",
+        "observed": 157,
+        "reference": 1864,
+        "generatedPct": 0.13520961796823866,
+        "referencePct": 0.6704481283922553
+      },
+      {
+        "gram": "ers",
+        "observed": 240,
+        "reference": 1663,
+        "generatedPct": 0.20668986186227564,
+        "referencePct": 0.5981519514572535
+      },
+      {
+        "gram": "ate",
+        "observed": 260,
+        "reference": 1666,
+        "generatedPct": 0.2239140170174653,
+        "referencePct": 0.5992309988741938
+      },
+      {
+        "gram": "ent",
+        "observed": 237,
+        "reference": 1544,
+        "generatedPct": 0.2041062385889972,
+        "referencePct": 0.555349737251954
+      }
+    ]
+  }
+}
