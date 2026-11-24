@@ -30,6 +30,7 @@ export type {
   PhonemeLengthWeights,
   PhonemeToSyllableWeights,
   HardLetterRespelling,
+  LetterContextRespelling,
 } from "./config/language.js";
 export { validateJunction } from "./core/junction.js";
 export type { SspViolation } from "./core/junction.js";

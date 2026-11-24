@@ -829,6 +829,20 @@ export interface WrittenFormConstraints {
    * syllable rules and silent-e, before word rules.
    */
   hardLetters?: HardLetterRespelling[];
+
+  /** Whole-unit spellings to repair after word rules, using the attached root's next letter. */
+  letterContexts?: LetterContextRespelling[];
+}
+
+export interface LetterContextRespelling {
+  name: string;
+  phoneme: string;
+  /** Longest first, so a complete digraph can be replaced as one unit. */
+  forms: string[];
+  hardBefore: string[];
+  replacement: string;
+  /** Restrict to an onset immediately before one of these nuclei. */
+  onsetBefore?: string[];
 }
 
 /**
@@ -2245,6 +2259,21 @@ export function validateConfig(config: LanguageConfig): void {
     // A unit already written this way is recognised by its first letter.
     if (!rule.afterShortVowel.startsWith(rule.letter))
       throw new Error(`${label}.afterShortVowel must start with "${rule.letter}"`);
+  });
+
+  config.writtenFormConstraints?.letterContexts?.forEach((rule, i) => {
+    const label = `writtenFormConstraints.letterContexts[${i}] (${rule.name})`;
+    // These rules may be reused with a reduced inventory, where unused sounds
+    // simply cannot match. Check the shape of the filters independently.
+    if (!rule.phoneme || (rule.onsetBefore && (!rule.onsetBefore.length || rule.onsetBefore.includes(""))))
+      throw new Error(`${label} phoneme filters must name nonempty sounds`);
+    if (!rule.forms.length || rule.forms.some((form, index) =>
+      !form || (index > 0 && form.length > rule.forms[index - 1].length)))
+      throw new Error(`${label}.forms must list nonempty spellings, longest first`);
+    if (!rule.hardBefore.length || rule.hardBefore.some((letter) => letter.length !== 1))
+      throw new Error(`${label}.hardBefore must list single letters`);
+    if (!rule.replacement || rule.forms.some((form) => rule.replacement.length > form.length))
+      throw new Error(`${label}.replacement must be nonempty and cannot lengthen the spelling`);
   });
 
   if (aspiration) {

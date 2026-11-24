@@ -279,8 +279,8 @@ in English anyway.
 
 ## Hard `c` before e, i and y (#460)
 
-`c` for /k/ reads /s/ before the letters e, i and y. Selection blocks /k/ → `c`
-before front-vowel *sounds* (`c-soft-vowel`), but it cannot see the letters
+`c` for /k/ reads /s/ before the letters e, i and y. Selection blocks
+/k/ → `c` before front-vowel *sounds* (`c-soft-vowel`), but it cannot see the letters
 that follow: a schwa written `e` or `i` (`ececoontion`), /j/ → `y`
 (`facyorck`), the `e` that magic-e or silent-e adds (`brice`), or an e/i/y-initial
 suffix (`winwocive`). Vowel-suffix boundary transforms spell final hard `c`
@@ -308,6 +308,21 @@ A `c` for /s/ before e/i/y (*cell*, *acid*) is untouched. The respell draws no
 random numbers. It is recorded as a `hardLetter:hard-c` base-spelling edit and
 repair (with the reason and next letter in `detail`), and on the /k/ grapheme
 selection as `letterRespelled`.
+
+## Soft `c` and `sc` before a, o and u (#495)
+
+A vowel sound allowed by the /s/ spelling rules can start with a written
+`a`, `o`, or `u`. The writer checks the surviving root spelling after word
+rules and the spelling-budget pass. It replaces `c` or `sc` with `s` when
+the next written letter makes it read hard. The letters in `sc` must both
+belong to the same /s/ phone. The writer previews affix attachment so the
+check also catches `ce` whose final `e` a suffix drops. The trace records
+`letterContext:soft-c` and retains the original grapheme selection.
+
+At the same stage, a plain onset `k` before /eɪ/ or /ɚ/ can become `c`
+when that vowel is written with an initial a, o, or u, as in *cane* and
+*curl*. Both repairs use `writtenFormConstraints.letterContexts` and draw
+no additional random numbers.
 
 ## Root-final /k/ (#469)
 

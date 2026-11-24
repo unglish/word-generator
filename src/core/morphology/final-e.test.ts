@@ -20,7 +20,7 @@ describe("final e at the root-suffix boundary", () => {
     { seed: 5_000_104, base: "widge", suffix: "es", phones: ["ɪ", "z"], written: "widges" },
     { seed: 5_001_401, base: "froke", suffix: "s", phones: ["s"], written: "frokes" },
     { seed: 5_007_891, base: "spy", suffix: "es", phones: ["z"], written: "spies" },
-    { seed: 5_011_428, base: "cale", suffix: "ist", phones: ["ɪ", "s", "t"], written: "calist" },
+    { seed: 5_011_428, base: "sale", suffix: "ist", phones: ["ɪ", "s", "t"], written: "salist" },
     { seed: 4_011_935, base: "zite", suffix: "ian", phones: ["i:", "ə", "n"], written: "zitian" },
     { seed: 5_004_681, base: "ree", suffix: "ing", phones: ["ɪ", "ŋ"], written: "reing" },
     { seed: 5_002_295, base: "blue", suffix: "ing", phones: ["ɪ", "ŋ"], written: "bluing" },

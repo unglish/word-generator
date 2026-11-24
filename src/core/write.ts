@@ -44,6 +44,8 @@ import {
   SilentECodaLimit,
   SilentEConfig,
   SilentEAppendRule,
+  LetterContextRespelling,
+  WrittenFormConstraints,
 } from "../config/language.js";
 import type { RNG } from "../utils/random.js";
 import type { TraceCollector, OrthographySource } from "./trace.js";
@@ -58,6 +60,7 @@ import { createHardLetterPlanner } from "./hard-letter.js";
 import type { HardLetterPlanner } from "./hard-letter.js";
 import { isVowelChar, isConsonantLetter } from "../utils/letters.js";
 import { clonePhoneme } from "./lexical.js";
+import { measureSpellingBudgets } from "./spelling-budget.js";
 
 // ---------------------------------------------------------------------------
 // Spelling rules (config-driven post-processing)
@@ -1259,12 +1262,108 @@ export type WrittenFormGenerator = (
 /** How the planned affixes treat the written root, for checks of what follows a letter. */
 export interface RootAttachment {
   /** The written root as attached: morphophonemic respellings, then boundary transforms. */
-  attach: (written: string) => string;
+  attach: (written: string) => { written: string; suffixOverride?: string };
   /**
    * Root phones (grapheme-decision indices) whose sound an affix rule changes,
    * such as the /k/ that `-ity` makes /s/. Their spelling is the rule's.
    */
   resounded: ReadonlySet<number>;
+}
+
+type CompiledLetterContextRule = LetterContextRespelling & { endings: ReadonlySet<string> };
+
+/** Match a whole spelling whose letters all come from the same phone. */
+function ownedLetterForm(
+  rule: LetterContextRespelling,
+  attached: string,
+  index: number,
+  baseSpelling: BaseSpelling,
+  phoneId: number,
+): string | undefined {
+  return rule.forms.find((form) => {
+    const start = index + 1 - form.length;
+    if (start < 0 || attached.slice(start, index + 1) !== form) return false;
+    if (baseSpelling.letterSource(start - 1)?.id === phoneId) return false;
+    for (let i = start; i < index; i++) {
+      if (baseSpelling.letterSource(i)?.id !== phoneId) return false;
+    }
+    return true;
+  });
+}
+
+/** A late respell can change grapheme runs even if it preserves letter count. */
+function staysWithinBudgets(
+  before: string,
+  after: string,
+  constraints: WrittenFormConstraints,
+): boolean {
+  const measured = measureSpellingBudgets(after, constraints);
+  if (!measured.exceeded.length) return true;
+  const previous = measureSpellingBudgets(before, constraints);
+  return measured.exceeded.every(key => measured.values[key] <= previous.values[key]);
+}
+
+/** Check the surviving spelling after word rules, including a dropped suffix-boundary e. */
+function respellLetterContexts(
+  { context, baseSpelling }: WordSpelling,
+  clean: string,
+  rules: readonly CompiledLetterContextRule[],
+  constraints: WrittenFormConstraints,
+  following: string | undefined,
+  attachment: RootAttachment | undefined,
+): string {
+  const { phones } = baseSpelling.current();
+  for (const rule of rules) {
+    let projection: { root: string; suffix: string; kept: number } | undefined;
+    // Work right to left so the attached-root coordinates stay valid.
+    for (let i = clean.length - 1; i >= 0; i--) {
+      if (!rule.endings.has(clean[i])) continue;
+      const phone = baseSpelling.letterSource(i);
+      if (phone?.soundAtSpelling !== rule.phoneme || attachment?.resounded.has(phone.id)) continue;
+      if (rule.onsetBefore) {
+        const nextPhone = phones[phone.id + 1];
+        if (phone.segment !== "onset" || nextPhone?.segment !== "nucleus" ||
+            nextPhone.syllableIndex !== phone.syllableIndex ||
+            !rule.onsetBefore.includes(nextPhone.soundAtSpelling)) continue;
+      }
+      if (!projection) {
+        const attached = attachment?.attach(clean);
+        const root = attached?.written ?? clean;
+        let kept = 0;
+        while (kept < clean.length && clean[kept] === root[kept]) kept++;
+        projection = { root, suffix: attached?.suffixOverride ?? following ?? "", kept };
+      }
+      if (i >= projection.kept) continue;
+      const next = projection.root[i + 1] ?? projection.suffix[0];
+      if (!rule.hardBefore.includes(next)) continue;
+      const form = ownedLetterForm(rule, projection.root, i, baseSpelling, phone.id);
+      if (!form || form === rule.replacement) continue;
+      const start = i + 1 - form.length;
+      const name = `letterContext:${rule.name}`;
+      const before = clean;
+      const replacement = clean.slice(0, start) + rule.replacement + clean.slice(i + 1);
+      if (!staysWithinBudgets(clean, replacement, constraints)) continue;
+      clean = replacement;
+      baseSpelling.edit("word", start, form.length, rule.replacement, name);
+      context.trace?.recordLetterRespelling(phone.id, { form: rule.replacement, rule: name });
+      context.trace?.recordRepair(name, before, clean, `${form} before "${next}" (selection ${phone.id})`);
+      i = start;
+    }
+  }
+  return clean;
+}
+
+/** Carry the display's syllable breaks through a rewrite with unresolved part ownership. */
+function remapHyphenatedSpelling(hyphenated: string, clean: string): string {
+  const parts = hyphenated.split("&shy;");
+  const partAt = parts.flatMap((part, index) => new Array<number>(part.length).fill(index));
+  const owners = remapOwnersThroughRewrite(parts.join(""), partAt, clean);
+  let result = "";
+  for (let i = 0; i < clean.length; i++) {
+    if (i > 0 && owners[i] !== owners[i - 1] && owners[i] >= 0) result += "&shy;";
+    result += clean[i];
+  }
+  return result;
 }
 
 /**
@@ -1313,6 +1412,10 @@ export function createWrittenFormGenerator(
     : undefined;
   // Letters a hard-letter rule can respell; a root without any skips planning.
   const hardLetterChars = wfc?.hardLetters?.map((rule) => rule.letter) ?? [];
+  const letterContextRules = wfc?.letterContexts?.map((rule): CompiledLetterContextRule => ({
+    ...rule,
+    endings: new Set(rule.forms.map((form) => form.charAt(form.length - 1))),
+  }));
   const maxDoublings = config.doubling?.enabled
     ? config.doubling.maxPerWord ?? Infinity
     : Infinity;
@@ -1456,7 +1559,7 @@ export function createWrittenFormGenerator(
   ): void {
     const written = cleanParts.join("");
     if (!hardLetterChars.some((letter) => written.includes(letter))) return;
-    const attached = attachment?.attach(written) ?? written;
+    const attached = attachment?.attach(written).written ?? written;
     const respells = plan({
       written,
       // A transform that only drops final letters (drop-silent-e) hides them from the suffix.
@@ -2100,7 +2203,10 @@ export function createWrittenFormGenerator(
     const repaired = planCoverage
       ? writeCoverageSpelling(word, planCoverage, spellingChoices)
       : writeLegacySpelling(word);
-    const { clean: finalClean, overflow } = repaired;
+    const { clean, overflow } = repaired;
+    const finalClean = wfc && letterContextRules?.length
+      ? respellLetterContexts(word, clean, letterContextRules, wfc, following, attachment)
+      : clean;
 
     if (tracing && context.trace) {
       const finalOwners = remapOwnersThroughRewrite(
@@ -2127,11 +2233,14 @@ export function createWrittenFormGenerator(
     baseSpelling.assertSurface(finalClean);
     if (context.trace) context.trace.baseSpelling = baseSpelling.snapshot();
     written.clean = finalClean;
-    written.hyphenated =
-      repaired.respelledHyphenated ??
+    const hyphenated = repaired.respelledHyphenated ??
       (overflow.syncParts
         ? overflow.syncParts.join("&shy;")
         : hyphenatedParts.join(""));
+    written.hyphenated = finalClean === clean
+      ? hyphenated
+      : baseSpelling.projectParts(syllables.length)?.join("&shy;") ??
+        remapHyphenatedSpelling(hyphenated, finalClean);
     return baseSpelling;
   };
 }
