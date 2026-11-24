@@ -1056,6 +1056,13 @@ export const englishConfig: LanguageConfig = {
   },
 
   clusterWeights: {
+    boundary: {
+      m: { t: 0.035, d: 0.06 },
+      n: { p: 0.16, k: 0.28, g: 0.16 },
+      ŋ: { k: 13, g: 42 },
+      t: { p: 0.12, k: 0.09 },
+      d: { g: 0.075 },
+    },
     onset: {
       // /dr/ onset cluster is ~2.5× over-represented vs CMU; reduce probability.
       // CMU has tr 3× more common than dr — our generator produces them equally.

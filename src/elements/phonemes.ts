@@ -351,6 +351,7 @@ export const phonemes: Phoneme[] = [
     mannerOfArticulation: "nasal",
     onset: 0,
     coda: 44,
+    medialCodaMultiplier: 1.3,
     startWord: 0,
     midWord: 2,
     endWord: 36,

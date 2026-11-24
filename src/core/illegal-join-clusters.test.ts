@@ -277,3 +277,71 @@ describe("root boundary voicing restrictions (#485, #496)", () => {
     },
   );
 });
+
+// Audited CMU root ledger, counting one hit per entry for each single-phone
+// coda → single-phone onset join. Root lengths of five and up are pooled.
+const rootStopJunctionReference: readonly {
+  words: number;
+  hits: Readonly<Record<string, number>>;
+}[] = [
+  { words: 11622, hits: {} },
+  { words: 15644, hits: { "M|T": 4, "T|P": 9, "D|G": 3, "M|D": 3, "N|P": 15,
+    "T|K": 14, "N|K": 32, "N|G": 9, "NG|K": 97, "NG|G": 101 } },
+  { words: 9152, hits: { "M|T": 4, "T|P": 3, "M|D": 1, "N|P": 9,
+    "T|K": 4, "N|K": 36, "N|G": 6, "NG|K": 31, "NG|G": 42 } },
+  { words: 4450, hits: { "N|P": 3, "N|K": 39, "N|G": 1, "NG|K": 13, "NG|G": 9 } },
+  { words: 1802, hits: { "N|P": 1, "N|K": 17, "N|G": 2, "NG|K": 7 } },
+];
+
+it("samples root stop junctions near the audited English rates (#499, #540)", () => {
+  const pairs = new Set(Object.keys(rootStopJunctionReference[1].hits));
+  const observed = new Map<string, number>();
+  const lengths = rootStopJunctionReference.map(() => 0);
+  const rand = createSeededRng(20261123);
+
+  for (let i = 0; i < 40_000; i++) {
+    const { lexical } = generateWord({ mode: "lexicon", rand, trace: true });
+    const parsed = parseReferenceSyllables(lexical!.root);
+    lengths[Math.min(parsed.length, lengths.length) - 1]++;
+
+    const joins = new Set<string>();
+    for (let j = 1; j < parsed.length; j++) {
+      const { coda } = parsed[j - 1];
+      const { onset } = parsed[j];
+      if (coda.length === 1 && onset.length === 1) joins.add(`${coda[0]}|${onset[0]}`);
+    }
+    for (const pair of joins) {
+      if (pairs.has(pair)) observed.set(pair, (observed.get(pair) ?? 0) + 1);
+    }
+  }
+
+  for (const pair of pairs) {
+    const expected = rootStopJunctionReference.reduce((sum, { words, hits }, index) =>
+      sum + lengths[index] * (hits[pair] ?? 0) / words, 0);
+    const count = observed.get(pair) ?? 0;
+    const label = `${pair}, expected about ${expected.toFixed(1)}`;
+    expect.soft(count, label).toBeGreaterThanOrEqual(Math.max(1, expected / 2 - 3));
+    expect.soft(count, label).toBeLessThanOrEqual(expected * 2 + 3);
+  }
+});
+
+it("keeps /n.k/ across the un- prefix boundary (#540)", () => {
+  const pair = new Set(["n|k"]);
+  const control = createGenerator({
+    ...englishConfig,
+    clusterWeights: { ...englishConfig.clusterWeights, boundary: undefined },
+  });
+  const { word, options } = findExample(candidate =>
+    candidate.trace?.morphology?.prefix === "un" && matchingJoins(candidate.syllables, pair).length > 0,
+  {
+    property: "a monosyllabic root starting with /k/ after un-",
+    generator: control,
+    options: { syllableCount: 1, mode: "lexicon" },
+    limit: 5_000,
+  });
+
+  const actual = generateWord(options);
+  expect(actual.written).toEqual(word.written);
+  expect(actual.pronunciation).toBe(word.pronunciation);
+  expect(matchingJoins(actual.syllables, pair)).toEqual(["n|k"]);
+});

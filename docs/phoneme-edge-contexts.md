@@ -73,3 +73,15 @@ English downweights /z/ in this position using the syllabified, audited
 CMU root reference (#496). When /z/ in a root coda meets an onset beginning with
 /p/, /t/, or /k/, the cluster repair drops /z/ before spelling. The rule applies
 inside the root, before affix assembly.
+
+## Root syllable joins
+
+`clusterWeights.boundary` scales the first phoneme sampled for an onset
+according to the last sound of the preceding root coda. The outer key is the
+coda sound and the inner key is the onset sound. Multipliers must be positive
+and finite. Unlisted pairs use a multiplier of 1. Cluster constraints still
+apply to the sampled sounds.
+
+English uses these weights to make several nasal–stop and stop–stop pairs
+rarer and favor /ŋ/ before /k/ and /g/ within roots (#499, #540). The weights
+operate during root generation. Affixes are assembled later.
