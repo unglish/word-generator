@@ -1616,6 +1616,10 @@ function validateUnstressedRootNuclei(config: LanguageConfig): void {
  */
 export function validateConfig(config: LanguageConfig): void {
   for (const phoneme of config.phonemes) {
+    const multiplier = phoneme.medialCodaMultiplier;
+    if (multiplier !== undefined && (!Number.isFinite(multiplier) || multiplier <= 0)) {
+      throw new Error(`phoneme "${phoneme.sound}" medialCodaMultiplier must be a finite number > 0`);
+    }
     if (!phoneme.nucleusWordPosition) continue;
     for (const edge of ["initial", "medial", "final"] as const) {
       const weight = phoneme.nucleusWordPosition[edge];

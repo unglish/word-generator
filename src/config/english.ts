@@ -187,8 +187,7 @@ const ENGLISH_BOUNDARY_CLUSTER_RULES: BoundaryClusterConstraintRule[] = [
     mode: "ban",
     coda: { manner: OBSTRUENT_MANNERS, voiced: true },
     onset: { sounds: ["p", "t", "k", "f", "θ", "s", "ʃ", "tʃ"] },
-    // /z/ before /p t k/ can still be written as sp, st, or sk. See #496.
-    except: [["b", "s"], ["d", "s"], ["z", "p"], ["z", "t"], ["z", "k"]],
+    except: [["b", "s"], ["d", "s"]],
   },
   {
     mode: "ban",

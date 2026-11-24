@@ -425,6 +425,7 @@ export const phonemes: Phoneme[] = [
     mannerOfArticulation: "sibilant",
     onset: 55,
     coda: 88,
+    medialCodaMultiplier: 0.08,
     startWord: 3,
     midWord: 7,
     endWord: 7,

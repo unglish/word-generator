@@ -29,11 +29,10 @@ checked-only pools do this).
 
 An optional structured `nucleusWordPosition: { initial, medial, final }` overrides
 the legacy position tuple during nucleus selection when present. Its scope is each
-nucleus segment in the generated base/root word, before affix assembly. Consonant
-clusters retain their existing semantics. Weights must be finite and nonnegative;
-zero excludes the corresponding open edge. An isolated nucleus segment is both
-initial and final and must satisfy both restrictions. A zero on either edge
-forbids it. Otherwise the initial weight has precedence.
+nucleus segment in the generated root word, before affix assembly. Weights must
+be finite and nonnegative. Zero excludes the corresponding open edge. An isolated
+nucleus segment is both initial and final and must satisfy both restrictions.
+A zero on either edge forbids it. Otherwise the initial weight has precedence.
 
 The initial generation decision uses the realized onset and planned coda.
 Structure repair can remove a coda, so shared eligibility is checked again on
@@ -63,3 +62,14 @@ git show archive/evidence-pre-cleanup:evaluation/experiments/nucleus-word-edges/
 git show archive/evidence-pre-cleanup:evaluation/experiments/nucleus-word-edges/current-composition-2026-10-03/README.md
 git show archive/evidence-pre-cleanup:evaluation/quality/probes/nucleus-edges.ts
 ```
+
+## Medial root codas
+
+`medialCodaMultiplier` scales the sampling weight of a phoneme in a non-final
+root coda. It composes with the legacy `midWord` and cluster weights. The
+multiplier must be positive and finite and defaults to 1.
+
+English downweights /z/ in this position using the syllabified, audited
+CMU root reference (#496). When /z/ in a root coda meets an onset beginning with
+/p/, /t/, or /k/, the cluster repair drops /z/ before spelling. The rule applies
+inside the root, before affix assembly.

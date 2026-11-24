@@ -685,6 +685,7 @@ function selectPhoneme(
   rt?: GeneratorRuntime,
 ): Phoneme | null {
   const { position, isStartOfWord, isEndOfWord, rand, clusterSounds } = context;
+  const isMedialCoda = position === "coda" && !isEndOfWord;
   const repetition = clusterSounds.length === 0 ? context.repetitionPenalty : undefined;
   const repeatedNucleus = position === "nucleus" ? repetition : undefined;
 
@@ -729,6 +730,7 @@ function selectPhoneme(
         1);
 
     let baseWeight = positionWeight * wordPositionModifier;
+    if (isMedialCoda) baseWeight *= p.medialCodaMultiplier ?? 1;
 
     if (weightMap) {
       const multiplier = findClusterWeightMultiplier(

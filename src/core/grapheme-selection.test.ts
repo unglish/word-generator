@@ -9,9 +9,19 @@ import {
   advanceGraphemePrefix, doublingNucleusForm, INITIAL_GRAPHEME_PREFIX, rollGraphemePrefixSyllable,
 } from "./grapheme-selection.js";
 import { findExample } from "../test-support/find-example.js";
+import { withPhonemeWeights } from "../test-support/phoneme-weights.js";
 
 function withGraphemes(graphemes: Grapheme[]) {
   return createGenerator({ ...englishConfig, graphemes, ...buildGraphemeMaps(graphemes) });
+}
+
+function codaAffricateGenerator(nextOnset?: string) {
+  // Make the spelling contexts frequent enough to find in a short seed range.
+  return createGenerator(withPhonemeWeights(englishConfig, (phoneme) => {
+    if (phoneme.sound === "dʒ") return { ...phoneme, coda: phoneme.coda! * 12 };
+    if (phoneme.sound === nextOnset) return { ...phoneme, onset: phoneme.onset! * 20 };
+    return phoneme;
+  }));
 }
 
 function codaAffricateBefore(word: Word, sound: string, position: string, tense?: boolean): GraphemeTrace | undefined {
@@ -82,22 +92,26 @@ describe("legal grapheme selection", () => {
   });
 
   it.each([
-    { firstSeed: 5009650, nextSound: "b", nextPosition: "onset", left: "ɑ", form: "dg" },
-    { firstSeed: 5005650, nextSound: "l", nextPosition: "onset", left: "ə", form: "dg" },
-    { firstSeed: 5004000, nextSound: "g", nextPosition: "onset", tense: false, form: "ge" },
-    { firstSeed: 5016200, nextSound: "g", nextPosition: "onset", tense: true, form: "ge" },
-    { firstSeed: 5069100, nextSound: "w", nextPosition: "onset", left: "i:", form: "j" },
-    { firstSeed: 5003850, nextSound: "j", nextPosition: "onset", form: "j" },
-    { firstSeed: 5002000, nextSound: "ə", nextPosition: "nucleus", form: "di" },
-    { firstSeed: 5002750, nextSound: "ɚ", nextPosition: "nucleus", form: "di" },
+    { nextSound: "b", nextPosition: "onset", left: "ɑ", form: "dg" },
+    { nextSound: "l", nextPosition: "onset", left: "ə", form: "dg" },
+    { nextSound: "g", nextPosition: "onset", tense: false, form: "ge" },
+    { nextSound: "g", nextPosition: "onset", tense: true, form: "ge" },
+    { nextSound: "w", nextPosition: "onset", left: "i:", form: "j" },
+    { nextSound: "j", nextPosition: "onset", form: "j" },
+    { nextSound: "ə", nextPosition: "nucleus", form: "di" },
+    { nextSound: "ɚ", nextPosition: "nucleus", form: "di" },
   ])("licenses the medial $form slot for coda /dʒ/ before /$nextSound/", ({
-    firstSeed, nextSound, nextPosition, left, tense, form,
+    nextSound, nextPosition, left, tense, form,
   }) => {
+    const generator = codaAffricateGenerator(nextPosition === "onset" ? nextSound : undefined);
     const locate = (word: Word) => codaAffricateBefore(word, nextSound, nextPosition, tense);
     const { word } = findExample(candidate => {
       const choice = locate(candidate);
       return !!choice && (!left || candidate.trace?.graphemeSelections[choice.index - 1]?.phoneme === left);
-    }, { property: `a coda affricate before /${nextSound}/`, firstSeed, limit: 1_000 });
+    }, {
+      property: `a coda affricate before /${nextSound}/`,
+      generator, options: { syllableCount: 2, morphology: false }, limit: 1_000,
+    });
     const choice = locate(word)!;
     const orthography = word.trace?.orthography;
 
@@ -117,7 +131,11 @@ describe("legal grapheme selection", () => {
       const choice = codaAffricateBefore(candidate, "j", "onset");
       return !!choice && candidate.trace?.graphemeSelections[choice.index - 1]?.phoneme === "ɪ"
         && !candidate.lexical?.root[choice.syllableIndex]?.stress;
-    }, { property: "an unstressed KIT + coda affricate before /j/", firstSeed: 5014500, limit: 1_000 });
+    }, {
+      property: "an unstressed KIT + coda affricate before /j/",
+      generator: codaAffricateGenerator("j"),
+      options: { syllableCount: 4, morphology: false }, limit: 3_000,
+    });
     const choice = codaAffricateBefore(word, "j", "onset");
 
     expect(choice?.weights).toEqual([["ge", 6 * 0.15], ["dge", 10 * 0.15], ["j", 0.15]]);
@@ -126,14 +144,21 @@ describe("legal grapheme selection", () => {
   });
 
   it("keeps the accepted root when di previously lost its i before w", () => {
-    const word = generateWord({ seed: 5069138, trace: true });
+    const { word } = findExample((candidate) => {
+      const choice = codaAffricateBefore(candidate, "w", "onset");
+      return !!choice && choice.roll >= 6
+        && candidate.trace?.graphemeSelections[choice.index - 1]?.phoneme === "i:";
+    }, {
+      property: "an /i:dʒ.w/ junction sampling the medial affricate slot",
+      generator: codaAffricateGenerator("w"), firstSeed: 11_421, limit: 2_000,
+      options: { syllableCount: 2, morphology: false },
+    });
 
-    expect(word.written.clean).toBe("eajworfting");
-    expect(word.pronunciation).toBe("ˈi:dʒ.wɚft.ɪŋ");
+    expect(codaAffricateBefore(word, "w", "onset")?.selected).toBe("j");
     expect(word.trace?.selection).toMatchObject({
       selectedAttempt: 0,
       attemptsExecuted: 1,
-      selected: { letters: 8 },
+      selected: { letters: word.written.clean.length },
     });
   });
 

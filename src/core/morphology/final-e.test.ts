@@ -9,14 +9,11 @@ describe("final e at the root-suffix boundary", () => {
     { seed: 5_007_891, base: "spy", suffix: "es", phones: ["z"], written: "spies" },
     { seed: 5_011_428, base: "cale", suffix: "ist", phones: ["ɪ", "s", "t"], written: "calist" },
     { seed: 4_011_935, base: "zite", suffix: "ian", phones: ["i:", "ə", "n"], written: "zitian" },
-    { seed: 4_026_129, base: "osorme", suffix: "ial", phones: ["i:", "ə", "l"], written: "osormial" },
     { seed: 5_038_488, base: "siepure", suffix: "ism", phones: ["ɪ", "z", "ə", "m"], written: "siepureism" },
     { seed: 5_010_510, base: "sellure", suffix: "ist", phones: ["ɪ", "s", "t"], written: "sellureist" },
     { seed: 5_004_681, base: "ree", suffix: "ing", phones: ["ɪ", "ŋ"], written: "reing" },
     { seed: 5_002_295, base: "blue", suffix: "ing", phones: ["ɪ", "ŋ"], written: "bluing" },
     { seed: 5_014_397, base: "free", suffix: "ed", phones: ["d"], written: "freed" },
-    { seed: 5_000_451, base: "agure", suffix: "ed", phones: ["d"], written: "agured" },
-    { seed: 5_004_272, base: "retrue", suffix: "er", phones: ["ɚ"], written: "retruer" },
   ])("writes $base + $suffix as $written", ({ seed, base, suffix, phones, written }) => {
     const word = generateWord({ seed, trace: true });
     expect(word.trace?.baseSpelling?.surface).toBe(base);
@@ -31,6 +28,9 @@ describe("final e at the root-suffix boundary", () => {
   it.each([
     { suffix: "ism", position: "coda", ending: /[^aeiou]e$/, phones: ["ɪ", "z", "ə", "m"] },
     { suffix: "ed", position: "nucleus", ending: /ie$/, phones: ["d"] },
+    { suffix: "ial", position: "coda", ending: /[^aeiou]e$/, phones: ["i:", "ə", "l"] },
+    { suffix: "ed", position: "coda", ending: /[^aeiou]e$/, phones: ["d"] },
+    { suffix: "er", position: "nucleus", ending: /ue$/, phones: ["ɚ"] },
   ])("drops the redundant e before -$suffix on a $position-final root", ({ suffix, position, ending, phones }) => {
     const morphology = englishConfig.morphology!;
     const suffixed = { bare: 0, prefixed: 0, suffixed: 100, both: 0 };
@@ -44,8 +44,10 @@ describe("final e at the root-suffix boundary", () => {
     });
     const { word, options } = findExample(candidate => {
       const orthography = candidate.trace?.orthography;
+      const resolved = candidate.trace?.morphology?.realization?.suffix?.resolved;
       return !!orthography && ending.test(orthography.surface)
-        && orthography.graphemeUnits.at(-1)?.position === position;
+        && orthography.graphemeUnits.at(-1)?.position === position
+        && resolved?.written === suffix && resolved.phonemes.join(" ") === phones.join(" ");
     }, { property: `a ${position}-final root before -${suffix}`, limit: 3_000, generator });
     const base = word.trace!.baseSpelling!.surface;
     expect(word.trace?.morphology?.realization?.suffix?.resolved).toMatchObject({ written: suffix, phonemes: phones });
