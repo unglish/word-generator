@@ -182,6 +182,8 @@ export interface SyllableStructureRules {
 export interface GenerationWeights {
   /** Onset length distributions: [lengthValue, weight][] */
   onsetLength: {
+    /** Optional polysyllabic profile used with the mode's root-final coda profile. */
+    rootInitialByMode?: Partial<Record<GenerationMode, RootInitialOnsetLengths>>;
     /** Weights when the word is monosyllabic. */
     monosyllabic: [number, number][];
     /** Weights when the previous syllable had no coda (hiatus avoidance). */
@@ -241,8 +243,9 @@ export interface GenerationWeights {
 /** Policy controls for vowel hiatus and post-vowel glide behavior. */
 export interface HiatusPolicy {
   /**
-   * Chance (0-100) that top-down consonant-plan decrements should be blocked
-   * when they would create a V.V boundary.
+   * Chance (0-100) of blocking a legacy plan decrement that creates a V.V
+   * boundary. With a sampled root-initial onset profile, a positive value
+   * reserves one consonant per medial boundary and protects those slots.
    */
   planGuardProbability: number;
   /**
@@ -1068,6 +1071,13 @@ export interface RootFinalCodaProfile {
   counts: Readonly<Record<string, number>>;
   lengths: Readonly<Record<number, Readonly<Record<number, readonly (readonly [number, number])[]>>>>;
 }
+
+type OnsetLengthWeights = readonly (readonly [length: number, weight: number])[];
+
+/** Indexed by root syllable count, phone count, and final coda length. */
+export type RootInitialOnsetLengths = Readonly<Record<
+  number, Readonly<Record<number, Readonly<Record<number, OnsetLengthWeights>>>>
+>>;
 
 // ---------------------------------------------------------------------------
 // Morphology types
@@ -2180,6 +2190,32 @@ export function validateConfig(config: LanguageConfig): void {
             throw new Error(`${location} has an invalid coda length or count`);
           }
           seen.add(length);
+        }
+      }
+    }
+  }
+
+  for (const [mode, profile] of Object.entries(config.generationWeights.onsetLength.rootInitialByMode ?? {})) {
+    const label = `generationWeights.onsetLength.rootInitialByMode.${mode}`;
+    if (mode !== "lexicon" && mode !== "text") throw new Error(`${label} is an unknown mode`);
+    for (const [syllables, byPhones] of Object.entries(profile)) {
+      for (const [phones, byCoda] of Object.entries(byPhones)) {
+        for (const [coda, weights] of Object.entries(byCoda)) {
+          const location = `${label}.${syllables}.${phones}.${coda}`;
+          const remaining = Number(phones) - Number(syllables) - Number(coda);
+          if (!/^[1-9]\d*$/.test(syllables) || Number(syllables) < 2 ||
+            !/^[1-9]\d*$/.test(phones) || !/^(0|[1-9]\d*)$/.test(coda) ||
+            remaining < 0 || weights.length === 0) {
+            throw new Error(`${location} must describe a valid polysyllabic root budget`);
+          }
+          const seen = new Set<number>();
+          for (const [length, count] of weights) {
+            if (!Number.isInteger(length) || length < 0 || length > remaining ||
+              seen.has(length) || !Number.isFinite(count) || count <= 0) {
+              throw new Error(`${location} has an invalid onset length or count`);
+            }
+            seen.add(length);
+          }
         }
       }
     }

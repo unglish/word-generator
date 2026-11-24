@@ -5,7 +5,7 @@
  * 1000000–1019999 window as the issue sample.
  */
 import { describe, expect, it } from "vitest";
-import { generateWord } from "../../index.js";
+import { createGenerator, englishConfig, generateWord } from "../../index.js";
 import { findExample } from "../../test-support/find-example.js";
 
 /** Assembled morphological root after boundary transforms. */
@@ -25,6 +25,17 @@ function isTrueConsonantYBase(word: ReturnType<typeof generateWord>): boolean {
 
 const I_INITIAL = /^(ing|ist|ism|ive|ity|ize|ian|ial|ish)/i;
 
+const morphology = englishConfig.morphology!;
+const suffixed = { bare: 0, prefixed: 0, suffixed: 100, both: 0 };
+const ousOnly = createGenerator({
+  ...englishConfig,
+  morphology: {
+    ...morphology,
+    suffixes: morphology.suffixes.filter(affix => affix.written === "ous"),
+    templateWeights: { lexicon: suffixed, text: suffixed },
+  },
+});
+
 describe("consonant+y suffix boundary (#458)", () => {
   // Each case finds its own example: pinned seeds broke whenever unrelated
   // output changes moved the random stream (seed 1001223 after #474).
@@ -34,13 +45,14 @@ describe("consonant+y suffix boundary (#458)", () => {
     { suffix: "est", expectWord: /iest$/ },
     { suffix: "al", expectWord: /ial$/ },
     { suffix: "ment", expectWord: /iment$/ },
-    { suffix: "ous", expectWord: /ious$/ },
+    // The broad sample rarely selects -ous. Concentrate this case on its spelling rule.
+    { suffix: "ous", expectWord: /ious$/, search: { generator: ousOnly, limit: 1_000 } },
   ])(
     "applies y→i on a consonant+y root before -$suffix",
-    ({ suffix, expectWord }) => {
+    ({ suffix, expectWord, search }) => {
       const { word } = findExample(
         (w) => w.trace?.morphology?.suffix === suffix && isTrueConsonantYBase(w),
-        { property: `a consonant+y root before -${suffix}`, limit: 20_000, firstSeed: 1_000_000 },
+        { property: `a consonant+y root before -${suffix}`, limit: 20_000, firstSeed: 1_000_000, ...search },
       );
       expect(assembledRoot(word)).toMatch(/[^aeiou]i$/i);
       expect(word.written.clean).toMatch(expectWord);

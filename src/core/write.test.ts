@@ -614,8 +614,8 @@ describe("consonant pileup integration", () => {
           ),
         ).toBe(true);
       }
-      // Retention is the exception: almost every word still fits the cap.
-      expect(violations).toBeLessThan(100);
+      // 117 is the one-sided 95% binomial limit for a 0.1% rate in 100k draws.
+      expect(violations).toBeLessThanOrEqual(117);
     },
   );
 
