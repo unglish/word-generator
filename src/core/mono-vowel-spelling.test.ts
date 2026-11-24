@@ -34,6 +34,11 @@ function surfaceNucleusForms(word: GeneratedWord): {
     const selected = unit.selected;
     let split = false;
     for (const edit of base.edits ?? []) {
+      if (edit.rule === "spellingRule:oa-to-split" && selected === "oa") {
+        form = "o";
+        split = true;
+        continue;
+      }
       if (edit.rule === "silentE:swap" && edit.before === form) {
         form = edit.after;
         continue;
@@ -59,8 +64,10 @@ describe("monosyllable vowel spelling distribution (#450)", () => {
     const gen = createGenerator(ungated());
     const byPhoneForm: Record<string, Record<string, number>> = {};
     let awCluster = 0;
+    let auCluster = 0;
     let oTotal = 0;
     let owClosed = 0;
+    let oaCluster = 0;
     let ouTotal = 0;
     let eeSurface = 0;
     let iTotal = 0;
@@ -89,10 +96,18 @@ describe("monosyllable vowel spelling distribution (#450)", () => {
           if (f.phone === "ɔ") {
             oTotal++;
             if (f.surface === "aw" && cluster) awCluster++;
+            if (f.surface === "au" && !f.split) {
+              expect(closed, word.written.clean).toBe(true);
+              if (cluster) auCluster++;
+            }
           }
           if (f.phone === "əʊ") {
             ouTotal++;
             if (f.surface === "ow" && closed) owClosed++;
+            if (f.surface === "oa" && !f.split) {
+              expect(closed, word.written.clean).toBe(true);
+              if (cluster) oaCluster++;
+            }
           }
           if (f.phone === "i:") {
             iTotal++;
@@ -116,6 +131,14 @@ describe("monosyllable vowel spelling distribution (#450)", () => {
     expect(share("ʊ", "oo")).toBeLessThan(0.80);
     expect(share("ɔ", "aw")).toBeGreaterThan(0.05);
     expect(share("ɔ", "aw")).toBeLessThan(0.40);
+    // #455: the uninflected CMU comparator has 18.8% oa among /əʊ/ forms
+    // and 11.2% au among /ɔ/ forms. Count the surviving digraphs.
+    expect(share("əʊ", "oa")).toBeGreaterThan(0.08);
+    expect(share("əʊ", "oa")).toBeLessThan(0.35);
+    expect(share("ɔ", "au")).toBeGreaterThan(0.04);
+    expect(share("ɔ", "au")).toBeLessThan(0.22);
+    expect(oaCluster).toBeGreaterThan(0);
+    expect(auCluster).toBeGreaterThan(0);
     // /aɪ/ "ai" must stay unlicensed on monos.
     expect(share("aɪ", "ai") + share("aɪ", "ai+e")).toBe(0);
 

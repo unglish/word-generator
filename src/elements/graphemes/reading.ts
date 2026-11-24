@@ -32,7 +32,7 @@ const readings: Record<string, Record<string, GraphemeReading>> = {
   "ɛ": { e: single, ea: single },
   "æ": { a: single },
   "ɑ": { a: lexical, o: single, ah: single, aa: lexical, au: single, aue: lexical },
-  "ɔ": { o: lexical, aw: single, ough: lexical },
+  "ɔ": { o: lexical, au: single, aw: single, ough: lexical },
   "ʊ": { oo: single, u: single, ou: lexical },
   "u": { ou: lexical, oo: single, u: open, ue: single, ew: single },
   "ʌ": { u: single, o: lexical, uh: single },
@@ -42,7 +42,7 @@ const readings: Record<string, Record<string, GraphemeReading>> = {
   "aʊ": { ow: single, ou: single },
   "ɔɪ": { oi: single, oy: single },
   "eɪ": { a: open, ai: single, ay: single, eigh: single, ea: lexical, ey: single, ae: lexical },
-  "əʊ": { ow: single, o: open, ou: lexical, oe: single, ough: lexical },
+  "əʊ": { ow: single, o: open, oa: single, ou: lexical, oe: single, ough: lexical },
   // Source comments conflict with this symbol's purported rhotic identity.
   "ɜ": {
     e: unsupported("The inventory's /ɜ/ identity is unresolved; no reading is certified."),

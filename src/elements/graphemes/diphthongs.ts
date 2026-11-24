@@ -2,6 +2,11 @@
 import { Grapheme } from "../../types.js";
 import { DIGRAPH_CONSONANTS, openReading } from "./open-reading.js";
 
+// Most, cold and bolt, plus the rarer l clusters in Rolf, Volk and Holm.
+const GOAT_OPEN_READING = openReading(
+  ["s", "t"], ["l", "d"], ["l", "t"], ["l", "k"], ["l", "f"], ["l", "m"],
+);
+
 const awOw = { phoneme: "aʊ", form: "ow", frequency: 45, startWord: 1, midWord: 5, endWord: 10 };
 
 export const diphthongGraphemes: Grapheme[] = [
@@ -283,9 +288,7 @@ export const diphthongGraphemes: Grapheme[] = [
     isolatedSyllableWeight: 1,
   },
 
-  // blow — comparator ow is ~12% of /əʊ/: open-heavy, rare single coda (n/l),
-  // never clusters. Fit open and single separately; accept digraph shortfall
-  // from missing inventory "oa" (~19% comparator).
+  // blow — comparator ow is ~12% of /əʊ/: open-heavy, rare single coda (n/l).
   {
     phoneme: "əʊ",
     form: "ow",
@@ -320,10 +323,9 @@ export const diphthongGraphemes: Grapheme[] = [
     midWord: 0,
     endWord: 5,
     isolatedSyllableWeight: 8,
+    condition: { openReading: GOAT_OPEN_READING },
   },
-  // Medial closed /əʊ/ (non-n/l): without a midWord "o", the pool is only
-  // "ou" once "ow" is restricted — "out"-like spellings. Closed-only so open
-  // medial "ow" (and mono isolated "o") stay as before.
+  // Keep the medial bare-o option where the coda permits an open reading.
   {
     phoneme: "əʊ",
     form: "o",
@@ -332,6 +334,20 @@ export const diphthongGraphemes: Grapheme[] = [
     midWord: 1,
     endWord: 0,
     isolatedSyllableWeight: 0,
+    condition: {
+      syllableShape: { coda: "nonEmpty" },
+      openReading: GOAT_OPEN_READING,
+    },
+  },
+  // boat, coast — a long reading even when the written syllable is closed.
+  {
+    phoneme: "əʊ",
+    form: "oa",
+    frequency: 350,
+    startWord: 1,
+    midWord: 1,
+    endWord: 1,
+    isolatedSyllableWeight: 2,
     condition: { syllableShape: { coda: "nonEmpty" } },
   },
   {

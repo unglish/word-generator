@@ -70,6 +70,7 @@ interface CompiledSpellingRule {
   probability: number;
   scope: "syllable" | "word" | "both";
   letterRoles?: SpellingRuleLetterRole[];
+  skipBeforeVowel?: boolean;
 }
 
 /**
@@ -79,6 +80,7 @@ interface CompiledSpellingRule {
 interface LetterOwners {
   base: Pick<BaseSpelling, "segmentAt" | "soundAt">;
   start: number;
+  nextSyllableStartsWithVowel: boolean;
 }
 
 function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
@@ -89,6 +91,7 @@ function compileSpellingRules(rules: SpellingRule[]): CompiledSpellingRule[] {
     probability: rule.probability ?? 100,
     scope: rule.scope ?? "both",
     letterRoles: compileLetterRoles(rule),
+    skipBeforeVowel: rule.skipBeforeVowel,
   }));
 }
 
@@ -168,7 +171,8 @@ function applySpellingRules(
   owners?: LetterOwners,
 ): string {
   let result = str;
-  for (const { name, regex, replacement, probability, letterRoles } of rules) {
+  for (const { name, regex, replacement, probability, letterRoles, skipBeforeVowel } of rules) {
+    if (skipBeforeVowel && owners?.nextSyllableStartsWithVowel) continue;
     regex.lastIndex = 0;
     const source = result;
     let delta = 0;
@@ -1036,10 +1040,13 @@ function buildSilentECodaCheck(limit: SilentECodaLimit | undefined): SilentECoda
   const limited = new Set(limit.phonemes);
   const clusters = new Map(Object.entries(limit.clusters ?? {}).map(([phoneme, codas]) =>
     [phoneme, new Set(codas.map(coda => coda.join(" ")))]));
+  const singleCodas = new Map(Object.entries(limit.singleCodas ?? {}).map(([phoneme, codas]) =>
+    [phoneme, new Set(codas)]));
   const held = new Set(limit.heldCodas ?? []);
   return (nucleus, coda) => {
     if (!limited.has(nucleus)) return true;
-    return coda.length === 1 ? !held.has(coda[0]) : clusters.get(nucleus)?.has(coda.join(" ")) === true;
+    if (coda.length !== 1) return clusters.get(nucleus)?.has(coda.join(" ")) === true;
+    return !held.has(coda[0]) && (singleCodas.get(nucleus)?.has(coda[0]) ?? true);
   };
 }
 
@@ -1965,7 +1972,11 @@ export function createWrittenFormGenerator(
             observeSyllable(start, removed, replacement, rule);
             editSyllableFinalVowel(finalVowel, start, removed, replacement);
           },
-          { base: baseSpelling, start: syllableStart },
+          {
+            base: baseSpelling,
+            start: syllableStart,
+            nextSyllableStartsWithVowel: nextEntry?.position === "nucleus",
+          },
         );
         let syllableOwners = tracing
           ? remapOwnersThroughRewrite(

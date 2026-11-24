@@ -269,7 +269,6 @@ function checkSegmentLengthRequirement(
  */
 function readsOpen(requirement: PreExpandedOpenReading, codaLength: number, rimeSource: NucleusRimeSource | undefined): boolean {
   if (codaLength === 0) return true;
-  // Only one candidate per phoneme carries openReading, so the rime is built at most once.
   const rime = rimeSource?.();
   if (!rime) return false;
   const coda = rime.codaSounds;
