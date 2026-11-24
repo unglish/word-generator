@@ -90,7 +90,7 @@
         {"clean":"keatcow","hyphenated":"keat&shy;cow","pronunciation":"ˈkʰi:t.kʰaʊ"}
       ]
     },
-    {"name":"lexicon, morphology","seed":3,"mode":"lexicon","morphology":true,"rngDraws":4399,
+    {"name":"lexicon, morphology","seed":3,"mode":"lexicon","morphology":true,"rngDraws":3832,
       "words": [
         {"clean":"plimpor","hyphenated":"plimp&shy;or","pronunciation":"ˈpʰlɪmpˌʌr"},
         {"clean":"swiquowling","hyphenated":"swiquowling","pronunciation":"swɪˈkʰwaʊl.ɪŋ"},
@@ -128,13 +128,13 @@
         {"clean":"solay","hyphenated":"sol&shy;ay","pronunciation":"ˈsɑl.eɪ"},
         {"clean":"bivogguitas","hyphenated":"bivogguitas","pronunciation":"bɪˈvʌg.ə.tɑz"},
         {"clean":"ukesor","hyphenated":"uke&shy;sor","pronunciation":"ˈuk.sɚ"},
-        {"clean":"raceator","hyphenated":"rac&shy;ea&shy;tor","pronunciation":"ˌreɪsˈɛ.tɚ"},
-        {"clean":"mixitlant","hyphenated":"migz&shy;it&shy;lant","pronunciation":"ˈmaɪgz.ət.lənt"},
-        {"clean":"umstrick","hyphenated":"ums&shy;trick","pronunciation":"ˈʌms.trɪk"},
-        {"clean":"smalzently","hyphenated":"smalzently","pronunciation":"ˈsmɑl.zənt.li:"}
+        {"clean":"ragginy","hyphenated":"ra&shy;ggi&shy;ny","pronunciation":"ˈræ.gɪ.ni:"},
+        {"clean":"fack","hyphenated":"fack","pronunciation":"fæk"},
+        {"clean":"stenzoonts","hyphenated":"stenzoonts","pronunciation":"ˈstɛn.zʊnts"},
+        {"clean":"frelds","hyphenated":"frelds","pronunciation":"frɛldz"}
       ]
     },
-    {"name":"lexicon, bare","seed":4,"mode":"lexicon","morphology":false,"rngDraws":2069,
+    {"name":"lexicon, bare","seed":4,"mode":"lexicon","morphology":false,"rngDraws":2027,
       "words": [
         {"clean":"daltalham","hyphenated":"dal&shy;tal&shy;ham","pronunciation":"dəlˈtæl.həm"},
         {"clean":"aprone","hyphenated":"ap&shy;rone","pronunciation":"ˈɑp.rəʊn"},
@@ -159,14 +159,15 @@
         {"clean":"twety","hyphenated":"twet&shy;y","pronunciation":"ˈtʰwɛt.i:"},
         {"clean":"swecsmert","hyphenated":"swec&shy;smert","pronunciation":"swəkˈsmɚt"},
         {"clean":"bertoath","hyphenated":"ber&shy;toath","pronunciation":"ˈbɛr.təʊθ"},
-        {"clean":"nadisart","hyphenated":"nad&shy;i&shy;sart","pronunciation":"ˈnɑdˌɪ.sɚt"},
-        {"clean":"ingstrone","hyphenated":"ings&shy;trone","pronunciation":"ɪŋsˈtrəʊn"},
-        {"clean":"eckisho","hyphenated":"e&shy;ckish&shy;o","pronunciation":"ˈɛ.kʰəʃ.əʊ"},
-        {"clean":"mibbidy","hyphenated":"mi&shy;bbi&shy;dy","pronunciation":"mɪˈbɪ.di:"},
-        {"clean":"paw","hyphenated":"paw","pronunciation":"pʰɔ"},
-        {"clean":"aclork","hyphenated":"a&shy;clork","pronunciation":"əˈkʰlɑrk"},
-        {"clean":"galdimp","hyphenated":"gal&shy;dimp","pronunciation":"ˈgæl.dɪmp"},
-        {"clean":"figave","hyphenated":"fi&shy;gave","pronunciation":"ˈfɪˌdʒeɪv"},
+        {"clean":"nadisuret","hyphenated":"nad&shy;i&shy;suret","pronunciation":"ˈnɑdˌɪ.sɚt"},
+        {"clean":"frat","hyphenated":"frat","pronunciation":"frɑt"},
+        {"clean":"chelineshorn","hyphenated":"che&shy;lin&shy;e&shy;shorn","pronunciation":"ˈtʃɛˌlaɪn.ɪ.ʃɚn"},
+        {"clean":"washeent","hyphenated":"wa&shy;sheent","pronunciation":"wəˈʃi:nt"},
+        {"clean":"ciddisleap","hyphenated":"ci&shy;ddis&shy;leap","pronunciation":"ˈsɪˌdɪs.li:p"},
+        {"clean":"ratance","hyphenated":"ra&shy;tance","pronunciation":"ˈrɑ.təns"},
+        {"clean":"illorm","hyphenated":"i&shy;llorm","pronunciation":"ˈɪ.lɚm"},
+        {"clean":"wantule","hyphenated":"wan&shy;tule","pronunciation":"ˈwɑnˌtʰul"},
+        {"clean":"fukemmigad","hyphenated":"fu&shy;ke&shy;mmi&shy;gad","pronunciation":"ˈfʊ.kʰəˌmɪ.gəd"},
         {"clean":"bickiso","hyphenated":"bi&shy;ckis&shy;o","pronunciation":"bɪˈkʰɪz.ə"},
         {"clean":"hath","hyphenated":"hath","pronunciation":"hɑθ"},
         {"clean":"clim","hyphenated":"clim","pronunciation":"kʰlɪm"},
@@ -174,8 +175,7 @@
         {"clean":"forocas","hyphenated":"fo&shy;roc&shy;as","pronunciation":"fɔˈrɑk.əs"},
         {"clean":"gliecal","hyphenated":"glie&shy;cal","pronunciation":"ˈglaɪ.kəl"},
         {"clean":"letwad","hyphenated":"le&shy;twad","pronunciation":"ˈlɛ.twəd"},
-        {"clean":"wadurst","hyphenated":"wa&shy;durst","pronunciation":"ˈwæ.dɚst"},
-        {"clean":"blaloy","hyphenated":"bla&shy;loy","pronunciation":"bləˈlɔɪ"}
+        {"clean":"waderst","hyphenated":"wa&shy;derst","pronunciation":"ˈwæ.dɚst"}
       ]
     }
   ]

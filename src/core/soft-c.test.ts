@@ -58,7 +58,7 @@ describe("soft c and sc before written vowels (#495)", () => {
   });
 
   it.each([
-    { seed: 3000007, spelling: "cetasag", pronunciation: "ˈsɛ.tʰə.səg" },
+    { seed: 3000007, spelling: "cetisag", pronunciation: "ˈsɛ.tə.səg" },
     { seed: 3000656, spelling: "scievedo", pronunciation: "ˈsaɪ.vəd.ə" },
     { seed: 3000000, spelling: "cunave", pronunciation: "ˈkʰun.əv" },
   ])("retains the compatible c spelling in $spelling", ({ seed, spelling, pronunciation }) => {

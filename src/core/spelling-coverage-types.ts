@@ -1,5 +1,5 @@
 import type { GraphemeSlot } from "./grapheme-selection.js";
-import type { DoublingSlot } from "./spelling-doubling.js";
+import type { SpellingBoundaryContext } from "./spelling-context.js";
 import type { GraphemeReading } from "../types.js";
 
 export interface SpellingBudgetValues {
@@ -50,7 +50,7 @@ export interface SpellingCoverageCertificate {
   /** Actual writer-boundary context and pre-plan state, retained for independent replay. */
   contexts: Array<{
     slot: GraphemeSlot;
-    doubling: Omit<DoublingSlot, "form" | "nucleusForm">;
+    doubling: SpellingBoundaryContext["doubling"];
     inventoryIndex: number;
     afterDoubling: string;
   }>;

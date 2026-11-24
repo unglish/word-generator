@@ -3,6 +3,7 @@ import {
   type SonorityHierarchy,
 } from "../utils/sonority.js";
 import { matchesPhoneme, type PhonemeSelector } from "../utils/phonemes.js";
+import { VOWEL_LETTERS } from "../utils/letters.js";
 import {
   Phoneme,
   Grapheme,
@@ -575,6 +576,15 @@ export interface DoublingRealization {
   allowInCodaCluster?: boolean;
 }
 
+export interface MedialOnsetDoubling {
+  /** Match the preceding stressed vowel's sound and complete spelling. */
+  nucleusSpellings: Readonly<Record<string, string>>;
+  /** Single-letter onset sounds with a matching sound-specific doubling realization. */
+  consonants: readonly string[];
+  /** Percentages for new opportunities in two-, three-, and longer-syllable roots. */
+  probability: { two: number; three: number; longer: number };
+}
+
 /**
  * Language-level consonant doubling strategy.
  * Controls how a language signals vowel length/quality through consonant spelling.
@@ -598,6 +608,8 @@ export interface DoublingConfig {
   suppressBeforeTense: boolean;
   /** Probability modifier for unstressed syllable context (0.0-1.0). */
   unstressedModifier?: number;
+  /** Add root-internal opportunities for explicit realizations when the left vowel supplies the stress cue. */
+  medialOnset?: MedialOnsetDoubling;
   /** Sound-specific support. An empty list permits no expansions; omission uses legacy behavior.
    * When spreading English config to use legacy overrides, set realizations: undefined.
    */
@@ -1645,6 +1657,20 @@ function validateUnstressedRootNuclei(config: LanguageConfig): void {
  * Call this during development or at startup to catch config errors early.
  */
 export function validateConfig(config: LanguageConfig): void {
+  const medialOnset = config.doubling?.medialOnset;
+  if (medialOnset) {
+    for (const length of ["two", "three", "longer"] as const) {
+      assertProbability(medialOnset.probability[length], `doubling.medialOnset.probability.${length}`);
+    }
+    if (Object.entries(medialOnset.nucleusSpellings).some(([sound, form]) =>
+      !sound || form.length !== 1 || !VOWEL_LETTERS.has(form))) {
+      throw new Error("doubling.medialOnset.nucleusSpellings must map sounds to single vowel letters");
+    }
+    if (medialOnset.consonants.some(letter => !/^[a-z]$/.test(letter) || VOWEL_LETTERS.has(letter))) {
+      throw new Error("doubling.medialOnset.consonants must contain single consonant letters");
+    }
+  }
+
   for (const phoneme of config.phonemes) {
     const multiplier = phoneme.medialCodaMultiplier;
     if (multiplier !== undefined && (!Number.isFinite(multiplier) || multiplier <= 0)) {

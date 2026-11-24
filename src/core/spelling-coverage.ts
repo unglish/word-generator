@@ -282,6 +282,7 @@ export function createSpellingCoveragePlanner(
       const decision = doubling.describe(
         {
           ...choice.doubling,
+          stressedVowelJoinLength: choice.stressedVowelJoinLength,
           form: grapheme.form,
           nucleusForm: doublingNucleusForm(
             prefix,

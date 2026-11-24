@@ -484,6 +484,22 @@ Suffixes with an existing final-e deletion keep their spelling-only rule,
 including the shared e in *free* + *ed* → *freed*. That deletion still blocks
 consonant doubling.
 
+## Consonant doubling inside roots (#517)
+
+A single onset between vowels can double after a stressed short vowel
+written with one matching letter. The preceding vowel supplies the
+stress cue. An onset in the last syllable still counts as a root-internal
+onset when a nucleus follows it.
+
+The English policy adds opportunities for `b d f g l m n p s t` after
+/æ ɛ ɪ ʌ/ spelled `a e i u`. Where the last-syllable whitelist or the
+following syllable's lack of stress previously blocked doubling, the
+new probability is 45% in two-syllable roots and 28% in three-syllable
+roots. The existing doubling limits and the guard before tense vowels
+still apply. Custom configs opt in through
+`doubling.medialOnset` and supply a sound-specific entry in
+`doubling.realizations` for each onset spelling they want to double.
+
 ## Consonant doubling before vowel suffixes (#513)
 
 The `double-consonant` boundary transform on `-ing`, `-ed`, `-er`, `-est` and

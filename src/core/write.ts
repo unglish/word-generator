@@ -1936,6 +1936,7 @@ export function createWrittenFormGenerator(
         : undefined;
       const doublingSlot: DoublingSlot = {
         ...boundaryContext.doubling,
+        stressedVowelJoinLength: boundaryContext.stressedVowelJoinLength,
         form: selected.form,
         nucleusForm: doublingNucleusForm(prefix, position, selected.form),
       };
