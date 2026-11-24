@@ -1,5 +1,24 @@
 /** Stop (plosive) graphemes: /p/, /b/, /t/, /d/, /k/, /g/. */
-import { Grapheme } from "../../types.js";
+import type { Grapheme, GraphemeCondition } from "../../types.js";
+export const shortVowelsBeforeK = ["ɪ", "ɛ", "æ", "ʌ", "ɑ", "ɔ", "ʊ", "ə"];
+
+/** Alternatives for a single /k/ coda followed by the next syllable's onset. */
+function medialCodaSpellings(rightContext: string[], ckWeight: number, kWeight: number): Grapheme[] {
+  const condition: GraphemeCondition = {
+    rightContext,
+    segmentPosition: ["medial"],
+    syllableShape: { coda: 1 },
+  };
+  const codaK = { phoneme: "k", onset: 0, startWord: 0, midWord: 1, endWord: 0 };
+  return [
+    { ...codaK, form: "ck", frequency: ckWeight, positionScope: "syllable", startWord: 1,
+      condition: { ...condition, leftContext: shortVowelsBeforeK, leftGraphemeLength: 1 } },
+    { ...codaK, form: "k", frequency: kWeight,
+      condition: { ...condition, leftContext: shortVowelsBeforeK, leftGraphemeLength: { min: 2 } } },
+    { ...codaK, form: "k", frequency: kWeight,
+      condition: { ...condition, notLeftContext: shortVowelsBeforeK } },
+  ];
+}
 
 export const stopGraphemes: Grapheme[] = [
   // pig
@@ -144,6 +163,13 @@ export const stopGraphemes: Grapheme[] = [
     endWord: 150,
     condition: { leftContext: ["lax-vowel"], segmentPosition: ["medial", "final"] },
   },
+  // The ordinary c entry weighs 24,000 medially. Before these nasals and
+  // obstruents, ck/k are usual (hackney, blackmail, bleakness); c remains
+  // possible (picnic, acme). Before l/r/t, c is much more common in CMU.
+  ...medialCodaSpellings(["b", "d", "f", "g", "h", "m", "n", "p"], 240_000, 96_000),
+  ...medialCodaSpellings(["l"], 20_000, 9_000),
+  ...medialCodaSpellings(["r"], 5_000, 1_500),
+  ...medialCodaSpellings(["t"], 1_000, 350),
   {
     phoneme: "k",
     form: "ch",

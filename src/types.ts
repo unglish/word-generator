@@ -155,6 +155,8 @@ export interface GraphemeCondition {
   leftGraphemeContext?: string[];
   /** Previous grapheme's last letter must NOT be one of these. */
   notLeftGraphemeContext?: string[];
+  /** Required length of the complete preceding grapheme after doubling. */
+  leftGraphemeLength?: SegmentLengthRequirement;
   /**
    * The written letter that directly follows this grapheme must NOT be one of
    * these. Only checked where that letter is already fixed when the grapheme is

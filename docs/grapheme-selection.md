@@ -33,6 +33,19 @@ unless they declare a separate isolated-syllable weight.
 configurations. English `kn`, `wr`, `wh`, final `mb`, final `k`, final vowel `y`,
 and final rhotic `eir` now state literal segment restrictions explicitly.
 
+At internal root syllable joins, a single /k/ coda can use `ck` after a
+short vowel written with one letter (*hackney*) or `k` after a long
+vowel or multiletter spelling (*bleakness*). `GraphemeCondition.leftGraphemeLength`
+tests the entire preceding grapheme after doubling. The next sound controls how
+strongly these spellings compete with `c`, which is common before /t/
+and /r/ (*doctor*, *acrid*).
+
+/aʊ/ can use `ow` at the end of a root and before a vowel or /n l d z r/
+(*now*, *tower*, *crowds*, *dowry*). Other following consonants take
+`ou` (*ounce*, *mouth*). These conditions include the next syllable in
+the root. The glide /j/ uses `y` (*yes*), while `j` represents /dʒ/
+(*jet*).
+
 Fallback-only graphemes have their own full conditions and weights and can be
 selected only when no ordinary candidate survives. English declares two narrow
 fallbacks: initial or isolated /ʊ/ after /g/ can use `oo`, and a one-syllable

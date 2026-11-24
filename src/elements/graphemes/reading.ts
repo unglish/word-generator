@@ -49,7 +49,7 @@ const readings: Record<string, Record<string, GraphemeReading>> = {
     ai: unsupported("The inventory's /ɜ/ identity is unresolved; no reading is certified."),
   },
   "ɚ": { er: single, ir: single, ur: single, or: rhotic, ar: rhotic, eir: lexical, re: rhotic, ure: rhotic },
-  "j": { y: single, j: lexical },
+  "j": { y: single },
   "w": { w: single, wh: single },
   "l": { l: single },
   "r": { r: single, wr: single, rh: single },
