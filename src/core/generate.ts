@@ -1983,7 +1983,7 @@ function spellAttempt(
     morphology.suffixWritten,
     {
       attach: (written) =>
-        attachRootWritten(morphology, written, affixed.root).written,
+        attachRootWritten(morphology, written, affixed.root),
       resounded: resoundedRootPhones(morphology, affixed.root),
     },
   );

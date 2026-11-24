@@ -954,6 +954,11 @@ export const englishConfig: LanguageConfig = {
         onlyAfterShortVowel: true,
       },
     ],
+    letterContexts: [
+      { name: "soft-c", phoneme: "s", forms: ["sc", "c"], hardBefore: ["a", "o", "u"], replacement: "s" },
+      // The same vowel can be written e/ir or a/ur. Decide from the written form.
+      { name: "hard-c-onset", phoneme: "k", forms: ["k"], hardBefore: ["a", "o", "u"], replacement: "c", onsetBefore: ["eɪ", "ɚ"] },
+    ],
   },
 
   sonorityConstraints: {

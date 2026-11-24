@@ -105,13 +105,13 @@ export interface GraphemeTrace {
    */
   respelled?: GraphemeRespelling;
   /**
-   * Set when a hard-letter rule respelled this unit after selection because of
-   * its written neighbours (hard `c` before e/i/y → `k`/`ck`). Absent otherwise.
+   * Set when a letter rule respelled this unit after selection because of
+   * its written neighbours (hard `c` → `k`/`ck` or soft `c`/`sc` → `s`).
    */
   letterRespelled?: GraphemeLetterRespelling;
 }
 
-/** A respelling of one selection by a `writtenFormConstraints.hardLetters` rule. */
+/** A respelling of one selection by a written letter rule. */
 export interface GraphemeLetterRespelling {
   /** Replacement letters. Later word rules may still edit them. */
   form: string;
