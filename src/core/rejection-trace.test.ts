@@ -103,7 +103,18 @@ describe("complete rejection accounting", () => {
       expect(selected.score).toEqual(scoreGenerationAttempt(selected.phonemes, trace.targetPhonemeCount!, selected.letters, selected.syllables, englishConfig.syllableStructure.letterLengthTargets));
       // Selection scores the root; only words without attached affixes share its lengths.
       if (!trace.morphology || trace.morphology.template === "bare") {
-        expect(selected).toMatchObject({ syllables: word.syllables.length, phonemes: phones(word), letters: word.written.clean.length });
+        const addedLetters = trace.baseSpelling?.edits
+          .filter(edit => edit.rule === "medialOnsetDoubling")
+          .reduce((total, edit) => total + edit.after.length - edit.before.length, 0) ?? 0;
+        expect(selected).toMatchObject({
+          syllables: word.syllables.length,
+          phonemes: phones(word),
+          letters: word.written.clean.length - addedLetters,
+        });
+        expect(scoreGenerationAttempt(
+          selected.phonemes, trace.targetPhonemeCount!, word.written.clean.length,
+          selected.syllables, englishConfig.syllableStructure.letterLengthTargets,
+        )).toEqual(selected.score);
       }
     }
     expect(outcomes).toEqual(new Set(["exact", "relaxed", "fallback"]));

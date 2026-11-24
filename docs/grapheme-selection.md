@@ -495,8 +495,12 @@ The English policy adds opportunities for `b d f g l m n p s t` after
 /æ ɛ ɪ ʌ/ spelled `a e i u`. Where the last-syllable whitelist or the
 following syllable's lack of stress previously blocked doubling, the
 new probability is 45% in two-syllable roots and 28% in three-syllable
-roots. The existing doubling limits and the guard before tense vowels
-still apply. Custom configs opt in through
+roots. The writer considers the new double after root selection and keeps
+the root's letter-length score. It uses a separate random stream seeded
+from the existing root-length draw. The trace records the late change as
+`medialOnsetDoubling` and keeps the spelling length used for selection.
+The doubling limits and the guard before tense vowels still apply.
+Custom configs opt in through
 `doubling.medialOnset` and supply a sound-specific entry in
 `doubling.realizations` for each onset spelling they want to double.
 

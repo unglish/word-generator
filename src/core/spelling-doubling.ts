@@ -27,7 +27,6 @@ export interface DoublingSlot {
   nextNucleus?: Phoneme;
   nucleusForm: string;
   stress?: string;
-  stressedVowelJoinLength?: number;
   prevReduced: boolean;
   isCluster: boolean;
   isFirstInCoda: boolean;
@@ -123,9 +122,6 @@ export function createDoublingModel(config: DoublingConfig | undefined) {
     enabled ? config?.neverDoubleAfter ?? [] : [],
   );
   const doubledFormLookup = config?.doubledForms ?? {};
-  const medialOnset = config?.medialOnset;
-  const medialNuclei = new Map(Object.entries(medialOnset?.nucleusSpellings ?? {}));
-  const medialConsonants = new Set(medialOnset?.consonants);
   const hasDirectForms = realizations
     ? directForms.size > 0
     : doubledFormSet.size > 0;
@@ -225,30 +221,14 @@ export function createDoublingModel(config: DoublingConfig | undefined) {
     if (neverDoubleSet.has(phoneme.sound)) return skip("never-double:sound");
     if (neverDoubleSet.has(form)) return skip("never-double:form");
 
-    const excludedByFinalList =
-      isEndOfWord &&
-      !!config.finalDoublingOnly?.length &&
-      !config.finalDoublingOnly.includes(phoneme.sound);
-    // Monosyllables are inherently stressed even without a ˈ marker.
-    const unstressed = !stress && !isMonosyllabic;
-    let prob = config.probability;
-    if (config.unstressedModifier != null && unstressed) {
-      prob *= config.unstressedModifier;
-    }
-
-    let medialProbability = 0;
-    const rootLength = slot.stressedVowelJoinLength;
     if (
-      medialOnset && rootLength !== undefined && config.probability > 0 &&
-      (excludedByFinalList || (unstressed && prob === 0)) &&
-      realization && medialNuclei.get(prevPhoneme.sound) === nucleusForm &&
-      form === phoneme.sound && medialConsonants.has(form)
+      isEndOfWord &&
+      config.finalDoublingOnly &&
+      config.finalDoublingOnly.length > 0
     ) {
-      const length = rootLength === 2 ? "two" : rootLength === 3 ? "three" : "longer";
-      medialProbability = Math.round(medialOnset.probability[length]);
+      if (!config.finalDoublingOnly.includes(phoneme.sound))
+        return skip("final-doubling-only");
     }
-    if (excludedByFinalList && medialProbability === 0) return skip("final-doubling-only");
-    if (medialProbability > 0) prob = medialProbability;
 
     if (config.suppressAfterReduction && prevReduced)
       return skip("suppress-after-reduction");
@@ -259,6 +239,12 @@ export function createDoublingModel(config: DoublingConfig | undefined) {
 
     if (realizations && !realization) return skip("unsupported-realization");
 
+    let prob = config.probability;
+    // Monosyllables are inherently stressed even without a ˈ marker.
+    // Only apply unstressed modifier to genuinely unstressed syllables in polysyllabic words.
+    if (config.unstressedModifier != null && !stress && !isMonosyllabic) {
+      prob *= config.unstressedModifier;
+    }
     prob = Math.min(100, Math.max(0, Math.round(prob)));
     if (prob <= 0) return skip("zero-probability:unstressed");
 

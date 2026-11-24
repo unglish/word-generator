@@ -5,7 +5,7 @@ import type { AcceptanceCriteria, AttemptScore } from "./length-semantics.js";
 import type { MorphologyRealizationTrace } from "./morphology/realization.js";
 import type { StressWeightTrace } from "./syllable-weight.js";
 
-/** Lengths of a scored root attempt, before any planned affixes are attached. */
+/** Lengths at the root scoring stage, before late spelling edits and affix attachment. */
 export interface AttemptLengths {
   syllables: number;
   phonemes: number;

@@ -94,6 +94,7 @@ import {
 import { codaShapeRejection } from "./coda-shape.js";
 import { isStop } from "../utils/phonemes.js";
 import { weightMatchingCoda } from "./root-repetition.js";
+import { createMedialOnsetDoubler } from "./medial-onset-doubling.js";
 
 // ---------------------------------------------------------------------------
 // Runtime: pre-computed data derived from a LanguageConfig
@@ -118,6 +119,7 @@ interface GeneratorRuntime {
   };
   generateWrittenForm: WrittenFormGenerator;
   applyGapSpellings: GapSpellingApplicator;
+  doubleMedialOnset: ReturnType<typeof createMedialOnsetDoubler>;
   bannedSet?: Set<string>;
   clusterRepair?: "drop-coda" | "drop-onset";
   allowedFinalSet?: Set<string>;
@@ -293,6 +295,7 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     invalidClusterRegexes,
     generateWrittenForm,
     applyGapSpellings,
+    doubleMedialOnset: createMedialOnsetDoubler(config),
     bannedSet,
     clusterRepair: config.clusterConstraint?.repair,
     allowedFinalSet: config.codaConstraints?.allowedFinal
@@ -1887,9 +1890,9 @@ interface AffixedRoot {
  * spelled `root`. A bare word's lexical form is complete once it is spelled and
  * realized; an affixed word's waits for {@link selectAttempt}.
  */
-type SpelledRoot = LexicalForm | AffixedRoot;
+type SpelledRoot = (Pick<LexicalForm, "root"> | AffixedRoot) & { baseSpelling: BaseSpelling };
 
-function isAffixedRoot(spelled: SpelledRoot): spelled is AffixedRoot {
+function isAffixedRoot(spelled: SpelledRoot): spelled is AffixedRoot & { baseSpelling: BaseSpelling } {
   return "morphology" in spelled;
 }
 
@@ -1897,6 +1900,8 @@ function isAffixedRoot(spelled: SpelledRoot): spelled is AffixedRoot {
 interface SelectedAttempt {
   context: WordGenerationContext;
   morphology?: PreparedMorphology;
+  root: Syllable[];
+  baseSpelling: BaseSpelling;
 }
 
 /**
@@ -1952,7 +1957,7 @@ function resolveAffixedRoot(
 function spellBareWord(
   rt: GeneratorRuntime,
   context: WordGenerationContext,
-): LexicalForm {
+): SpelledRoot {
   const syllables = context.word.syllables;
   const baseSpelling = spellLexicalRoot(rt, context, syllables, 0);
   const lexical: LexicalForm = {
@@ -1964,7 +1969,7 @@ function spellBareWord(
   realizeSurface(rt, context);
   // Exact bare-word overrides retain their existing place in root scoring.
   rt.applyGapSpellings(context, baseSpelling);
-  return lexical;
+  return { root: lexical.root, baseSpelling };
 }
 
 /** Spell an attempt's root. Affixed words defer their written morphology and surface to selection. */
@@ -1975,7 +1980,7 @@ function spellAttempt(
 ): SpelledRoot {
   if (!affixed) return spellBareWord(rt, context);
   const { morphology } = affixed;
-  spellLexicalRoot(
+  const baseSpelling = spellLexicalRoot(
     rt,
     context,
     affixed.root,
@@ -1987,7 +1992,7 @@ function spellAttempt(
       resounded: resoundedRootPhones(morphology, affixed.root),
     },
   );
-  return affixed;
+  return { ...affixed, baseSpelling };
 }
 
 /**
@@ -1999,14 +2004,15 @@ function selectAttempt(
   context: WordGenerationContext,
   spelled: SpelledRoot,
 ): SelectedAttempt {
-  if (!isAffixedRoot(spelled)) return { context };
-  const { root, morphology } = spelled;
+  const { root, baseSpelling } = spelled;
+  if (!isAffixedRoot(spelled)) return { context, root, baseSpelling };
+  const { morphology } = spelled;
   context.word.lexical = {
     root,
     syllables: cloneSyllables(context.word.syllables),
     rootSyllableStart: morphology.rootSyllableStart,
   };
-  return { context, morphology };
+  return { context, morphology, root, baseSpelling };
 }
 
 /** Apply the written half of the prepared morphology to the selected root, then realize the surface. */
@@ -2072,11 +2078,23 @@ function finishAffixedWord(
 /** Finish the selected attempt: written morphology (if any) and the trace. */
 function finishWord(
   rt: GeneratorRuntime,
-  { context, morphology }: SelectedAttempt,
+  { context, morphology, root, baseSpelling }: SelectedAttempt,
   selection: SelectionTrace | undefined,
+  medialSeed: number | undefined,
 ): Word {
   const traceCollector = context.trace;
   const morphApplied = !!morphology;
+  if (medialSeed !== undefined) rt.doubleMedialOnset?.({
+    context, baseSpelling, root, seed: medialSeed,
+    projectAttachment: morphology ? (written) => {
+      const attached = attachRootWritten(morphology, written, root);
+      return {
+        prefix: attached.prefixOverride ?? morphology.prefixWritten,
+        root: attached.written,
+        suffix: attached.suffixOverride ?? morphology.suffixWritten,
+      };
+    } : undefined,
+  });
   if (morphology) finishAffixedWord(rt, context, morphology);
   if (traceCollector && selection) {
     traceCollector.syllableCount = context.syllableCount;
@@ -2090,7 +2108,7 @@ function finishWord(
 
 /** Select a root by phoneme/letter targets, then finish its planned morphology.
  * Each attempt resolves the planned affixes' sound effects before spelling the
- * root, so the scored root spelling is the one that ships.
+ * root. Optional medial doubling preserves the selected spelling's length score.
  * After the retry limit, finish the best root seen rather than reject an affix. */
 function generateOneWord(
   rt: GeneratorRuntime,
@@ -2110,8 +2128,16 @@ function generateOneWord(
   let morphPlan = morphConfig && !conditionalMorphology
     ? planMorphology(morphConfig, mode, rand)
     : undefined;
+  let medialSeed: number | undefined;
+  // Reuse entropy from the existing root length draw without advancing the
+  // shared RNG for a spelling change after selection.
+  const lengthRand = rt.doubleMedialOnset ? () => {
+    const roll = rand();
+    medialSeed ??= Math.floor(roll * 4294967296) ^ 0x517d0b1e;
+    return roll;
+  } : rand;
   const { phonemes: targetPhonemeCountRoot, syllables: sampledSyllableCount } = sampleRootLengths(
-    rt.rootLengthPolicy, mode, rand, syllableCount > 0 ? syllableCount : undefined,
+    rt.rootLengthPolicy, mode, lengthRand, syllableCount > 0 ? syllableCount : undefined,
   );
   if (morphConfig && conditionalMorphology) {
     morphPlan = planMorphology(morphConfig, mode, rand, sampledSyllableCount);
@@ -2195,7 +2221,7 @@ function generateOneWord(
     };
   }, rejectionTrace);
   const { context, spelled } = selection.selected.value;
-  return finishWord(rt, selectAttempt(context, spelled), rejectionTrace?.finish(selection));
+  return finishWord(rt, selectAttempt(context, spelled), rejectionTrace?.finish(selection), medialSeed);
 }
 
 /**

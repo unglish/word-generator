@@ -6,9 +6,7 @@ import type { DoublingSlot } from "./spelling-doubling.js";
 
 export interface SpellingBoundaryContext {
   slot: GraphemeSlot;
-  doubling: Omit<DoublingSlot, "form" | "nucleusForm" | "stressedVowelJoinLength">;
-  /** Reconstructed from the writer's phones, outside the serialized certificate context. */
-  stressedVowelJoinLength?: number;
+  doubling: Omit<DoublingSlot, "form" | "nucleusForm">;
 }
 
 interface BoundaryEntry {
@@ -106,12 +104,6 @@ export function deriveSpellingBoundaryContext(
         next?.position === "onset" ||
         (next?.syllableIndex === syllableIndex && next.position === "coda"),
     },
-    ...(position === "onset" && !isCluster &&
-      previous?.position === "nucleus" && previous.syllableIndex === syllableIndex - 1 &&
-      (previous.stress === "ˈ" || previous.stress === "ˌ") &&
-      next?.position === "nucleus" && next.syllableIndex === syllableIndex
-      ? { stressedVowelJoinLength: syllableCount }
-      : {}),
   };
 }
 

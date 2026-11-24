@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, expect, it } from "vitest";
-import { createGenerator, englishConfig, generateWord } from "../index.js";
+import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
 import type { WordGenerationOptions } from "../types.js";
 import { verifyBaseSpellingEvidence } from "./spelling-evidence.js";
 
@@ -14,13 +14,13 @@ function legacyEnglishConfig() {
 describe("root-internal consonant doubling (#517)", () => {
   it.each([
     {
-      seed: 1815,
+      seed: 2796,
       syllableCount: 2,
-      before: "idur",
-      after: "iddur",
-      pronunciation: "ˈɪ.dɚ",
-      vowel: "ɪ",
-      consonant: "d",
+      before: "gapern",
+      after: "gappern",
+      pronunciation: "ˈgæ.pɚn",
+      vowel: "æ",
+      consonant: "p",
     },
     {
       seed: 628,
@@ -56,15 +56,16 @@ describe("root-internal consonant doubling (#517)", () => {
       expect(choice).toMatchObject({
         phoneme: consonant,
         selected: consonant,
-        emitted: consonant.repeat(2),
-        doubled: true,
+        letterRespelled: { form: consonant.repeat(2), rule: "medialOnsetDoubling" },
       });
       const unit = ledger.units.find((entry) => entry.choiceId === choice.index);
       assert.ok(unit);
       expect(unit.phoneIds).toEqual([choice.index]);
-      expect(ledger.cells.filter(
-        (cell) => cell.origin.kind === "selection" && cell.origin.unitId === unit.id,
-      ).map((cell) => cell.text)).toEqual([consonant, consonant]);
+      const edit = ledger.edits.find(entry => entry.rule === "medialOnsetDoubling");
+      assert.ok(edit);
+      expect(edit.input[0].origin).toMatchObject({ kind: "selection", unitId: unit.id });
+      expect(edit.output.map(cell => cell.text)).toEqual([consonant, consonant]);
+      expect(verifyBaseSpellingEvidence(ledger, englishConfig).version).toBe(2);
 
       const untraced = generateWord(options);
       expect(untraced.written).toEqual(word.written);
@@ -73,7 +74,7 @@ describe("root-internal consonant doubling (#517)", () => {
   );
 
   it.each([
-    { seed: 73, spelling: "mideald", consonant: "d", reason: "roll-failed" },
+    { seed: 73, spelling: "mideald", consonant: "d", reason: "final-doubling-only" },
     { seed: 168, spelling: "geleesh", consonant: "l", reason: "suppress-before-tense" },
   ])("keeps the singleton in $spelling", ({ seed, spelling, consonant, reason }) => {
     const word = generateWord({ seed, syllableCount: 2, mode: "lexicon", morphology: false, trace: true });
@@ -97,6 +98,36 @@ describe("root-internal consonant doubling (#517)", () => {
     expect(word.written.clean).toBe("ledictita");
     expect(word.written).toEqual(legacy.written);
     expect(word.pronunciation).toBe(legacy.pronunciation);
+  });
+
+  it("leaves the slot alone after a hard-letter repair spends the doubling limit", () => {
+    const word = generateWord({ seed: 11061, mode: "lexicon", morphology: false, trace: true });
+    expect(word.written.clean).toBe("sackibang");
+    expect(word.trace?.baseSpelling?.edits).toContainEqual(expect.objectContaining({
+      rule: "hardLetter:hard-c", before: "c", after: "ck",
+    }));
+  });
+
+  it("preserves lexical roots, selection, and shared random draws over a continuous stream", () => {
+    const legacy = createGenerator(legacyEnglishConfig());
+    const oldRand = createSeededRng(20261124);
+    const newRand = createSeededRng(20261124);
+    let visibleDoubles = 0;
+    for (let i = 0; i < 1_000; i++) {
+      const before = legacy.generateWord({ rand: oldRand, mode: "lexicon", trace: true });
+      const after = generateWord({ rand: newRand, mode: "lexicon", trace: true });
+      expect(after.lexical).toEqual(before.lexical);
+      expect(after.pronunciation).toBe(before.pronunciation);
+      expect(after.trace?.selection).toEqual(before.trace?.selection);
+      if (after.written.clean !== before.written.clean) {
+        visibleDoubles++;
+        expect(after.trace?.baseSpelling?.edits).toContainEqual(expect.objectContaining({
+          rule: "medialOnsetDoubling",
+        }));
+      }
+    }
+    expect(visibleDoubles).toBeGreaterThan(0);
+    expect(newRand()).toBe(oldRand());
   });
 
   it("preserves the version 1 certificate context for custom configs without the new policy", () => {
