@@ -153,6 +153,7 @@ interface PreExpandedCondition {
   notRightContext?: Set<string>;
   leftGraphemeContext?: Set<string>;
   notLeftGraphemeContext?: Set<string>;
+  leftGraphemeLength?: GraphemeCondition["leftGraphemeLength"];
   notRightGraphemeContext?: Set<string>;
   wordFinal?: boolean;
   wordPosition?: ("initial" | "medial" | "final")[];
@@ -226,6 +227,7 @@ function preExpandConditions(
     if (normalized.notRightContext) expanded.notRightContext = expandContext(normalized.notRightContext, categories);
     if (normalized.leftGraphemeContext) expanded.leftGraphemeContext = new Set(normalized.leftGraphemeContext);
     if (normalized.notLeftGraphemeContext) expanded.notLeftGraphemeContext = new Set(normalized.notLeftGraphemeContext);
+    if (normalized.leftGraphemeLength !== undefined) expanded.leftGraphemeLength = normalized.leftGraphemeLength;
     if (normalized.notRightGraphemeContext) expanded.notRightGraphemeContext = new Set(normalized.notRightGraphemeContext);
     if (normalized.wordFinal !== undefined) expanded.wordFinal = normalized.wordFinal;
     if (normalized.wordPosition) expanded.wordPosition = normalized.wordPosition;
@@ -349,6 +351,9 @@ function meetsPreExpandedCondition(
   if (condition.notRightContext) {
     if (nextPhoneme && condition.notRightContext.has(nextPhoneme.sound)) return false;
   }
+
+  if (condition.leftGraphemeLength !== undefined &&
+    (!prevGraphemeForm || !checkSegmentLengthRequirement(prevGraphemeForm.length, condition.leftGraphemeLength))) return false;
 
   if (condition.leftGraphemeContext) {
     if (!prevGraphemeForm) return false;

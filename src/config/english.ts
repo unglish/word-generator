@@ -1,5 +1,6 @@
 import { lexiconReference } from "./lexicon-reference.js";
 import { englishDoublingRealizations } from "../elements/graphemes/doubling.js";
+import { shortVowelsBeforeK } from "../elements/graphemes/stops.js";
 import { FULL_SHORT_NUCLEI } from "../elements/phonemes.js";
 import { Affix, BoundaryClusterConstraintRule, BoundaryTransform, LanguageConfig, defaultFallbackBridgeOnsets, type BoundarySyllableCondition } from "./language.js";
 
@@ -681,10 +682,12 @@ export const englishConfig: LanguageConfig = {
     },
     {
       name: "ow-cluster-simplify",
-      pattern: "ow(?=[bcdfghjklmnpqrstvwxyz]{2})",
+      pattern: "(ow)(?=[bcdfghjklmnpqrstvwxyz]{2})",
       replacement: "ou",
       probability: 100,
       scope: "syllable",
+      // /aʊ/ is licensed at selection, including in crowds and howls.
+      letterRoles: [{ group: 1, segment: "nucleus", sounds: ["əʊ"] }],
     },
     {
       // After a vowel (box, flex), a vowel + ck (necks → nex) or n (jinx)
@@ -922,7 +925,7 @@ export const englishConfig: LanguageConfig = {
         softBefore: ["e", "i", "y"],
         afterShortVowel: "ck",
         otherwise: "k",
-        shortVowels: ["ɪ", "ɛ", "æ", "ʌ", "ɑ", "ɔ", "ʊ", "ə"],
+        shortVowels: shortVowelsBeforeK,
         // Root-final /k/ (#469): English ends a word in c almost only in -ic
         // and -ac (panic, maniac). After a consonant or a long vowel it writes
         // k (desk, milk, seek; magic-e gives ke), after another short vowel

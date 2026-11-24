@@ -8,19 +8,6 @@ export const glideGraphemes: Grapheme[] = [
     midWord: 1,
     endWord: 0,
   },
-  // /j/ → "i" removed: creates illegal "iy" bigrams when followed by
-  // front-vowel graphemes. The "y" form covers all positions.
-
-  {
-    phoneme: "j",
-    form: "j",
-    frequency: 1,
-    coda: 0,
-    startWord: 1,
-    midWord: 1,
-    endWord: 0,
-  },
-
   // we
   { phoneme: "w", 
     form: "w", 

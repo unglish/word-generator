@@ -2,6 +2,8 @@
 import { Grapheme } from "../../types.js";
 import { DIGRAPH_CONSONANTS, openReading } from "./open-reading.js";
 
+const awOw = { phoneme: "aʊ", form: "ow", frequency: 45, startWord: 1, midWord: 5, endWord: 10 };
+
 export const diphthongGraphemes: Grapheme[] = [
   // my
   { 
@@ -143,18 +145,10 @@ export const diphthongGraphemes: Grapheme[] = [
   },
 
   // now
-  {
-    phoneme: "aʊ",
-    form: "ow",
-    frequency: 45,
-    startWord: 1,
-    midWord: 5,
-    endWord: 10,
-    // English writes /aʊ/ before /t/ as ou (out, doubt, shout), almost never
-    // ow (#473: razowtity). ow stays before n, l, d, z and vowels (town, owl,
-    // crowd, browse, tower).
-    condition: { notRightContext: ["t"] },
-  },
+  { ...awOw, condition: { segmentPosition: ["final"] } },
+  // Town, owl, crowd, browse, dowry, tower. Other following consonants
+  // take ou, including at internal syllable joins (out, ounce, mouth).
+  { ...awOw, condition: { rightContext: ["n", "l", "d", "z", "r", "vowel"] } },
   {
     phoneme: "aʊ",
     form: "ou",
