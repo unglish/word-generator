@@ -310,7 +310,7 @@ export const englishConfig: LanguageConfig = {
 
   rootRepetition: {
     mode: "lexicon",
-    minimumNucleusSyllables: 4,
+    minimumNucleusSyllables: 3,
     tripleNucleusMultiplier: 0.2,
     tripleReductionMultiplier: 0.2,
     matchingCodaMultiplier: 0.3,
@@ -327,6 +327,37 @@ export const englishConfig: LanguageConfig = {
     },
     // Avoid diverting weight into rhotic rimes and already common coda starts.
     preserveCodaInitials: ["r", "s", "z", "ŋ"],
+  },
+
+  // The audited CMU roots favor /ə/ and /ɪ/ at unstressed edges. Keep separate
+  // rates by position: medial syllables already have ample weak vowels.
+  unstressedRootNuclei: {
+    mode: "lexicon",
+    preserveCodaInitials: ["r"],
+    initial: [
+      { source: "ɑ", target: "ə", probability: 57 },
+      { source: "ɔ", target: "ə", probability: 50 },
+      { source: "æ", target: "ɪ", probability: 36 },
+      { source: "ɛ", target: "ɪ", probability: 30 },
+      { source: "eɪ", target: "ɪ", probability: 55 },
+      { source: "u", target: "ə", probability: 42 },
+      { source: "aɪ", target: "ɪ", probability: 27 },
+      { source: "ʊ", target: "ə", probability: 50 },
+    ],
+    final: [
+      { source: "ɚ", target: "ə", probability: 42 },
+      { source: "əʊ", target: "ə", probability: 65 },
+      { source: "i:", target: "ɪ", probability: 59 },
+      { source: "ɑ", target: "ə", probability: 77 },
+      { source: "ɔ", target: "ə", probability: 70 },
+      { source: "eɪ", target: "ə", probability: 87 },
+      { source: "æ", target: "ə", probability: 73 },
+      { source: "u", target: "ə", probability: 65 },
+      { source: "aɪ", target: "ə", probability: 72 },
+      { source: "aʊ", target: "ə", probability: 78 },
+      { source: "ʊ", target: "ə", probability: 70 },
+      { source: "ɛ", target: "ɪ", probability: 50 },
+    ],
   },
 
   phonemeLengthWeights: {

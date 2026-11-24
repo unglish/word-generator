@@ -559,6 +559,7 @@ describe("trace stages", () => {
     const plain = generateWord({ seed: 42, trace: true, morphology: false });
     expect(plain.trace!.stages.map((stage) => stage.name)).toEqual([
       ...rootStages,
+      "alternateUnstressedRootNuclei",
       "generateWrittenForm",
       "generatePronunciation",
     ]);

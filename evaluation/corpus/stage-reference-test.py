@@ -25,6 +25,15 @@ class StageReferenceTest(unittest.TestCase):
         for root, mass in expected.items():
             self.assertAlmostEqual(actual[root], mass)
 
+    def test_lexical_stress_and_nucleus_positions(self):
+        projection = {"AH": "ə", "IH": "ɪ", "IY": "i:"}
+        self.assertEqual(
+            list(stage.nuclei_by_stress(["P", "AH2", "B", "IH1", "P", "AH0", "T", "IY0"], projection)),
+            [("secondary", "initial", "ʌ"), ("primary", "medial", "ɪ"),
+             ("unstressed", "medial", "ə"), ("unstressed", "final", "i:")],
+        )
+        self.assertEqual(list(stage.nuclei_by_stress(["AH1"], projection)), [("primary", "isolated", "ʌ")])
+
     def test_transition_provenance_and_count_digest(self):
         from hashlib import sha256
         import json

@@ -189,8 +189,11 @@ describe("hard c before e/i/y letters (#460)", () => {
     // ae-hard-c-to-k writes the k before magic-e and ae-before-e-coda run; the
     // hard-c respell runs after them and must find no /k/ c before an e to fix.
     const { word } = findExample(
-      (w) => w.trace!.graphemeSelections.some((g, i, all) => g.phoneme === "eɪ" && g.selected === "ae" &&
-        all.slice(i + 1).some((h) => h.syllableIndex === g.syllableIndex && h.position === "coda" && h.phoneme === "k")),
+      (w) => w.trace!.graphemeSelections.some((g, i, all) => {
+        if (g.phoneme !== "eɪ" || g.selected !== "ae") return false;
+        const coda = all.slice(i + 1).filter(h => h.syllableIndex === g.syllableIndex);
+        return coda.length === 1 && coda[0].phoneme === "k" && /^ck?$/.test(coda[0].emitted);
+      }),
       { property: "a closed ae before a /k/ coda", limit: 20_000, firstSeed: 5_000_000 },
     );
     expect(word.written.clean).toMatch(/a(i)?k/);

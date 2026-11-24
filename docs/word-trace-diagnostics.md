@@ -23,6 +23,9 @@ Use these fields to answer specific diagnostic questions:
 - `stages`
   - Question: Where did the structure change in the pipeline?
   - Typical signal: a cluster appears after generation but before write.
+  - `alternateUnstressedRootNuclei` shows lexicon root-edge vowel choices made
+    before spelling. Later changes in `generatePronunciation` are surface
+    reduction and do not rewrite the base spelling.
 - `syllableCount`
   - Root syllable target, excluding affixes. Compare `word.syllables.length` for
     the completed word; affixes can increase it beyond the 1–7 root range.

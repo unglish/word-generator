@@ -25,6 +25,8 @@ export type {
   PronunciationConfig,
   GenerationWeights,
   RootRepetitionPolicy,
+  UnstressedRootNuclei,
+  UnstressedNucleusAlternation,
   PhonemeLengthWeights,
   PhonemeToSyllableWeights,
   HardLetterRespelling,

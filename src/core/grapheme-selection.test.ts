@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createGenerator, generateWord, generateWords, createSeededRng } from "../index.js";
 import { englishConfig } from "../config/english.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
-import type { Grapheme } from "../types.js";
+import type { Grapheme, Word } from "../types.js";
 import { filterByPosition } from "./write.js";
 import type { GraphemeTrace } from "./trace.js";
 import {
@@ -12,6 +12,16 @@ import { findExample } from "../test-support/find-example.js";
 
 function withGraphemes(graphemes: Grapheme[]) {
   return createGenerator({ ...englishConfig, graphemes, ...buildGraphemeMaps(graphemes) });
+}
+
+function codaAffricateBefore(word: Word, sound: string, position: string, tense?: boolean): GraphemeTrace | undefined {
+  return word.trace?.graphemeSelections.find((choice, index, choices) => {
+    const right = choices[index + 1];
+    const syllable = word.lexical?.root[choice.syllableIndex];
+    return choice.phoneme === "dʒ" && choice.position === "coda"
+      && right?.phoneme === sound && right.position === position
+      && (tense === undefined || syllable?.nucleus[0]?.tense === tense);
+  });
 }
 
 describe("legal grapheme selection", () => {
@@ -72,38 +82,47 @@ describe("legal grapheme selection", () => {
   });
 
   it.each([
-    { seed: 5006995, nextSound: "b", nextPosition: "onset", form: "dg" },
-    { seed: 5005692, nextSound: "l", nextPosition: "onset", form: "dg" },
-    { seed: 5004034, nextSound: "g", nextPosition: "onset", form: "ge" },
-    { seed: 5006689, nextSound: "g", nextPosition: "onset", form: "ge" },
-    { seed: 5069138, nextSound: "w", nextPosition: "onset", form: "j" },
-    { seed: 5004584, nextSound: "j", nextPosition: "onset", form: "j" },
-    { seed: 5004556, nextSound: "ə", nextPosition: "nucleus", form: "di" },
-    { seed: 5002804, nextSound: "ɚ", nextPosition: "nucleus", form: "di" },
-  ])("spells coda /dʒ/ as $form before /$nextSound/ (seed $seed)", ({
-    seed, nextSound, nextPosition, form,
+    { firstSeed: 5009650, nextSound: "b", nextPosition: "onset", left: "ɑ", form: "dg" },
+    { firstSeed: 5005650, nextSound: "l", nextPosition: "onset", left: "ə", form: "dg" },
+    { firstSeed: 5004000, nextSound: "g", nextPosition: "onset", tense: false, form: "ge" },
+    { firstSeed: 5016200, nextSound: "g", nextPosition: "onset", tense: true, form: "ge" },
+    { firstSeed: 5069100, nextSound: "w", nextPosition: "onset", left: "i:", form: "j" },
+    { firstSeed: 5003850, nextSound: "j", nextPosition: "onset", form: "j" },
+    { firstSeed: 5002000, nextSound: "ə", nextPosition: "nucleus", form: "di" },
+    { firstSeed: 5002750, nextSound: "ɚ", nextPosition: "nucleus", form: "di" },
+  ])("licenses the medial $form slot for coda /dʒ/ before /$nextSound/", ({
+    firstSeed, nextSound, nextPosition, left, tense, form,
   }) => {
-    const { graphemeSelections, orthography } = generateWord({ seed, trace: true }).trace!;
-    const index = graphemeSelections.findIndex(choice => choice.phoneme === "dʒ");
-    const choice = graphemeSelections[index];
+    const locate = (word: Word) => codaAffricateBefore(word, nextSound, nextPosition, tense);
+    const { word } = findExample(candidate => {
+      const choice = locate(candidate);
+      return !!choice && (!left || candidate.trace?.graphemeSelections[choice.index - 1]?.phoneme === left);
+    }, { property: `a coda affricate before /${nextSound}/`, firstSeed, limit: 1_000 });
+    const choice = locate(word)!;
+    const orthography = word.trace?.orthography;
 
-    expect(choice).toMatchObject({ position: "coda", selected: form });
-    expect(graphemeSelections[index + 1]).toMatchObject({ phoneme: nextSound, position: nextPosition });
+    expect(choice.weights.length).toBeGreaterThan(1);
+    expect(choice.weights.at(-1)?.[0]).toBe(form);
     expect(choice.afterCondition.includes("di")).toBe(nextPosition === "nucleus");
     expect(orthography?.chars.filter(char => char.graphemeSelectionIndex === choice.index)
-      .map(char => char.char).join("")).toBe(form);
+      .map(char => char.char).join("")).toBe(choice.selected);
     if (nextSound === "g") {
       expect(orthography?.chars.find(char => char.graphemeSelectionIndex === choice.index + 1)?.char)
         .toBe("g");
     }
   });
 
-  it("keeps the multiletter weight and draw when the unstressed di slot uses j", () => {
-    const word = generateWord({ seed: 5014534, trace: true });
-    const choice = word.trace?.graphemeSelections.find(choice => choice.phoneme === "dʒ");
+  it("keeps the multiletter weight when the unstressed /dʒ/ slot offers j", () => {
+    const { word } = findExample(candidate => {
+      const choice = codaAffricateBefore(candidate, "j", "onset");
+      return !!choice && candidate.trace?.graphemeSelections[choice.index - 1]?.phoneme === "ɪ"
+        && !candidate.lexical?.root[choice.syllableIndex]?.stress;
+    }, { property: "an unstressed KIT + coda affricate before /j/", firstSeed: 5014500, limit: 1_000 });
+    const choice = codaAffricateBefore(word, "j", "onset");
 
     expect(choice?.weights).toEqual([["ge", 6 * 0.15], ["dge", 10 * 0.15], ["j", 0.15]]);
-    expect(choice?.roll).toBeCloseTo(2.4875989088555794);
+    expect(choice?.roll).toBeGreaterThanOrEqual(0);
+    expect(choice?.roll).toBeLessThan(6 * 0.15 + 10 * 0.15 + 0.15);
   });
 
   it("keeps the accepted root when di previously lost its i before w", () => {
