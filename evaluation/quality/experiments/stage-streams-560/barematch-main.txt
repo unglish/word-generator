@@ -1,0 +1,9 @@
+{
+  bare: 951,
+  same: 80,
+  diff: [
+    '2: frickrat vs skemned',
+    '3: plimpor vs hectceet',
+    '4: mableartwa vs daltalham'
+  ]
+}

@@ -1,0 +1,4 @@
+text main 31344 91545 34.239
+text branch 31238 91443 34.161
+lexicon main 35784 138291 25.876
+lexicon branch 35851 138387 25.906

@@ -1,0 +1,1 @@
+{ perStage: [ 117, 104, 104 ], wholeWordCollisions: 0 }
