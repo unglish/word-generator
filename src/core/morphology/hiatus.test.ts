@@ -1,8 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord, generateWords } from "../../index.js";
 import type { MorphHiatusDecisionTrace } from "../../index.js";
 import type { Affix, LanguageConfig, MorphologyConfig } from "../../config/language.js";
 import type { Grapheme, Word } from "../../types.js";
+import { withStageDraws } from "../../test-support/stage-stream-probe.js";
+
+vi.mock("../stage-streams.js", async (original) =>
+  (await import("../../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 function fixedBoundary(options: {
   prefix?: string; suffix?: string; onset?: string; coda?: string;
@@ -125,10 +129,12 @@ describe("morphological vowel adjacency", () => {
     expect(decisions(fixedBoundary({ suffix: "ing", policy: {} }))).toMatchObject([{ outcome: "inserted", inserted: "h" }]);
   });
 
-  it("keeps tracing observational over 2,000 public-API words", () => {
+  it("keeps tracing observational for output and stage draws over 2,000 public-API words", () => {
     for (let seed = 20260926; seed < 20260926 + 2000; seed++) {
-      const traced = generateWord({ seed, trace: true });
-      expect({ ...traced, trace: undefined }, `seed ${seed}`).toEqual(generateWord({ seed }));
+      const traced = withStageDraws(() => generateWord({ seed, trace: true }));
+      const plain = withStageDraws(() => generateWord({ seed }));
+      expect({ ...traced.value, trace: undefined }, `seed ${seed}`).toEqual(plain.value);
+      expect(traced.draws, `seed ${seed}`).toEqual(plain.draws);
     }
   });
 });

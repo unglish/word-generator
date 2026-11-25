@@ -1,9 +1,16 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   createGenerator, createSeededRng, englishConfig, generateWord, generateWords,
-  type LanguageConfig, type Word,
+  type LanguageConfig,
 } from "../index.js";
-import { createWordStreams, STAGE_STREAM_SCHEME } from "./stage-streams.js";
+import type { Word } from "../types.js";
+import { withStageDraws, type StageDraws } from "../test-support/stage-stream-probe.js";
+import {
+  ATTEMPT_STAGES, createWordStreams, deriveStreamSeed, STAGE_STREAM_SCHEME, WORD_STAGES,
+} from "./stage-streams.js";
+
+vi.mock("./stage-streams.js", async (original) =>
+  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 function countingRng(seed: number) {
   const stream = createSeededRng(seed);
@@ -28,7 +35,38 @@ function alternationConfig(probability: number | undefined): LanguageConfig {
   };
 }
 
+/** Draws of every stream except `stage`'s. */
+function withoutStage(draws: StageDraws, stage: string): StageDraws {
+  return Object.fromEntries(Object.entries(draws).filter(([label]) => label.split("#")[0] !== stage));
+}
+
 describe("per-stage random streams (#556)", () => {
+  it("derives the documented seeds for a fixed key", () => {
+    // A failure here means every word changes: bump STAGE_STREAM_SCHEME, then
+    // update these vectors and docs/stage-random-streams.md together.
+    expect(STAGE_STREAM_SCHEME).toBe("stage-streams/1");
+    const key = { hi: 0x01234567, lo: 0x89abcdef };
+    const vectors: Array<[(typeof WORD_STAGES)[number] | (typeof ATTEMPT_STAGES)[number], number, number]> = [
+      ["set_constraints", 0, 0xdcfa87f7],
+      ["plan_morphology", 0, 0x389f5e60],
+      ["plan_shape", 1, 0xe4552a42],
+      ["select_segments", 1, 0x0282e1a7],
+      ["assign_stress", 1, 0xd3e93052],
+      ["post_stress_repair", 1, 0x8f420d90],
+      ["preview_morphology", 1, 0x8cff5056],
+      ["spell", 1, 0x93129b51],
+      ["finalize_root_spelling", 1, 0xc5bf49b7],
+      ["render_pronunciation", 1, 0x52076d70],
+      ["spell", 3, 0x3e2add64],
+    ];
+    for (const [stage, index, seed] of vectors) expect(deriveStreamSeed(key, stage, index), `${stage} at ${index}`).toBe(seed);
+    // Every stage has a vector, so a new or renamed stage fails here too.
+    expect(new Set(vectors.map(([stage]) => stage))).toEqual(new Set([...WORD_STAGES, ...ATTEMPT_STAGES]));
+    // The caller's two draws become the key, hi then lo.
+    const caller = [0x01234567 / 2 ** 32, 0x89abcdef / 2 ** 32];
+    expect(createWordStreams(() => caller.shift()!).key).toEqual(key);
+  });
+
   it.each([false, true])("takes exactly two draws per word from the caller's stream (trace %s)", trace => {
     for (const morphology of [false, true]) {
       const counter = countingRng(556);
@@ -78,9 +116,22 @@ describe("per-stage random streams (#556)", () => {
     expect(first(streams.attempt(0)("render_pronunciation"))).not.toEqual(spell);
     expect(first(streams.word("set_constraints"))).not.toEqual(spell);
     expect(first(streams.word("plan_morphology"))).not.toEqual(first(again.word("set_constraints")));
-    // A stage that runs twice in one attempt resumes its stream.
+    // A stage that runs twice resumes its stream.
+    const fresh = createWordStreams(createSeededRng(556));
     const attempt = again.attempt(2);
-    expect(attempt("spell")).toBe(attempt("spell"));
+    expect([attempt("spell")(), attempt("spell")()]).toEqual(first(fresh.attempt(2)("spell")).slice(0, 2));
+    expect([again.word("plan_morphology")(), again.word("plan_morphology")()])
+      .toEqual(first(fresh.word("plan_morphology")).slice(0, 2));
+  });
+
+  it.each(["text", "lexicon"] as const)("takes the same draws from every stage stream with tracing on or off (%s)", mode => {
+    for (const morphology of [false, true]) {
+      for (let seed = 0; seed < 200; seed++) {
+        const options = { seed, mode, morphology };
+        expect(withStageDraws(() => generateWord({ ...options, trace: true })).draws, `seed ${seed}`)
+          .toEqual(withStageDraws(() => generateWord(options)).draws);
+      }
+    }
   });
 
   it("gives a word whose affix plan is bare the same root as with morphology off", () => {
@@ -111,8 +162,11 @@ describe("per-stage random streams (#556)", () => {
       const { trace } = alwaysFires.generateWord({ ...options, trace: true });
       if (trace!.selection!.selectedAttempt === 0 &&
           trace!.repairs.some(repair => repair.rule === "alternateUnstressedRootNucleus")) extraDraws++;
-      expect(untraced(drawsWithoutFiring.generateWord(options)), `seed ${seed}`)
-        .toEqual(untraced(noDraws.generateWord(options)));
+      const drawn = withStageDraws(() => drawsWithoutFiring.generateWord(options));
+      const notDrawn = withStageDraws(() => noDraws.generateWord(options));
+      expect(drawn.value, `seed ${seed}`).toEqual(notDrawn.value);
+      expect(withoutStage(drawn.draws, "post_stress_repair"), `seed ${seed}`)
+        .toEqual(withoutStage(notDrawn.draws, "post_stress_repair"));
     }
     // With one shared stream these extra draws would have moved every later
     // spelling and pronunciation draw of the word.

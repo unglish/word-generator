@@ -1,11 +1,15 @@
 import { spellingBoundaryContexts } from "./spelling-context.js";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createGenerator, englishConfig, generateWord } from "../index.js";
 import type { Grapheme, Phoneme } from "../types.js";
 import type { LanguageConfig } from "../config/language.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
 import { verifyBaseSpellingEvidence } from "./spelling-evidence.js";
 import { findExample } from "../test-support/find-example.js";
+import { withStageDraws } from "../test-support/stage-stream-probe.js";
+
+vi.mock("./stage-streams.js", async (original) =>
+  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 import { BaseSpelling } from "./base-spelling.js";
 import { createSpellingCoveragePlanner, SPELLING_COVERAGE_SEARCH_LIMIT } from "./spelling-coverage.js";
 import type { SpellingChoiceState } from "./spelling-coverage.js";
@@ -353,13 +357,15 @@ describe("whole-unit spelling budgets", () => {
     expect(() => verifyBaseSpellingEvidence(word.trace!.baseSpelling!, englishConfig)).not.toThrow();
   });
 
-  it("keeps trace on/off output equal with active policy", () => {
+  it("keeps trace on/off output and stage draws equal with active policy", () => {
     for (let seed = 129; seed < 129 + 200; seed++) {
       const options = { seed, morphology: seed % 2 === 0 };
-      const traced = generateWord({ ...options, trace: true });
-      verifyBaseSpellingEvidence(traced.trace!.baseSpelling!, englishConfig);
-      delete traced.trace;
-      expect(traced, `seed ${seed}`).toEqual(generateWord(options));
+      const traced = withStageDraws(() => generateWord({ ...options, trace: true }));
+      const plain = withStageDraws(() => generateWord(options));
+      verifyBaseSpellingEvidence(traced.value.trace!.baseSpelling!, englishConfig);
+      delete traced.value.trace;
+      expect(traced.value, `seed ${seed}`).toEqual(plain.value);
+      expect(traced.draws, `seed ${seed}`).toEqual(plain.draws);
     }
   });
 });

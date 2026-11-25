@@ -496,8 +496,9 @@ The English policy adds opportunities for `b d f g l m n p s t` after
 following syllable's lack of stress previously blocked doubling, the
 new probability is 45% in two-syllable roots and 28% in three-syllable
 roots. The writer considers the new double after root selection and keeps
-the root's letter-length score. It uses a separate random stream seeded
-from the existing root-length draw. The trace records the late change as
+the root's letter-length score. It draws from the selected attempt's
+`finalize_root_spelling` stream
+([Per-stage random streams](./stage-random-streams.md)). The trace records the late change as
 `medialOnsetDoubling` and keeps the spelling length used for selection.
 The doubling limits and the guard before tense vowels still apply.
 Custom configs opt in through

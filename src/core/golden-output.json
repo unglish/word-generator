@@ -2,7 +2,7 @@
   "regenerate": "npm run golden:update",
   "wordsPerCase": 40,
   "cases": [
-    {"name":"text, morphology","seed":1,"mode":"text","morphology":true,"rngDraws":80,
+    {"name":"text, morphology","seed":1,"mode":"text","morphology":true,
       "words": [
         {"clean":"areeshes","hyphenated":"areeshes","pronunciation":"ərˈi:ʃ.ɪz"},
         {"clean":"osh","hyphenated":"osh","pronunciation":"ɑʃ"},
@@ -46,7 +46,7 @@
         {"clean":"madery","hyphenated":"made&shy;ry","pronunciation":"ˈmeɪdˌri:"}
       ]
     },
-    {"name":"text, bare","seed":2,"mode":"text","morphology":false,"rngDraws":80,
+    {"name":"text, bare","seed":2,"mode":"text","morphology":false,
       "words": [
         {"clean":"ind","hyphenated":"ind","pronunciation":"ɪnd"},
         {"clean":"jind","hyphenated":"jind","pronunciation":"dʒɪnd"},
@@ -90,7 +90,7 @@
         {"clean":"sanoantoor","hyphenated":"sa&shy;noan&shy;toor","pronunciation":"sæˈnəʊnˌtʰur"}
       ]
     },
-    {"name":"lexicon, morphology","seed":3,"mode":"lexicon","morphology":true,"rngDraws":80,
+    {"name":"lexicon, morphology","seed":3,"mode":"lexicon","morphology":true,
       "words": [
         {"clean":"palled","hyphenated":"palled","pronunciation":"pʰæld"},
         {"clean":"orase","hyphenated":"o&shy;rase","pronunciation":"ˈɑˌreɪs"},
@@ -134,7 +134,7 @@
         {"clean":"ranetrot","hyphenated":"rane&shy;trot","pronunciation":"ˌreɪnˈtrʌt"}
       ]
     },
-    {"name":"lexicon, bare","seed":4,"mode":"lexicon","morphology":false,"rngDraws":80,
+    {"name":"lexicon, bare","seed":4,"mode":"lexicon","morphology":false,
       "words": [
         {"clean":"loke","hyphenated":"loke","pronunciation":"ləʊk"},
         {"clean":"faploang","hyphenated":"fa&shy;ploang","pronunciation":"ˈfæ.pləʊŋ"},

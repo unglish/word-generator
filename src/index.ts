@@ -62,6 +62,7 @@ export type {
   OrthographyUnitTrace,
   OrthographyTrace,
   OrthographySource,
+  RandomStreamTrace,
 } from "./core/trace.js";
 export { TraceCollector } from "./core/trace.js";
 

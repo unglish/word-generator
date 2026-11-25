@@ -2,13 +2,13 @@
  * The one place exact generated output is pinned.
  *
  * `src/core/golden-output.test.ts` compares a fresh capture with the committed
- * fixture; `npm run golden:update` rewrites the fixture. Any change to RNG
- * consumption or weighting is expected to change it: review the diff and
- * regenerate deliberately.
+ * fixture; `npm run golden:update` rewrites the fixture. Any change to how a
+ * stage draws, to the stream derivation or to weighting is expected to change
+ * it: review the diff and regenerate deliberately.
  *
  * Not part of the published build (excluded in tsconfig.json).
  */
-import { createSeededRng, generateWords } from "../index.js";
+import { generateWords } from "../index.js";
 import type { GenerationMode } from "../types.js";
 
 export const GOLDEN_FIXTURE_URL = new URL("../core/golden-output.json", import.meta.url);
@@ -36,8 +36,6 @@ export interface GoldenWord {
 }
 
 export interface GoldenCaseOutput extends GoldenCase {
-  /** RNG draws consumed by the whole batch. */
-  rngDraws: number;
   words: GoldenWord[];
 }
 
@@ -48,12 +46,9 @@ export interface GoldenOutput {
 }
 
 function captureCase(golden: GoldenCase): GoldenCaseOutput {
-  const stream = createSeededRng(golden.seed);
-  let rngDraws = 0;
-  const rand = () => { rngDraws++; return stream(); };
-  const words = generateWords(GOLDEN_WORDS_PER_CASE, { rand, mode: golden.mode, morphology: golden.morphology })
+  const words = generateWords(GOLDEN_WORDS_PER_CASE, { seed: golden.seed, mode: golden.mode, morphology: golden.morphology })
     .map(({ written, pronunciation }) => ({ clean: written.clean, hyphenated: written.hyphenated, pronunciation }));
-  return { ...golden, rngDraws, words };
+  return { ...golden, words };
 }
 
 export function captureGoldenOutput(): GoldenOutput {

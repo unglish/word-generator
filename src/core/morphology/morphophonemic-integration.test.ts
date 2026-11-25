@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { englishConfig } from "../../config/english.js";
 import type {
   Affix,
@@ -9,6 +9,10 @@ import type { WordGenerationContext } from "../../types.js";
 import { createGenerator } from "../generate.js";
 import { TraceCollector } from "../trace.js";
 import { cloneSyllables } from "../lexical.js";
+import { withStageDraws } from "../../test-support/stage-stream-probe.js";
+
+vi.mock("../stage-streams.js", async (original) =>
+  (await import("../../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 import { prepareMorphology, writeMorphology } from "./attach.js";
 import {
   bindMorphophonemicGuard,
@@ -90,7 +94,7 @@ describe("atomic morphophonemic legality", () => {
     expect(() => createGenerator(config)).toThrow(/must be boolean/);
   });
 
-  it("preserves complete public output and trace when the policy is omitted or false", () => {
+  it("preserves complete public output, trace and stage draws when the policy is omitted or false", () => {
     const omitted = structuredClone(englishConfig);
     const disabled = structuredClone(englishConfig);
     delete omitted.morphology!.morphophonemicPolicy;
@@ -100,9 +104,10 @@ describe("atomic morphophonemic legality", () => {
     const a = createGenerator(omitted);
     const b = createGenerator(disabled);
     for (let seed = 20261004; seed < 20261004 + 50; seed++) {
-      expect(a.generateWord({ seed, trace: true }), `seed ${seed}`).toEqual(
-        b.generateWord({ seed, trace: true }),
-      );
+      const omittedWord = withStageDraws(() => a.generateWord({ seed, trace: true }));
+      const disabledWord = withStageDraws(() => b.generateWord({ seed, trace: true }));
+      expect(omittedWord.value, `seed ${seed}`).toEqual(disabledWord.value);
+      expect(omittedWord.draws, `seed ${seed}`).toEqual(disabledWord.draws);
     }
   });
 
@@ -246,12 +251,14 @@ describe("atomic morphophonemic legality", () => {
     ).toThrow(/guard runtime/);
   });
 
-  it("keeps enabled public trace/plain output equal", () => {
+  it("keeps enabled public trace/plain output and stage draws equal", () => {
     const generator = createGenerator(englishConfig);
     for (let seed = 20261003; seed < 20261003 + 100; seed++) {
-      const traced = generator.generateWord({ seed, trace: true });
-      delete traced.trace;
-      expect(traced, `seed ${seed}`).toEqual(generator.generateWord({ seed }));
+      const traced = withStageDraws(() => generator.generateWord({ seed, trace: true }));
+      const plain = withStageDraws(() => generator.generateWord({ seed }));
+      delete traced.value.trace;
+      expect(traced.value, `seed ${seed}`).toEqual(plain.value);
+      expect(traced.draws, `seed ${seed}`).toEqual(plain.draws);
     }
   });
 

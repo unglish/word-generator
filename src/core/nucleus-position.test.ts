@@ -1,9 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createGenerator, englishConfig, generateWord } from "../index.js";
 import type { LanguageConfig } from "../config/language.js";
 import type { Phoneme, Syllable, Word } from "../types.js";
 import { isNucleusWordPositionAllowed, nucleusWordEdges } from "./nucleus-position.js";
 import { findExample } from "../test-support/find-example.js";
+import { withStageDraws } from "../test-support/stage-stream-probe.js";
+
+vi.mock("./stage-streams.js", async (original) =>
+  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 const foot = englishConfig.phonemes.find(p => p.sound === "ʊ")!;
 const goose = englishConfig.phonemes.find(p => p.sound === "u")!;
@@ -153,11 +157,14 @@ describe("literal nucleus edges", () => {
     expect(() => createGenerator(fixedShape([invalid, goose], 1, 1))).toThrow(/nucleusWordPosition.final/);
   });
 
-  it.each([false, true])("preserves trace/no-trace outputs with morphology=%s", morphology => {
+  it.each([false, true])("preserves trace/no-trace outputs and stage draws with morphology=%s", morphology => {
     for (let seed = 835167; seed < 835167 + 1_000; seed++) {
-      const { trace, ...output } = generateWord({ seed, morphology, trace: true });
+      const traced = withStageDraws(() => generateWord({ seed, morphology, trace: true }));
+      const plain = withStageDraws(() => generateWord({ seed, morphology }));
+      const { trace, ...output } = traced.value;
       expect(trace).toBeDefined();
-      expect(output, `seed ${seed}`).toEqual(generateWord({ seed, morphology }));
+      expect(output, `seed ${seed}`).toEqual(plain.value);
+      expect(traced.draws, `seed ${seed}`).toEqual(plain.draws);
     }
   });
 });

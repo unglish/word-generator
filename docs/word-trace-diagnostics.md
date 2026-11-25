@@ -64,6 +64,12 @@ Use these fields to answer specific diagnostic questions:
     it is no longer subtracted from the root. Actual selected allomorph counts
     are in `realization`. Root phoneme and letter scoring happens before
     affix attachment, independently of these costs.
+- `random`
+  - Question: Which random streams produced this word?
+  - `scheme` is the stream derivation version and `key` the word's 64-bit
+    stream key as 16 hex digits. Together they rebuild every stage's stream;
+    see [Per-stage random streams](./stage-random-streams.md). Absent in traces
+    from before #556.
 - `summary`
   - Question: Quick sanity check for trace volume and repair density.
 

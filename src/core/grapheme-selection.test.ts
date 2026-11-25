@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createGenerator, generateWord, generateWords, createSeededRng } from "../index.js";
 import { englishConfig } from "../config/english.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
@@ -9,6 +9,10 @@ import {
   advanceGraphemePrefix, doublingNucleusForm, INITIAL_GRAPHEME_PREFIX, rollGraphemePrefixSyllable,
 } from "./grapheme-selection.js";
 import { findExample } from "../test-support/find-example.js";
+import { withStageDraws } from "../test-support/stage-stream-probe.js";
+
+vi.mock("./stage-streams.js", async (original) =>
+  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 import { withPhonemeWeights } from "../test-support/phoneme-weights.js";
 
 function withGraphemes(graphemes: Grapheme[]) {
@@ -193,12 +197,13 @@ describe("legal grapheme selection", () => {
     expect(writtenX).toBeGreaterThan(afterG.length / 2);
   });
 
-  it("is deterministic and trace collection leaves output unchanged", () => {
+  it("is deterministic and trace collection leaves output and stage draws unchanged", () => {
     for (let seed = 0; seed < 40; seed++) {
-      const plain = generateWord({ seed, morphology: false });
-      const traced = generateWord({ seed, morphology: false, trace: true });
+      const { value: plain, draws: plainDraws } = withStageDraws(() => generateWord({ seed, morphology: false }));
+      const { value: traced, draws: tracedDraws } = withStageDraws(() => generateWord({ seed, morphology: false, trace: true }));
       expect(traced.written).toEqual(plain.written);
       expect(traced.pronunciation).toBe(plain.pronunciation);
+      expect(tracedDraws, `seed ${seed}`).toEqual(plainDraws);
       expect(generateWord({ seed, morphology: false, trace: true })).toEqual(traced);
     }
   });

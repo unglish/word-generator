@@ -1,45 +1,18 @@
 /**
  * Checks that each generation stage draws from its own stream (#556).
  *
- * The stage streams are wrapped so that one stage's draws can be shifted
- * (`(r + 0.5) % 1`). Shifting a stage must change some words, which shows the
- * stage reads its own stream; shifting it must leave what it cannot affect
- * alone, which shows no other stage reads it.
+ * The stage stream probe shifts one stage's draws (`(r + 0.5) % 1`). Shifting a
+ * stage must change some words, which shows the stage reads its own stream;
+ * shifting it must leave what it cannot affect alone, which shows no other
+ * stage reads it.
  */
 import { describe, expect, it, vi } from "vitest";
-import { generateWord, type Word, type WordGenerationOptions } from "../index.js";
-import type { AttemptStage, WordStage, WordStreams } from "./stage-streams.js";
+import { generateWord } from "../index.js";
+import type { Word, WordGenerationOptions } from "../types.js";
+import { withShiftedStage, type Stage } from "../test-support/stage-stream-probe.js";
 
-type Stage = WordStage | AttemptStage;
-
-const shift = vi.hoisted(() => ({
-  stage: undefined as string | undefined,
-  /** Which root attempts to shift; all when undefined. */
-  attempts: undefined as ((attempt: number) => boolean) | undefined,
-}));
-
-vi.mock("./stage-streams.js", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("./stage-streams.js")>();
-  const shifted = (rng: () => number) => () => (rng() + 0.5) % 1;
-  const wrap = (streams: WordStreams): WordStreams => ({
-    key: streams.key,
-    word: (stage) => (shift.stage === stage ? shifted(streams.word(stage)) : streams.word(stage)),
-    attempt: (attempt) => {
-      const inner = streams.attempt(attempt);
-      const memo = new Map<AttemptStage, () => number>();
-      return (stage) => {
-        let stream = memo.get(stage);
-        if (!stream) {
-          stream = inner(stage);
-          if (shift.stage === stage && (shift.attempts?.(attempt) ?? true)) stream = shifted(stream);
-          memo.set(stage, stream);
-        }
-        return stream;
-      };
-    },
-  });
-  return { ...actual, createWordStreams: (rand: () => number) => wrap(actual.createWordStreams(rand)) };
-});
+vi.mock("./stage-streams.js", async (original) =>
+  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 const SEEDS = Array.from({ length: 300 }, (_, i) => 556_000 + i);
 
@@ -50,17 +23,12 @@ function untraced(word: Word): Omit<Word, "trace"> {
 }
 
 function generate(options: WordGenerationOptions, stage?: Stage, attempts?: (attempt: number) => boolean): Word {
-  shift.stage = stage;
-  shift.attempts = attempts;
-  try {
-    return generateWord({ ...options, mode: "lexicon", trace: true });
-  } finally {
-    shift.stage = undefined;
-    shift.attempts = undefined;
-  }
+  const run = () => generateWord({ ...options, mode: "lexicon", trace: true });
+  return stage ? withShiftedStage(stage, run, attempts) : run();
 }
 
 const selected = (word: Word) => word.trace!.selection!.selectedAttempt;
+const gapSpelled = (word: Word) => word.trace!.repairs.some(repair => repair.rule.startsWith("gapSpelling:"));
 
 describe("stage stream wiring (#556)", () => {
   // Each stage, with the morphology setting under which it draws.
@@ -88,6 +56,8 @@ describe("stage stream wiring (#556)", () => {
     expect(witness, `a word that shifting ${stage} changes`).toBeDefined();
   });
 
+  // A bare word's gap spellings match its realized syllables, so pronunciation
+  // draws can change which applies; the spelling is compared without them.
   it.each([false, true])("spelling and pronunciation streams leave each other and the root alone (morphology %s)", morphology => {
     let compared = 0;
     for (const seed of SEEDS) {
@@ -102,7 +72,8 @@ describe("stage stream wiring (#556)", () => {
       }
       if (selected(spelled) === selected(base)) expect(spelled.pronunciation, `seed ${seed}`).toBe(base.pronunciation);
       expect(finalized.pronunciation, `seed ${seed}`).toBe(base.pronunciation);
-      if (selected(rendered) === selected(base)) expect(rendered.written, `seed ${seed}`).toEqual(base.written);
+      if (selected(rendered) === selected(base) && !gapSpelled(base) && !gapSpelled(rendered))
+        expect(rendered.written, `seed ${seed}`).toEqual(base.written);
     }
     expect(compared).toBeGreaterThan(SEEDS.length);
   });

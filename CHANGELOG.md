@@ -11,7 +11,8 @@
   `rand` keys the word rather than feeding individual choices, and a value
   outside [0, 1) from it throws a `RangeError`. Word distributions change only
   within seed noise, but every seeded output changes once.
-  `WordTrace.random` records the scheme and the word's key.
+  `WordTrace.random` (`RandomStreamTrace`) records the scheme and the word's
+  key.
 
 ### Fixed
 

@@ -31,8 +31,12 @@ type Stage = "roots" | "fullCmu";
 
 const CYCLE = 2n ** 32n;
 const MULBERRY_INCREMENT = 0x6d2b79f5n;
-/** Lexicon words have used ~86 draws each; the margin lets the pre-run overlap check be conservative. */
-const ESTIMATED_DRAWS_PER_WORD = 100;
+/**
+ * Each word takes exactly two draws from the caller's stream since #556. A
+ * `--generator-root` checkout from before #556 took about 86 per lexicon word;
+ * the check after the run uses the draws each run actually took.
+ */
+const DRAWS_PER_WORD = 2;
 
 interface Thresholds {
   sampleSize: number;
@@ -248,7 +252,7 @@ async function main() {
   const k = Number(values.k);
   if (!Number.isFinite(k) || k < 0) throw new Error("--k must be a non-negative number.");
 
-  const estimatedDraws = thresholds.sampleSize * ESTIMATED_DRAWS_PER_WORD;
+  const estimatedDraws = thresholds.sampleSize * DRAWS_PER_WORD;
   const likelyOverlaps = findOverlaps(seeds.map(seed => ({ seed, draws: estimatedDraws })));
   if (likelyOverlaps.length > 0) {
     throw new Error(`RNG streams would likely overlap (assuming ${estimatedDraws} draws per run):\n${likelyOverlaps.join("\n")}`);

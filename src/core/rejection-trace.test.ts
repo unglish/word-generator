@@ -1,8 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createGenerator, englishConfig, generateWord, generateWords } from "../index.js";
 import type { Word } from "../types.js";
 import { scoreGenerationAttempt } from "./length-semantics.js";
 import { findExample } from "../test-support/find-example.js";
+import { withStageDraws } from "../test-support/stage-stream-probe.js";
+
+vi.mock("./stage-streams.js", async (original) =>
+  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 function phones(word: Word): number {
   return word.syllables.reduce((count, syllable) => count + syllable.onset.length + syllable.nucleus.length + syllable.coda.length, 0);
@@ -57,10 +61,13 @@ describe("complete rejection accounting", () => {
     expect(selection.selectedAttempt).toBe(selection.attemptsExecuted - 1);
   });
 
-  it.each([false, true])("tracing preserves outputs with morphology=%s", morphology => {
+  it.each([false, true])("tracing preserves outputs and stage draws with morphology=%s", morphology => {
     for (let seed = 97412; seed < 97412 + 500; seed++) {
-      const { trace, ...output } = generateWord({ seed, morphology, trace: true });
-      expect(output, `seed ${seed}`).toEqual(generateWord({ seed, morphology }));
+      const traced = withStageDraws(() => generateWord({ seed, morphology, trace: true }));
+      const plain = withStageDraws(() => generateWord({ seed, morphology }));
+      const { trace, ...output } = traced.value;
+      expect(output, `seed ${seed}`).toEqual(plain.value);
+      expect(traced.draws, `seed ${seed}`).toEqual(plain.draws);
       expect(trace!.selection).toBeDefined();
     }
   });

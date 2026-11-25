@@ -3,6 +3,10 @@ import { createGenerator, englishConfig, generateWord, TraceCollector } from "..
 import type { LanguageConfig } from "../config/language.js";
 import type { Phoneme, Syllable, Word, WordGenerationContext } from "../types.js";
 import { findExample } from "../test-support/find-example.js";
+import { withStageDraws } from "../test-support/stage-stream-probe.js";
+
+vi.mock("./stage-streams.js", async (original) =>
+  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 import { assertRootRimeCompatibility, isNucleusCodaPairAllowed, isNucleusCompatibleWithCoda } from "./rime-compatibility.js";
 import { repairRootNuclei, repairStressedNuclei } from "./nucleus-repair.js";
 
@@ -300,22 +304,28 @@ describe("lexical-root nucleus/coda compatibility", () => {
     expect(trace.repairs[0].nucleusReplacement!.edges.initial).toBe(false);
   });
 
-  it("preserves public outputs when an added configured pair is inapplicable", () => {
+  it("preserves public outputs and stage draws when an added configured pair is inapplicable", () => {
     const plainConfig = fixedRoot([schwa, goose]);
     plainConfig.codaConstraints!.bannedNucleusCodaCombinations = [];
     const constrainedConfig = fixedRoot([schwa, goose]);
     const plain = createGenerator(plainConfig), constrained = createGenerator(constrainedConfig);
     for (let seed = 712; seed < 712 + 100; seed++) {
       const options = { seed, syllableCount: 2, morphology: false };
-      expect(constrained.generateWord(options), `seed ${seed}`).toEqual(plain.generateWord(options));
+      const withPair = withStageDraws(() => constrained.generateWord(options));
+      const withoutPair = withStageDraws(() => plain.generateWord(options));
+      expect(withPair.value, `seed ${seed}`).toEqual(withoutPair.value);
+      expect(withPair.draws, `seed ${seed}`).toEqual(withoutPair.draws);
     }
   });
 
-  it.each([false, true])("preserves trace/no-trace output with morphology=%s", morphology => {
+  it.each([false, true])("preserves trace/no-trace output and stage draws with morphology=%s", morphology => {
     for (let seed = 1777; seed < 1777 + 1000; seed++) {
-      const { trace, ...traced } = generateWord({ seed, morphology, trace: true });
+      const on = withStageDraws(() => generateWord({ seed, morphology, trace: true }));
+      const off = withStageDraws(() => generateWord({ seed, morphology }));
+      const { trace, ...traced } = on.value;
       expect(trace).toBeDefined();
-      expect(traced, `seed ${seed}`).toEqual(generateWord({ seed, morphology }));
+      expect(traced, `seed ${seed}`).toEqual(off.value);
+      expect(on.draws, `seed ${seed}`).toEqual(off.draws);
     }
   });
 });

@@ -1,6 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { englishConfig, generateWord } from "../index.js";
 import { ipaToArpabet } from "../phonotactic/ipa-to-arpabet.js";
+import { withStageDraws } from "../test-support/stage-stream-probe.js";
+
+vi.mock("../core/stage-streams.js", async (original) =>
+  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 import {
   LEGACY_ENGLISH_IDENTITIES, observeCmuToken, observeWordIdentity,
   projectIdentityStress, projectLegacyArpabet,
@@ -88,17 +92,19 @@ describe("phoneme identity contract", () => {
     expect(projectIdentityStress(observeWordIdentity(word(["p"]), options)).structureSupported).toBe(false);
   });
 
-  it("preserves source objects over 2,000 public API draws", () => {
+  it("preserves source objects and stage draws over 2,000 public API draws", () => {
     for (let seed = 161616; seed < 161616 + 2000; seed++) {
-      const observedWord = generateWord({ seed, trace: true, morphology: true });
+      const observed = withStageDraws(() => generateWord({ seed, trace: true, morphology: true }));
+      const observedWord = observed.value;
       const before = JSON.stringify(observedWord);
       const observation = observeWordIdentity(observedWord, options);
       expect(observeWordIdentity(observedWord, options)).toEqual(observation);
       projectLegacyArpabet(observation); projectIdentityStress(observation);
       observation.segments[0].stress.raw = "mutated";
       expect(JSON.stringify(observedWord)).toBe(before);
-      const unobservedWord = generateWord({ seed, morphology: true });
-      expect({ ...observedWord, trace: undefined }, `seed ${seed}`).toEqual(unobservedWord);
+      const unobserved = withStageDraws(() => generateWord({ seed, morphology: true }));
+      expect({ ...observedWord, trace: undefined }, `seed ${seed}`).toEqual(unobserved.value);
+      expect(observed.draws, `seed ${seed}`).toEqual(unobserved.draws);
     }
   });
 });

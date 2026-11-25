@@ -1,7 +1,7 @@
 # Per-stage random streams
 
-**Issue:** #556 (stage S0 of #555). Code: `src/core/stage-streams.ts` and the
-derivation helpers in `src/utils/random.ts`.
+**Issue:** #556 (stage S0 of #555). Code: `src/core/stage-streams.ts`, which is
+internal: the derivation is not part of the package's public API.
 
 Each stage of word generation draws from its own deterministic random stream.
 A change to how one stage draws, such as a new selection engine or one more
@@ -64,21 +64,31 @@ not every stream's seed at once.
 | `assign_stress` | attempt | `applyStress` |
 | `post_stress_repair` | attempt | stressed and positional nucleus repairs, unstressed-root alternation |
 | `preview_morphology` | attempt | affix assembly and final stressed-nucleus repair (was `lookaheadSeed`) |
-| `spell` | attempt | root spelling and bare-word gap spellings |
+| `spell` | attempt | root spelling and bare-word gap spellings (see below) |
 | `finalize_root_spelling` | selected attempt | medial onset doubling (was `medialSeed`) |
 | `render_pronunciation` | attempt or selected attempt | `generatePronunciation` |
 
 `repair` (the structural cluster and coda repairs), `score` and
-`attach_morphology` draw nothing and have no stream. While they run, the
-context holds an RNG that throws, so a new draw there fails loudly until the
-stage is given a stream in `src/core/stage-streams.ts`.
+`attach_morphology` draw nothing and have no stream. The pipeline binds each
+stream to the word's context with `inStage` for exactly the code of its stage,
+and puts back what was bound before when the stage ends. Between stages the
+context holds an RNG that throws, and `attach_morphology` runs under one that
+throws with its name, so a new draw outside a stage fails loudly until it is
+given a stream in `src/core/stage-streams.ts`.
 
 The finishing stages run for the selected attempt and use that attempt's
 streams. A bare word renders its pronunciation during its attempt, before
 scoring, and an affixed word renders it after selection; both use the
 `render_pronunciation` stream of the attempt whose root is rendered. A stage
-that runs twice within one attempt (bare-word spelling resumes after the
-pronunciation is rendered) continues its own stream.
+that runs twice (bare-word spelling resumes after the pronunciation is
+rendered) continues its own stream.
+
+Streams separate draws, not data. A bare word's gap spellings are exact
+whole-word overrides matched against its realized syllables, so a different
+vowel reduction can change which override applies: the `render_pronunciation`
+stream can then change that word's spelling. In English only the two-syllable
+overrides (*any*, *people*) can be reached this way. Affixed words render after
+spelling and are not affected.
 
 The affix plan has its own stream because it takes a varying number of draws:
 a bare plan takes fewer than a suffixed one. Sharing `set_constraints` would let
@@ -93,15 +103,20 @@ engine behind it without moving any other stage's draws.
 `WordTrace.random` records `{ scheme, key }`: the derivation version
 (`stage-streams/1`) and the key as 16 hex digits, `hi` then `lo`. With the table above, they
 rebuild any stage's stream for that word. Bump `STAGE_STREAM_SCHEME` whenever a
-stage is added, renamed or split, since that changes which numbers a stage
-receives.
+stage is added, renamed or split, or the fold changes, since that changes which
+numbers a stage receives. Known-answer vectors in `stage-streams.test.ts` pin
+every stage's seed for a fixed key, so any such change fails there and not only
+in the golden fixture.
 
 ## Guarantees and tests
 
 `src/core/stage-streams.test.ts` checks that:
 
+- every stage's seed for a fixed key matches its known-answer vector, and
+  every stage has one;
 - each word takes two draws from the caller's stream, with tracing on or off,
   and a draw outside [0, 1) throws;
+- tracing takes the same number of draws from every stage stream;
 - `seed` and an equivalent `rand` give identical words and traces, and
   `generateWords` matches word-by-word generation over one stream;
 - a word whose affix plan is bare equals the word generated with morphology
@@ -109,15 +124,22 @@ receives.
 - extra draws in one stage leave every other stage's draws unchanged. The test
   compares English with every unstressed-root alternation at probability 0
   (it draws but never fires) against English with no alternation rules (no
-  draws), and requires identical words.
+  draws). It requires identical words, and identical draw counts in every
+  stream except `post_stress_repair`.
+
+Both files install the probe in `src/test-support/stage-stream-probe.ts`,
+which counts each stage stream's draws (`withStageDraws`) or shifts one stage's
+draws (`withShiftedStage`). Other tests use it to show that tracing or an
+inert config draws nothing: identical words alone cannot show that, because a
+draw at the end of a stage's stream changes no word.
 
 `src/core/stage-stream-wiring.test.ts` shifts one stage's draws at a time and
 checks that:
 
 - every stage in the table reads its own stream: shifting it changes some word;
 - shifting the spelling streams leaves the root and the pronunciation alone,
-  and shifting the pronunciation stream leaves the root and the spelling alone,
-  whenever the same attempt is selected;
+  and shifting the pronunciation stream leaves the root and the spelling alone
+  (apart from gap spellings, above), whenever the same attempt is selected;
 - the finishing stages use the selected attempt's streams: shifting another
   attempt's leaves the word unchanged.
 

@@ -1,9 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createGenerator, englishConfig } from "../index.js";
 import { BaseSpelling, expandReplacement, parseReplaceCallbackArgs } from "./base-spelling.js";
 import type { BaseSpellingTrace, SpellingCell, SpellingEdit } from "./base-spelling.js";
 import type { Word } from "../types.js";
 import { findExample, searchSeeds } from "../test-support/find-example.js";
+import { withStageDraws } from "../test-support/stage-stream-probe.js";
+
+vi.mock("./stage-streams.js", async (original) =>
+  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 // These tests pin the legacy (version-1) repair ledger; the phone-preserving
 // policy has its own coverage in spelling-coverage.test.ts.
@@ -168,15 +172,17 @@ describe("exact base-spelling provenance", () => {
     expect(edit.input.map(cell => cell.text).join("")).toBe(source.written.clean);
   });
 
-  it.each([100, 53])("keeps public-API trace on/off output equal with custom regex probability %s", probability => {
+  it.each([100, 53])("keeps public-API trace on/off output and stage draws equal with custom regex probability %s", probability => {
     const generator = createGenerator({
       ...legacyConfig,
       spellingRules: [{ name: "probe", pattern: "([aeiou])", replacement: "$1$1", probability, scope: "both" }],
     });
     for (let seed = 281; seed < 281 + 100; seed++) {
-      const on = generator.generateWord({ seed, morphology: false, trace: true });
-      delete on.trace;
-      expect(on, `seed ${seed}`).toEqual(generator.generateWord({ seed, morphology: false }));
+      const on = withStageDraws(() => generator.generateWord({ seed, morphology: false, trace: true }));
+      const off = withStageDraws(() => generator.generateWord({ seed, morphology: false }));
+      delete on.value.trace;
+      expect(on.value, `seed ${seed}`).toEqual(off.value);
+      expect(on.draws, `seed ${seed}`).toEqual(off.draws);
     }
   });
 
@@ -216,8 +222,8 @@ describe("exact base-spelling provenance", () => {
 });
 
 // Each case generates 30 words with tracing on and off, and requires identical
-// words. The seeds start at the first seed whose word uses the rule. Exact output is pinned only by the
-// golden fixture (`npm run golden:update`).
+// words and per-stage draw counts. The seeds start at the first seed whose word
+// uses the rule. Exact output is pinned only by the golden fixture (`npm run golden:update`).
 const replacementCases = [
   { name: "ck contraction", pattern: "ck", replacement: "k", flags: "g", scope: "both" },
   { name: "vowel pair", pattern: "([aeiou])", replacement: "$1e", flags: "g", scope: "syllable" },
@@ -227,7 +233,7 @@ const replacementCases = [
 ] as const;
 
 describe.each([100, 53])("spelling replacements with probability %s", probability => {
-  it.each(replacementCases)("preserves output and cell provenance for $name", ({ name, pattern, replacement, flags, scope }) => {
+  it.each(replacementCases)("preserves output, stage draws and cell provenance for $name", ({ name, pattern, replacement, flags, scope }) => {
     const generator = createGenerator({
       ...legacyConfig,
       spellingRules: [{ name, pattern, replacement, flags, scope, probability }],
@@ -236,8 +242,9 @@ describe.each([100, 53])("spelling replacements with probability %s", probabilit
       property: `a ${name} replacement`, limit: 500, generator, options: { morphology: false },
     });
     for (let draw = 0; draw < 30; draw++) {
-      const on = generator.generateWord({ seed: seed + draw, morphology: false, trace: true });
-      const off = generator.generateWord({ seed: seed + draw, morphology: false });
+      const traced = withStageDraws(() => generator.generateWord({ seed: seed + draw, morphology: false, trace: true }));
+      const plain = withStageDraws(() => generator.generateWord({ seed: seed + draw, morphology: false }));
+      const on = traced.value;
       const base = on.trace!.baseSpelling!;
       expectLedgerReplay(base);
       expect(base.surface).toBe(on.written.clean);
@@ -253,7 +260,8 @@ describe.each([100, 53])("spelling replacements with probability %s", probabilit
         expect(base.edits).toContainEqual(expect.objectContaining({ rule: "postJoinVowelCap", after: "" }));
       }
       delete on.trace;
-      expect(on, `seed ${seed + draw}`).toEqual(off);
+      expect(on, `seed ${seed + draw}`).toEqual(plain.value);
+      expect(traced.draws, `seed ${seed + draw}`).toEqual(plain.draws);
     }
   });
 });

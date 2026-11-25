@@ -124,6 +124,32 @@ describe("root-internal consonant doubling (#517)", () => {
     expect(word.written.clean).toBe(written.slice(0, edit.start) + written.slice(edit.start + 1));
   });
 
+  it("keeps a medial onset single before a tense vowel", () => {
+    // Doubling every eligible two-syllable root, the same root doubles its
+    // onset when the guard is off.
+    const policy = medialOnsetPolicy();
+    const always = (suppressBeforeTense: boolean) => createGenerator({
+      ...englishConfig,
+      doubling: { ...englishDoubling(), suppressBeforeTense, medialOnset: { ...policy, probability: { ...policy.probability, two: 100 } } },
+    });
+    const guarded = always(true), unguarded = always(false);
+    const options = { syllableCount: 2, mode: "lexicon", morphology: false, trace: true } as const;
+    const { word, doubled } = searchSeeds({
+      property: "a root doubled before a tense vowel only without the guard", limit: 2_000,
+    }, seed => {
+      const doubled = unguarded.generateWord({ ...options, seed });
+      if (!hasEdit(doubled, rule) || doubled.syllables[1].nucleus[0]?.tense !== true) return undefined;
+      const word = guarded.generateWord({ ...options, seed });
+      return JSON.stringify(word.lexical) === JSON.stringify(doubled.lexical) ? { word, doubled } : undefined;
+    });
+
+    expect(englishDoubling().suppressBeforeTense).toBe(true);
+    expect(hasEdit(word, rule)).toBe(false);
+    const edit = doubled.trace!.baseSpelling!.edits.find(entry => entry.rule === rule)!;
+    const written = doubled.written.clean;
+    expect(word.written.clean).toBe(written.slice(0, edit.start) + written.slice(edit.start + 1));
+  });
+
   it("preserves lexical roots and selection over a continuous stream", () => {
     const legacy = createGenerator(legacyEnglishConfig());
     const oldRand = createSeededRng(20261124);

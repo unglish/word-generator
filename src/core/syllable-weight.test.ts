@@ -1,8 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { analyzeWordWeight, createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
 import type { LanguageConfig, NuclearQuantity, OTConstraint, SyllableWeightPolicy } from "../index.js";
 import type { PrimaryStressRules } from "../config/language.js";
 import type { Phoneme, Syllable } from "../types.js";
+import { withStageDraws } from "../test-support/stage-stream-probe.js";
+
+vi.mock("./stage-streams.js", async (original) =>
+  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 const moraic: SyllableWeightPolicy = { type: "moraic", analysis: "fixture", coda: "weight-by-position", unknown: "legacy-segment-count" };
 
@@ -136,11 +140,13 @@ describe("shared analytical and operational syllable weight", () => {
     expect(fallbackUnknowns).toBeGreaterThan(50);
   });
 
-  it("keeps active-model tracing observational for complete outputs", () => {
+  it("keeps active-model tracing observational for complete outputs and stage draws", () => {
     for (let seed = 917; seed < 917 + 500; seed++) {
-      const traced = generateWord({ seed, trace: true });
-      delete traced.trace;
-      expect(traced, `seed ${seed}`).toEqual(generateWord({ seed }));
+      const traced = withStageDraws(() => generateWord({ seed, trace: true }));
+      const plain = withStageDraws(() => generateWord({ seed }));
+      delete traced.value.trace;
+      expect(traced.value, `seed ${seed}`).toEqual(plain.value);
+      expect(traced.draws, `seed ${seed}`).toEqual(plain.draws);
     }
   });
 
@@ -258,13 +264,14 @@ describe("shared analytical and operational syllable weight", () => {
     expect(word.trace!.stressWeight).toEqual(before);
   });
 
-  it("keeps legacy omission and explicit policy, with and without tracing, in exact agreement", () => {
+  it("keeps legacy omission and explicit policy, with and without tracing, in exact output and stage draw agreement", () => {
     const configs = [configFor({ secondary: true }), configFor({ policy: { type: "legacy-segment-count" }, secondary: true })];
     const generators = configs.map(createGenerator);
     for (let seed = 281; seed < 281 + 200; seed++) {
-      const words = generators.map((generator, index) => generator.generateWord({ seed, syllableCount: 3, morphology: false, trace: index === 0 }));
-      delete words[0].trace;
-      expect(words[0], `seed ${seed}`).toEqual(words[1]);
+      const [a, b] = generators.map((generator, index) => withStageDraws(() => generator.generateWord({ seed, syllableCount: 3, morphology: false, trace: index === 0 })));
+      delete a.value.trace;
+      expect(a.value, `seed ${seed}`).toEqual(b.value);
+      expect(a.draws, `seed ${seed}`).toEqual(b.draws);
     }
   });
 

@@ -96,8 +96,8 @@ import { isStop } from "../utils/phonemes.js";
 import { weightMatchingCoda } from "./root-repetition.js";
 import { createMedialOnsetDoubler } from "./medial-onset-doubling.js";
 import {
-  createWordStreams, formatStreamKey, NO_STAGE_DRAWS, STAGE_STREAM_SCHEME,
-  type AttemptStreams, type WordStreams,
+  BETWEEN_STAGES, createWordStreams, formatStreamKey, inStage, noStageDraws, STAGE_STREAM_SCHEME,
+  type AttemptStreams, type StreamKey,
 } from "./stage-streams.js";
 
 // ---------------------------------------------------------------------------
@@ -1924,36 +1924,33 @@ function resolveAffixedRoot(
   const lexicalRoot = cloneSyllables(context.word.syllables);
   // Affix-side random choices (hiatus bridges, stressed-nucleus re-picks) draw
   // from the attempt's preview_morphology stream.
-  const lexicalContext: WordGenerationContext = {
-    ...context,
-    rand: previewRand,
-  };
-
-  const prepared = traceStage(
-    traceCollector,
-    "assembleMorphology",
-    context.word,
-    () => prepareMorphology(rt, lexicalContext, morphPlan),
-  );
-  const rootSyllableStart = prepared.rootSyllableStart;
-
-  // Final primary stress may fall on a formerly unstressed root vowel. Repair
-  // the lexical choice before spelling, while retaining genuine alternations
-  // (such as -ity shortening) as separate base and derived segments.
-  const nucleiBeforeRepair = context.word.syllables.map((syllable) => [
-    ...syllable.nucleus,
-  ]);
-  traceStage(traceCollector, "repairFinalStressedNuclei", context.word, () => {
-    repairStressedNuclei(lexicalContext, rt.nucleusRepair, { syllables: lexicalRoot, start: rootSyllableStart });
-    clearBannedSecondaryStress(lexicalContext, rt.resolvedStress.nucleus);
-    carryRootStressRepairs(
-      lexicalRoot,
-      context.word.syllables,
-      nucleiBeforeRepair,
-      rootSyllableStart,
+  return inStage(context, previewRand, () => {
+    const prepared = traceStage(
+      traceCollector,
+      "assembleMorphology",
+      context.word,
+      () => prepareMorphology(rt, context, morphPlan),
     );
+    const rootSyllableStart = prepared.rootSyllableStart;
+
+    // Final primary stress may fall on a formerly unstressed root vowel. Repair
+    // the lexical choice before spelling, while retaining genuine alternations
+    // (such as -ity shortening) as separate base and derived segments.
+    const nucleiBeforeRepair = context.word.syllables.map((syllable) => [
+      ...syllable.nucleus,
+    ]);
+    traceStage(traceCollector, "repairFinalStressedNuclei", context.word, () => {
+      repairStressedNuclei(context, rt.nucleusRepair, { syllables: lexicalRoot, start: rootSyllableStart });
+      clearBannedSecondaryStress(context, rt.resolvedStress.nucleus);
+      carryRootStressRepairs(
+        lexicalRoot,
+        context.word.syllables,
+        nucleiBeforeRepair,
+        rootSyllableStart,
+      );
+    });
+    return { root: lexicalRoot, morphology: prepared };
   });
-  return { root: lexicalRoot, morphology: prepared };
 }
 
 /** Spell a bare root and realize its surface; its lexical form is complete here. */
@@ -1963,18 +1960,17 @@ function spellBareWord(
   streams: AttemptStreams,
 ): SpelledRoot {
   const syllables = context.word.syllables;
-  const baseSpelling = spellLexicalRoot(rt, context, syllables, 0);
+  const baseSpelling = inStage(context, streams("spell"), () => spellLexicalRoot(rt, context, syllables, 0));
   const lexical: LexicalForm = {
     root: cloneSyllables(syllables),
     syllables: cloneSyllables(syllables),
     rootSyllableStart: 0,
   };
   context.word.lexical = lexical;
-  context.rand = streams("render_pronunciation");
-  realizeSurface(rt, context);
-  // Exact bare-word overrides retain their existing place in root scoring.
-  context.rand = streams("spell");
-  rt.applyGapSpellings(context, baseSpelling);
+  inStage(context, streams("render_pronunciation"), () => realizeSurface(rt, context));
+  // Exact bare-word overrides retain their existing place in root scoring. They
+  // match the realized syllables, so pronunciation draws can change which applies.
+  inStage(context, streams("spell"), () => rt.applyGapSpellings(context, baseSpelling));
   return { root: lexical.root, baseSpelling };
 }
 
@@ -1985,10 +1981,9 @@ function spellAttempt(
   affixed: AffixedRoot | undefined,
   streams: AttemptStreams,
 ): SpelledRoot {
-  context.rand = streams("spell");
   if (!affixed) return spellBareWord(rt, context, streams);
   const { morphology } = affixed;
-  const baseSpelling = spellLexicalRoot(
+  const baseSpelling = inStage(context, streams("spell"), () => spellLexicalRoot(
     rt,
     context,
     affixed.root,
@@ -1999,7 +1994,7 @@ function spellAttempt(
         attachRootWritten(morphology, written, affixed.root),
       resounded: resoundedRootPhones(morphology, affixed.root),
     },
-  );
+  ));
   return { ...affixed, baseSpelling };
 }
 
@@ -2031,10 +2026,9 @@ function finishAffixedWord(
   streams: AttemptStreams,
 ): void {
   const traceCollector = context.trace;
-  context.rand = NO_STAGE_DRAWS;
   const root = context.word.lexical?.root;
   if (!root) throw new Error("An affixed word's lexical form is built before its morphology is written");
-  const morphology = writeMorphology(context, prepared, root);
+  const morphology = inStage(context, noStageDraws("attach_morphology"), () => writeMorphology(context, prepared, root));
   // Preserve selected allomorph parts through final consonant-letter repair.
   const maxCons = rt.config.writtenFormConstraints?.maxConsonantLetters;
   const preservePhones =
@@ -2082,16 +2076,18 @@ function finishAffixedWord(
   const realization = traceCollector?.morphologyTrace?.realization;
   if (realization)
     realization.emittedParts = morphology.parts.map((part) => ({ ...part }));
-  context.rand = streams("render_pronunciation");
-  realizeSurface(rt, context);
+  inStage(context, streams("render_pronunciation"), () => realizeSurface(rt, context));
 }
 
-/** Finish the selected attempt with its own streams: medial doubling, written morphology (if any) and the trace. */
+/**
+ * Finish the selected attempt with its own streams: medial doubling, written
+ * morphology (if any) and the trace, which records the word's stream `key`.
+ */
 function finishWord(
   rt: GeneratorRuntime,
   { context, morphology, root, baseSpelling }: SelectedAttempt,
   streams: AttemptStreams,
-  wordStreams: WordStreams,
+  key: StreamKey,
   selection: SelectionTrace | undefined,
 ): Word {
   const traceCollector = context.trace;
@@ -2108,9 +2104,8 @@ function finishWord(
     } : undefined,
   });
   if (morphology) finishAffixedWord(rt, context, morphology, streams);
-  context.rand = NO_STAGE_DRAWS;
   if (traceCollector && selection) {
-    traceCollector.random = { scheme: STAGE_STREAM_SCHEME, key: formatStreamKey(wordStreams.key) };
+    traceCollector.random = { scheme: STAGE_STREAM_SCHEME, key: formatStreamKey(key) };
     traceCollector.syllableCount = context.syllableCount;
     traceCollector.targetPhonemeCount = context.targetPhonemeCount;
     traceCollector.syllablePlans = context.syllablePlans;
@@ -2137,20 +2132,15 @@ function generateOneWord(
   const morphConfig = applyMorph && rt.config.morphology?.enabled
     ? rt.config.morphology
     : undefined;
-  const conditionalMorphology = morphConfig?.templateWeights[mode].byRootSyllables;
-  const streams = createWordStreams(rand);
-  const constraintsRand = streams.word("set_constraints");
-  // The affix plan has its own stream, so affix changes leave root shapes alone.
-  const morphologyRand = streams.word("plan_morphology");
-  let morphPlan = morphConfig && !conditionalMorphology
-    ? planMorphology(morphConfig, mode, morphologyRand)
-    : undefined;
+  const wordStreams = createWordStreams(rand);
+  const constraintsRand = wordStreams.word("set_constraints");
   const { phonemes: targetPhonemeCountRoot, syllables: sampledSyllableCount } = sampleRootLengths(
     rt.rootLengthPolicy, mode, constraintsRand, syllableCount > 0 ? syllableCount : undefined,
   );
-  if (morphConfig && conditionalMorphology) {
-    morphPlan = planMorphology(morphConfig, mode, morphologyRand, sampledSyllableCount);
-  }
+  // The affix plan has its own stream, so affix changes leave root shapes alone.
+  const morphPlan = morphConfig
+    ? planMorphology(morphConfig, mode, wordStreams.word("plan_morphology"), sampledSyllableCount)
+    : undefined;
   const affixPlan = morphPlan && morphPlan.plan.template !== "bare"
     ? morphPlan.plan
     : undefined;
@@ -2167,7 +2157,7 @@ function generateOneWord(
   const rejectionTrace = enableTrace ? new RejectionTraceCollector(ATTEMPT_CRITERIA) : undefined;
 
   const selection = chooseRootAttempt(ATTEMPT_CRITERIA, targetPhonemeCountRoot, (attempt) => {
-    const attemptStreams = streams.attempt(attempt);
+    const attemptStreams = wordStreams.attempt(attempt);
     const syllablePlans = distributePhonemes(
       rt,
       targetPhonemeCountRoot,
@@ -2185,7 +2175,7 @@ function generateOneWord(
       };
     }
     const context: PlannedRootContext = {
-      rand: NO_STAGE_DRAWS,
+      rand: BETWEEN_STAGES,
       word: {
         syllables: [],
         pronunciation: "",
@@ -2209,7 +2199,6 @@ function generateOneWord(
       ? resolveAffixedRoot(rt, context, affixPlan, attemptStreams("preview_morphology"))
       : undefined;
     const spelled = spellAttempt(rt, context, affixed, attemptStreams);
-    context.rand = NO_STAGE_DRAWS;
     const root = spelled.root;
     const rootPhonemeCount = countPhonemes(root);
     const attemptScore = scoreGenerationAttempt(
@@ -2226,7 +2215,7 @@ function generateOneWord(
     };
   }, rejectionTrace);
   const { context, spelled, attemptStreams } = selection.selected.value;
-  return finishWord(rt, selectAttempt(context, spelled), attemptStreams, streams, rejectionTrace?.finish(selection));
+  return finishWord(rt, selectAttempt(context, spelled), attemptStreams, wordStreams.key, rejectionTrace?.finish(selection));
 }
 
 /**
@@ -2243,12 +2232,10 @@ function runPipeline(
   const word = context.word;
   const stressRules = rt.resolvedStress;
 
-  context.rand = streams("select_segments");
-  traceStage(t, "generateSyllables", word, () =>
+  inStage(context, streams("select_segments"), () => traceStage(t, "generateSyllables", word, () =>
     generateSyllables(rt, context, mode),
-  );
-  // The structural repairs draw nothing.
-  context.rand = NO_STAGE_DRAWS;
+  ));
+  // The structural repairs take no random stream.
   traceStage(t, "repairClusters", word, () => {
     if (rt.bannedSet)
       repairClusters(word.syllables, rt.bannedSet, rt.clusterRepair!, t);
@@ -2280,23 +2267,23 @@ function runPipeline(
   traceStage(t, "repairHAfterBackVowel", word, () =>
     repairHAfterBackVowel(word.syllables, t),
   );
-  context.rand = streams("assign_stress");
-  traceStage(t, "applyStress", word, () => applyStress(context, stressRules));
-  context.rand = streams("post_stress_repair");
-  traceStage(t, "repairStressedNuclei", word, () =>
-    repairStressedNuclei(context, rt.nucleusRepair),
-  );
-  traceStage(t, "repairNucleusWordPositions", word, () => {
-    repairRootNuclei(context, rt.nucleusRepair);
-    clearBannedSecondaryStress(context, stressRules.nucleus);
-  });
-  const alternations = rt.config.unstressedRootNuclei;
-  if (alternations?.mode === mode && word.syllables.length > 1) {
-    traceStage(t, "alternateUnstressedRootNuclei", word, () =>
-      alternateUnstressedRootNuclei(context, rt.nucleusRepair, alternations, affixes),
+  inStage(context, streams("assign_stress"), () =>
+    traceStage(t, "applyStress", word, () => applyStress(context, stressRules)));
+  inStage(context, streams("post_stress_repair"), () => {
+    traceStage(t, "repairStressedNuclei", word, () =>
+      repairStressedNuclei(context, rt.nucleusRepair),
     );
-  }
-  context.rand = NO_STAGE_DRAWS;
+    traceStage(t, "repairNucleusWordPositions", word, () => {
+      repairRootNuclei(context, rt.nucleusRepair);
+      clearBannedSecondaryStress(context, stressRules.nucleus);
+    });
+    const alternations = rt.config.unstressedRootNuclei;
+    if (alternations?.mode === mode && word.syllables.length > 1) {
+      traceStage(t, "alternateUnstressedRootNuclei", word, () =>
+        alternateUnstressedRootNuclei(context, rt.nucleusRepair, alternations, affixes),
+      );
+    }
+  });
 }
 
 const MAX_FORCED_SYLLABLE_COUNT = 7;

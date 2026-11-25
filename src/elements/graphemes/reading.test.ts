@@ -1,8 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createGenerator, englishConfig } from "../../index.js";
 import type { Grapheme } from "../../types.js";
 import { buildGraphemeMaps, graphemes } from "./index.js";
 import { withEnglishReadings } from "./reading.js";
+import { withStageDraws } from "../../test-support/stage-stream-probe.js";
+
+vi.mock("../../core/stage-streams.js", async (original) =>
+  (await import("../../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 function entry(phoneme: string, form: string): Grapheme {
   return { phoneme, form, frequency: 1, startWord: 1, midWord: 1, endWord: 1 };
@@ -115,7 +119,7 @@ describe("English grapheme reading obligations", () => {
     expect(reading("ɛ", "constructor")).toBeUndefined();
   });
 
-  it("keeps public generation unchanged when no reading policy consumes the metadata", () => {
+  it("keeps public generation and stage draws unchanged when no reading policy consumes the metadata", () => {
     const bare = graphemes.map(withoutReading);
     const config = {
       ...englishConfig,
@@ -125,7 +129,10 @@ describe("English grapheme reading obligations", () => {
     const annotated = createGenerator(config);
     for (let seed = 20261001; seed < 20261001 + 200; seed++) {
       const options = { seed, morphology: seed % 2 === 0 };
-      expect(annotated.generateWord(options), `seed ${seed}`).toEqual(plain.generateWord(options));
+      const actual = withStageDraws(() => annotated.generateWord(options));
+      const expected = withStageDraws(() => plain.generateWord(options));
+      expect(actual.value, `seed ${seed}`).toEqual(expected.value);
+      expect(actual.draws, `seed ${seed}`).toEqual(expected.draws);
     }
   });
 });
