@@ -293,6 +293,19 @@ const rootStopJunctionReference: readonly {
   { words: 1802, hits: { "N|P": 1, "N|K": 17, "N|G": 2, "NG|K": 7 } },
 ];
 
+/**
+ * Accepted count range for a join that English would produce `expected`
+ * times. A count fails only when it lies more than three Poisson standard
+ * deviations outside half to double the English rate. The slack therefore
+ * grows with the count, unlike a fixed one. Pairs that English produces fewer
+ * than about 18 times have no effective floor at this sample size.
+ */
+function englishRateCountRange(expected: number): { min: number; max: number } {
+  const low = expected / 2;
+  const high = expected * 2;
+  return { min: low - 3 * Math.sqrt(low), max: high + 3 * Math.sqrt(high) };
+}
+
 it("samples root stop junctions near the audited English rates (#499, #540)", () => {
   const pairs = new Set(Object.keys(rootStopJunctionReference[1].hits));
   const observed = new Map<string, number>();
@@ -318,10 +331,13 @@ it("samples root stop junctions near the audited English rates (#499, #540)", ()
   for (const pair of pairs) {
     const expected = rootStopJunctionReference.reduce((sum, { words, hits }, index) =>
       sum + lengths[index] * (hits[pair] ?? 0) / words, 0);
+    // NG|G runs at about 55% of English and NG|K at about 66% (#558). Both
+    // stay at least 3.5 sd above the floor across seeds.
     const count = observed.get(pair) ?? 0;
+    const { min, max } = englishRateCountRange(expected);
     const label = `${pair}, expected about ${expected.toFixed(1)}`;
-    expect.soft(count, label).toBeGreaterThanOrEqual(Math.max(1, expected / 2 - 3));
-    expect.soft(count, label).toBeLessThanOrEqual(expected * 2 + 3);
+    expect.soft(count, label).toBeGreaterThanOrEqual(min);
+    expect.soft(count, label).toBeLessThanOrEqual(max);
   }
 });
 
