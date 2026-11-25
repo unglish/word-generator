@@ -17,23 +17,24 @@ function generatorWithSuffix(suffix: string) {
 
 describe("final e at the root-suffix boundary", () => {
   it.each([
-    { seed: 5_000_104, base: "widge", suffix: "es", phones: ["ɪ", "z"], written: "widges" },
-    { seed: 5_001_401, base: "froke", suffix: "s", phones: ["s"], written: "frokes" },
-    { seed: 5_007_891, base: "spy", suffix: "es", phones: ["z"], written: "spies" },
-    { seed: 5_011_428, base: "sale", suffix: "ist", phones: ["ɪ", "s", "t"], written: "salist" },
-    { seed: 4_011_935, base: "zite", suffix: "ian", phones: ["i:", "ə", "n"], written: "zitian" },
-    { seed: 5_004_681, base: "ree", suffix: "ing", phones: ["ɪ", "ŋ"], written: "reing" },
-    { seed: 5_002_295, base: "blue", suffix: "ing", phones: ["ɪ", "ŋ"], written: "bluing" },
-    { seed: 5_014_397, base: "free", suffix: "ed", phones: ["d"], written: "freed" },
-  ])("writes $base + $suffix as $written", ({ seed, base, suffix, phones, written }) => {
-    const word = generateWord({ seed, trace: true });
-    expect(word.trace?.baseSpelling?.surface).toBe(base);
-    expect(word.trace?.morphology?.realization?.suffix?.resolved).toMatchObject({
-      written: suffix,
-      phonemes: phones,
-    });
-    expect(word.written.clean).toBe(written);
-    expect(generateWord({ seed }).written).toEqual(word.written);
+    { shape: "-Ce + -es /ɪz/ as -Ces", affix: "s", written: "es", phones: ["ɪ", "z"], ending: /[^aeiou]e$/, drop: 1, add: "es", limit: 150 },
+    { shape: "-Ce + -s /s/ as -Ces", affix: "s", written: "s", phones: ["s"], ending: /[^aeiou]e$/, drop: 0, add: "s", limit: 100 },
+    { shape: "-Cy + -es /z/ as -Cies", affix: "s", written: "es", phones: ["z"], ending: /[^aeiou]y$/, drop: 1, add: "ies", limit: 120 },
+    { shape: "-Ce + -ist as -Cist", affix: "ist", written: "ist", phones: ["ɪ", "s", "t"], ending: /[^aeiou]e$/, drop: 1, add: "ist", limit: 50 },
+    { shape: "-Ce + -ian as -Cian", affix: "ian", written: "ian", phones: ["i:", "ə", "n"], ending: /[^aeiou]e$/, drop: 1, add: "ian", limit: 50 },
+    { shape: "-ee + -ing as -eing", affix: "ing", written: "ing", phones: ["ɪ", "ŋ"], ending: /ee$/, drop: 1, add: "ing", limit: 1_000 },
+    { shape: "-ue + -ing as -uing", affix: "ing", written: "ing", phones: ["ɪ", "ŋ"], ending: /ue$/, drop: 1, add: "ing", limit: 700 },
+    { shape: "-ee + -ed as -eed", affix: "ed", written: "ed", phones: ["d"], ending: /ee$/, drop: 1, add: "ed", limit: 1_000 },
+  ])("writes $shape", ({ affix, written, phones, ending, drop, add, limit }) => {
+    const generator = generatorWithSuffix(affix);
+    const { word, options } = findExample(candidate => {
+      const resolved = candidate.trace?.morphology?.realization?.suffix?.resolved;
+      return ending.test(candidate.trace?.baseSpelling?.surface ?? "")
+        && resolved?.written === written && resolved.phonemes.join(" ") === phones.join(" ");
+    }, { property: `a root matching ${ending} before -${written} /${phones.join(" ")}/`, limit, generator });
+    const base = word.trace!.baseSpelling!.surface;
+    expect(word.written.clean).toBe(base.slice(0, base.length - drop) + add);
+    expect(generator.generateWord({ ...options, trace: false }).written).toEqual(word.written);
   });
 
   it.each([

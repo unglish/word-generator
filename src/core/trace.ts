@@ -378,7 +378,17 @@ export interface OrthographyTrace {
   phonemeUnits?: OrthographyUnitTrace[];
 }
 
+/** How this word's random streams were derived; see `docs/stage-random-streams.md`. */
+export interface RandomStreamTrace {
+  /** Derivation version, such as `stage-streams/1`. */
+  scheme: string;
+  /** The word's stream key as 16 hex digits; with the scheme it rebuilds every stage's stream. */
+  key: string;
+}
+
 export interface WordTrace {
+  /** Absent in historical traces. */
+  random?: RandomStreamTrace;
   /** Exact base edit provenance, separate from legacy inferred ownership. */
   baseSpelling?: BaseSpellingTrace;
   /** Weight input and decisions before root nucleus repair/reduction. Absent in historical traces. */
@@ -441,6 +451,7 @@ export class TraceCollector {
   repairs: RepairTrace[] = [];
   structural: StructuralTrace[] = [];
   morphologyTrace?: MorphologyTrace;
+  random?: RandomStreamTrace;
 
   /**
    * Run `run` as the stage `name`, snapshotting `word.syllables` before and
@@ -504,6 +515,7 @@ export class TraceCollector {
 
   toTrace(morphApplied: boolean): WordTrace {
     return {
+      ...(this.random ? { random: this.random } : {}),
       syllableCount: this.syllableCount,
       targetPhonemeCount: this.targetPhonemeCount,
       syllablePlans: this.syllablePlans,

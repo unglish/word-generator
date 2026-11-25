@@ -47,10 +47,11 @@ describe("supported TRAP plus velar-nasal rimes", () => {
 
   it.each([
     { property: "an exact /æŋ/ monosyllable", rime: exact, options: monosyllable },
-    { property: "an /æŋ/ monosyllable with an extended coda", rime: extended, options: monosyllable },
+    // About one monosyllable in 1,000 to 1,500 has an extended /æŋ/ coda.
+    { property: "an /æŋ/ monosyllable with an extended coda", rime: extended, options: monosyllable, limit: 7_000 },
     { property: "an /æŋ/ syllable in a default lexicon word", rime: trapVelarRime, options: {} },
-  ])("samples $property during initial syllable generation", ({ property, rime, options }) => {
-    const { word } = findExample(candidate => generatedSyllables(candidate).some(rime), { property, limit: 2000, options });
+  ])("samples $property during initial syllable generation", ({ property, rime, options, limit = 2_000 }) => {
+    const { word } = findExample(candidate => generatedSyllables(candidate).some(rime), { property, limit, options });
     const syllable = generatedSyllables(word).find(rime)!;
     expect(syllable.nucleus).toEqual(["æ"]);
     expect(syllable.coda[0]).toBe("ŋ");

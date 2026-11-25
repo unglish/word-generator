@@ -1,114 +1,130 @@
 import assert from "node:assert/strict";
 import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
-import type { WordGenerationOptions } from "../types.js";
+import type { Word } from "../types.js";
+import type { GraphemeTrace } from "./trace.js";
 import { verifyBaseSpellingEvidence } from "./spelling-evidence.js";
+import { findExample, searchSeeds } from "../test-support/find-example.js";
+
+const rule = "medialOnsetDoubling";
+
+function englishDoubling() {
+  assert.ok(englishConfig.doubling);
+  return englishConfig.doubling;
+}
+
+function medialOnsetPolicy() {
+  const policy = englishDoubling().medialOnset;
+  assert.ok(policy);
+  return policy;
+}
 
 function legacyEnglishConfig() {
-  assert.ok(englishConfig.doubling);
-  const doubling = { ...englishConfig.doubling };
+  const doubling = { ...englishDoubling() };
   delete doubling.medialOnset;
   return { ...englishConfig, doubling };
 }
 
+function hasEdit(word: Word, editRule: string): boolean {
+  return word.trace?.baseSpelling?.edits.some(edit => edit.rule === editRule) ?? false;
+}
+
+function isHardCRepair(word: Word): boolean {
+  return word.trace?.baseSpelling?.edits.some(edit =>
+    edit.rule === "hardLetter:hard-c" && edit.before === "c" && edit.after === "ck") ?? false;
+}
+
 describe("root-internal consonant doubling (#517)", () => {
   it.each([
-    {
-      seed: 2796,
-      syllableCount: 2,
-      before: "gapern",
-      after: "gappern",
-      pronunciation: "ˈgæ.pɚn",
-      vowel: "æ",
-      consonant: "p",
-    },
-    {
-      seed: 628,
-      syllableCount: 3,
-      before: "habinga",
-      after: "habbinga",
-      pronunciation: "ˈhæ.bɪŋ.ə",
-      vowel: "æ",
-      consonant: "b",
-    },
+    { syllableCount: 2, limit: 500 },
+    { syllableCount: 3, limit: 1_000 },
   ])(
-    "writes $after with one onset phone after the stressed short vowel",
-    ({ seed, syllableCount, before, after, pronunciation, vowel, consonant }) => {
-      const options = { seed, syllableCount, mode: "lexicon", morphology: false } satisfies WordGenerationOptions;
-      const legacy = createGenerator(legacyEnglishConfig()).generateWord(options);
-      const word = generateWord({ ...options, trace: true });
+    "doubles a one-phone medial onset after the stressed short vowel of a $syllableCount-syllable root",
+    ({ syllableCount, limit }) => {
+      const options = { syllableCount, mode: "lexicon", morphology: false } as const;
+      const isDoubled = (selection: GraphemeTrace) =>
+        selection.position === "onset" && selection.syllableIndex === 1 && selection.letterRespelled?.rule === rule;
+      const { seed, word } = findExample(candidate => candidate.trace!.graphemeSelections.some(isDoubled), {
+        property: `a doubled second-syllable onset in a ${syllableCount}-syllable root`, options, limit,
+      });
+      const legacy = createGenerator(legacyEnglishConfig()).generateWord({ ...options, seed });
+      const choice = word.trace!.graphemeSelections.find(isDoubled)!;
+      const consonant = choice.phoneme;
 
-      expect(legacy.written.clean).toBe(before);
-      expect(word.written.clean).toBe(after);
-      expect(legacy.pronunciation).toBe(pronunciation);
-      expect(word.pronunciation).toBe(pronunciation);
+      expect(word.pronunciation).toBe(legacy.pronunciation);
       expect(word.syllables[0].stress).toBe("ˈ");
-      expect(word.syllables[0].nucleus.map((phone) => phone.sound)).toEqual([vowel]);
-      expect(word.syllables[1].stress).toBeUndefined();
+      expect(word.syllables[0].nucleus).toHaveLength(1);
+      expect(Object.keys(medialOnsetPolicy().nucleusSpellings)).toContain(word.syllables[0].nucleus[0].sound);
       expect(word.syllables[1].onset.map((phone) => phone.sound)).toEqual([consonant]);
 
       assert.ok(word.trace?.baseSpelling);
       const ledger = word.trace.baseSpelling;
-      const choice = word.trace.graphemeSelections.find(
-        (selection) => selection.position === "onset" && selection.syllableIndex === 1,
-      );
-      assert.ok(choice);
       expect(choice).toMatchObject({
-        phoneme: consonant,
         selected: consonant,
-        letterRespelled: { form: consonant.repeat(2), rule: "medialOnsetDoubling" },
+        letterRespelled: { form: consonant.repeat(2), rule },
       });
       const unit = ledger.units.find((entry) => entry.choiceId === choice.index);
       assert.ok(unit);
       expect(unit.phoneIds).toEqual([choice.index]);
-      const edit = ledger.edits.find(entry => entry.rule === "medialOnsetDoubling");
+      const edit = ledger.edits.find(entry => entry.rule === rule);
       assert.ok(edit);
       expect(edit.input[0].origin).toMatchObject({ kind: "selection", unitId: unit.id });
       expect(edit.output.map(cell => cell.text)).toEqual([consonant, consonant]);
       expect(verifyBaseSpellingEvidence(ledger, englishConfig).version).toBe(2);
+      // The legacy spelling is the same word with the single onset letter.
+      const written = word.written.clean;
+      expect(legacy.written.clean).toBe(written.slice(0, edit.start) + written.slice(edit.start + 1));
 
-      const untraced = generateWord(options);
+      const untraced = generateWord({ ...options, seed });
       expect(untraced.written).toEqual(word.written);
-      expect(untraced.pronunciation).toBe(pronunciation);
+      expect(untraced.pronunciation).toBe(word.pronunciation);
     },
   );
 
-  it.each([
-    { seed: 73, spelling: "mideald", consonant: "d", reason: "final-doubling-only" },
-    { seed: 168, spelling: "geleesh", consonant: "l", reason: "suppress-before-tense" },
-  ])("keeps the singleton in $spelling", ({ seed, spelling, consonant, reason }) => {
-    const word = generateWord({ seed, syllableCount: 2, mode: "lexicon", morphology: false, trace: true });
-    expect(word.written.clean).toBe(spelling);
-    expect(word.trace?.graphemeSelections).toContainEqual(expect.objectContaining({
-      syllableIndex: 1,
-      position: "onset",
-      selected: consonant,
-      emitted: consonant,
-      doubled: false,
-      doubling: expect.objectContaining({ reason }),
-    }));
-  });
-
-  it("keeps the legacy spelling of a four-syllable root", () => {
-    const options = { seed: 50, syllableCount: 4, mode: "lexicon", morphology: false } as const;
+  it("keeps the legacy spelling of a four-syllable root that the policy would otherwise double", () => {
+    const policy = medialOnsetPolicy();
+    const longerRoots = createGenerator({
+      ...englishConfig,
+      doubling: { ...englishDoubling(), medialOnset: { ...policy, probability: { ...policy.probability, longer: 100 } } },
+    });
+    const { seed, word: doubled } = findExample(candidate => hasEdit(candidate, rule), {
+      property: "a four-syllable root doubled when longer roots are enabled",
+      generator: longerRoots, options: { syllableCount: 4, mode: "lexicon", morphology: false }, limit: 200,
+    });
+    const options = { seed, syllableCount: 4, mode: "lexicon", morphology: false } as const;
     const legacy = createGenerator(legacyEnglishConfig()).generateWord(options);
     const word = generateWord(options);
 
     expect(word.syllables).toHaveLength(4);
-    expect(word.written.clean).toBe("ledictita");
+    expect(word.pronunciation).toBe(doubled.pronunciation);
+    expect(word.written.clean).not.toBe(doubled.written.clean);
     expect(word.written).toEqual(legacy.written);
     expect(word.pronunciation).toBe(legacy.pronunciation);
   });
 
   it("leaves the slot alone after a hard-letter repair spends the doubling limit", () => {
-    const word = generateWord({ seed: 11061, mode: "lexicon", morphology: false, trace: true });
-    expect(word.written.clean).toBe("sackibang");
-    expect(word.trace?.baseSpelling?.edits).toContainEqual(expect.objectContaining({
-      rule: "hardLetter:hard-c", before: "c", after: "ck",
-    }));
+    // With a limit of two, the same root doubles the slot after the repair.
+    const raisedLimit = createGenerator({ ...englishConfig, doubling: { ...englishDoubling(), maxPerWord: 2 } });
+    const options = { mode: "lexicon", morphology: false, trace: true } as const;
+    const { word, raised } = searchSeeds({
+      property: "a hard-c repair before a medial onset doubled only under a raised limit", limit: 15_000,
+    }, seed => {
+      const raised = raisedLimit.generateWord({ ...options, seed });
+      if (!hasEdit(raised, rule) || !isHardCRepair(raised)) return undefined;
+      const word = generateWord({ ...options, seed });
+      return isHardCRepair(word) ? { word, raised } : undefined;
+    });
+
+    expect(englishDoubling().maxPerWord).toBe(1);
+    expect(word.trace!.graphemeSelections.some(selection => selection.doubled)).toBe(false);
+    expect(hasEdit(word, rule)).toBe(false);
+    expect(word.pronunciation).toBe(raised.pronunciation);
+    const edit = raised.trace!.baseSpelling!.edits.find(entry => entry.rule === rule)!;
+    const written = raised.written.clean;
+    expect(word.written.clean).toBe(written.slice(0, edit.start) + written.slice(edit.start + 1));
   });
 
-  it("preserves lexical roots, selection, and shared random draws over a continuous stream", () => {
+  it("preserves lexical roots and selection over a continuous stream", () => {
     const legacy = createGenerator(legacyEnglishConfig());
     const oldRand = createSeededRng(20261124);
     const newRand = createSeededRng(20261124);
@@ -127,19 +143,21 @@ describe("root-internal consonant doubling (#517)", () => {
       }
     }
     expect(visibleDoubles).toBeGreaterThan(0);
-    expect(newRand()).toBe(oldRand());
   });
 
   it("preserves the version 1 certificate context for custom configs without the new policy", () => {
     const config = legacyEnglishConfig();
-    const word = createGenerator(config).generateWord({ seed: 3073, mode: "lexicon", trace: true });
-    expect(word.written.clean).toBe("riguelin");
-    assert.ok(word.trace?.baseSpelling);
-    const base = word.trace.baseSpelling;
-    expect(verifyBaseSpellingEvidence(base, config)).toEqual({ version: 2, verifiedCertificates: 1 });
-    const onset = base.certificates?.[0]?.contexts.find(
-      (entry) => entry.slot.position === "onset" && entry.slot.syllableIndex === 2,
+    const isUnstressedMedialOnset = (entry: { slot: { position: string; syllableIndex: number }; doubling: { stress?: string } }) =>
+      entry.slot.position === "onset" && entry.slot.syllableIndex > 0 && entry.doubling.stress === undefined;
+    const { word } = findExample(
+      candidate => candidate.trace?.baseSpelling?.certificates?.[0]?.contexts.some(isUnstressedMedialOnset) ?? false,
+      { property: "a certificate context for an unstressed medial onset", generator: createGenerator(config),
+        options: { mode: "lexicon" }, limit: 8_000 },
     );
+    assert.ok(word.trace?.baseSpelling?.certificates);
+    const base = word.trace.baseSpelling;
+    expect(verifyBaseSpellingEvidence(base, config)).toEqual({ version: 2, verifiedCertificates: base.certificates!.length });
+    const onset = base.certificates![0].contexts.find(isUnstressedMedialOnset);
     assert.ok(onset);
     const serializedKeys = Object.entries(onset.doubling).flatMap(([key, value]) =>
       value === undefined ? [] : [key],

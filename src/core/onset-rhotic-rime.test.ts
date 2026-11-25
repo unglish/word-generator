@@ -123,7 +123,6 @@ describe("onset /r/ before an r-coloured rime (#497)", () => {
     const count = 10_000;
     const sample = (config: LanguageConfig): Word[] => {
       const generator = createGenerator(config);
-      // Pair each draw so an earlier word's RNG consumption cannot shift the later comparisons.
       return Array.from({ length: count }, (_, index) => generator.generateWord({ seed: 497 + index }));
     };
     const summarize = (words: Word[]) => {

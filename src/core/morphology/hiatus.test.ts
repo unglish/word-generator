@@ -125,19 +125,10 @@ describe("morphological vowel adjacency", () => {
     expect(decisions(fixedBoundary({ suffix: "ing", policy: {} }))).toMatchObject([{ outcome: "inserted", inserted: "h" }]);
   });
 
-  it("keeps tracing observational across a continuous public-API stream", () => {
-    const first = createSeededRng(20260926);
-    const second = createSeededRng(20260926);
-    let firstCalls = 0;
-    let secondCalls = 0;
-    const tracedRand = () => { firstCalls++; return first(); };
-    const plainRand = () => { secondCalls++; return second(); };
-    for (let i = 0; i < 2000; i++) {
-      const traced = generateWord({ rand: tracedRand, trace: true });
-      const plain = generateWord({ rand: plainRand });
-      expect({ ...traced, trace: undefined }).toEqual(plain);
+  it("keeps tracing observational over 2,000 public-API words", () => {
+    for (let seed = 20260926; seed < 20260926 + 2000; seed++) {
+      const traced = generateWord({ seed, trace: true });
+      expect({ ...traced, trace: undefined }, `seed ${seed}`).toEqual(generateWord({ seed }));
     }
-    expect(firstCalls).toBe(secondCalls);
-    expect(first()).toBe(second());
   });
 });

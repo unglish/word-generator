@@ -16,6 +16,8 @@ This directory contains design notes, diagnostics workflows, and tuning docs.
   rationale for grapheme context rules and conditioning.
 - [`design-rng-and-quality-dx.md`](./design-rng-and-quality-dx.md): RNG and
   quality tooling design decisions.
+- [`stage-random-streams.md`](./stage-random-streams.md): how each generation
+  stage gets its own random stream from a per-word key.
 - [`attested-codas.md`](./attested-codas.md): attested coda cluster references.
 - [`experiments.md`](./experiments.md): where PR evidence lives (PR descriptions
   and `archive/pr-<number>` tags, not `main`), and experiments closed without

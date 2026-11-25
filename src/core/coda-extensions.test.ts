@@ -171,14 +171,16 @@ describe("coda extensions preserve configured legality", () => {
     }));
   });
 
-  // Shapes reported in #313's root-only integration discussion. Historical
-  // spellings/draws are evidence; the tests locate the proposal and affix anew.
+  // Shapes reported in #313's root-only integration discussion (rens, wacs,
+  // wacts + ly, dantitkishorcstion). Historical spellings/draws are evidence;
+  // the tests locate the proposal and affix anew. Default morphology picks
+  // -tion for only one in a few thousand of these roots, hence its larger bound.
   it.each([
-    { witness: "rens", coda: ["n", "s"], suffix: undefined },
-    { witness: "wacs", coda: ["k", "s"], suffix: undefined },
-    { witness: "wacts + ly", coda: ["k", "t", "s"], suffix: "ly" },
-    { witness: "dantitkishorcstion", coda: ["r", "k", "s"], suffix: "tion" },
-  ])("preserves the root coda from $witness with default morphology", ({ coda, suffix }) => {
+    { shape: "ns", morphology: "bare", coda: ["n", "s"], suffix: undefined, limit: 2_000 },
+    { shape: "ks", morphology: "bare", coda: ["k", "s"], suffix: undefined, limit: 2_000 },
+    { shape: "kts", morphology: "-ly", coda: ["k", "t", "s"], suffix: "ly", limit: 2_000 },
+    { shape: "rks", morphology: "-tion", coda: ["r", "k", "s"], suffix: "tion", limit: 12_000 },
+  ])("preserves root coda $shape under default morphology ($morphology)", ({ coda, suffix, limit }) => {
     const generator = extensionGenerator({ coda, clusters: [coda], finalS: 100 });
     const { word } = findExample(word => {
       const morphology = word.trace!.morphology;
@@ -187,7 +189,7 @@ describe("coda extensions preserve configured legality", () => {
           && event.coda.join() === coda.join() && event.candidate === "s");
     }, {
       generator, property: `final-s proposal after /${coda.join("")}/ with ${suffix ?? "bare"} morphology`,
-      limit: 2_000, options: { syllableCount: 1 },
+      limit, options: { syllableCount: 1 },
     });
     expect(word.trace!.structural).toContainEqual(expect.objectContaining({
       event: "codaExtensionRejected", extension: "finalS", coda, candidate: "s", reason: "repetition",

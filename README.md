@@ -77,7 +77,9 @@ const b = generateWord({ rand });
 ```
 
 Use `seed` for one-off deterministic calls, or pass `rand` to control a shared
-RNG stream.
+RNG stream. Each word takes two draws from that stream as its key, and each
+generation stage draws from its own stream derived from the key (see
+[`docs/stage-random-streams.md`](./docs/stage-random-streams.md)).
 
 ## Trace-First Diagnostics
 

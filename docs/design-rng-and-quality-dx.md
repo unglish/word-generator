@@ -16,6 +16,10 @@
 > their thresholds on the old 50k lexicon sample (`owngs` 0 vs ≤ 1,
 > `-reng/-teng` 0 vs < 30, 2-letter monosyllables 0.2% vs ≤ 9%, open
 > monosyllables ≈ 6% vs ≤ 20%). The notes are kept as design history.
+>
+> **Status (November 2026):** Part 1's single per-word stream was replaced by
+> per-stage streams derived from a per-word key; see
+> [stage-random-streams.md](./stage-random-streams.md).
 
 ---
 

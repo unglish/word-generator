@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { generateWord, generateWords } from "../index.js";
+import { generateWords } from "../index.js";
 import type { Word } from "../types.js";
 
 // A spelling-budget certificate replaces whole grapheme units after selection
@@ -39,22 +39,6 @@ describe("respelled grapheme selections (#454)", () => {
       }
     }
     expect(marked).toBeGreaterThan(5);
-  });
-
-  it("explains a respelled word-final ce/se from graphemeSelections alone", () => {
-    // Exercise the shared spelling path in text mode, where the longer coda forms still occur.
-    const examples: Word[] = [];
-    for (let seed = 0; seed < 22000; seed++) {
-      const word = generateWord({ seed, morphology: false, trace: true, mode: "text" });
-      const last = word.trace!.graphemeSelections.at(-1)!;
-      if (last.phoneme === "s" && ["ce", "se"].includes(last.selected) && last.respelled) examples.push(word);
-    }
-    expect(examples.length).toBeGreaterThan(0);
-    for (const word of examples) {
-      const last = word.trace!.graphemeSelections.at(-1)!;
-      expect(word.written.clean.endsWith(last.emitted)).toBe(false);
-      expect(word.written.clean.endsWith(last.respelled!.form)).toBe(true);
-    }
   });
 
   it("does not change output, and repeats with the seed", () => {

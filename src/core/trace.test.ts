@@ -3,7 +3,8 @@ import { createGenerator, generateWord } from "./generate.js";
 import { englishConfig } from "../config/english.js";
 import { ENGLISH_VOWEL_SOUND_SET } from "./vowel-sounds.js";
 import { TraceCollector, traceStage, type StructuralTrace } from "./trace.js";
-import type { Phoneme, Syllable } from "../types.js";
+import type { Phoneme, Syllable, Word } from "../types.js";
+import { findExample } from "../test-support/find-example.js";
 
 const byEvent =
   <E extends StructuralTrace["event"]>(event: E) =>
@@ -556,22 +557,29 @@ describe("trace stages", () => {
       "repairStressedNuclei",
       "repairNucleusWordPositions",
     ];
-    const plain = generateWord({ seed: 42, trace: true, morphology: false });
-    expect(plain.trace!.stages.map((stage) => stage.name)).toEqual([
-      ...rootStages,
-      "alternateUnstressedRootNuclei",
-      "generateWrittenForm",
-      "generatePronunciation",
-    ]);
-
-    const derived = generateWord({ seed: 1, trace: true });
-    expect(derived.trace!.summary.morphologyApplied).toBe(true);
-    expect(derived.trace!.stages.map((stage) => stage.name)).toEqual([
-      ...rootStages,
-      "assembleMorphology",
-      "repairFinalStressedNuclei",
-      "generateWrittenForm",
-      "generatePronunciation",
-    ]);
+    // Default lexicon mode alternates unstressed nuclei only in a polysyllabic root.
+    const alternation = ["alternateUnstressedRootNuclei"];
+    const affixStages = ["assembleMorphology", "repairFinalStressedNuclei"];
+    const surfaceStages = ["generateWrittenForm", "generatePronunciation"];
+    const rootSyllables = (word: Word) =>
+      word.trace!.stages.find((stage) => stage.name === "generateSyllables")!.after.length;
+    const cases = [
+      { affixed: false, polysyllabic: true, expected: [...rootStages, ...alternation, ...surfaceStages] },
+      { affixed: false, polysyllabic: false, expected: [...rootStages, ...surfaceStages] },
+      { affixed: true, polysyllabic: true, expected: [...rootStages, ...alternation, ...affixStages, ...surfaceStages] },
+      { affixed: true, polysyllabic: false, expected: [...rootStages, ...affixStages, ...surfaceStages] },
+    ];
+    for (const { affixed, polysyllabic, expected } of cases) {
+      const { word } = findExample(
+        (candidate) => candidate.trace!.summary.morphologyApplied === affixed
+          && rootSyllables(candidate) > 1 === polysyllabic,
+        {
+          property: `an ${affixed ? "affixed" : "unaffixed"} ${polysyllabic ? "polysyllabic" : "monosyllabic"} root`,
+          limit: 50,
+          options: affixed ? {} : { morphology: false },
+        },
+      );
+      expect(word.trace!.stages.map((stage) => stage.name)).toEqual(expected);
+    }
   });
 });

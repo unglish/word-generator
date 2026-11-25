@@ -7,7 +7,6 @@ import type {
 } from "../../config/language.js";
 import type { WordGenerationContext } from "../../types.js";
 import { createGenerator } from "../generate.js";
-import { createSeededRng } from "../../utils/random.js";
 import { TraceCollector } from "../trace.js";
 import { cloneSyllables } from "../lexical.js";
 import { prepareMorphology, writeMorphology } from "./attach.js";
@@ -91,7 +90,7 @@ describe("atomic morphophonemic legality", () => {
     expect(() => createGenerator(config)).toThrow(/must be boolean/);
   });
 
-  it("preserves complete public output, trace, and RNG use when the policy is omitted or false", () => {
+  it("preserves complete public output and trace when the policy is omitted or false", () => {
     const omitted = structuredClone(englishConfig);
     const disabled = structuredClone(englishConfig);
     delete omitted.morphology!.morphophonemicPolicy;
@@ -100,14 +99,11 @@ describe("atomic morphophonemic legality", () => {
     };
     const a = createGenerator(omitted);
     const b = createGenerator(disabled);
-    const randA = createSeededRng(20261004);
-    const randB = createSeededRng(20261004);
-    for (let index = 0; index < 50; index++) {
-      expect(a.generateWord({ rand: randA, trace: true })).toEqual(
-        b.generateWord({ rand: randB, trace: true }),
+    for (let seed = 20261004; seed < 20261004 + 50; seed++) {
+      expect(a.generateWord({ seed, trace: true }), `seed ${seed}`).toEqual(
+        b.generateWord({ seed, trace: true }),
       );
     }
-    expect(randA()).toBe(randB());
   });
 
   it("records unmatched conditions independently of legality rejection", () => {
@@ -250,32 +246,13 @@ describe("atomic morphophonemic legality", () => {
     ).toThrow(/guard runtime/);
   });
 
-  it("keeps enabled public trace/plain output and RNG draw counts equal", () => {
+  it("keeps enabled public trace/plain output equal", () => {
     const generator = createGenerator(englishConfig);
-    const plain = createSeededRng(20261003);
-    const traced = createSeededRng(20261003);
-    let plainCalls = 0;
-    let tracedCalls = 0;
-    for (let index = 0; index < 100; index++) {
-      const a = generator.generateWord({
-        rand: () => {
-          plainCalls++;
-          return plain();
-        },
-      });
-      const b = generator.generateWord({
-        trace: true,
-        rand: () => {
-          tracedCalls++;
-          return traced();
-        },
-      });
-      const withoutTrace = { ...b };
-      delete withoutTrace.trace;
-      expect(a).toEqual(withoutTrace);
-      expect(plainCalls).toBe(tracedCalls);
+    for (let seed = 20261003; seed < 20261003 + 100; seed++) {
+      const traced = generator.generateWord({ seed, trace: true });
+      delete traced.trace;
+      expect(traced, `seed ${seed}`).toEqual(generator.generateWord({ seed }));
     }
-    expect(plain()).toBe(traced());
   });
 
   it("blocks ity-velar-softening on /sk/ roots under English policy", () => {

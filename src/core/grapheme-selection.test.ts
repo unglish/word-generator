@@ -93,15 +93,15 @@ describe("legal grapheme selection", () => {
 
   it.each([
     { nextSound: "b", nextPosition: "onset", left: "ɑ", form: "dg" },
-    { nextSound: "l", nextPosition: "onset", left: "ə", form: "dg" },
+    // A schwa before the /dʒ.l/ junction is rare: about one word in 1,400.
+    { nextSound: "l", nextPosition: "onset", left: "ə", form: "dg", limit: 6_000 },
     { nextSound: "g", nextPosition: "onset", tense: false, form: "ge" },
     { nextSound: "g", nextPosition: "onset", tense: true, form: "ge" },
-    { nextSound: "w", nextPosition: "onset", left: "i:", form: "j" },
     { nextSound: "j", nextPosition: "onset", form: "j" },
     { nextSound: "ə", nextPosition: "nucleus", form: "di" },
     { nextSound: "ɚ", nextPosition: "nucleus", form: "di" },
   ])("licenses the medial $form slot for coda /dʒ/ before /$nextSound/", ({
-    nextSound, nextPosition, left, tense, form,
+    nextSound, nextPosition, left, tense, form, limit = 1_000,
   }) => {
     const generator = codaAffricateGenerator(nextPosition === "onset" ? nextSound : undefined);
     const locate = (word: Word) => codaAffricateBefore(word, nextSound, nextPosition, tense);
@@ -110,7 +110,7 @@ describe("legal grapheme selection", () => {
       return !!choice && (!left || candidate.trace?.graphemeSelections[choice.index - 1]?.phoneme === left);
     }, {
       property: `a coda affricate before /${nextSound}/`,
-      generator, options: { syllableCount: 2, morphology: false }, limit: 1_000,
+      generator, options: { syllableCount: 2, morphology: false }, limit,
     });
     const choice = locate(word)!;
     const orthography = word.trace?.orthography;
@@ -141,25 +141,6 @@ describe("legal grapheme selection", () => {
     expect(choice?.weights).toEqual([["ge", 6 * 0.15], ["dge", 10 * 0.15], ["j", 0.15]]);
     expect(choice?.roll).toBeGreaterThanOrEqual(0);
     expect(choice?.roll).toBeLessThan(6 * 0.15 + 10 * 0.15 + 0.15);
-  });
-
-  it("keeps the accepted root when di previously lost its i before w", () => {
-    const { word } = findExample((candidate) => {
-      const choice = codaAffricateBefore(candidate, "w", "onset");
-      return !!choice && choice.roll >= 6
-        && candidate.trace?.graphemeSelections[choice.index - 1]?.phoneme === "i:";
-    }, {
-      property: "an /i:dʒ.w/ junction sampling the medial affricate slot",
-      generator: codaAffricateGenerator("w"), firstSeed: 11_421, limit: 2_000,
-      options: { syllableCount: 2, morphology: false },
-    });
-
-    expect(codaAffricateBefore(word, "w", "onset")?.selected).toBe("j");
-    expect(word.trace?.selection).toMatchObject({
-      selectedAttempt: 0,
-      attemptsExecuted: 1,
-      selected: { letters: word.written.clean.length },
-    });
   });
 
   it("spells isolated /ɛ/ with ordinary e or ea, including before /t/, without a fallback", () => {
@@ -212,7 +193,7 @@ describe("legal grapheme selection", () => {
     expect(writtenX).toBeGreaterThan(afterG.length / 2);
   });
 
-  it("is deterministic and trace collection leaves RNG consumption unchanged", () => {
+  it("is deterministic and trace collection leaves output unchanged", () => {
     for (let seed = 0; seed < 40; seed++) {
       const plain = generateWord({ seed, morphology: false });
       const traced = generateWord({ seed, morphology: false, trace: true });

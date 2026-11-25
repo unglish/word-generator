@@ -138,20 +138,44 @@ function expectedRoot({ base, suffix, final }: DoublingCase): string {
   return base + letter;
 }
 
+/** The English config with every word taking one suffix. */
+function generatorWithSuffix(written: string) {
+  const morphology = englishConfig.morphology!;
+  const suffixed = { bare: 0, prefixed: 0, suffixed: 100, both: 0 };
+  return createGenerator({
+    ...englishConfig,
+    morphology: {
+      ...morphology,
+      suffixes: morphology.suffixes.filter(affix => affix.written === written),
+      templateWeights: { lexicon: suffixed, text: suffixed },
+    },
+  });
+}
+
 describe("consonant doubling over a seed sample", () => {
   it.each([
-    { seed: 5_029_408, base: "glas", root: "glazz", suffix: "ed", expected: "glazzed", ipa: "glæzd" },
-    { seed: 5_072_336, base: "los", root: "lozz", suffix: "ing", expected: "lozzing", ipa: "ˈlʌz.ɪŋ" },
-    { seed: 5_001_518, base: "tres", root: "trezz", suffix: "es", expected: "trezzes", ipa: "ˈtʰrɛz.əz" },
-  ])("spells the short vowel and voiced coda in $expected", ({ seed, base, root, suffix, expected, ipa }) => {
-    const word = generateWord({ seed, trace: true });
-    expect(word.trace?.baseSpelling?.surface).toBe(base);
+    { suffix: "ed", written: "ed" },
+    { suffix: "ing", written: "ing" },
+    { suffix: "s", written: "es" },
+  ])("spells a stressed short vowel and final s for /z/ as zz before -$written", ({ suffix, written }) => {
+    const { word } = findExample((candidate) => {
+      const final = candidate.lexical?.root.at(-1);
+      return candidate.trace?.morphology?.suffix === suffix && !!final && final.coda.at(-1)?.sound === "z"
+        && isStressedShort(final) && /[^aeiou][aeiou]s$/.test(candidate.trace?.baseSpelling?.surface ?? "");
+    }, {
+      property: `a stressed short-vowel root ending in s for /z/ before -${written}`,
+      limit: 1_500,
+      generator: generatorWithSuffix(suffix),
+    });
+    const base = word.trace!.baseSpelling!.surface;
+    const root = base.slice(0, -1) + "zz";
+    const vowel = word.lexical!.root.at(-1)!.nucleus[0].sound;
     expect(word.trace?.morphology?.realization?.assembledParts).toEqual([
       { role: "root", text: root },
-      { role: "suffix", text: suffix },
+      { role: "suffix", text: written },
     ]);
-    expect(word.written.clean).toBe(expected);
-    expect(word.pronunciation).toBe(ipa);
+    expect(word.written.clean).toBe(root + written);
+    expect(word.pronunciation).toContain(`${vowel}z`);
   });
 
   it.each([

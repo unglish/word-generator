@@ -1,6 +1,6 @@
 import type { LanguageConfig } from "../config/language.js";
 import type { Syllable, WordGenerationContext } from "../types.js";
-import { createSeededRng } from "../utils/random.js";
+import type { RNG } from "../utils/random.js";
 import { isVowelChar } from "../utils/letters.js";
 import type { BaseSpelling } from "./base-spelling.js";
 import { scoreLetterLength } from "./length-semantics.js";
@@ -14,7 +14,8 @@ interface SelectedRootSpelling {
   context: WordGenerationContext;
   baseSpelling: BaseSpelling;
   root: readonly Syllable[];
-  seed: number;
+  /** The selected attempt's finalize_root_spelling stream. */
+  rand: RNG;
   projectAttachment?: (written: string) => { prefix: string; root: string; suffix: string };
 }
 
@@ -58,7 +59,7 @@ export function createMedialOnsetDoubler(config: LanguageConfig) {
     return measured.exceeded.every(key => measured.values[key] <= previous.values[key]);
   }
 
-  return ({ context, baseSpelling, root, seed, projectAttachment }: SelectedRootSpelling): void => {
+  return ({ context, baseSpelling, root, rand, projectAttachment }: SelectedRootSpelling): void => {
     if (root.length < 2) return;
     const probability = policy.probability[root.length === 2 ? "two" : root.length === 3 ? "three" : "longer"];
     if (probability <= 0) return;
@@ -69,7 +70,6 @@ export function createMedialOnsetDoubler(config: LanguageConfig) {
     // Hard-letter repairs can spend the quota after the initial selection.
     let count = Math.max(selectedDoubles, countDoubledLetters(written.clean, doubledForms));
     if (count >= doubling.maxPerWord) return;
-    const rng = createSeededRng(seed);
     for (let index = 1; index + 1 < cells.length; index++) {
       const cell = cells[index];
       if (!consonants.has(cell.text) || cell.origin.kind !== "selection") continue;
@@ -101,7 +101,7 @@ export function createMedialOnsetDoubler(config: LanguageConfig) {
       if (!isVowelChar(cells[index + 1].text, index + 1, before) ||
           scoreLetterLength(before.length, root.length, targets) !==
             scoreLetterLength(before.length + 1, root.length, targets)) continue;
-      if (rng() * 100 >= probability) continue;
+      if (rand() * 100 >= probability) continue;
       const after = repeatLetter(before, index);
       const hyphenated = repeatHyphenatedLetter(written.hyphenated, before, index);
       if (hyphenated === undefined || !staysWithinBudgets(before, after)) continue;

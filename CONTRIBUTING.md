@@ -131,8 +131,10 @@ so tests must not pin a seed or draw index to a particular word.
   a sign the behavior became unreachable or much rarer, not as a seed to
   re-pick. Keep `limit` a few times the expected gap. If the property is rare
   under English weights, build a narrower config with `createGenerator`.
-- **Prefer relative invariants to counts.** For RNG consumption, compare traced
-  and untraced runs on identical streams instead of asserting a draw count.
+- **Prefer relative invariants to counts.** To show that a change draws
+  nothing, generate each word with and without it from the same seed and
+  require identical words. Every word takes exactly two draws from the
+  caller's stream, so counting those draws shows nothing.
 - **Exact output lives in one place.** `src/core/golden-output.test.ts` checks
   the first 40 words (spelling, hyphenation, pronunciation and RNG draws) of a
   few seed/mode/morphology cases against `src/core/golden-output.json`. When a

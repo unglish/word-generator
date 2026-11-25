@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
-import { createGenerator, createSeededRng, englishConfig, generateWord, TraceCollector } from "../index.js";
+import { createGenerator, englishConfig, generateWord, TraceCollector } from "../index.js";
 import type { LanguageConfig } from "../config/language.js";
-import type { Phoneme, Syllable, WordGenerationContext } from "../types.js";
+import type { Phoneme, Syllable, Word, WordGenerationContext } from "../types.js";
 import { findExample } from "../test-support/find-example.js";
 import { assertRootRimeCompatibility, isNucleusCodaPairAllowed, isNucleusCompatibleWithCoda } from "./rime-compatibility.js";
 import { repairRootNuclei, repairStressedNuclei } from "./nucleus-repair.js";
@@ -175,10 +175,15 @@ describe("lexical-root nucleus/coda compatibility", () => {
   });
 
   it("preserves a retained coda during public stress repair and records excluded candidates", () => {
-    const word = createGenerator(fixedRoot()).generateWord({ seed: 17, syllableCount: 2, morphology: false, trace: true });
+    const { word } = findExample(word => word.trace!.repairs.some(repair => repair.rule === "repairStressedNuclei"), {
+      property: "a public stressed-nucleus repair", limit: 10, generator: createGenerator(fixedRoot()),
+      options: { syllableCount: 2, morphology: false },
+    });
     const stage = word.trace!.stages.find(item => item.name === "repairStressedNuclei")!;
-    expect(stage.before).toEqual([{ onset: ["k"], nucleus: ["ə"], coda: ["ŋ"], stress: "ˈ" }, { onset: ["k"], nucleus: ["ə"], coda: ["ŋ"], stress: "ˌ" }]);
+    expect(stage.before[0]).toEqual({ onset: ["k"], nucleus: ["ə"], coda: ["ŋ"], stress: "ˈ" });
+    expect(stage.before[1]).toMatchObject({ onset: ["k"], nucleus: ["ə"], coda: ["ŋ"] });
     expect(stage.after[0]).toEqual({ onset: ["k"], nucleus: ["u"], coda: ["ŋ"], stress: "ˈ" });
+    expect(stage.after[1]).toEqual(stage.before[1]);
     expect(word.trace!.repairs.find(repair => repair.rule === "repairStressedNuclei")!.nucleusReplacement).toEqual({
       domain: "lexical-root", syllableIndex: 0, nucleusIndex: 0, coda: ["ŋ"],
       edges: { initial: false, final: false }, weighting: "nucleus-only",
@@ -197,8 +202,13 @@ describe("lexical-root nucleus/coda compatibility", () => {
   it("keeps the assertion scoped before custom surface reduction", () => {
     const config = fixedRoot();
     config.pronunciation.vowelReduction = { enabled: true, reduceSecondaryStress: true, rules: [{ source: "ə", target: "ɚ", probability: 100 }] };
-    const word = createGenerator(config).generateWord({ seed: 17, syllableCount: 2, morphology: false, trace: true });
-    const prepared = word.trace!.stages.find(stage => stage.name === "generateWrittenForm")!.before;
+    const prepare = (word: Word) => word.trace!.stages.find(stage => stage.name === "generateWrittenForm")!.before;
+    // reduceSecondaryStress reaches the ə only when the second syllable takes secondary stress.
+    const { word } = findExample(word => prepare(word)[1].stress === "ˌ", {
+      property: "a secondary-stressed second root syllable", limit: 30, generator: createGenerator(config),
+      options: { syllableCount: 2, morphology: false },
+    });
+    const prepared = prepare(word);
     expect(prepared[1]).toEqual({ onset: ["k"], nucleus: ["ə"], coda: ["ŋ"], stress: "ˌ" });
     expect(word.syllables[1].nucleus[0].sound).toBe("ɚ");
     expect(word.syllables[1].coda.map(p => p.sound)).toEqual(["ŋ"]);
@@ -290,28 +300,22 @@ describe("lexical-root nucleus/coda compatibility", () => {
     expect(trace.repairs[0].nucleusReplacement!.edges.initial).toBe(false);
   });
 
-  it("preserves public outputs and RNG when an added configured pair is inapplicable", () => {
+  it("preserves public outputs when an added configured pair is inapplicable", () => {
     const plainConfig = fixedRoot([schwa, goose]);
     plainConfig.codaConstraints!.bannedNucleusCodaCombinations = [];
     const constrainedConfig = fixedRoot([schwa, goose]);
     const plain = createGenerator(plainConfig), constrained = createGenerator(constrainedConfig);
-    const first = createSeededRng(712), second = createSeededRng(712);
-    let firstCalls = 0, secondCalls = 0;
-    for (let i = 0; i < 100; i++) {
-      expect(constrained.generateWord({ rand: () => { secondCalls++; return second(); }, syllableCount: 2, morphology: false }))
-        .toEqual(plain.generateWord({ rand: () => { firstCalls++; return first(); }, syllableCount: 2, morphology: false }));
+    for (let seed = 712; seed < 712 + 100; seed++) {
+      const options = { seed, syllableCount: 2, morphology: false };
+      expect(constrained.generateWord(options), `seed ${seed}`).toEqual(plain.generateWord(options));
     }
-    expect(secondCalls).toBe(firstCalls); expect(second()).toBe(first());
   });
 
-  it.each([false, true])("preserves trace/no-trace output and RNG with morphology=%s", morphology => {
-    const first = createSeededRng(1777), second = createSeededRng(1777);
-    let firstCalls = 0, secondCalls = 0;
-    for (let i = 0; i < 1000; i++) {
-      const plain = generateWord({ rand: () => { firstCalls++; return first(); }, morphology });
-      const { trace, ...traced } = generateWord({ rand: () => { secondCalls++; return second(); }, morphology, trace: true });
-      expect(trace).toBeDefined(); expect(traced).toEqual(plain);
+  it.each([false, true])("preserves trace/no-trace output with morphology=%s", morphology => {
+    for (let seed = 1777; seed < 1777 + 1000; seed++) {
+      const { trace, ...traced } = generateWord({ seed, morphology, trace: true });
+      expect(trace).toBeDefined();
+      expect(traced, `seed ${seed}`).toEqual(generateWord({ seed, morphology }));
     }
-    expect(secondCalls).toBe(firstCalls); expect(second()).toBe(first());
   });
 });

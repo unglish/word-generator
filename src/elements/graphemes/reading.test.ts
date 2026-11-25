@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createGenerator, createSeededRng, englishConfig } from "../../index.js";
+import { createGenerator, englishConfig } from "../../index.js";
 import type { Grapheme } from "../../types.js";
 import { buildGraphemeMaps, graphemes } from "./index.js";
 import { withEnglishReadings } from "./reading.js";
@@ -115,7 +115,7 @@ describe("English grapheme reading obligations", () => {
     expect(reading("ɛ", "constructor")).toBeUndefined();
   });
 
-  it("keeps public generation and RNG unchanged when no reading policy consumes the metadata", () => {
+  it("keeps public generation unchanged when no reading policy consumes the metadata", () => {
     const bare = graphemes.map(withoutReading);
     const config = {
       ...englishConfig,
@@ -123,14 +123,9 @@ describe("English grapheme reading obligations", () => {
     };
     const plain = createGenerator({ ...config, graphemes: bare, ...buildGraphemeMaps(bare) });
     const annotated = createGenerator(config);
-    const plainRand = createSeededRng(20261001);
-    const annotatedRand = createSeededRng(20261001);
-    for (let draw = 0; draw < 200; draw++) {
-      const options = { morphology: draw % 2 === 0 };
-      const expected = plain.generateWord({ ...options, rand: plainRand });
-      const actual = annotated.generateWord({ ...options, rand: annotatedRand });
-      expect(actual).toEqual(expected);
+    for (let seed = 20261001; seed < 20261001 + 200; seed++) {
+      const options = { seed, morphology: seed % 2 === 0 };
+      expect(annotated.generateWord(options), `seed ${seed}`).toEqual(plain.generateWord(options));
     }
-    expect(annotatedRand()).toBe(plainRand());
   });
 });

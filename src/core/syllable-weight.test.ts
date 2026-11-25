@@ -136,16 +136,12 @@ describe("shared analytical and operational syllable weight", () => {
     expect(fallbackUnknowns).toBeGreaterThan(50);
   });
 
-  it("keeps active-model tracing observational for complete outputs and random draws", () => {
-    const rngs = [createSeededRng(917), createSeededRng(917)];
-    const calls = [0, 0];
-    for (let draw = 0; draw < 500; draw++) {
-      const words = rngs.map((rng, index) => generateWord({ rand: () => { calls[index]++; return rng(); }, trace: index === 0 }));
-      delete words[0].trace;
-      expect(words[0]).toEqual(words[1]);
-      expect(calls[0]).toBe(calls[1]);
+  it("keeps active-model tracing observational for complete outputs", () => {
+    for (let seed = 917; seed < 917 + 500; seed++) {
+      const traced = generateWord({ seed, trace: true });
+      delete traced.trace;
+      expect(traced, `seed ${seed}`).toEqual(generateWord({ seed }));
     }
-    expect(rngs[0]()).toBe(rngs[1]());
   });
 
   it("uses atomic diphthong quantity for opt-in OT while explicit legacy stays unchanged", () => {
@@ -262,18 +258,14 @@ describe("shared analytical and operational syllable weight", () => {
     expect(word.trace!.stressWeight).toEqual(before);
   });
 
-  it("keeps legacy omission and explicit policy, tracing and RNG in exact agreement", () => {
+  it("keeps legacy omission and explicit policy, with and without tracing, in exact agreement", () => {
     const configs = [configFor({ secondary: true }), configFor({ policy: { type: "legacy-segment-count" }, secondary: true })];
     const generators = configs.map(createGenerator);
-    const rngs = [createSeededRng(281), createSeededRng(281)];
-    const calls = [0, 0];
-    for (let draw = 0; draw < 200; draw++) {
-      const words = generators.map((generator, index) => generator.generateWord({ rand: () => { calls[index]++; return rngs[index](); }, syllableCount: 3, morphology: false, trace: index === 0 }));
+    for (let seed = 281; seed < 281 + 200; seed++) {
+      const words = generators.map((generator, index) => generator.generateWord({ seed, syllableCount: 3, morphology: false, trace: index === 0 }));
       delete words[0].trace;
-      expect(words[0]).toEqual(words[1]);
-      expect(calls[0]).toBe(calls[1]);
+      expect(words[0], `seed ${seed}`).toEqual(words[1]);
     }
-    expect(rngs[0]()).toBe(rngs[1]());
   });
 
   it("accepts existing two-argument OT constraint implementations", () => {

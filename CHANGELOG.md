@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### Changed
+
+- Each generation stage now draws from its own random stream, derived from a
+  per-word key, the stage name and the root attempt (#556). Changing how one
+  stage draws no longer moves the draws of other stages. Each word takes
+  exactly two draws from `options.rand` or the seeded stream, so a caller's
+  `rand` keys the word rather than feeding individual choices, and a value
+  outside [0, 1) from it throws a `RangeError`. Word distributions change only
+  within seed noise, but every seeded output changes once.
+  `WordTrace.random` records the scheme and the word's key.
+
 ### Fixed
 
 - English writes final `s` spelling /z/ as `zz` before a vowel suffix when

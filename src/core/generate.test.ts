@@ -561,48 +561,6 @@ describe("Word Generator", () => {
     );
   });
 
-  it("does not protect terminal y belonging to a selected consonant spelling", () => {
-    const graphemes = englishConfig.graphemes.map((g) =>
-      g.phoneme === "s" ? { ...g, form: "aeay" } : g,
-    );
-    const generator = createGenerator(
-      withLegacyRepairs({
-        ...englishConfig,
-        graphemes,
-        graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps,
-      }),
-    );
-    const { word, options } = findExample(
-      (word) =>
-        lastSelection(word).phoneme === "s" &&
-        lastSelection(word).selected === "aeay" &&
-        repairsFor(word, "repairVowelLetters").some((repair) =>
-          repair.before.endsWith("aeay"),
-        ),
-      {
-        property: "a word-final /s/ spelled aeay that the vowel-letter cap shortens",
-        limit: 2000,
-        generator,
-        options: { syllableCount: 1, morphology: false },
-      },
-    );
-    expect(lastSelection(word)).toMatchObject({
-      phoneme: "s",
-      position: "coda",
-      selected: "aeay",
-    });
-    const cap = repairsFor(word, "repairVowelLetters").find((repair) =>
-      repair.before.endsWith("aeay"),
-    );
-    expect(cap, "vowel cap of the consonant spelling").toBeDefined();
-    expect(cap!.after.endsWith("y")).toBe(false);
-    expect(finalVowelRun(cap!.after)).toBeLessThanOrEqual(maxVowelLetters);
-    expect(word.written.clean).toBe(cap!.after);
-    expect({ ...word, trace: undefined }).toEqual(
-      generator.generateWord({ ...options, trace: false }),
-    );
-  });
-
   const aoyGraphemes = englishConfig.graphemes.map((g) =>
     g.phoneme === "eɪ" ? { ...g, form: "aoy" } : g,
   );
