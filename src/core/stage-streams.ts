@@ -57,7 +57,7 @@ function drawUint32(rand: RNG): number {
  * draws, whatever `rand` is, so the caller's stream advances by a fixed amount.
  * Throws a `RangeError` when a draw is outside [0, 1).
  */
-export function drawStreamKey(rand: RNG): StreamKey {
+function drawStreamKey(rand: RNG): StreamKey {
   const hi = drawUint32(rand);
   return { hi, lo: drawUint32(rand) };
 }
@@ -96,27 +96,45 @@ export function deriveStreamSeed(key: StreamKey, stage: WordStage | AttemptStage
   return fold(fold(fold(fold(0x811c9dc5, hashStage(stage)), index), key.hi), key.lo);
 }
 
-/**
- * A stand-in for code that runs outside any stage stream. Drawing from it is a
- * bug: give that code a stream with {@link inStage}.
- */
-export function noStageDraws(where: string): RNG {
+/** An RNG for code that must not draw; a draw throws with `message`. */
+export function noDraws(message: string): RNG {
   return () => {
-    throw new Error(`${where} has no random stream; give it one in src/core/stage-streams.ts.`);
+    throw new Error(message);
   };
 }
 
-/** What a word's context holds between stages. */
-export const BETWEEN_STAGES: RNG = noStageDraws("Code between generation stages");
+/**
+ * What a word's context holds between stages. Drawing from it is a bug: run
+ * the code inside {@link inStage} in `src/core/generate.ts`.
+ */
+export const BETWEEN_STAGES: RNG = noDraws(
+  "Code between generation stages drew a random number; run it inside inStage(context, stage, ...) in src/core/generate.ts.",
+);
+
+/** One attempt's streams. A stage resumes its own stream each time it runs. */
+export type AttemptStreams = (stage: AttemptStage) => RNG;
+
+/** The random streams of one generated word. Each resumes where it left off. */
+export interface WordStreams {
+  readonly key: StreamKey;
+  word(stage: WordStage): RNG;
+  attempt(attempt: number): AttemptStreams;
+}
+
+/** A context whose random streams travel with it: one root attempt's. */
+export interface StreamContext {
+  rand: RNG;
+  readonly streams: AttemptStreams;
+}
 
 /**
- * Run `run` with `context.rand` bound to `rand`, then put back what was bound
- * before. Contexts start with {@link BETWEEN_STAGES}, so outside every
- * `inStage` a draw throws.
+ * Run `run` with `context.rand` bound to the attempt's `stage` stream, then put
+ * back what was bound before. Contexts start with {@link BETWEEN_STAGES}, so
+ * outside every `inStage` a draw throws.
  */
-export function inStage<T>(context: { rand: RNG }, rand: RNG, run: () => T): T {
+export function inStage<T>(context: StreamContext, stage: AttemptStage, run: () => T): T {
   const outer = context.rand;
-  context.rand = rand;
+  context.rand = context.streams(stage);
   try {
     return run();
   } finally {
@@ -124,27 +142,46 @@ export function inStage<T>(context: { rand: RNG }, rand: RNG, run: () => T): T {
   }
 }
 
-/** One set of streams. A stage resumes its own stream each time it runs. */
-export type StageStreams<Stage extends string> = (stage: Stage) => RNG;
+/**
+ * Test hook: sees every draw of a stream made while it is set, and returns the
+ * value the stage receives. `attempt` is undefined for a word stage. Only
+ * `src/test-support/stage-stream-probe.ts` sets it.
+ */
+export type StageDrawHook = (stage: WordStage | AttemptStage, attempt: number | undefined, r: number) => number;
 
-/** The random streams of one generated word. */
-export interface WordStreams {
-  readonly key: StreamKey;
-  readonly word: StageStreams<WordStage>;
-  attempt(attempt: number): StageStreams<AttemptStage>;
+let drawHook: StageDrawHook | undefined;
+
+/**
+ * Run `run` with `hook` on every stream it makes, after any hook already set.
+ * For tests and fixtures only.
+ */
+export function withStageDrawHook<T>(hook: StageDrawHook, run: () => T): T {
+  const outer = drawHook;
+  drawHook = outer ? (stage, attempt, r) => hook(stage, attempt, outer(stage, attempt, r)) : hook;
+  try {
+    return run();
+  } finally {
+    drawHook = outer;
+  }
 }
 
-export type AttemptStreams = StageStreams<AttemptStage>;
+function createStream(key: StreamKey, stage: WordStage | AttemptStage, index: number): RNG {
+  const rng = createSeededRng(deriveStreamSeed(key, stage, index));
+  const hook = drawHook;
+  if (!hook) return rng;
+  const attempt = index === 0 ? undefined : index - 1;
+  return () => hook(stage, attempt, rng());
+}
 
-function streamsAt<Stage extends WordStage | AttemptStage>(key: StreamKey, index: number): StageStreams<Stage> {
-  const streams = new Map<Stage, RNG>();
-  return (stage) => {
-    let stream = streams.get(stage);
-    if (!stream) {
-      stream = createSeededRng(deriveStreamSeed(key, stage, index));
-      streams.set(stage, stream);
+function memoize<K, V>(make: (key: K) => V): (key: K) => V {
+  const made = new Map<K, V>();
+  return (key) => {
+    let value = made.get(key);
+    if (value === undefined) {
+      value = make(key);
+      made.set(key, value);
     }
-    return stream;
+    return value;
   };
 }
 
@@ -156,8 +193,8 @@ export function createWordStreams(rand: RNG): WordStreams {
   const key = drawStreamKey(rand);
   return {
     key,
-    word: streamsAt<WordStage>(key, 0),
-    attempt: (attempt) => streamsAt<AttemptStage>(key, attempt + 1),
+    word: memoize((stage: WordStage) => createStream(key, stage, 0)),
+    attempt: memoize((attempt: number) => memoize((stage: AttemptStage) => createStream(key, stage, attempt + 1))),
   };
 }
 

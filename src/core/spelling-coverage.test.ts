@@ -1,5 +1,5 @@
 import { spellingBoundaryContexts } from "./spelling-context.js";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { createGenerator, englishConfig, generateWord } from "../index.js";
 import type { Grapheme, Phoneme } from "../types.js";
 import type { LanguageConfig } from "../config/language.js";
@@ -8,8 +8,6 @@ import { verifyBaseSpellingEvidence } from "./spelling-evidence.js";
 import { findExample } from "../test-support/find-example.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-vi.mock("./stage-streams.js", async (original) =>
-  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 import { BaseSpelling } from "./base-spelling.js";
 import { createSpellingCoveragePlanner, SPELLING_COVERAGE_SEARCH_LIMIT } from "./spelling-coverage.js";
 import type { SpellingChoiceState } from "./spelling-coverage.js";

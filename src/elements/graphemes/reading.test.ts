@@ -1,12 +1,10 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { createGenerator, englishConfig } from "../../index.js";
 import type { Grapheme } from "../../types.js";
 import { buildGraphemeMaps, graphemes } from "./index.js";
 import { withEnglishReadings } from "./reading.js";
 import { withStageDraws } from "../../test-support/stage-stream-probe.js";
 
-vi.mock("../../core/stage-streams.js", async (original) =>
-  (await import("../../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 function entry(phoneme: string, form: string): Grapheme {
   return { phoneme, form, frequency: 1, startWord: 1, midWord: 1, endWord: 1 };

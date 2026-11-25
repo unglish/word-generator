@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { createGenerator, englishConfig } from "../index.js";
 import { BaseSpelling, expandReplacement, parseReplaceCallbackArgs } from "./base-spelling.js";
 import type { BaseSpellingTrace, SpellingCell, SpellingEdit } from "./base-spelling.js";
@@ -6,8 +6,6 @@ import type { Word } from "../types.js";
 import { findExample, searchSeeds } from "../test-support/find-example.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-vi.mock("./stage-streams.js", async (original) =>
-  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 // These tests pin the legacy (version-1) repair ledger; the phone-preserving
 // policy has its own coverage in spelling-coverage.test.ts.

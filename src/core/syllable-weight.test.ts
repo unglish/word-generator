@@ -1,12 +1,10 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { analyzeWordWeight, createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
 import type { LanguageConfig, NuclearQuantity, OTConstraint, SyllableWeightPolicy } from "../index.js";
 import type { PrimaryStressRules } from "../config/language.js";
 import type { Phoneme, Syllable } from "../types.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-vi.mock("./stage-streams.js", async (original) =>
-  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 const moraic: SyllableWeightPolicy = { type: "moraic", analysis: "fixture", coda: "weight-by-position", unknown: "legacy-segment-count" };
 

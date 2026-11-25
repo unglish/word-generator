@@ -6,13 +6,12 @@
  * shifting it must leave what it cannot affect alone, which shows no other
  * stage reads it.
  */
-import { describe, expect, it, vi } from "vitest";
-import { generateWord } from "../index.js";
+import { describe, expect, it } from "vitest";
+import { createGenerator, englishConfig, generateWord } from "../index.js";
 import type { Word, WordGenerationOptions } from "../types.js";
 import { withShiftedStage, type Stage } from "../test-support/stage-stream-probe.js";
+import { ATTEMPT_STAGES, WORD_STAGES } from "./stage-streams.js";
 
-vi.mock("./stage-streams.js", async (original) =>
-  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 const SEEDS = Array.from({ length: 300 }, (_, i) => 556_000 + i);
 
@@ -31,18 +30,12 @@ const selected = (word: Word) => word.trace!.selection!.selectedAttempt;
 const gapSpelled = (word: Word) => word.trace!.repairs.some(repair => repair.rule.startsWith("gapSpelling:"));
 
 describe("stage stream wiring (#556)", () => {
-  // Each stage, with the morphology setting under which it draws.
+  // Every stage, with the morphology setting under which it draws. A bare and
+  // an affixed word render their pronunciation at different points, so that
+  // stage is checked under both.
+  const affixStages: ReadonlySet<Stage> = new Set(["plan_morphology", "preview_morphology"]);
   const stages: ReadonlyArray<[Stage, boolean]> = [
-    ["set_constraints", false],
-    ["plan_morphology", true],
-    ["plan_shape", false],
-    ["select_segments", false],
-    ["assign_stress", false],
-    ["post_stress_repair", false],
-    ["preview_morphology", true],
-    ["spell", false],
-    ["finalize_root_spelling", false],
-    ["render_pronunciation", false],
+    ...[...WORD_STAGES, ...ATTEMPT_STAGES].map((stage): [Stage, boolean] => [stage, affixStages.has(stage)]),
     ["render_pronunciation", true],
   ];
 
@@ -76,6 +69,29 @@ describe("stage stream wiring (#556)", () => {
         expect(rendered.written, `seed ${seed}`).toEqual(base.written);
     }
     expect(compared).toBeGreaterThan(SEEDS.length);
+  });
+
+  it("draws a bare word's gap spelling choice from its spell stream", () => {
+    // A weighted pair of overrides for a common monosyllable, so the choice draws.
+    const generator = createGenerator({
+      ...englishConfig,
+      gapSpellings: ["braw", "brau"].map(replacement => ({
+        name: replacement, phonemes: ["b", "r", "ɔ"], replacement, weight: 50, targetLayer: "grapheme" as const,
+      })),
+    });
+    const options = { mode: "text", morphology: false, syllableCount: 1, trace: true } as const;
+    let gapWords = 0, flipped = 0;
+    for (let seed = 0; seed < 20_000 && gapWords < 12; seed++) {
+      const run = () => generator.generateWord({ ...options, seed });
+      const base = run();
+      if (!gapSpelled(base)) continue;
+      gapWords++;
+      expect(withShiftedStage("render_pronunciation", run).written, `seed ${seed}`).toEqual(base.written);
+      const spelled = withShiftedStage("spell", run);
+      if (selected(spelled) === selected(base) && spelled.written.clean !== base.written.clean) flipped++;
+    }
+    expect(gapWords).toBe(12);
+    expect(flipped).toBeGreaterThan(0);
   });
 
   it.each([false, true])("finishing stages use the selected attempt's streams (morphology %s)", morphology => {

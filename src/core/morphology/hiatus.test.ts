@@ -1,12 +1,10 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord, generateWords } from "../../index.js";
 import type { MorphHiatusDecisionTrace } from "../../index.js";
 import type { Affix, LanguageConfig, MorphologyConfig } from "../../config/language.js";
 import type { Grapheme, Word } from "../../types.js";
 import { withStageDraws } from "../../test-support/stage-stream-probe.js";
 
-vi.mock("../stage-streams.js", async (original) =>
-  (await import("../../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 function fixedBoundary(options: {
   prefix?: string; suffix?: string; onset?: string; coda?: string;

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { createGenerator, generateWord, generateWords, createSeededRng } from "../index.js";
 import { englishConfig } from "../config/english.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
@@ -11,8 +11,6 @@ import {
 import { findExample } from "../test-support/find-example.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-vi.mock("./stage-streams.js", async (original) =>
-  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 import { withPhonemeWeights } from "../test-support/phoneme-weights.js";
 
 function withGraphemes(graphemes: Grapheme[]) {
@@ -240,9 +238,9 @@ describe("legal grapheme selection", () => {
     // Declared fallbacks still fire in shipping config: /ʊ/ "oo" after g, about
     // 4 in 10k bare words, and bare /aɪ/ i and /u/ u where no long spelling
     // is legal (#470). /i:/ "ee" fallbackOnly is unused (#457). Check every
-    // fallback in the first 10k draws, and keep drawing past that until one
-    // appears, so an output change elsewhere that shifts the RNG stream cannot
-    // push the first hit out of a fixed window.
+    // fallback in the first 10k words, and keep generating past that until one
+    // appears, so an output change elsewhere cannot push the first hit out of
+    // a fixed window.
     const fallbackRand = createSeededRng(20260930);
     let fallbackChoices = 0;
     for (let draw = 0; draw < 10_000 || (fallbackChoices === 0 && draw < 100_000); draw++) {

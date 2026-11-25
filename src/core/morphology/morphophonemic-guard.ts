@@ -17,6 +17,7 @@ import {
   type MorphologyPhoneSource,
 } from "./morphology-projection.js";
 import type { AffixForm } from "./realization.js";
+import { noDraws } from "../stage-streams.js";
 import type { CodaExtensionRejectionReason } from "../trace.js";
 
 export interface MorphophonemicGuardRuntime extends ClusterLegalityRuntime {
@@ -56,9 +57,7 @@ export interface MorphophonemicGuardResult {
 }
 
 const NO_IGNORES: ReadonlySet<string> = new Set();
-const NO_RNG = () => {
-  throw new Error("Morphophonemic eligibility must not consume RNG.");
-};
+const NO_RNG = noDraws("Morphophonemic eligibility must not consume RNG.");
 
 function evidence(
   reason: MorphophonemicRejection["reason"],

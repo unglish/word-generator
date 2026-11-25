@@ -4,12 +4,16 @@
  * `src/core/golden-output.test.ts` compares a fresh capture with the committed
  * fixture; `npm run golden:update` rewrites the fixture. Any change to how a
  * stage draws, to the stream derivation or to weighting is expected to change
- * it: review the diff and regenerate deliberately.
+ * it: review the diff and regenerate deliberately. Each case also records every
+ * stage's draws over its words: a change in a stage the change did not touch
+ * means a draw moved to the wrong stream.
  *
  * Not part of the published build (excluded in tsconfig.json).
  */
 import { generateWords } from "../index.js";
+import { ATTEMPT_STAGES, WORD_STAGES } from "../core/stage-streams.js";
 import type { GenerationMode } from "../types.js";
+import { stageTotal, withStageDraws, type Stage } from "./stage-stream-probe.js";
 
 export const GOLDEN_FIXTURE_URL = new URL("../core/golden-output.json", import.meta.url);
 export const GOLDEN_UPDATE_COMMAND = "npm run golden:update";
@@ -36,6 +40,8 @@ export interface GoldenWord {
 }
 
 export interface GoldenCaseOutput extends GoldenCase {
+  /** Draws of each stage stream over the case's words, summed over attempts. */
+  stageDraws: Partial<Record<Stage, number>>;
   words: GoldenWord[];
 }
 
@@ -46,9 +52,15 @@ export interface GoldenOutput {
 }
 
 function captureCase(golden: GoldenCase): GoldenCaseOutput {
-  const words = generateWords(GOLDEN_WORDS_PER_CASE, { seed: golden.seed, mode: golden.mode, morphology: golden.morphology })
-    .map(({ written, pronunciation }) => ({ clean: written.clean, hyphenated: written.hyphenated, pronunciation }));
-  return { ...golden, words };
+  const { value, draws } = withStageDraws(() =>
+    generateWords(GOLDEN_WORDS_PER_CASE, { seed: golden.seed, mode: golden.mode, morphology: golden.morphology }));
+  const stageDraws: Partial<Record<Stage, number>> = {};
+  for (const stage of [...WORD_STAGES, ...ATTEMPT_STAGES]) {
+    const total = stageTotal(draws, stage);
+    if (total > 0) stageDraws[stage] = total;
+  }
+  const words = value.map(({ written, pronunciation }) => ({ clean: written.clean, hyphenated: written.hyphenated, pronunciation }));
+  return { ...golden, stageDraws, words };
 }
 
 export function captureGoldenOutput(): GoldenOutput {

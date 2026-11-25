@@ -1,10 +1,8 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { englishConfig, generateWord } from "../index.js";
 import { ipaToArpabet } from "../phonotactic/ipa-to-arpabet.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-vi.mock("../core/stage-streams.js", async (original) =>
-  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 import {
   LEGACY_ENGLISH_IDENTITIES, observeCmuToken, observeWordIdentity,
   projectIdentityStress, projectLegacyArpabet,

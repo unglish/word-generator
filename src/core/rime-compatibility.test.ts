@@ -5,8 +5,6 @@ import type { Phoneme, Syllable, Word, WordGenerationContext } from "../types.js
 import { findExample } from "../test-support/find-example.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-vi.mock("./stage-streams.js", async (original) =>
-  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 import { assertRootRimeCompatibility, isNucleusCodaPairAllowed, isNucleusCompatibleWithCoda } from "./rime-compatibility.js";
 import { repairRootNuclei, repairStressedNuclei } from "./nucleus-repair.js";
 

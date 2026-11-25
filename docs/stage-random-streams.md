@@ -69,12 +69,16 @@ not every stream's seed at once.
 | `render_pronunciation` | attempt or selected attempt | `generatePronunciation` |
 
 `repair` (the structural cluster and coda repairs), `score` and
-`attach_morphology` draw nothing and have no stream. The pipeline binds each
-stream to the word's context with `inStage` for exactly the code of its stage,
-and puts back what was bound before when the stage ends. Between stages the
-context holds an RNG that throws, and `attach_morphology` runs under one that
-throws with its name, so a new draw outside a stage fails loudly until it is
-given a stream in `src/core/stage-streams.ts`.
+`attach_morphology` draw nothing and have no stream.
+
+Each root attempt's context carries that attempt's streams. Every stage that
+runs on the context, including the finishing stages of the selected attempt,
+binds its stream with `inStage(context, stage, ...)` in `src/core/generate.ts`
+for exactly the code of the stage, and puts back what was bound before when
+the stage ends. Between stages the context holds an RNG that throws, so a new
+draw outside a stage fails loudly. The stages that run before there is a
+context (`set_constraints`, `plan_morphology`, `plan_shape`) take their stream
+as an argument.
 
 The finishing stages run for the selected attempt and use that attempt's
 streams. A bare word renders its pronunciation during its attempt, before
@@ -105,15 +109,17 @@ engine behind it without moving any other stage's draws.
 rebuild any stage's stream for that word. Bump `STAGE_STREAM_SCHEME` whenever a
 stage is added, renamed or split, or the fold changes, since that changes which
 numbers a stage receives. Known-answer vectors in `stage-streams.test.ts` pin
-every stage's seed for a fixed key, so any such change fails there and not only
-in the golden fixture.
+every stage's seed for a fixed key, and the first draws of streams built from a
+fixed caller stream, so any such change fails there and not only in the golden
+fixture.
 
 ## Guarantees and tests
 
 `src/core/stage-streams.test.ts` checks that:
 
-- every stage's seed for a fixed key matches its known-answer vector, and
-  every stage has one;
+- every stage's seed for a fixed key matches its known-answer vector, every
+  stage has one, and streams built from a fixed caller stream draw known first
+  values (which pins the key, the attempt index and the generator);
 - each word takes two draws from the caller's stream, with tracing on or off,
   and a draw outside [0, 1) throws;
 - tracing takes the same number of draws from every stage stream;
@@ -124,14 +130,21 @@ in the golden fixture.
 - extra draws in one stage leave every other stage's draws unchanged. The test
   compares English with every unstressed-root alternation at probability 0
   (it draws but never fires) against English with no alternation rules (no
-  draws). It requires identical words, and identical draw counts in every
-  stream except `post_stress_repair`.
+  draws). It requires identical words and identical draw counts in every
+  stream except `post_stress_repair`, and that `post_stress_repair` does draw
+  more for many seeds.
 
-Both files install the probe in `src/test-support/stage-stream-probe.ts`,
-which counts each stage stream's draws (`withStageDraws`) or shifts one stage's
-draws (`withShiftedStage`). Other tests use it to show that tracing or an
-inert config draws nothing: identical words alone cannot show that, because a
-draw at the end of a stage's stream changes no word.
+Both files use the probe in `src/test-support/stage-stream-probe.ts`, which
+counts each stage stream's draws (`withStageDraws`) or shifts one stage's draws
+(`withShiftedStage`) through an internal hook in `stage-streams.ts`. Other
+tests use it to show that tracing or an inert config draws nothing: identical
+words alone cannot show that, because a draw at the end of a stage's stream
+changes no word.
+
+The golden fixture (`src/core/golden-output.json`) records each stage's draws
+for each case. When a change moves a draw to another stage's stream, which the
+wiring test below cannot always see, the fixture diff shows draws leaving one
+stage and arriving in another.
 
 `src/core/stage-stream-wiring.test.ts` shifts one stage's draws at a time and
 checks that:

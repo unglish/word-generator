@@ -1,11 +1,9 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord, generateWords } from "../index.js";
 import type { Syllable } from "../types.js";
 import { weightMatchingCoda } from "./root-repetition.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-vi.mock("./stage-streams.js", async (original) =>
-  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 function hasNucleusTriple(syllables: readonly Syllable[]): boolean {
   return syllables.some(({ nucleus }, index) => {

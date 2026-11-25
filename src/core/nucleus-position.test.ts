@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { createGenerator, englishConfig, generateWord } from "../index.js";
 import type { LanguageConfig } from "../config/language.js";
 import type { Phoneme, Syllable, Word } from "../types.js";
@@ -6,8 +6,6 @@ import { isNucleusWordPositionAllowed, nucleusWordEdges } from "./nucleus-positi
 import { findExample } from "../test-support/find-example.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-vi.mock("./stage-streams.js", async (original) =>
-  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 const foot = englishConfig.phonemes.find(p => p.sound === "ʊ")!;
 const goose = englishConfig.phonemes.find(p => p.sound === "u")!;

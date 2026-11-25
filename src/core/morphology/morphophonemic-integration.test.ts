@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { englishConfig } from "../../config/english.js";
 import type {
   Affix,
@@ -11,8 +11,6 @@ import { TraceCollector } from "../trace.js";
 import { cloneSyllables } from "../lexical.js";
 import { withStageDraws } from "../../test-support/stage-stream-probe.js";
 
-vi.mock("../stage-streams.js", async (original) =>
-  (await import("../../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 import { prepareMorphology, writeMorphology } from "./attach.js";
 import {
   bindMorphophonemicGuard,

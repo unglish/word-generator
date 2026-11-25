@@ -1,16 +1,13 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
   createGenerator, createSeededRng, englishConfig, generateWord, generateWords,
   type LanguageConfig,
 } from "../index.js";
 import type { Word } from "../types.js";
-import { withStageDraws, type StageDraws } from "../test-support/stage-stream-probe.js";
+import { stageTotal, withStageDraws, type StageDraws } from "../test-support/stage-stream-probe.js";
 import {
   ATTEMPT_STAGES, createWordStreams, deriveStreamSeed, STAGE_STREAM_SCHEME, WORD_STAGES,
 } from "./stage-streams.js";
-
-vi.mock("./stage-streams.js", async (original) =>
-  (await import("../test-support/stage-stream-probe.js")).probeStageStreams(await original()));
 
 function countingRng(seed: number) {
   const stream = createSeededRng(seed);
@@ -62,9 +59,14 @@ describe("per-stage random streams (#556)", () => {
     for (const [stage, index, seed] of vectors) expect(deriveStreamSeed(key, stage, index), `${stage} at ${index}`).toBe(seed);
     // Every stage has a vector, so a new or renamed stage fails here too.
     expect(new Set(vectors.map(([stage]) => stage))).toEqual(new Set([...WORD_STAGES, ...ATTEMPT_STAGES]));
-    // The caller's two draws become the key, hi then lo.
+    // The caller's two draws become the key, hi then lo, and attempt n reads
+    // index n + 1 of a Mulberry32 stream seeded as above.
     const caller = [0x01234567 / 2 ** 32, 0x89abcdef / 2 ** 32];
-    expect(createWordStreams(() => caller.shift()!).key).toEqual(key);
+    const streams = createWordStreams(() => caller.shift()!);
+    expect(streams.key).toEqual(key);
+    expect(streams.word("set_constraints")()).toBe(0.8011963446624577);
+    expect(streams.attempt(0)("spell")()).toBe(0.28082819120027125);
+    expect(streams.attempt(2)("render_pronunciation")()).toBe(0.9092820787336677);
   });
 
   it.each([false, true])("takes exactly two draws per word from the caller's stream (trace %s)", trace => {
@@ -116,10 +118,9 @@ describe("per-stage random streams (#556)", () => {
     expect(first(streams.attempt(0)("render_pronunciation"))).not.toEqual(spell);
     expect(first(streams.word("set_constraints"))).not.toEqual(spell);
     expect(first(streams.word("plan_morphology"))).not.toEqual(first(again.word("set_constraints")));
-    // A stage that runs twice resumes its stream.
+    // A stage that runs twice resumes its stream, even through a second attempt(n).
     const fresh = createWordStreams(createSeededRng(556));
-    const attempt = again.attempt(2);
-    expect([attempt("spell")(), attempt("spell")()]).toEqual(first(fresh.attempt(2)("spell")).slice(0, 2));
+    expect([again.attempt(2)("spell")(), again.attempt(2)("spell")()]).toEqual(first(fresh.attempt(2)("spell")).slice(0, 2));
     expect([again.word("plan_morphology")(), again.word("plan_morphology")()])
       .toEqual(first(fresh.word("plan_morphology")).slice(0, 2));
   });
@@ -151,25 +152,21 @@ describe("per-stage random streams (#556)", () => {
   it("leaves every other stage's draws unchanged when one stage draws more", () => {
     // Alternation draws only for an eligible syllable, before comparing the
     // roll with the rule's probability. At 0 it draws without firing; with no
-    // rules it does not draw. At 100 it fires exactly where it draws.
+    // rules it does not draw.
     const drawsWithoutFiring = createGenerator(alternationConfig(0));
     const noDraws = createGenerator(alternationConfig(undefined));
-    const alwaysFires = createGenerator(alternationConfig(100));
-    let extraDraws = 0;
+    let drewMore = 0;
     for (let seed = 0; seed < 400; seed++) {
       const options = { seed, mode: "lexicon" as const };
-      // Attempt 0 runs under every config, so a firing there is a draw at 0 too.
-      const { trace } = alwaysFires.generateWord({ ...options, trace: true });
-      if (trace!.selection!.selectedAttempt === 0 &&
-          trace!.repairs.some(repair => repair.rule === "alternateUnstressedRootNucleus")) extraDraws++;
       const drawn = withStageDraws(() => drawsWithoutFiring.generateWord(options));
       const notDrawn = withStageDraws(() => noDraws.generateWord(options));
       expect(drawn.value, `seed ${seed}`).toEqual(notDrawn.value);
       expect(withoutStage(drawn.draws, "post_stress_repair"), `seed ${seed}`)
         .toEqual(withoutStage(notDrawn.draws, "post_stress_repair"));
+      if (stageTotal(drawn.draws, "post_stress_repair") > stageTotal(notDrawn.draws, "post_stress_repair")) drewMore++;
     }
-    // With one shared stream these extra draws would have moved every later
-    // spelling and pronunciation draw of the word.
-    expect(extraDraws).toBeGreaterThan(40);
+    // About 140 seeds in 400 draw more (106 to 153 over 20 windows). With one
+    // shared stream these draws would have moved every later draw of the word.
+    expect(drewMore).toBeGreaterThan(60);
   });
 });
