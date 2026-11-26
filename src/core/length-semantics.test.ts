@@ -32,17 +32,16 @@ describe("letterLengthRelaxedAfter configuration", () => {
   });
 
   it.each([
-    { 1: Object.create({ 2: 5 }) },
-    Object.create({ 1: { 2: 5 } }),
-  ])("ignores inherited schedule entries", letterLengthRelaxedAfter => {
+    ["letter-length entry", { 1: Object.create({ 2: 5 }) }],
+    ["syllable-count entry", Object.create({ 1: { 2: 5 } })],
+  ])("ignores an inherited %s even when the root is in band", (_, letterLengthRelaxedAfter) => {
     const { options } = findScheduledMonosyllable();
-    const letterLengthTargets: LanguageConfig["syllableStructure"]["letterLengthTargets"] = { 1: [3, 4, 6, 8] };
-    const baseline = generatorWithLengthRules({ letterLengthTargets, letterLengthRelaxedAfter: undefined });
-    const inherited = generatorWithLengthRules({ letterLengthTargets, letterLengthRelaxedAfter });
-    expect(inherited.generateWord(options)).toEqual(baseline.generateWord(options));
+    const baseline = generatorWithLengthRules({ letterLengthRelaxedAfter: undefined });
+    const inherited = generatorWithLengthRules({ letterLengthRelaxedAfter });
+    expect(inherited.generateWord(options).trace!.selection).toEqual(baseline.generateWord(options).trace!.selection);
   });
 
-  it("uses the current band for both scoring and scheduled eligibility", () => {
+  it("stops scheduling a length removed from the band after construction", () => {
     const letterLengthTargets: LanguageConfig["syllableStructure"]["letterLengthTargets"] = { 1: [2, 4, 6, 8] };
     const scheduled = generatorWithLengthRules({ letterLengthTargets });
     const { options } = findScheduledMonosyllable(scheduled);
@@ -50,6 +49,19 @@ describe("letterLengthRelaxedAfter configuration", () => {
 
     const baseline = generatorWithLengthRules({ letterLengthTargets, letterLengthRelaxedAfter: undefined });
     expect(scheduled.generateWord(options)).toEqual(baseline.generateWord(options));
+  });
+
+  it("rescores proposals when the peak moves after construction", () => {
+    const letterLengthTargets: LanguageConfig["syllableStructure"]["letterLengthTargets"] = { 1: [2, 4, 6, 8] };
+    const scheduled = generatorWithLengthRules({ letterLengthTargets });
+    const { options } = findScheduledMonosyllable(scheduled);
+    letterLengthTargets[1][1] = 2;
+
+    const fresh = generatorWithLengthRules({ letterLengthTargets });
+    const selection = scheduled.generateWord(options).trace!.selection;
+    expect(selection).toEqual(fresh.generateWord(options).trace!.selection);
+    expect(selection).toMatchObject({ acceptedBy: "exact", selected: { score: { letterPenalty: 0 } } });
+    expect(selection?.scheduledRelaxedAfter).toBeUndefined();
   });
 
   it("ignores an attempt index made invalid after construction", () => {
