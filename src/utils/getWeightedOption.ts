@@ -34,3 +34,12 @@ const getWeightedOption = <T>(options: [T, number][], rand: RNG): T => {
 };
 
 export default getWeightedOption;
+
+/**
+ * Fast boolean probability check — equivalent to
+ * `getWeightedOption([[true, p], [false, 100 - p]], rand)`
+ * but avoids allocating two tuple arrays per call.
+ */
+export function coinFlip(rand: RNG, probability: number): boolean {
+  return rand() * 100 < probability;
+}

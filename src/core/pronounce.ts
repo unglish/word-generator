@@ -12,7 +12,7 @@ import {
   VowelReductionRule,
 } from "../config/language.js";
 import { phonemes } from "../elements/phonemes.js";
-import getWeightedOption from "../utils/getWeightedOption.js";
+import getWeightedOption, { coinFlip } from "../utils/getWeightedOption.js";
 import { otEvaluate } from "./ot-stress.js";
 import { analyzeWordWeight } from "./syllable-weight.js";
 import type {
@@ -27,10 +27,7 @@ import { clonePhoneme, cloneSyllables } from "./lexical.js";
 import { allowsSecondaryStress } from "./stress-repair.js";
 import { completesRootNucleusTriple } from "./root-repetition.js";
 
-/** Fast boolean probability check (avoids tuple array allocation). */
-export function coinFlip(rand: RNG, probability: number): boolean {
-  return rand() * 100 < probability;
-}
+export { coinFlip };
 
 export interface PronunciationRuntimeConfig {
   aspiration: ResolvedAspirationRules;

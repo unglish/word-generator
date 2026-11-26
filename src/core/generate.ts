@@ -9,19 +9,16 @@ import {
   LexicalForm,
   Syllable,
   SyllableShapePlan,
-  getPhonemePositionWeight,
   GenerationMode,
 } from "../types.js";
 import { RNG, createSeededRng, createDefaultRng } from "../utils/random.js";
-import getWeightedOption from "../utils/getWeightedOption.js";
+import getWeightedOption, { coinFlip } from "../utils/getWeightedOption.js";
 import {
   LanguageConfig,
   computeSonorityLevels,
   defaultFallbackBridgeOnsets,
   validateConfig,
   resolveLetterLengthRelaxedAfter,
-  ClusterLimits,
-  SonorityConstraints,
   expandClusterConstraintBans,
   ResolvedStressRules,
   resolveStressRules,
@@ -45,11 +42,6 @@ import {
 } from "./gap-spelling.js";
 import type { BaseSpelling } from "./base-spelling.js";
 import {
-  classifySspViolation,
-  hasRisingCodaTowardBoundary,
-  validateJunction,
-} from "./junction.js";
-import {
   repairClusters,
   repairFinalCoda,
   repairClusterShape,
@@ -67,13 +59,7 @@ import { chooseRootAttempt } from "./root-attempt-search.js";
 import {
   assertRootRimeCompatibility,
   buildRootRimePolicy,
-  excludedAfterOnset,
-  isNucleusCodaPairAllowed,
 } from "./rime-compatibility.js";
-import {
-  nucleusWordPositionWeight,
-  isCheckedOpenFinalAllowed,
-} from "./nucleus-position.js";
 import {
   attachRootWritten,
   planMorphology,
@@ -89,120 +75,47 @@ import {
   TraceCollector,
   traceStage,
   type SelectionTrace,
-  type CodaExtensionRejectionReason,
   type OrthographySource,
 } from "./trace.js";
-import { codaShapeRejection } from "./coda-shape.js";
-import { isStop } from "../utils/phonemes.js";
-import { weightMatchingCoda } from "./root-repetition.js";
 import { createMedialOnsetDoubler } from "./medial-onset-doubling.js";
 import {
-  BETWEEN_STAGES, createWordStreams, formatStreamKey, inStage, noDraws, STAGE_STREAM_SCHEME,
+  BETWEEN_STAGES, createWordStreams, formatStreamKey, inStage, STAGE_STREAM_SCHEME,
   type StreamContext, type StreamKey,
 } from "./stage-streams.js";
+import { buildCluster, buildPrefixSet, createLegacyWeightedEngine, isValidCluster, type LegacySelectionRuntime } from "./legacy-weighted.js";
+import type { SegmentEngine } from "./segment-selection.js";
 
 // ---------------------------------------------------------------------------
 // Runtime: pre-computed data derived from a LanguageConfig
 // ---------------------------------------------------------------------------
 
-interface GeneratorRuntime {
-  config: LanguageConfig;
+interface GeneratorRuntime extends LegacySelectionRuntime {
+  segmentEngine: SegmentEngine;
   resolvedStress: ResolvedStressRules;
   resolvedPronunciation: PronunciationRuntimeConfig;
-  sonorityLevels: Map<Phoneme, number>;
   /** Sonority level by phoneme sound string (for quick lookup). */
   sonorityBySound: Map<string, number>;
   /** Phoneme by sound string (avoids repeated config.phonemes.find). */
   phonemeBySound: Map<string, Phoneme>;
-  positionPhonemes: { onset: Phoneme[]; coda: Phoneme[]; nucleus: Phoneme[] };
-  invalidClusterRegexes: {
-    onset: RegExp | null;
-    coda: RegExp | null;
-    /** Maps to config.invalidClusters.boundary — keyed "nucleus" because
-     *  ClusterContext.position uses "nucleus" as the catch-all third position. */
-    nucleus: RegExp | null;
-  };
   generateWrittenForm: WrittenFormGenerator;
   applyGapSpellings: GapSpellingApplicator;
   doubleMedialOnset: ReturnType<typeof createMedialOnsetDoubler>;
   bannedSet?: Set<string>;
   clusterRepair?: "drop-coda" | "drop-onset";
-  allowedFinalSet?: Set<string>;
-  bannedCodaSet?: Set<string>;
   nucleusRepair: NucleusRepairPolicy;
-  rootLengthPolicy: RootLengthPolicy;
-  preservedCodaInitials?: ReadonlySet<string>;
-  clusterLimits?: ClusterLimits;
-  sonorityConstraints?: SonorityConstraints;
-  codaAppendantSet?: Set<string>;
+  sonorityConstraints?: LanguageConfig["sonorityConstraints"];
   onsetPrependerSet?: Set<string>;
   sonorityExemptSet?: Set<string>;
-  attestedOnsetSet?: Set<string>;
-  attestedCodaSet?: Set<string>;
-  attestedOnsetPrefixSet?: Set<string>;
-  attestedCodaPrefixSet?: Set<string>;
-  clusterWeights?: {
-    onset?: Map<string, number>;
-    boundary?: ReadonlyMap<string, ReadonlyMap<string, number>>;
-    coda?:
-      | Map<string, number>
-      | {
-          final?: Map<string, number>;
-          nonFinal?: Map<string, number>;
-        };
-  };
-  rootFinalCodas: Partial<Record<GenerationMode, FinalCodasByNucleus>>;
-  /** Pre-resolved bridge phoneme options for vowel hiatus repair. */
-  bridgePhonemeOptions: [Phoneme, number][];
+  rootLengthPolicy: RootLengthPolicy;
 }
-
-type FinalCodasByNucleus = Map<string, Map<number, [Phoneme[], number][]>>;
 
 const DEFAULT_PLAN_GUARD_PROBABILITY = 98;
-const DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER = 0.08;
-
-/**
- * Fast boolean probability check — equivalent to
- * `getWeightedOption([[true, p], [false, 100 - p]], rand)`
- * but avoids allocating two tuple arrays per call.
- */
-function coinFlip(rand: RNG, probability: number): boolean {
-  return rand() * 100 < probability;
-}
-/** Shared empty set for ClusterContext.ignoreSet when no phonemes should be ignored. */
-const _emptySet: ReadonlySet<string> = Object.freeze(new Set<string>());
-
-/**
- * Last element, or undefined for an empty array. Avoids `arr[arr.length - 1]`
- * on empty arrays, which V8 resolves as a slow named-property lookup of "-1".
- */
-function lastItem<T>(items: readonly T[]): T | undefined {
-  return items.length > 0 ? items[items.length - 1] : undefined;
-}
 
 function getPlanGuardProbability(rt: GeneratorRuntime): number {
   return (
     rt.config.hiatusPolicy?.planGuardProbability ??
     DEFAULT_PLAN_GUARD_PROBABILITY
   );
-}
-
-function getPostVowelGlideMultiplier(rt: GeneratorRuntime): number {
-  return (
-    rt.config.hiatusPolicy?.postVowelGlideMultiplier ??
-    DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER
-  );
-}
-
-/** Build a set of all proper prefixes for attested clusters (excludes the full key). */
-function buildPrefixSet(clusters: string[][]): Set<string> {
-  const set = new Set<string>();
-  for (const parts of clusters) {
-    for (let i = 1; i < parts.length; i++) {
-      set.add(parts.slice(0, i).join("|"));
-    }
-  }
-  return set;
 }
 
 function buildRuntime(config: LanguageConfig): GeneratorRuntime {
@@ -288,51 +201,31 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
     const p = phonemeBySound.get(sound);
     if (p && weight > 0) bridgePhonemeOptions.push([p, weight]);
   }
-
-  const runtime: GeneratorRuntime = {
+  const nucleusRepair: NucleusRepairPolicy = {
+    phonemes: positionPhonemes.nucleus,
+    stress: resolvedStress,
+    rimes: buildRootRimePolicy(config.codaConstraints),
+    forbidOpenCheckedFinal: config.forbidOpenCheckedFinal === true,
+  };
+  const selection: LegacySelectionRuntime = {
     config,
-    resolvedStress,
-    resolvedPronunciation,
     sonorityLevels,
-    sonorityBySound,
-    phonemeBySound,
     positionPhonemes,
     invalidClusterRegexes,
-    generateWrittenForm,
-    applyGapSpellings,
-    doubleMedialOnset: createMedialOnsetDoubler(config),
-    bannedSet,
-    clusterRepair: config.clusterConstraint?.repair,
+    nucleusRepair,
     allowedFinalSet: config.codaConstraints?.allowedFinal
       ? new Set(config.codaConstraints.allowedFinal)
       : undefined,
     bannedCodaSet: config.codaConstraints?.bannedCodas
       ? new Set(config.codaConstraints.bannedCodas)
       : undefined,
-    nucleusRepair: {
-      phonemes: positionPhonemes.nucleus,
-      stress: resolvedStress,
-      rimes: buildRootRimePolicy(config.codaConstraints),
-      forbidOpenCheckedFinal: config.forbidOpenCheckedFinal === true,
-    },
-    rootLengthPolicy: {
-      phonemeLengthWeights: config.phonemeLengthWeights,
-      phonemeToSyllableWeights: config.phonemeToSyllableWeights,
-      maxOnsetLength: cl?.maxOnset ?? config.syllableStructure.maxOnsetLength,
-      maxCodaLength: cl?.maxCoda ?? config.syllableStructure.maxCodaLength,
-    },
     preservedCodaInitials: config.rootRepetition?.preserveCodaInitials
       ? new Set(config.rootRepetition.preserveCodaInitials)
       : undefined,
     clusterLimits: cl,
-    sonorityConstraints: sc,
     codaAppendantSet: cl?.codaAppendants
       ? new Set(cl.codaAppendants)
       : undefined,
-    onsetPrependerSet: cl?.onsetPrependers
-      ? new Set(cl.onsetPrependers)
-      : undefined,
-    sonorityExemptSet: sc?.exempt ? new Set(sc.exempt) : undefined,
     attestedOnsetSet: cl?.attestedOnsets
       ? new Set(cl.attestedOnsets.map((a) => a.join("|")))
       : undefined,
@@ -346,958 +239,33 @@ function buildRuntime(config: LanguageConfig): GeneratorRuntime {
       ? buildPrefixSet(cl.attestedCodas)
       : undefined,
     clusterWeights,
-    rootFinalCodas: {},
     bridgePhonemeOptions,
   };
-  for (const mode of ["text", "lexicon"] as const) {
-    const profile = config.generationWeights.codaLength.rootFinalByMode?.[mode];
-    if (profile) runtime.rootFinalCodas[mode] = prepareRootFinalCodas(runtime, profile.counts);
-  }
-  return runtime;
-}
-
-// ---------------------------------------------------------------------------
-// Sonority
-// ---------------------------------------------------------------------------
-
-function getSonority(rt: GeneratorRuntime, phoneme: Phoneme): number {
-  return rt.sonorityLevels.get(phoneme) ?? 0;
-}
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function getClusterWeightMap(
-  weightsForPosition:
-    | Map<string, number>
-    | { final?: Map<string, number>; nonFinal?: Map<string, number> }
-    | undefined,
-  isEndOfWord: boolean,
-): Map<string, number> | undefined {
-  if (!weightsForPosition) return undefined;
-  if (typeof weightsForPosition === "object" && "final" in weightsForPosition) {
-    return isEndOfWord ? weightsForPosition.final : weightsForPosition.nonFinal;
-  }
-  return weightsForPosition as Map<string, number>;
-}
-
-/** Sentinel: no cluster weight found. */
-const NO_CLUSTER_WEIGHT = -1;
-
-/**
- * Find the cluster weight multiplier for a candidate phoneme sound.
- * Returns the weight (>= 0) or NO_CLUSTER_WEIGHT (-1) if no weight applies.
- */
-function findClusterWeightMultiplier(
-  clusterSounds: string[],
-  candidateSound: string,
-  weightMap: Map<string, number> | undefined,
-): number {
-  if (!weightMap) return NO_CLUSTER_WEIGHT;
-
-  // Build suffix keys without allocating arrays.
-  // For clusterSounds=[a,b] and candidate=c, check: "a,b,c", "b,c", "c"
-  const len = clusterSounds.length;
-  for (let i = 0; i <= len; i++) {
-    let suffix = "";
-    for (let j = i; j < len; j++) {
-      if (suffix) suffix += ",";
-      suffix += clusterSounds[j];
-    }
-    if (suffix) suffix += ",";
-    suffix += candidateSound;
-    const weight = weightMap.get(suffix);
-    if (weight !== undefined) return weight;
-  }
-  return NO_CLUSTER_WEIGHT;
-}
-
-// ---------------------------------------------------------------------------
-// Cluster building
-// ---------------------------------------------------------------------------
-
-function buildCluster(
-  rt: GeneratorRuntime,
-  context: ClusterContext,
-): Phoneme[] {
-  const allPositionPhonemes = rt.positionPhonemes[context.position];
-  // Reusable buffer for valid candidates — avoids allocating a new array each iteration.
-  const validBuf: Phoneme[] = [];
-
-  while (context.cluster.length < context.maxLength) {
-    validBuf.length = 0;
-    for (let i = 0; i < allPositionPhonemes.length; i++) {
-      if (isValidCandidate(allPositionPhonemes[i], rt, context)) {
-        validBuf.push(allPositionPhonemes[i]);
-      }
-    }
-    if (validBuf.length === 0) break;
-
-    const newPhoneme = selectPhoneme(validBuf, context, rt);
-    if (!newPhoneme) break;
-
-    context.cluster.push(newPhoneme);
-    context.clusterSounds.push(newPhoneme.sound);
-    if (shouldStopClusterGrowth(context, rt)) break;
-  }
-
-  return context.cluster;
-}
-
-function isValidCandidate(
-  p: Phoneme,
-  rt: GeneratorRuntime,
-  context: ClusterContext,
-): boolean {
-  return clusterCandidateRejection(p, rt, context) === undefined;
-}
-
-function clusterCandidateRejection(
-  p: Phoneme,
-  rt: GeneratorRuntime,
-  context: ClusterContext,
-  check: "ordinary" | "extension" | "audited" = "ordinary",
-): CodaExtensionRejectionReason | undefined {
-  const sound = p.sound;
-  const { clusterSounds } = context;
-
-  if (context.ignoreSet.has(sound)) return "excluded";
-  if (lastItem(clusterSounds) === sound) return "repetition";
-  // Optional extensions may repeat a separated segment when attested (e.g. /ksts/).
-  if (
-    clusterSounds.includes(sound) &&
-    !(check === "extension" && context.position === "coda" && rt.attestedCodaSet)
-  )
-    return "repetition";
-  if (!isValidPosition(p, context)) return "position";
-  if (check !== "ordinary") {
-    const shapeReason = codaShapeRejection(
-      context.cluster,
-      p,
-      rt.clusterLimits,
-      rt.codaAppendantSet,
-      rt.config.codaConstraints,
-    );
-    if (shapeReason) return shapeReason;
-  }
-
-  if (context.position === "coda" && rt.bannedCodaSet?.has(sound)) {
-    return "banned-coda";
-  }
-
-  if (context.excludedAfterOnset?.has(sound)) return "onset-rime";
-
-  if (
-    context.position === "onset" &&
-    clusterSounds.length === 0 &&
-    context.bannedFirstOnset?.has(sound)
-  ) {
-    return "nucleus-onset";
-  }
-
-  if (
-    context.position === "coda" &&
-    context.nucleus &&
-    rt.nucleusRepair.rimes.nucleusCoda
-  ) {
-    for (const nuc of context.nucleus) {
-      if (
-        !isNucleusCodaPairAllowed(nuc.sound, sound, rt.nucleusRepair.rimes.nucleusCoda)
-      ) {
-        return "nucleus-coda";
-      }
-    }
-  }
-
-  if (clusterSounds.length > 0 && rt.clusterWeights) {
-    const weightsForPosition =
-      context.position === "onset"
-        ? rt.clusterWeights.onset
-        : rt.clusterWeights.coda;
-    if (weightsForPosition) {
-      const weightMap = getClusterWeightMap(
-        weightsForPosition,
-        context.isEndOfWord,
-      );
-      const weight = findClusterWeightMultiplier(
-        clusterSounds,
-        sound,
-        weightMap,
-      );
-      if (weight !== NO_CLUSTER_WEIGHT && weight < 0.01) {
-        return "cluster-weight";
-      }
-    }
-  }
-
-  if (
-    context.position === "onset" &&
-    rt.attestedOnsetSet &&
-    clusterSounds.length > 0
-  ) {
-    const key = clusterSounds.join("|") + "|" + sound;
-    return rt.attestedOnsetSet.has(key) || rt.attestedOnsetPrefixSet?.has(key)
-      ? undefined
-      : "attestation";
-  }
-
-  if (
-    context.position === "coda" &&
-    rt.attestedCodaSet &&
-    clusterSounds.length > 0
-  ) {
-    const key = clusterSounds.join("|") + "|" + sound;
-    if (!rt.attestedCodaSet.has(key) && !rt.attestedCodaPrefixSet?.has(key)) return "attestation";
-    if (check !== "audited") return undefined;
-  }
-
-  if (!checkSonority(p, rt, context)) return "sonority";
-
-  const regex = rt.invalidClusterRegexes[context.position];
-  if (regex) {
-    // Avoid allocating a temporary array for each candidate in this hot path.
-    let potentialCluster = "";
-    for (let i = 0; i < clusterSounds.length; i++)
-      potentialCluster += clusterSounds[i];
-    potentialCluster += sound;
-    if (regex.test(potentialCluster)) return "pattern";
-  }
-
-  return undefined;
-}
-
-function isValidPosition(
-  p: Phoneme,
-  context: ClusterContext,
-): boolean {
-  const { position, isStartOfWord, isEndOfWord, nucleusWordEdges } = context;
-  const positionWeight = getPhonemePositionWeight(p, position);
-  if (position === "nucleus" && nucleusWordEdges) {
-    if (
-      context.forbidOpenCheckedFinal &&
-      !isCheckedOpenFinalAllowed(p, nucleusWordEdges)
-    ) {
-      return false;
-    }
-    if (p.nucleusWordPosition) {
-      return (
-        (positionWeight === undefined || positionWeight > 0) &&
-        nucleusWordPositionWeight(p, nucleusWordEdges)! > 0
-      );
-    }
-  }
-  return (
-    (positionWeight === undefined || positionWeight > 0) &&
-    (!isStartOfWord || p.startWord === undefined || p.startWord > 0) &&
-    (!isEndOfWord || p.endWord === undefined || p.endWord > 0)
-  );
-}
-
-function isValidCluster(
-  rt: GeneratorRuntime,
-  cluster: Phoneme[],
-  position: "onset" | "coda" | "nucleus",
-): boolean {
-  const regex = rt.invalidClusterRegexes[position];
-  if (!regex) return true;
-  let potentialCluster = "";
-  for (let i = 0; i < cluster.length; i++) potentialCluster += cluster[i].sound;
-  return !regex.test(potentialCluster);
-}
-
-// ---------------------------------------------------------------------------
-// Sonority checks
-// ---------------------------------------------------------------------------
-
-function checkSonority(
-  p: Phoneme,
-  rt: GeneratorRuntime,
-  { cluster, position }: ClusterContext,
-): boolean {
-  const prevPhoneme = lastItem(cluster);
-
-  switch (position) {
-  case "onset":
-    return checkOnsetSonority(p, rt, cluster, prevPhoneme);
-  case "coda":
-    return checkCodaSonority(p, rt, prevPhoneme);
-  case "nucleus":
-    return true;
-  default:
-    return false;
-  }
-}
-
-function checkOnsetSonority(
-  currPhoneme: Phoneme,
-  rt: GeneratorRuntime,
-  cluster: Phoneme[],
-  prevPhoneme: Phoneme | undefined,
-): boolean {
-  if (cluster.length === 0) return true;
-
-  const isSClusterException =
-    cluster.length === 1 &&
-    cluster[0].sound === "s" &&
-    (currPhoneme.sound === "t" ||
-      currPhoneme.sound === "p" ||
-      currPhoneme.sound === "k");
-
-  if (isSClusterException) return true;
-
-  if (currPhoneme.placeOfArticulation === prevPhoneme?.placeOfArticulation)
-    return false;
-
-  const lastPhonemeWasAStop = prevPhoneme?.mannerOfArticulation === "stop";
-  const canFollowAStop = lastPhonemeWasAStop
-    ? currPhoneme.mannerOfArticulation === "glide" ||
-      currPhoneme.mannerOfArticulation === "liquid"
-    : false;
-
-  return lastPhonemeWasAStop
-    ? canFollowAStop
-    : getSonority(rt, currPhoneme) > getSonority(rt, prevPhoneme!);
-}
-
-function checkCodaSonority(
-  currPhoneme: Phoneme,
-  rt: GeneratorRuntime,
-  prevPhoneme: Phoneme | undefined,
-): boolean {
-  if (!prevPhoneme) return true;
-
-  const prevSonority = getSonority(rt, prevPhoneme);
-  const currSonority = getSonority(rt, currPhoneme);
-
-  const prevManner = prevPhoneme.mannerOfArticulation;
-  const currManner = currPhoneme.mannerOfArticulation;
-
-  const isEqualSonorityException =
-    (prevManner == "fricative" && currManner == "fricative") ||
-    (prevManner == "stop" && currManner == "stop");
-
-  const isReversedSonorityException =
-    (prevManner == "stop" && currManner == "fricative") ||
-    (prevManner == "stop" && currManner == "sibilant") ||
-    (prevManner == "nasal" && currManner === "sibilant");
-
-  return (
-    isEqualSonorityException ||
-    isReversedSonorityException ||
-    currSonority < prevSonority
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Phoneme selection
-// ---------------------------------------------------------------------------
-
-function selectPhoneme(
-  validCandidates: Phoneme[],
-  context: ClusterContext,
-  rt?: GeneratorRuntime,
-): Phoneme | null {
-  const { position, isStartOfWord, isEndOfWord, rand, clusterSounds } = context;
-  const isMedialCoda = position === "coda" && !isEndOfWord;
-  const firstOnsetWeights = clusterSounds.length === 0 ? context.firstOnsetWeights : undefined;
-  const repetition = clusterSounds.length === 0 ? context.repetitionPenalty : undefined;
-  const repeatedNucleus = position === "nucleus" ? repetition : undefined;
-
-  let weightMap: Map<string, number> | undefined;
-  if (
-    rt &&
-    (clusterSounds.length > 0 || context.maxLength >= 2) &&
-    rt.clusterWeights
-  ) {
-    const weightsForPosition =
-      position === "onset" ? rt.clusterWeights.onset : rt.clusterWeights.coda;
-    if (weightsForPosition) {
-      weightMap = getClusterWeightMap(weightsForPosition, isEndOfWord);
-    }
-  }
-
-  const applyGlide =
-    position === "onset" &&
-    context.followingOpenNucleus &&
-    clusterSounds.length === 0;
-  const glideMultiplier = applyGlide
-    ? rt
-      ? getPostVowelGlideMultiplier(rt)
-      : DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER
-    : 1;
-
-  const weightedCandidates: [Phoneme, number][] = new Array(
-    validCandidates.length,
-  );
-  for (let i = 0; i < validCandidates.length; i++) {
-    const p = validCandidates[i];
-    const positionWeight = p[position] ?? 0;
-    const explicitNucleusWeight =
-      position === "nucleus" && context.nucleusWordEdges
-        ? nucleusWordPositionWeight(p, context.nucleusWordEdges)
-        : undefined;
-    const wordPositionModifier =
-      explicitNucleusWeight ??
-      ((isStartOfWord && p.startWord) ||
-        (isEndOfWord && p.endWord) ||
-        p.midWord ||
-        1);
-
-    let baseWeight = positionWeight * wordPositionModifier;
-    if (isMedialCoda) baseWeight *= p.medialCodaMultiplier ?? 1;
-    if (firstOnsetWeights) baseWeight *= firstOnsetWeights.get(p.sound) ?? 1;
-
-    if (weightMap) {
-      const multiplier = findClusterWeightMultiplier(
-        clusterSounds,
-        p.sound,
-        weightMap,
-      );
-      if (multiplier !== NO_CLUSTER_WEIGHT) {
-        baseWeight *= multiplier;
-      }
-    }
-
-    if (applyGlide && (p.sound === "j" || p.sound === "w")) {
-      baseWeight *= glideMultiplier;
-    }
-
-    if (p.sound === repeatedNucleus?.sound) {
-      baseWeight *= repeatedNucleus.multiplier;
-    }
-
-    weightedCandidates[i] = [p, baseWeight];
-  }
-
-  const options = position === "coda" && repetition
-    ? weightMatchingCoda(weightedCandidates, (phoneme) => phoneme.sound, repetition, rt?.preservedCodaInitials)
-    : weightedCandidates;
-  return getWeightedOption(options, rand);
-}
-
-function shouldStopClusterGrowth(
-  context: ClusterContext,
-  rt: GeneratorRuntime,
-): boolean {
-  const { position, cluster } = context;
-
-  if (rt.clusterLimits) {
-    const cl = rt.clusterLimits;
-    if (position === "onset" && cluster.length >= cl.maxOnset) return true;
-    if (position === "coda") {
-      const effectiveMax =
-        rt.codaAppendantSet &&
-        cluster.length > 0 &&
-        rt.codaAppendantSet.has(cluster[cluster.length - 1].sound)
-          ? cl.maxCoda + 1
-          : cl.maxCoda;
-      if (cluster.length >= effectiveMax) return true;
-    }
-  }
-
-  if (position === "onset" && rt.attestedOnsetSet && cluster.length >= 2) {
-    const key = context.clusterSounds.join("|");
-    if (rt.attestedOnsetSet.has(key)) {
-      const hasLonger = rt.attestedOnsetPrefixSet?.has(key) ?? false;
-      if (!hasLonger) return true;
-    }
-  }
-
-  if (position === "coda" && rt.attestedCodaSet && cluster.length >= 2) {
-    const key = context.clusterSounds.join("|");
-    if (rt.attestedCodaSet.has(key)) {
-      const hasLonger = rt.attestedCodaPrefixSet?.has(key) ?? false;
-      if (!hasLonger) return true;
-    }
-  }
-
-  return false;
-}
-
-// ---------------------------------------------------------------------------
-// Syllable picking
-// ---------------------------------------------------------------------------
-
-function pickOnset(
-  rt: GeneratorRuntime,
-  context: WordGenerationContext,
-  isStartOfWord: boolean,
-  monosyllabic: boolean,
-  targetLength?: number,
-): Phoneme[] {
-  const prevSyllable = context.word.syllables[context.currSyllableIndex - 1];
-  const isFollowingNucleus = prevSyllable && prevSyllable.coda.length === 0;
-  const syllableCount = context.syllableCount;
-  const { onsetLength } = rt.config.generationWeights;
-
-  const rand = context.rand;
-  const polysyllabicWeights = isFollowingNucleus
-    ? onsetLength.followingNucleus
-    : syllableCount >= 3 && onsetLength.long
-      ? onsetLength.long
-      : onsetLength.default;
-  const maxLength =
-    targetLength ??
-    (monosyllabic
-      ? getWeightedOption(onsetLength.monosyllabic, rand)
-      : getWeightedOption(polysyllabicWeights, rand));
-
-  if (maxLength === 0) return [];
-
-  const toIgnore = prevSyllable
-    ? new Set(prevSyllable.coda.map((coda) => coda.sound))
-    : _emptySet;
-  const prevNucleus = isFollowingNucleus
-    ? prevSyllable.nucleus.at(-1)
-    : undefined;
-  const bannedFirstOnset = prevNucleus
-    ? rt.nucleusRepair.rimes.followingOnset?.get(prevNucleus.sound)
-    : undefined;
-  const boundaryWeights = rt.clusterWeights?.boundary;
-  const previousCoda = boundaryWeights && prevSyllable && lastItem(prevSyllable.coda);
-
-  return buildCluster(rt, {
-    rand,
-    position: "onset",
-    cluster: [],
-    clusterSounds: [],
-    ignoreSet: toIgnore,
-    isStartOfWord,
-    isEndOfWord: false,
-    syllableCount,
-    maxLength,
-    followingOpenNucleus: !!isFollowingNucleus,
-    bannedFirstOnset,
-    firstOnsetWeights: previousCoda && boundaryWeights?.get(previousCoda.sound),
-  });
-}
-
-function tripleNucleusPenalty(
-  context: WordGenerationContext,
-): ClusterContext["repetitionPenalty"] {
-  const policy = context.rootRepetition;
-  const multiplier = policy?.tripleNucleusMultiplier;
-  if (multiplier === undefined || multiplier === 1 || context.currSyllableIndex < 2
-    || context.syllableCount < (policy?.minimumNucleusSyllables ?? 3)) return;
-  const { syllables } = context.word;
-  const sound = syllables[context.currSyllableIndex - 1].nucleus[0]?.sound;
-  if (sound && sound === syllables[context.currSyllableIndex - 2].nucleus[0]?.sound) {
-    return { sound, multiplier };
-  }
-}
-
-function matchingCodaPenalty(
-  policy: LanguageConfig["rootRepetition"],
-  onset: readonly Phoneme[],
-): ClusterContext["repetitionPenalty"] {
-  const sound = lastItem(onset)?.sound;
-  if (!policy || !sound) return;
-  const overrides = policy.matchingCodaOverrides;
-  const multiplier = overrides && Object.hasOwn(overrides, sound)
-    ? overrides[sound]
-    : policy.matchingCodaMultiplier;
-  if (multiplier !== undefined && multiplier !== 1) return { sound, multiplier };
-}
-
-function pickNucleus(
-  rt: GeneratorRuntime,
-  context: WordGenerationContext,
-  isStartOfWord: boolean,
-  isEndOfWord: boolean,
-  onset: readonly Phoneme[],
-  plannedCodaLength: number,
-): Phoneme[] {
-  return buildCluster(rt, {
-    rand: context.rand,
-    position: "nucleus",
-    cluster: [],
-    clusterSounds: [],
-    ignoreSet: _emptySet,
-    isStartOfWord,
-    isEndOfWord,
-    nucleusWordEdges: {
-      initial: isStartOfWord && onset.length === 0,
-      final: isEndOfWord && plannedCodaLength === 0,
+  return {
+    ...selection,
+    segmentEngine: createLegacyWeightedEngine(selection),
+    nucleusRepair,
+    resolvedStress,
+    resolvedPronunciation,
+    sonorityBySound,
+    phonemeBySound,
+    generateWrittenForm,
+    applyGapSpellings,
+    doubleMedialOnset: createMedialOnsetDoubler(config),
+    bannedSet,
+    clusterRepair: config.clusterConstraint?.repair,
+    sonorityConstraints: sc,
+    onsetPrependerSet: cl?.onsetPrependers
+      ? new Set(cl.onsetPrependers)
+      : undefined,
+    sonorityExemptSet: sc?.exempt ? new Set(sc.exempt) : undefined,
+    rootLengthPolicy: {
+      phonemeLengthWeights: config.phonemeLengthWeights,
+      phonemeToSyllableWeights: config.phonemeToSyllableWeights,
+      maxOnsetLength: cl?.maxOnset ?? config.syllableStructure.maxOnsetLength,
+      maxCodaLength: cl?.maxCoda ?? config.syllableStructure.maxCodaLength,
     },
-    forbidOpenCheckedFinal: rt.nucleusRepair.forbidOpenCheckedFinal,
-    excludedAfterOnset: excludedAfterOnset(onset, "nucleus", rt.nucleusRepair.rimes.onsetRime),
-    maxLength: 1,
-    syllableCount: context.syllableCount,
-    repetitionPenalty: tripleNucleusPenalty(context),
-  });
-}
-
-function codaExtensionRejection(
-  candidate: Phoneme,
-  rt: GeneratorRuntime,
-  context: ClusterContext,
-): CodaExtensionRejectionReason | undefined {
-  const reason = clusterCandidateRejection(candidate, rt, context, "extension");
-  if (reason) return reason;
-  if (
-    !rt.clusterLimits &&
-    context.cluster.length + 1 > rt.config.syllableStructure.maxCodaLength
-  )
-    return "length";
-  if (rt.allowedFinalSet && !rt.allowedFinalSet.has(candidate.sound))
-    return "word-final";
-  // A completed extension must be licensed itself, not merely lead toward a
-  // longer listed cluster which this operation will never finish building.
-  if (rt.attestedCodaSet && context.cluster.length > 0) {
-    const completed = [...context.clusterSounds, candidate.sound].join("|");
-    if (!rt.attestedCodaSet.has(completed)) return "attestation";
-  }
-  return undefined;
-}
-
-function canExtendCoda(
-  candidate: Phoneme,
-  rt: GeneratorRuntime,
-  clusterContext: ClusterContext,
-  context: WordGenerationContext,
-  extension: "finalS" | "nasalStopExtension",
-): boolean {
-  const reason = codaExtensionRejection(candidate, rt, clusterContext);
-  if (!reason) return true;
-  context.trace?.recordStructural({
-    event: "codaExtensionRejected",
-    extension,
-    candidate: candidate.sound,
-    coda: [...clusterContext.clusterSounds],
-    reason,
-    syllableIndex: context.currSyllableIndex,
-  });
-  return false;
-}
-
-function appendCoda(candidate: Phoneme, context: ClusterContext): void {
-  context.cluster.push(candidate);
-  context.clusterSounds.push(candidate.sound);
-}
-
-/** Validate corpus choices against the audited whitelist and the root coda rules. */
-function prepareRootFinalCodas(
-  rt: GeneratorRuntime,
-  weights: Readonly<Record<string, number>>,
-): FinalCodasByNucleus {
-  const clusters = Object.entries(weights).map(([key, weight]) => ({
-    sounds: key.split(","), weight,
-  }));
-  const audited = clusters.map(choice => choice.sounds);
-  const codaRuntime: GeneratorRuntime = {
-    ...rt,
-    attestedCodaSet: new Set(audited.map(sounds => sounds.join("|"))),
-    attestedCodaPrefixSet: buildPrefixSet(audited),
   };
-  const codaPhones = new Map(rt.positionPhonemes.coda.map(phoneme => [phoneme.sound, phoneme]));
-  const byNucleus: FinalCodasByNucleus = new Map();
-  for (const nucleus of rt.positionPhonemes.nucleus) {
-    const byLength: Map<number, [Phoneme[], number][]> = new Map();
-    for (const { sounds, weight } of clusters) {
-      const last = sounds[sounds.length - 1];
-      if (rt.allowedFinalSet && !rt.allowedFinalSet.has(last)) continue;
-      const context: ClusterContext = {
-        rand: noDraws("Root-final coda preparation must not consume RNG."),
-        position: "coda",
-        cluster: [],
-        clusterSounds: [],
-        ignoreSet: _emptySet,
-        isStartOfWord: false,
-        isEndOfWord: true,
-        syllableCount: 1,
-        maxLength: sounds.length,
-        nucleus: [nucleus],
-      };
-      for (const sound of sounds) {
-        // A known corpus phone can be unlicensed in coda position (/j/).
-        const phone = codaPhones.get(sound);
-        if (!phone || clusterCandidateRejection(phone, codaRuntime, context, "audited")) break;
-        appendCoda(phone, context);
-      }
-      if (context.cluster.length !== sounds.length) continue;
-      const choices = byLength.get(sounds.length) ?? [];
-      choices.push([context.cluster, weight]);
-      byLength.set(sounds.length, choices);
-    }
-    byNucleus.set(nucleus.sound, byLength);
-  }
-  return byNucleus;
-}
-
-function pickRootFinalCoda(
-  choices: FinalCodasByNucleus,
-  syllable: Syllable,
-  length: number,
-  rt: GeneratorRuntime,
-  context: WordGenerationContext,
-): Phoneme[] {
-  const byLength = choices.get(syllable.nucleus[0].sound);
-  const excluded = excludedAfterOnset(syllable.onset, "coda", rt.nucleusRepair.rimes.onsetRime);
-  const listed = byLength?.get(length) ?? byLength?.get(1);
-  let options = excluded
-    ? listed?.filter(([coda]) => !coda.some((phoneme) => excluded.has(phoneme.sound)))
-    : listed;
-  const penalty = matchingCodaPenalty(context.rootRepetition, syllable.onset);
-  if (penalty && options) {
-    options = weightMatchingCoda(options, (coda) => coda[0].sound, penalty, rt.preservedCodaInitials);
-  }
-  // Underfill an impossible shape so the existing root selection can retry.
-  return options?.length ? getWeightedOption(options, context.rand).slice() : [];
-}
-
-function pickCoda(
-  rt: GeneratorRuntime,
-  context: WordGenerationContext,
-  newSyllable: Syllable,
-  isEndOfWord: boolean,
-  monosyllabic: boolean,
-  targetLength?: number,
-): Phoneme[] {
-  // In plan-driven mode (targetLength set), suppress count-mutating extensions
-  // when the coda already matches the plan. This avoids burning retries on
-  // overshoots while still allowing mutations when the cluster builder
-  // under-fills (giving mutations a chance to close the gap).
-  const planDriven = targetLength !== undefined;
-  const syllableCount = context.syllableCount;
-  const onsetLen = newSyllable.onset.length;
-  const { codaLength, probability } = rt.config.generationWeights;
-
-  const weights: [number, number][] = monosyllabic
-    ? codaLength.monosyllabic[onsetLen] ?? codaLength.monosyllabicDefault
-    : [
-      [
-        0,
-        isEndOfWord
-          ? codaLength.zeroWeightEndOfWord
-          : codaLength.zeroWeightMidWord,
-      ],
-      ...codaLength.polysyllabicNonzero,
-    ];
-
-  const rand = context.rand;
-  const maxLength: number = targetLength ?? getWeightedOption(weights, rand);
-  if (maxLength === 0) return [];
-
-  const codaContext: ClusterContext = {
-    rand: context.rand,
-    position: "coda",
-    cluster: [],
-    clusterSounds: [],
-    ignoreSet: _emptySet,
-    isStartOfWord: false,
-    isEndOfWord,
-    syllableCount,
-    maxLength,
-    nucleus: newSyllable.nucleus,
-    repetitionPenalty: matchingCodaPenalty(context.rootRepetition, newSyllable.onset),
-    excludedAfterOnset: excludedAfterOnset(
-      newSyllable.onset,
-      "coda",
-      rt.nucleusRepair.rimes.onsetRime,
-    ),
-  };
-  const coda = buildCluster(rt, codaContext);
-
-  // Extend word-final singleton nasal codas with their voiced homorganic stop
-  // In plan-driven mode, allow mutations when coda under-filled OR exactly at
-  // target (since mutations close the gap toward the phoneme count target —
-  // the outer loop will reject if the total overshoots).
-  const nasalExt = probability.nasalStopExtension ?? 0;
-  const allowMutations = !planDriven || coda.length <= targetLength;
-  if (
-    allowMutations &&
-    isEndOfWord &&
-    nasalExt > 0 &&
-    coda.length === 1 &&
-    coda[0].mannerOfArticulation === "nasal" &&
-    coinFlip(rand, nasalExt)
-  ) {
-    const nasal = coda[0];
-    const stops = rt.positionPhonemes.coda.filter(
-      (candidate) =>
-        isStop(candidate) &&
-        candidate.voiced &&
-        candidate.placeOfArticulation === nasal.placeOfArticulation &&
-        canExtendCoda(
-          candidate,
-          rt,
-          codaContext,
-          context,
-          "nasalStopExtension",
-        ),
-    );
-    if (stops.length > 0) {
-      const stop =
-        stops.length === 1 ? stops[0] : selectPhoneme(stops, codaContext, rt);
-      if (stop) {
-        appendCoda(stop, codaContext);
-        context.trace?.recordStructural({
-          event: "nasalStopExtension",
-          nasal: nasal.sound,
-          appendedStop: stop.sound,
-          probability: nasalExt,
-          syllableIndex: context.currSyllableIndex,
-        });
-      }
-    }
-  }
-
-  if (allowMutations && isEndOfWord) {
-    let finalSProbability = probability.finalS;
-    let shouldSkipFinalS = false;
-
-    if (coda.length > 0 && rt.clusterWeights?.coda) {
-      const weightMap = getClusterWeightMap(
-        rt.clusterWeights.coda,
-        isEndOfWord,
-      );
-
-      const weight = findClusterWeightMultiplier(
-        codaContext.clusterSounds,
-        "s",
-        weightMap,
-      );
-      if (weight !== NO_CLUSTER_WEIGHT) {
-        finalSProbability *= weight;
-        shouldSkipFinalS = weight < 0.01;
-      }
-    }
-
-    if (!shouldSkipFinalS && coinFlip(rand, finalSProbability)) {
-      const sPhoneme = rt.positionPhonemes.coda.find(
-        (phoneme) => phoneme.sound === "s",
-      );
-      if (
-        sPhoneme &&
-        canExtendCoda(sPhoneme, rt, codaContext, context, "finalS")
-      ) {
-        appendCoda(sPhoneme, codaContext);
-        const clusterWeightApplied = finalSProbability !== probability.finalS;
-        context.trace?.recordStructural({
-          event: "finalS",
-          probability: finalSProbability,
-          clusterWeightApplied: clusterWeightApplied || undefined,
-          clusterWeight:
-            clusterWeightApplied && probability.finalS > 0
-              ? finalSProbability / probability.finalS
-              : undefined,
-          syllableIndex: context.currSyllableIndex,
-        });
-      }
-    }
-  }
-
-  return coda;
-}
-
-// ---------------------------------------------------------------------------
-// Boundary adjustment
-// ---------------------------------------------------------------------------
-
-/**
- * Adjusts two adjacent syllables based on sonority and phonological rules.
- *
- * Two checks, applied in sequence:
- * 1. Equal-sonority boundary drop (original): 90% chance to drop coda-final
- *    when it has the same fine-grained sonority as the onset-initial.
- * 2. Full-cluster SSP validation: if the combined coda+onset cluster violates
- *    the Sonority Sequencing Principle (using coarse manner-class groupings),
- *    drop coda phonemes until the cluster is valid. This prevents impossible
- *    consonant clusters from ever reaching the write phase.
- */
-function adjustBoundary(
-  rt: GeneratorRuntime,
-  prevSyllable: Syllable,
-  currentSyllable: Syllable,
-  rand: RNG,
-  rightSyllableIndex: number,
-  trace?: TraceCollector,
-): [Syllable, Syllable] {
-  const leftSyllableIndex = rightSyllableIndex - 1;
-  const lastCodaPhoneme = prevSyllable.coda.at(-1);
-  const firstOnsetPhoneme = currentSyllable.onset[0];
-
-  if (!lastCodaPhoneme || !firstOnsetPhoneme)
-    return [prevSyllable, currentSyllable];
-
-  const lastCodaSonority = getSonority(rt, lastCodaPhoneme);
-  const firstOnsetSonority = getSonority(rt, firstOnsetPhoneme);
-  const { equalSonorityDrop, risingCodaDrop } =
-    rt.config.generationWeights.boundaryPolicy;
-  if (
-    firstOnsetSonority === lastCodaSonority &&
-    coinFlip(rand, equalSonorityDrop)
-  ) {
-    trace?.recordStructural({
-      event: "boundaryDrop",
-      dropped: lastCodaPhoneme.sound,
-      beforeOnset: firstOnsetPhoneme.sound,
-      equalSonority: lastCodaSonority,
-      probability: equalSonorityDrop,
-      leftSyllableIndex,
-      rightSyllableIndex,
-    });
-    prevSyllable.coda.pop();
-  }
-
-  if (
-    prevSyllable.coda.length > 0 &&
-    currentSyllable.onset.length > 0 &&
-    hasRisingCodaTowardBoundary(prevSyllable.coda, rt.config) &&
-    coinFlip(rand, risingCodaDrop)
-  ) {
-    const preDropCoda = prevSyllable.coda.map((p) => p.sound);
-    const dropped = prevSyllable.coda.pop()!;
-    trace?.recordStructural({
-      event: "risingCodaBoundaryDrop",
-      dropped: dropped.sound,
-      preDropCoda,
-      remainingCoda: prevSyllable.coda.map((p) => p.sound),
-      onset: currentSyllable.onset.map((p) => p.sound),
-      probability: risingCodaDrop,
-      leftSyllableIndex,
-      rightSyllableIndex,
-    });
-  }
-
-  const maxDrops = prevSyllable.coda.length;
-  for (let d = 0; d < maxDrops; d++) {
-    if (prevSyllable.coda.length === 0) break;
-    if (validateJunction(prevSyllable.coda, currentSyllable.onset, rt.config))
-      break;
-    const violation = classifySspViolation(
-      prevSyllable.coda,
-      currentSyllable.onset,
-      rt.config,
-    );
-    const preDropCoda = prevSyllable.coda.map((p) => p.sound);
-    const dropped = prevSyllable.coda.pop()!;
-    if (violation) {
-      trace?.recordStructural({
-        event: "sspBoundaryDrop",
-        dropped: dropped.sound,
-        preDropCoda,
-        remainingCoda: prevSyllable.coda.map((p) => p.sound),
-        onset: currentSyllable.onset.map((p) => p.sound),
-        violation,
-        leftSyllableIndex,
-        rightSyllableIndex,
-      });
-      continue;
-    }
-    trace?.recordStructural({
-      event: "junctionBoundaryDrop",
-      dropped: dropped.sound,
-      preDropCoda,
-      remainingCoda: prevSyllable.coda.map((p) => p.sound),
-      onset: currentSyllable.onset.map((p) => p.sound),
-      leftSyllableIndex,
-      rightSyllableIndex,
-    });
-  }
-
-  return [prevSyllable, currentSyllable];
 }
 
 // ---------------------------------------------------------------------------
@@ -1610,56 +578,6 @@ function distributePhonemes(
   return tweakConsonantPlanToBudget(rt, plan, targetConsonants, rand, edges);
 }
 
-function generateSyllable(
-  rt: GeneratorRuntime,
-  context: WordGenerationContext,
-  syllablePlan: SyllableShapePlan,
-  mode: GenerationMode,
-): Syllable {
-  const isEndOfWord = context.currSyllableIndex === context.syllableCount - 1;
-  const isStartOfWord = context.currSyllableIndex === 0;
-  const syllableCount = context.syllableCount;
-  const monosyllabic = syllableCount === 1;
-
-  const newSyllable: Syllable = {
-    onset: [],
-    nucleus: [],
-    coda: [],
-  };
-
-  if (syllablePlan.onsetLength > 0) {
-    newSyllable.onset = pickOnset(
-      rt,
-      context,
-      isStartOfWord,
-      monosyllabic,
-      syllablePlan.onsetLength,
-    );
-  }
-
-  newSyllable.nucleus = pickNucleus(
-    rt,
-    context,
-    isStartOfWord,
-    isEndOfWord,
-    newSyllable.onset,
-    syllablePlan.codaLength,
-  );
-  if (newSyllable.nucleus.length === 0)
-    throw new Error(
-      "No eligible nucleus for the planned base-word segment position.",
-    );
-
-  if (syllablePlan.codaLength > 0) {
-    const finalChoices = isEndOfWord ? rt.rootFinalCodas[mode] : undefined;
-    newSyllable.coda = finalChoices
-      ? pickRootFinalCoda(finalChoices, newSyllable, syllablePlan.codaLength, rt, context)
-      : pickCoda(rt, context, newSyllable, isEndOfWord, monosyllabic, syllablePlan.codaLength);
-  }
-
-  return newSyllable;
-}
-
 type PlannedRootContext = WordGenerationContext & {
   targetPhonemeCount: number;
   syllablePlans: SyllableShapePlan[];
@@ -1671,81 +589,6 @@ type PlannedRootContext = WordGenerationContext & {
  * that attempt's streams with {@link inStage}.
  */
 type AttemptContext = PlannedRootContext & StreamContext;
-
-function generateSyllables(
-  rt: GeneratorRuntime,
-  context: PlannedRootContext,
-  mode: GenerationMode,
-): void {
-  if (context.syllablePlans.length !== context.syllableCount) {
-    throw new Error(
-      `Top-down syllable plan mismatch: expected ${context.syllableCount}, got ${context.syllablePlans.length}`,
-    );
-  }
-
-  // Use context.word.syllables directly so generateSyllable can see
-  // previous syllables (needed for post-vowel onset weighting in pickOnset).
-  context.word.syllables = new Array(context.syllableCount);
-  let prevSyllable: Syllable | undefined;
-
-  for (let i = 0; i < context.syllableCount; i++) {
-    const syllablePlan = context.syllablePlans[i];
-    let newSyllable = generateSyllable(rt, context, syllablePlan, mode);
-
-    if (prevSyllable) {
-      [prevSyllable, newSyllable] = adjustBoundary(
-        rt,
-        prevSyllable,
-        newSyllable,
-        context.rand,
-        i,
-        context.trace,
-      );
-    }
-
-    context.word.syllables[i] = newSyllable;
-    prevSyllable = newSyllable;
-    context.currSyllableIndex++;
-  }
-
-  const syllables = context.word.syllables;
-
-  repairVowelHiatus(rt, syllables, context.rand, context.trace);
-
-  context.word.syllables = syllables;
-}
-
-/**
- * Insert a neutral onset to break vowel hiatus at syllable boundaries.
- *
- * When two consecutive syllables have no consonant between them (prev has no
- * coda, current has no onset), /h/ is inserted as a fallback onset of the
- * second syllable.
- */
-function repairVowelHiatus(
-  rt: GeneratorRuntime,
-  syllables: Syllable[],
-  rand: RNG,
-  trace?: TraceCollector,
-): void {
-  if (rt.bridgePhonemeOptions.length === 0) return;
-
-  for (let i = 1; i < syllables.length; i++) {
-    const prev = syllables[i - 1];
-    const curr = syllables[i];
-
-    if (prev.coda.length === 0 && curr.onset.length === 0) {
-      const bridge = getWeightedOption(rt.bridgePhonemeOptions, rand);
-      curr.onset.unshift(bridge);
-      trace?.recordStructural({
-        event: "vowelHiatusFallback",
-        inserted: bridge.sound,
-        leftSyllableIndex: i - 1,
-        rightSyllableIndex: i,
-      });
-    }
-  }
-}
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -2226,9 +1069,16 @@ function runPipeline(
   const word = context.word;
   const stressRules = rt.resolvedStress;
 
-  inStage(context, "select_segments", () => traceStage(t, "generateSyllables", word, () =>
-    generateSyllables(rt, context, mode),
-  ));
+  const plans = context.syllablePlans;
+  if (plans.length !== context.syllableCount) {
+    throw new Error(`Top-down syllable plan mismatch: expected ${context.syllableCount}, got ${plans.length}`);
+  }
+  inStage(context, "select_segments", () => traceStage(t, "generateSyllables", word, () => {
+    word.syllables = rt.segmentEngine.selectSegments(plans, {
+      mode, rand: context.rand, rootRepetition: context.rootRepetition, trace: t,
+    });
+    context.currSyllableIndex = word.syllables.length;
+  }));
   // The structural repairs take no random stream.
   traceStage(t, "repairClusters", word, () => {
     if (rt.bannedSet)
