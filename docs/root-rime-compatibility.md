@@ -51,7 +51,8 @@ including singleton pools, are preserved. No coda deletion or new sampler is use
 Final lexical stress can promote another root vowel after affix assembly. For
 those existing replacements, compatibility is checked against the retained root
 coda that will be spelled, using the root's offset in the assembled word. The
-existing assembled-word edge eligibility and look-ahead RNG stream are preserved.
+existing assembled-word edge eligibility and the `preview_morphology` stream's draws
+are preserved.
 Affix-only repairs receive no additional pair constraint. This does not promise
 legality of final morphology, vowel alternations, or surface reduction.
 

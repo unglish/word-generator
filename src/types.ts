@@ -346,7 +346,13 @@ export interface WordGenerationOptions {
    * Custom random-number generator. Takes priority over {@link seed} — when
    * both are provided the seed is silently ignored.
    *
-   * Any `() => number` function returning values in [0, 1) is accepted.
+   * Any `() => number` function returning values in [0, 1) is accepted; other
+   * values throw a `RangeError`. Each word takes exactly two values from it as
+   * the word's key, and every generation stage then draws from its own stream
+   * derived from that key (see `docs/stage-random-streams.md`). It picks the
+   * word; it does not make individual choices. Each value is read to 32 bits,
+   * so a coarser source limits how many words it can give: a `rand` with 100
+   * distinct values gives at most 10,000.
    */
   rand?: RNG;
   /**
@@ -373,7 +379,10 @@ export interface WordGenerationOptions {
  * @internal
  */
 export interface WordGenerationContext {
-  /** Per-word RNG instance — all randomness in the pipeline draws from this. */
+  /**
+   * The running stage's random stream. Generation points it at each stage's
+   * own stream in turn (see `src/core/stage-streams.ts`).
+   */
   rand: RNG;
   /** The word being built. */
   word: Word;

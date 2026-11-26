@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord, generateWords } from "../index.js";
 import type { Syllable } from "../types.js";
 import { weightMatchingCoda } from "./root-repetition.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
+import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
 function hasNucleusTriple(syllables: readonly Syllable[]): boolean {
   return syllables.some(({ nucleus }, index) => {
@@ -35,17 +37,17 @@ describe("root repetition weights", () => {
       .toThrow(/rootRepetition.preserveCodaInitials/);
   });
 
-  it("does not apply the lexicon policy to text mode", () => {
+  it("does not apply the lexicon policy to text mode output or stage draws", () => {
     const withoutPolicy = createGenerator({ ...englishConfig, rootRepetition: undefined });
     const rand = createSeededRng(503);
     const withoutPolicyRand = createSeededRng(503);
     for (let index = 0; index < 100; index++) {
-      const word = generateWord({ mode: "text", rand, trace: true });
-      expect(word).toEqual(withoutPolicy.generateWord({
-        mode: "text", rand: withoutPolicyRand, trace: true,
-      }));
+      expectSameWordsAndDraws(
+        () => generateWord({ mode: "text", rand, trace: true }),
+        () => withoutPolicy.generateWord({ mode: "text", rand: withoutPolicyRand, trace: true }),
+        `word ${index}`,
+      );
     }
-    expect(rand()).toBe(withoutPolicyRand());
   });
 
   it("keeps seeded root consonant matches rare while retaining attested patterns", () => {
@@ -79,7 +81,7 @@ describe("root repetition weights", () => {
     expect(triples / count).toBeLessThan(syllableCount === 4 ? 0.035 : 0.06);
   }, 30_000);
 
-  it("leaves lexical words and the RNG stream identical when only reduction changes", () => {
+  it("leaves lexical words and stage draws identical when only reduction changes", () => {
     const withoutReductionPenalty = createGenerator({
       ...englishConfig,
       rootRepetition: { ...englishConfig.rootRepetition, tripleReductionMultiplier: 1 },
@@ -89,15 +91,16 @@ describe("root repetition weights", () => {
     const weightedRand = createSeededRng(497);
     let triplesBroken = 0;
     for (let index = 0; index < 400; index++) {
-      const ordinary = withoutReductionPenalty.generateWord({ ...options, rand: ordinaryRand });
-      const weighted = generateWord({ ...options, rand: weightedRand });
+      const { value: ordinary, draws: ordinaryDraws } = withStageDraws(() => withoutReductionPenalty.generateWord({ ...options, rand: ordinaryRand }));
+      const { value: weighted, draws: weightedDraws } = withStageDraws(() => generateWord({ ...options, rand: weightedRand }));
       expect(weighted.written).toEqual(ordinary.written);
       expect(weighted.lexical).toEqual(ordinary.lexical);
+      // The multiplier changes each reduction roll's odds, not the number of rolls.
+      expect(weightedDraws, `word ${index}`).toEqual(ordinaryDraws);
       if (hasNucleusTriple(ordinary.syllables) && !hasNucleusTriple(weighted.syllables)) {
         triplesBroken++;
       }
     }
     expect(triplesBroken).toBeGreaterThan(0);
-    expect(weightedRand()).toBe(ordinaryRand());
   });
 });

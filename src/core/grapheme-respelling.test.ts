@@ -44,7 +44,7 @@ describe("respelled grapheme selections (#454)", () => {
   it("explains a respelled word-final ce/se from graphemeSelections alone", () => {
     // Exercise the shared spelling path in text mode, where the longer coda forms still occur.
     const examples: Word[] = [];
-    for (let seed = 0; seed < 22000; seed++) {
+    for (let seed = 0; seed < 22000 && examples.length < 10; seed++) {
       const word = generateWord({ seed, morphology: false, trace: true, mode: "text" });
       const last = word.trace!.graphemeSelections.at(-1)!;
       if (last.phoneme === "s" && ["ce", "se"].includes(last.selected) && last.respelled) examples.push(word);

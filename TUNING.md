@@ -365,9 +365,13 @@ requires an explicit policy adjustment; recalibration cannot authorize it.
 We use k = 3 past the *worst* seed as a conservative engineering margin. Changes
 to RNG consumption can shift the gate's sample, so limits need headroom for seed
 variation. The margin accounts for observed variation but does not establish a
-particular false-failure probability. Non-overlapping RNG segments avoid reused
-draws; they do not prove statistical independence, and extrema across phonemes
-need not be normally distributed.
+particular false-failure probability. Seeds spaced along the RNG cycle give the
+runs distinct word keys, so no word key repeats between runs. They do not keep the
+runs' draws apart: each word's stage streams are other windows on the same
+Mulberry32 cycle, and words in different runs can share a stretch of draws,
+offset ([Per-stage random streams](docs/stage-random-streams.md#stage-streams)).
+Neither proves statistical independence, and extrema across phonemes need not
+be normally distributed.
 
 In the first calibration
 ([record](evaluation/diagnostics/phoneme-threshold-calibration/)), all 10 held-out

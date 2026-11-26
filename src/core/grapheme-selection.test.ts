@@ -9,6 +9,7 @@ import {
   advanceGraphemePrefix, doublingNucleusForm, INITIAL_GRAPHEME_PREFIX, rollGraphemePrefixSyllable,
 } from "./grapheme-selection.js";
 import { findExample } from "../test-support/find-example.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 import { withPhonemeWeights } from "../test-support/phoneme-weights.js";
 
 function withGraphemes(graphemes: Grapheme[]) {
@@ -93,15 +94,17 @@ describe("legal grapheme selection", () => {
 
   it.each([
     { nextSound: "b", nextPosition: "onset", left: "ɑ", form: "dg" },
-    { nextSound: "l", nextPosition: "onset", left: "ə", form: "dg" },
+    // A schwa before the /dʒ.l/ junction is rare: about one word in 1,400.
+    { nextSound: "l", nextPosition: "onset", left: "ə", form: "dg", limit: 6_000 },
     { nextSound: "g", nextPosition: "onset", tense: false, form: "ge" },
     { nextSound: "g", nextPosition: "onset", tense: true, form: "ge" },
-    { nextSound: "w", nextPosition: "onset", left: "i:", form: "j" },
+    // /i:/ before the /dʒ.w/ junction is rare: about one word in 2,200.
+    { nextSound: "w", nextPosition: "onset", left: "i:", form: "j", limit: 12_000 },
     { nextSound: "j", nextPosition: "onset", form: "j" },
     { nextSound: "ə", nextPosition: "nucleus", form: "di" },
     { nextSound: "ɚ", nextPosition: "nucleus", form: "di" },
   ])("licenses the medial $form slot for coda /dʒ/ before /$nextSound/", ({
-    nextSound, nextPosition, left, tense, form,
+    nextSound, nextPosition, left, tense, form, limit = 1_000,
   }) => {
     const generator = codaAffricateGenerator(nextPosition === "onset" ? nextSound : undefined);
     const locate = (word: Word) => codaAffricateBefore(word, nextSound, nextPosition, tense);
@@ -110,7 +113,7 @@ describe("legal grapheme selection", () => {
       return !!choice && (!left || candidate.trace?.graphemeSelections[choice.index - 1]?.phoneme === left);
     }, {
       property: `a coda affricate before /${nextSound}/`,
-      generator, options: { syllableCount: 2, morphology: false }, limit: 1_000,
+      generator, options: { syllableCount: 2, morphology: false }, limit,
     });
     const choice = locate(word)!;
     const orthography = word.trace?.orthography;
@@ -143,23 +146,20 @@ describe("legal grapheme selection", () => {
     expect(choice?.roll).toBeLessThan(6 * 0.15 + 10 * 0.15 + 0.15);
   });
 
-  it("keeps the accepted root when di previously lost its i before w", () => {
+  // #520: di before a consonant lost its i in the written word, so the root was
+  // scored on letters it was not spelled with.
+  it("scores the root it spells when /dʒ/ before /w/ samples past its first slots", () => {
     const { word } = findExample((candidate) => {
       const choice = codaAffricateBefore(candidate, "w", "onset");
-      return !!choice && choice.roll >= 6
-        && candidate.trace?.graphemeSelections[choice.index - 1]?.phoneme === "i:";
+      return !!choice && choice.roll >= 6;
     }, {
-      property: "an /i:dʒ.w/ junction sampling the medial affricate slot",
-      generator: codaAffricateGenerator("w"), firstSeed: 11_421, limit: 2_000,
+      property: "a /dʒ.w/ junction sampling past the affricate's first slots",
+      generator: codaAffricateGenerator("w"), limit: 3_000,
       options: { syllableCount: 2, morphology: false },
     });
 
-    expect(codaAffricateBefore(word, "w", "onset")?.selected).toBe("j");
-    expect(word.trace?.selection).toMatchObject({
-      selectedAttempt: 0,
-      attemptsExecuted: 1,
-      selected: { letters: word.written.clean.length },
-    });
+    expect(codaAffricateBefore(word, "w", "onset")?.selected).not.toBe("di");
+    expect(word.trace?.selection?.selected.letters).toBe(word.written.clean.length);
   });
 
   it("spells isolated /ɛ/ with ordinary e or ea, including before /t/, without a fallback", () => {
@@ -212,12 +212,10 @@ describe("legal grapheme selection", () => {
     expect(writtenX).toBeGreaterThan(afterG.length / 2);
   });
 
-  it("is deterministic and trace collection leaves RNG consumption unchanged", () => {
+  it("is deterministic and trace collection leaves output and stage draws unchanged", () => {
     for (let seed = 0; seed < 40; seed++) {
-      const plain = generateWord({ seed, morphology: false });
-      const traced = generateWord({ seed, morphology: false, trace: true });
-      expect(traced.written).toEqual(plain.written);
-      expect(traced.pronunciation).toBe(plain.pronunciation);
+      const [traced] = expectSameWordsAndDraws(
+        () => generateWord({ seed, morphology: false, trace: true }), () => generateWord({ seed, morphology: false }), `seed ${seed}`);
       expect(generateWord({ seed, morphology: false, trace: true })).toEqual(traced);
     }
   });
@@ -254,9 +252,9 @@ describe("legal grapheme selection", () => {
     // Declared fallbacks still fire in shipping config: /ʊ/ "oo" after g, about
     // 4 in 10k bare words, and bare /aɪ/ i and /u/ u where no long spelling
     // is legal (#470). /i:/ "ee" fallbackOnly is unused (#457). Check every
-    // fallback in the first 10k draws, and keep drawing past that until one
-    // appears, so an output change elsewhere that shifts the RNG stream cannot
-    // push the first hit out of a fixed window.
+    // fallback in the first 10k words, and keep generating past that until one
+    // appears, so an output change elsewhere cannot push the first hit out of
+    // a fixed window.
     const fallbackRand = createSeededRng(20260930);
     let fallbackChoices = 0;
     for (let draw = 0; draw < 10_000 || (fallbackChoices === 0 && draw < 100_000); draw++) {

@@ -1,11 +1,12 @@
 import { spellingBoundaryContexts } from "./spelling-context.js";
 import { describe, expect, it } from "vitest";
-import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
+import { createGenerator, englishConfig, generateWord } from "../index.js";
 import type { Grapheme, Phoneme } from "../types.js";
 import type { LanguageConfig } from "../config/language.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
 import { verifyBaseSpellingEvidence } from "./spelling-evidence.js";
 import { findExample } from "../test-support/find-example.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 import { BaseSpelling } from "./base-spelling.js";
 import { createSpellingCoveragePlanner, SPELLING_COVERAGE_SEARCH_LIMIT } from "./spelling-coverage.js";
 import type { SpellingChoiceState } from "./spelling-coverage.js";
@@ -353,16 +354,12 @@ describe("whole-unit spelling budgets", () => {
     expect(() => verifyBaseSpellingEvidence(word.trace!.baseSpelling!, englishConfig)).not.toThrow();
   });
 
-  it("keeps trace on/off output and RNG-call parity with active policy", () => {
-    const on = createSeededRng(129); const off = createSeededRng(129); let a = 0; let b = 0;
-    for (let draw = 0; draw < 200; draw++) {
-      const traced = generateWord({ rand: () => { a++; return on(); }, trace: true, morphology: draw % 2 === 0 });
-      const plain = generateWord({ rand: () => { b++; return off(); }, morphology: draw % 2 === 0 });
+  it("keeps trace on/off output and stage draws equal with active policy", () => {
+    for (let seed = 129; seed < 129 + 200; seed++) {
+      const options = { seed, morphology: seed % 2 === 0 };
+      const [traced] = expectSameWordsAndDraws(() => generateWord({ ...options, trace: true }), () => generateWord(options), `seed ${seed}`);
       verifyBaseSpellingEvidence(traced.trace!.baseSpelling!, englishConfig);
-      delete traced.trace;
-      expect(traced).toEqual(plain); expect(a).toBe(b);
     }
-    expect(on()).toBe(off());
   });
 });
 

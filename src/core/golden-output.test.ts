@@ -9,7 +9,7 @@ import {
 describe("golden output", () => {
   const recorded = JSON.parse(readFileSync(GOLDEN_FIXTURE_URL, "utf8")) as GoldenOutput;
   const current = captureGoldenOutput();
-  const hint = `Generated output changed. If that is intended, run \`${GOLDEN_UPDATE_COMMAND}\` and commit the reviewed fixture diff.`;
+  const hint = `Generated output or stage draw counts changed. If that is intended, run \`${GOLDEN_UPDATE_COMMAND}\` and commit the reviewed fixture diff; see CONTRIBUTING.md on what a moved draw count means.`;
 
   it.each(current.cases.map(golden => [golden.name, golden] as const))("matches the recorded words for %s", (name, golden) => {
     const expected = recorded.cases.find(entry => entry.name === name);

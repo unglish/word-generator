@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
+import { createGenerator, englishConfig, generateWord } from "../index.js";
 import type { LanguageConfig } from "../config/language.js";
 import type { Phoneme, Syllable, Word } from "../types.js";
 import { isNucleusWordPositionAllowed, nucleusWordEdges } from "./nucleus-position.js";
 import { findExample } from "../test-support/find-example.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 
 const foot = englishConfig.phonemes.find(p => p.sound === "ʊ")!;
 const goose = englishConfig.phonemes.find(p => p.sound === "u")!;
@@ -153,18 +154,11 @@ describe("literal nucleus edges", () => {
     expect(() => createGenerator(fixedShape([invalid, goose], 1, 1))).toThrow(/nucleusWordPosition.final/);
   });
 
-  it.each([false, true])("preserves trace/no-trace outputs and RNG with morphology=%s", morphology => {
-    const plain = createSeededRng(835167);
-    const traced = createSeededRng(835167);
-    let plainCalls = 0, tracedCalls = 0;
-    for (let draw = 0; draw < 1_000; draw++) {
-      const first = generateWord({ rand: () => { plainCalls++; return plain(); }, morphology });
-      const second = generateWord({ rand: () => { tracedCalls++; return traced(); }, morphology, trace: true });
-      const { trace, ...output } = second;
-      expect(trace).toBeDefined();
-      expect(output).toEqual(first);
+  it.each([false, true])("preserves trace/no-trace outputs and stage draws with morphology=%s", morphology => {
+    for (let seed = 835167; seed < 835167 + 1_000; seed++) {
+      const [traced] = expectSameWordsAndDraws(
+        () => generateWord({ seed, morphology, trace: true }), () => generateWord({ seed, morphology }), `seed ${seed}`);
+      expect(traced.trace).toBeDefined();
     }
-    expect(plainCalls).toBe(tracedCalls);
-    expect(plain()).toBe(traced());
   });
 });

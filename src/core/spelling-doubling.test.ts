@@ -50,6 +50,32 @@ describe("sound-specific doubling support", () => {
       expect(model.describe(input, 0)).toMatchObject({ kind: "fixed", reason: "in-cluster" });
     }
   });
+  // The written-word tests for these two guards depended on seeded words; these
+  // describe the slot directly.
+  it("keeps a medial onset single before a tense vowel, without a draw", () => {
+    const phoneme = (sound: string) => englishConfig.phonemes.find(p => p.sound === sound)!;
+    const before = (vowel: string) => slot("l", "l", {
+      position: "onset", nextNucleus: phoneme(vowel), isLastPhoneme: false, isEndOfWord: false, isMonosyllabic: false,
+    });
+    const model = createDoublingModel(config);
+    expect(model.describe(before("i:"), 0)).toMatchObject({ kind: "fixed", reason: "suppress-before-tense", countIncrement: 0 });
+    expect(model.sample(before("i:"), { doublingCount: 0 }, () => { throw new Error("Unexpected RNG draw"); })).toBe("l");
+    expect(model.describe(before("ɪ"), 0)).toMatchObject({ kind: "probabilistic", doubledForm: "ll" });
+    expect(createDoublingModel({ ...config, suppressBeforeTense: false }).describe(before("i:"), 0))
+      .toMatchObject({ kind: "probabilistic", doubledForm: "ll" });
+  });
+  it("doubles in the final syllable only the sounds finalDoublingOnly lists", () => {
+    const { finalDoublingOnly } = englishConfig.doubling!;
+    expect(finalDoublingOnly).toContain("l");
+    expect(finalDoublingOnly).not.toContain("d");
+    const onset = (sound: string, isEndOfWord: boolean) => slot(sound, sound, {
+      position: "onset", isLastPhoneme: false, isEndOfWord, isMonosyllabic: false,
+    });
+    const model = createDoublingModel({ ...config, finalDoublingOnly });
+    expect(model.describe(onset("d", true), 0)).toMatchObject({ kind: "fixed", reason: "final-doubling-only" });
+    expect(model.describe(onset("l", true), 0)).toMatchObject({ kind: "probabilistic", doubledForm: "ll" });
+    expect(model.describe(onset("d", false), 0)).toMatchObject({ kind: "probabilistic", doubledForm: "dd" });
+  });
   it("retains quota and failed-roll accounting", () => {
     const model = createDoublingModel({ ...config, probability: 50 });
     const state = { doublingCount: 0 }; let draws = 0;

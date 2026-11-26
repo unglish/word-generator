@@ -3,6 +3,7 @@ import { createGenerator, createSeededRng, englishConfig, generateWord, generate
 import type { MorphHiatusDecisionTrace } from "../../index.js";
 import type { Affix, LanguageConfig, MorphologyConfig } from "../../config/language.js";
 import type { Grapheme, Word } from "../../types.js";
+import { expectSameWordsAndDraws } from "../../test-support/expect-same-draws.js";
 
 function fixedBoundary(options: {
   prefix?: string; suffix?: string; onset?: string; coda?: string;
@@ -125,19 +126,9 @@ describe("morphological vowel adjacency", () => {
     expect(decisions(fixedBoundary({ suffix: "ing", policy: {} }))).toMatchObject([{ outcome: "inserted", inserted: "h" }]);
   });
 
-  it("keeps tracing observational across a continuous public-API stream", () => {
-    const first = createSeededRng(20260926);
-    const second = createSeededRng(20260926);
-    let firstCalls = 0;
-    let secondCalls = 0;
-    const tracedRand = () => { firstCalls++; return first(); };
-    const plainRand = () => { secondCalls++; return second(); };
-    for (let i = 0; i < 2000; i++) {
-      const traced = generateWord({ rand: tracedRand, trace: true });
-      const plain = generateWord({ rand: plainRand });
-      expect({ ...traced, trace: undefined }).toEqual(plain);
+  it("keeps tracing observational for output and stage draws over 2,000 public-API words", () => {
+    for (let seed = 20260926; seed < 20260926 + 2000; seed++) {
+      expectSameWordsAndDraws(() => generateWord({ seed, trace: true }), () => generateWord({ seed }), `seed ${seed}`);
     }
-    expect(firstCalls).toBe(secondCalls);
-    expect(first()).toBe(second());
   });
 });

@@ -109,7 +109,7 @@ describe("generateWord RNG priority", () => {
     // (tiny chance of collision, but astronomically unlikely)
   });
 
-  it("custom rand function is used for generation", () => {
+  it("custom rand function keys the word with two draws", () => {
     let callCount = 0;
     const seededRng = createSeededRng(42);
     const countingRng = () => {
@@ -117,8 +117,8 @@ describe("generateWord RNG priority", () => {
       return seededRng();
     };
 
-    generateWord({ rand: countingRng });
-    expect(callCount).toBeGreaterThan(0);
+    expect(generateWord({ rand: countingRng })).toEqual(generateWord({ seed: 42 }));
+    expect(callCount).toBe(2);
   });
 
   it("interleaved seeded calls do not interfere", () => {

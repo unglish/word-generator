@@ -40,10 +40,12 @@ Historical traces without decision events have unknown opportunity counts, even
 when their existing events show that insertion occurred.
 
 When a custom policy enables insertion, the bridge draw comes from the
-per-attempt look-ahead stream, so it never shifts root selection directly.
-Disabling it removes that draw, which reshuffles later look-ahead choices. This
-is why seeded affixed outputs eventually diverge from earlier releases, not
-only at the boundary.
+attempt's `preview_morphology` stream (see
+[`stage-random-streams.md`](./stage-random-streams.md)), so it never shifts root
+selection directly. Disabling it removes that draw, which reshuffles later
+look-ahead choices in the same attempt but no other stage's draws. A changed
+look-ahead can still change which attempt is selected, and with it the
+finishing stages' streams.
 
 ## Evidence
 

@@ -9,8 +9,11 @@
  *   npm run calibrate:phonemes -- [--stage roots|fullCmu] [--seeds 42,7,...] [--count 30] [--k 3] [--jobs 8] [--output file.json]
  *
  * Default seeds are 42 plus seeds whose Mulberry32 streams start evenly spaced
- * around the 2^32 cycle, so no two runs share a stretch of the RNG stream. Custom
- * seeds are checked for overlap using the draws each run actually consumed.
+ * around the 2^32 cycle, so no two runs share a stretch of the caller's stream
+ * and no word key repeats between runs. Each word's stage streams are other
+ * windows on the same cycle and can overlap between runs
+ * (docs/stage-random-streams.md). Custom seeds are checked for overlap using the
+ * draws each run actually consumed.
  */
 import { spawn } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -31,8 +34,14 @@ type Stage = "roots" | "fullCmu";
 
 const CYCLE = 2n ** 32n;
 const MULBERRY_INCREMENT = 0x6d2b79f5n;
-/** Lexicon words have used ~86 draws each; the margin lets the pre-run overlap check be conservative. */
-const ESTIMATED_DRAWS_PER_WORD = 100;
+/**
+ * Each word takes exactly two draws from the caller's stream since #556. A
+ * `--generator-root` checkout may predate #556, when a lexicon word took about
+ * 86, so the check before the run assumes the old conservative 100 for any
+ * other checkout. The check after the run uses the draws each run actually took.
+ */
+const DRAWS_PER_WORD = 2;
+const OTHER_CHECKOUT_DRAWS_PER_WORD = 100;
 
 interface Thresholds {
   sampleSize: number;
@@ -248,7 +257,8 @@ async function main() {
   const k = Number(values.k);
   if (!Number.isFinite(k) || k < 0) throw new Error("--k must be a non-negative number.");
 
-  const estimatedDraws = thresholds.sampleSize * ESTIMATED_DRAWS_PER_WORD;
+  const drawsPerWord = generatorRoot === resolve(REPO_ROOT) ? DRAWS_PER_WORD : OTHER_CHECKOUT_DRAWS_PER_WORD;
+  const estimatedDraws = thresholds.sampleSize * drawsPerWord;
   const likelyOverlaps = findOverlaps(seeds.map(seed => ({ seed, draws: estimatedDraws })));
   if (likelyOverlaps.length > 0) {
     throw new Error(`RNG streams would likely overlap (assuming ${estimatedDraws} draws per run):\n${likelyOverlaps.join("\n")}`);

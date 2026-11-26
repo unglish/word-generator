@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Changed
+
+- Each generation stage now draws from its own random stream, derived from a
+  per-word key, the stage name and the root attempt (#556). Changing how one
+  stage draws no longer moves the draws of other stages. Word distributions
+  change only within seed noise, but every seeded output changes once.
+  `WordTrace.random` (`RandomStreamTrace`) records the scheme and the word's
+  key.
+
 ### Fixed
 
 - English writes final `s` spelling /z/ as `zz` before a vowel suffix when
@@ -23,6 +32,12 @@
 
 ### Breaking Changes
 
+- `options.rand` now keys each word instead of feeding individual choices
+  (#556). Each word takes exactly two draws from it, so a custom `rand` such as
+  `() => 0` no longer picks the first option of every weighted choice, and a
+  coarse source limits how many words it can give: each value is read to 32
+  bits, so a `rand` with 100 distinct values gives at most 10,000 words. A
+  value outside [0, 1) from it now throws a `RangeError`.
 - Removed `Grapheme.origin` and the `ORIGINS` export. The codes were unsourced,
   nothing in the generator read them, and a spelling's origin does not
   determine a word's etymology. Generated output is unchanged.

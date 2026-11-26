@@ -116,8 +116,11 @@ in new or updated configs.
 
 ## Writing Tests Against Generated Words
 
-Any change to how many random draws the generator makes moves every later word,
-so tests must not pin a seed or draw index to a particular word.
+Each generation stage draws from its own stream
+([Per-stage random streams](docs/stage-random-streams.md)), so a change to how
+a stage draws moves that stage's later choices in many words, and a new
+derivation scheme moves every word. Tests must therefore not pin a seed or draw
+index to a particular word.
 
 - **Find your example.** A behavior test describes the word it needs and
   searches for it with `findExample(predicate, { property, limit, ... })` from
@@ -131,13 +134,23 @@ so tests must not pin a seed or draw index to a particular word.
   a sign the behavior became unreachable or much rarer, not as a seed to
   re-pick. Keep `limit` a few times the expected gap. If the property is rare
   under English weights, build a narrower config with `createGenerator`.
-- **Prefer relative invariants to counts.** For RNG consumption, compare traced
-  and untraced runs on identical streams instead of asserting a draw count.
+- **Compare stage draws, not caller draws.** To show that a change draws
+  nothing, generate each word with and without it from the same seed, and
+  require identical words and identical per-stage draw counts with
+  `expectSameWordsAndDraws` from `src/test-support/expect-same-draws.ts`. Identical
+  words alone do not show it: a draw added at the end of a stage's stream
+  changes no word. Counting the caller's draws shows nothing either, since
+  every word takes exactly two.
 - **Exact output lives in one place.** `src/core/golden-output.test.ts` checks
-  the first 40 words (spelling, hyphenation, pronunciation and RNG draws) of a
-  few seed/mode/morphology cases against `src/core/golden-output.json`. When a
-  change is meant to alter output, run `npm run golden:update` and review the
-  fixture diff in the PR.
+  the first 40 words (spelling, hyphenation and pronunciation) of a
+  few seed/mode/morphology cases against `src/core/golden-output.json`, and each
+  case's `stageDraws`: every stage's draws on the words' first root attempt.
+  When a change is meant to alter output or how a stage draws, run
+  `npm run golden:update` and review the fixture diff in the PR. A change that
+  adds a draw to one stage moves only that stage's count, and the stages that
+  run after it in the same word. A count that moves in a stage that runs before
+  the changed one means a draw landed in the wrong stream
+  ([Per-stage random streams](docs/stage-random-streams.md#guarantees-and-tests)).
 
 ## Diagnostics Rule (Important)
 

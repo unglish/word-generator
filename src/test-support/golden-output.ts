@@ -2,14 +2,26 @@
  * The one place exact generated output is pinned.
  *
  * `src/core/golden-output.test.ts` compares a fresh capture with the committed
- * fixture; `npm run golden:update` rewrites the fixture. Any change to RNG
- * consumption or weighting is expected to change it: review the diff and
- * regenerate deliberately.
+ * fixture; `npm run golden:update` rewrites the fixture. Any change to how a
+ * stage draws, to the stream derivation or to weighting is expected to change
+ * it: review the diff and regenerate deliberately.
+ *
+ * Each case also records each stage's draws on every word's first root attempt,
+ * which always runs, in the order `ATTEMPT_RUN_ORDER` in `./stage-run-order.ts`
+ * records for its kind of word. A change to one stage therefore leaves the
+ * counts of every stage that runs before it unchanged (`stagesBefore`), and a
+ * count that moves in an earlier stage means a draw moved to the wrong stream.
+ * Totals over all attempts cannot show this: any change that alters output
+ * changes which attempts run, and so every stage's total. The finishing stages
+ * (`FINISHING_STAGES`) draw on the first attempt only when it is selected, so
+ * their counts also move with selection.
  *
  * Not part of the published build (excluded in tsconfig.json).
  */
-import { createSeededRng, generateWords } from "../index.js";
+import { generateWords } from "../index.js";
+import { ATTEMPT_STAGES, WORD_STAGES, type Stage } from "../core/stage-streams.js";
 import type { GenerationMode } from "../types.js";
+import { attemptStageCount, stageCount, withStageDraws } from "./stage-stream-probe.js";
 
 export const GOLDEN_FIXTURE_URL = new URL("../core/golden-output.json", import.meta.url);
 export const GOLDEN_UPDATE_COMMAND = "npm run golden:update";
@@ -36,8 +48,8 @@ export interface GoldenWord {
 }
 
 export interface GoldenCaseOutput extends GoldenCase {
-  /** RNG draws consumed by the whole batch. */
-  rngDraws: number;
+  /** Draws of each stage over the case's words: word stages, and attempt stages on the first attempt. */
+  stageDraws: Partial<Record<Stage, number>>;
   words: GoldenWord[];
 }
 
@@ -48,12 +60,16 @@ export interface GoldenOutput {
 }
 
 function captureCase(golden: GoldenCase): GoldenCaseOutput {
-  const stream = createSeededRng(golden.seed);
-  let rngDraws = 0;
-  const rand = () => { rngDraws++; return stream(); };
-  const words = generateWords(GOLDEN_WORDS_PER_CASE, { rand, mode: golden.mode, morphology: golden.morphology })
-    .map(({ written, pronunciation }) => ({ clean: written.clean, hyphenated: written.hyphenated, pronunciation }));
-  return { ...golden, rngDraws, words };
+  const { value, draws } = withStageDraws(() =>
+    generateWords(GOLDEN_WORDS_PER_CASE, { seed: golden.seed, mode: golden.mode, morphology: golden.morphology }));
+  const stageDraws: Partial<Record<Stage, number>> = {};
+  const counts: Array<[Stage, number]> = [
+    ...WORD_STAGES.map((stage): [Stage, number] => [stage, stageCount(draws, stage)]),
+    ...ATTEMPT_STAGES.map((stage): [Stage, number] => [stage, attemptStageCount(draws, stage, 0)]),
+  ];
+  for (const [stage, count] of counts) if (count > 0) stageDraws[stage] = count;
+  const words = value.map(({ written, pronunciation }) => ({ clean: written.clean, hyphenated: written.hyphenated, pronunciation }));
+  return { ...golden, stageDraws, words };
 }
 
 export function captureGoldenOutput(): GoldenOutput {

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { createSeededRng, englishConfig, generateWord } from "../index.js";
+import { englishConfig, generateWord } from "../index.js";
 import { ipaToArpabet } from "../phonotactic/ipa-to-arpabet.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 import {
   LEGACY_ENGLISH_IDENTITIES, observeCmuToken, observeWordIdentity,
   projectIdentityStress, projectLegacyArpabet,
@@ -88,26 +89,17 @@ describe("phoneme identity contract", () => {
     expect(projectIdentityStress(observeWordIdentity(word(["p"]), options)).structureSupported).toBe(false);
   });
 
-  it("preserves source objects and RNG over 2,000 public API draws", () => {
-    const first = createSeededRng(161616);
-    const second = createSeededRng(161616);
-    let firstCalls = 0;
-    let secondCalls = 0;
-    const a = () => { firstCalls++; return first(); };
-    const b = () => { secondCalls++; return second(); };
-    for (let i = 0; i < 2000; i++) {
-      const observedWord = generateWord({ rand: a, trace: true, morphology: true });
+  it("preserves source objects and stage draws over 2,000 public API draws", () => {
+    for (let seed = 161616; seed < 161616 + 2000; seed++) {
+      const [observedWord] = expectSameWordsAndDraws(
+        () => generateWord({ seed, trace: true, morphology: true }), () => generateWord({ seed, morphology: true }), `seed ${seed}`);
       const before = JSON.stringify(observedWord);
       const observation = observeWordIdentity(observedWord, options);
       expect(observeWordIdentity(observedWord, options)).toEqual(observation);
       projectLegacyArpabet(observation); projectIdentityStress(observation);
       observation.segments[0].stress.raw = "mutated";
       expect(JSON.stringify(observedWord)).toBe(before);
-      const unobservedWord = generateWord({ rand: b, morphology: true });
-      expect({ ...observedWord, trace: undefined }).toEqual(unobservedWord);
     }
-    expect(firstCalls).toBe(secondCalls);
-    expect(first()).toBe(second());
   });
 });
 

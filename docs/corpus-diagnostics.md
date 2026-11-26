@@ -68,8 +68,12 @@ after changing source: the analyzers consume `dist/`. The default sample remains
 five streams of 400,000 words; report titles use the actual requested count.
 Duplicate or invalid seeds and fractional draw counts are rejected. Distinct seeds
 can still select overlapping stretches of the generator's single RNG cycle. The
-default seeds are at least 155 million draws apart, about four times what a
-400,000-word replicate consumes, but custom `--seeds` are not checked for overlap.
+default seeds are at least 155 million draws apart, far more than the 800,000
+draws (two per word) a 400,000-word replicate consumes, but custom `--seeds` are
+not checked for overlap. That spacing keeps word keys distinct between
+replicates, so no word key repeats. Each word's stage streams are other windows on
+the same cycle, so words in different replicates can still share a stretch of
+draws, offset ([Per-stage random streams](./stage-random-streams.md#stage-streams)).
 
 Tests cover absent/zero categories, extreme finite counts, known divergence,
 continuous sampling, trace replay, and persisted report/witness consistency.

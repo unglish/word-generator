@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { createGenerator, createSeededRng, englishConfig, generateWord, generateWords } from "../index.js";
+import { createGenerator, englishConfig, generateWord, generateWords } from "../index.js";
 import type { Word } from "../types.js";
 import { scoreGenerationAttempt } from "./length-semantics.js";
 import { findExample } from "../test-support/find-example.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 
 function phones(word: Word): number {
   return word.syllables.reduce((count, syllable) => count + syllable.onset.length + syllable.nucleus.length + syllable.coda.length, 0);
@@ -57,21 +58,12 @@ describe("complete rejection accounting", () => {
     expect(selection.selectedAttempt).toBe(selection.attemptsExecuted - 1);
   });
 
-  it.each([false, true])("tracing preserves outputs and RNG consumption with morphology=%s", morphology => {
-    const first = createSeededRng(97412);
-    const second = createSeededRng(97412);
-    let firstCalls = 0, secondCalls = 0;
-    const plainRand = () => { firstCalls++; return first(); };
-    const traceRand = () => { secondCalls++; return second(); };
-    for (let index = 0; index < 500; index++) {
-      const plain = generateWord({ rand: plainRand, morphology });
-      const traced = generateWord({ rand: traceRand, morphology, trace: true });
-      const { trace, ...output } = traced;
-      expect(output).toEqual(plain);
-      expect(trace!.selection).toBeDefined();
+  it.each([false, true])("tracing preserves outputs and stage draws with morphology=%s", morphology => {
+    for (let seed = 97412; seed < 97412 + 500; seed++) {
+      const [traced] = expectSameWordsAndDraws(
+        () => generateWord({ seed, morphology, trace: true }), () => generateWord({ seed, morphology }), `seed ${seed}`);
+      expect(traced.trace!.selection).toBeDefined();
     }
-    expect(firstCalls).toBe(secondCalls);
-    expect(first()).toBe(second());
   });
 
   it("keeps totals and root proposal multiplicities coherent across morphological strata", () => {

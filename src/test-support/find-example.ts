@@ -2,7 +2,8 @@
  * Test-only helpers for locating example words by property.
  *
  * Behavior tests must not pin a particular seed or draw index to a particular
- * word: any change to RNG consumption moves every later word. Instead, scan a
+ * word: any change to how a stage draws, or to which root attempt wins, can
+ * change the word a seed gives. Instead, scan a
  * small, deterministic range of seeds through the public API and take the
  * first word that has the property under test. Exact output is recorded once,
  * in the golden fixture (`npm run golden:update`).
