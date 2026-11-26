@@ -34,29 +34,24 @@ function alternationConfig(probability: number | undefined): LanguageConfig {
   };
 }
 
-/** The key each scheme's vectors use. */
-const VECTOR_KEY = { hi: 0x01234567, lo: 0x89abcdef };
-
 /**
- * Known-answer seeds under each scheme, as [stage, index, seed]. A scheme's
- * vectors never change: a change to the derivation is a new scheme, with new
- * vectors under it. A new stage adds its vector under the current scheme.
+ * Known-answer seeds for a fixed key, as [stage, index, seed]. Changing an
+ * existing row's value needs a new STAGE_STREAM_SCHEME; adding or removing a
+ * stage's row does not.
  */
-const VECTORS: Record<typeof STAGE_STREAM_SCHEME, Array<[Stage, number, number]>> = {
-  "stage-streams/1": [
-    ["set_constraints", 0, 0xdcfa87f7],
-    ["plan_morphology", 0, 0x389f5e60],
-    ["plan_shape", 1, 0xe4552a42],
-    ["select_segments", 1, 0x0282e1a7],
-    ["assign_stress", 1, 0xd3e93052],
-    ["post_stress_repair", 1, 0x8f420d90],
-    ["preview_morphology", 1, 0x8cff5056],
-    ["spell", 1, 0x93129b51],
-    ["finalize_root_spelling", 1, 0xc5bf49b7],
-    ["render_pronunciation", 1, 0x52076d70],
-    ["spell", 3, 0x3e2add64],
-  ],
-};
+const VECTORS: Array<[Stage, number, number]> = [
+  ["set_constraints", 0, 0xdcfa87f7],
+  ["plan_morphology", 0, 0x389f5e60],
+  ["plan_shape", 1, 0xe4552a42],
+  ["select_segments", 1, 0x0282e1a7],
+  ["assign_stress", 1, 0xd3e93052],
+  ["post_stress_repair", 1, 0x8f420d90],
+  ["preview_morphology", 1, 0x8cff5056],
+  ["spell", 1, 0x93129b51],
+  ["finalize_root_spelling", 1, 0xc5bf49b7],
+  ["render_pronunciation", 1, 0x52076d70],
+  ["spell", 3, 0x3e2add64],
+];
 
 /** A caller stream that gives a traced word's key back, `hi` then `lo`. */
 function replayKey(key: string): () => number {
@@ -66,13 +61,13 @@ function replayKey(key: string): () => number {
 
 describe("per-stage random streams (#556)", () => {
   it("derives the documented seeds for a fixed key", () => {
-    // A failure here means every word changes. A change to the derivation needs
-    // a new STAGE_STREAM_SCHEME, with its vectors and docs/stage-random-streams.md.
-    const key = VECTOR_KEY;
-    const vectors = VECTORS[STAGE_STREAM_SCHEME];
-    for (const [stage, index, seed] of vectors) expect(deriveStreamSeed(key, stage, index), `${stage} at ${index}`).toBe(seed);
-    // Every stage has a vector, so a new or renamed stage fails here too.
-    expect(new Set(vectors.map(([stage]) => stage))).toEqual(new Set([...WORD_STAGES, ...ATTEMPT_STAGES]));
+    // A changed value here means every word changes: it needs a new
+    // STAGE_STREAM_SCHEME, with these vectors and docs/stage-random-streams.md.
+    expect(STAGE_STREAM_SCHEME).toBe("stage-streams/1");
+    const key = { hi: 0x01234567, lo: 0x89abcdef };
+    for (const [stage, index, seed] of VECTORS) expect(deriveStreamSeed(key, stage, index), `${stage} at ${index}`).toBe(seed);
+    // Every stage has a row, so a new or renamed stage fails here too.
+    expect(new Set(VECTORS.map(([stage]) => stage))).toEqual(new Set([...WORD_STAGES, ...ATTEMPT_STAGES]));
     // The caller's two draws become the key, hi then lo, and attempt n reads
     // index n + 1 of a Mulberry32 stream seeded as above.
     const caller = [0x01234567 / 2 ** 32, 0x89abcdef / 2 ** 32];

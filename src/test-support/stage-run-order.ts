@@ -46,13 +46,21 @@ export function stagesBefore(kind: WordKind, stage: AttemptStage): AttemptStage[
   return [...new Set(order)].filter(before => before !== stage && order.lastIndexOf(before) < first);
 }
 
-/** Whether `runs`, one attempt's stages in the order they drew, follows `kind`'s run order. */
+/**
+ * Whether `runs`, one attempt's stages in the order they drew, follows `kind`'s
+ * run order. A stage that does not draw leaves no run, so listed stages can be
+ * missing. A stage's later listing resumes it, so it matches only after the
+ * stage has run.
+ */
 export function followsRunOrder(kind: WordKind, runs: readonly AttemptStage[]): boolean {
   const order = ATTEMPT_RUN_ORDER[kind];
+  const ran = new Set<AttemptStage>();
   let at = 0;
   for (const stage of runs) {
-    while (at < order.length && order[at] !== stage) at++;
+    const matches = (index: number) => order[index] === stage && (ran.has(stage) || order.indexOf(stage) === index);
+    while (at < order.length && !matches(at)) at++;
     if (at === order.length) return false;
+    ran.add(stage);
     at++;
   }
   return true;

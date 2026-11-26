@@ -366,7 +366,7 @@ We use k = 3 past the *worst* seed as a conservative engineering margin. Changes
 to RNG consumption can shift the gate's sample, so limits need headroom for seed
 variation. The margin accounts for observed variation but does not establish a
 particular false-failure probability. Seeds spaced along the RNG cycle give the
-runs distinct word keys, so no word repeats between runs. They do not keep the
+runs distinct word keys, so no word key repeats between runs. They do not keep the
 runs' draws apart: each word's stage streams are other windows on the same
 Mulberry32 cycle, and words in different runs can share a stretch of draws,
 offset ([Per-stage random streams](docs/stage-random-streams.md#stage-streams)).

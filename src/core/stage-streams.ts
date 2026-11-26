@@ -18,7 +18,8 @@ import { createSeededRng, type RNG } from "../utils/random.js";
  * any of these changes, since every stream then changes. Adding, renaming or
  * splitting a stage changes only that stage's streams under the same
  * derivation, and does not bump it. The known-answer vectors in
- * `stage-streams.test.ts` are listed under the scheme they pin.
+ * `stage-streams.test.ts` pin it: changing an existing vector's value needs a
+ * new scheme.
  */
 export const STAGE_STREAM_SCHEME = "stage-streams/1";
 

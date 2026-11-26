@@ -133,11 +133,10 @@ hash, the index and the fold. Bump `STAGE_STREAM_SCHEME` when any of these
 changes, since every stream then changes. Adding, renaming or splitting a stage
 changes that stage's streams under the same derivation and needs no bump, like
 any other change to generation; the golden fixture shows it. Known-answer
-vectors in `stage-streams.test.ts` are listed under the scheme they pin: every
-stage's seed for a fixed key, and the first draws of streams built from a fixed
-caller stream. A scheme's vectors never change; a new derivation adds a new
-scheme with its own vectors, and a new stage adds its vector under the current
-scheme.
+vectors in `stage-streams.test.ts`, next to the pinned scheme string, give every
+stage's seed for a fixed key and the first draws of streams built from a fixed
+caller stream. Changing an existing vector's value needs a new scheme; adding
+or removing a stage's row does not.
 
 ## Guarantees and tests
 

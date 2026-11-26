@@ -86,7 +86,7 @@ describe("stage stream wiring (#556)", () => {
   // a change to one stage leaves the draws of every stage that runs before it.
   // preview_morphology is left out: its first attempt draws in about one word in
   // 1,000, too rarely for this search. Its own-stream test above still covers it.
-  const shiftable = ATTEMPT_STAGES.slice(1).filter(stage => stage !== "preview_morphology");
+  const shiftable = ATTEMPT_STAGES.filter(stage => stage !== "plan_shape" && stage !== "preview_morphology");
   it.each(shiftable)("shifting %s leaves the first attempt's earlier stages' draws alone", stage => {
     const counts = (kind: WordKind, draws: StageDraws) => [
       ...WORD_STAGES.map(before => stageCount(draws, before)),

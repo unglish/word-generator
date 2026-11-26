@@ -143,9 +143,14 @@ index to a particular word.
   every word takes exactly two.
 - **Exact output lives in one place.** `src/core/golden-output.test.ts` checks
   the first 40 words (spelling, hyphenation and pronunciation) of a
-  few seed/mode/morphology cases against `src/core/golden-output.json`. When a
-  change is meant to alter output, run `npm run golden:update` and review the
-  fixture diff in the PR.
+  few seed/mode/morphology cases against `src/core/golden-output.json`, and each
+  case's `stageDraws`: every stage's draws on the words' first root attempt.
+  When a change is meant to alter output or how a stage draws, run
+  `npm run golden:update` and review the fixture diff in the PR. A change that
+  adds a draw to one stage moves only that stage's count, and the stages that
+  run after it in the same word. A count that moves in a stage that runs before
+  the changed one means a draw landed in the wrong stream
+  ([Per-stage random streams](docs/stage-random-streams.md#guarantees-and-tests)).
 
 ## Diagnostics Rule (Important)
 
