@@ -84,6 +84,29 @@ export async function speakText(text: string, o: { ipa: boolean; body: BodyMix; 
   return speakPhrases(phrases, o);
 }
 
+/**
+ * Speak IPA as a short poem: each non-empty line is one phrase.
+ * Inter-line `pause` uses Chimera planPhrases (not syllable `.` splits).
+ */
+export function speakIpaLines(
+  lines: string[],
+  o: { body: BodyMix; rate: number; f0: number; linePause?: number },
+): SpokenPlan | null {
+  const linePause = o.linePause ?? 0.55;
+  const phrases = lines
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line, i, arr) => ({
+      segments: tokenizeIpa(line),
+      intonation: "statement" as const,
+      pause: i < arr.length - 1 ? linePause : 0,
+      words: [] as string[],
+    }))
+    .filter((p) => p.segments.length > 0);
+  if (!phrases.length) return null;
+  return speakPhrases(phrases, o);
+}
+
 export function stopSpeaking(): void {
   engine.stopSpeech();
   if (current) cutId = current.id;

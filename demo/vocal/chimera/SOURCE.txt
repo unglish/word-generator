@@ -13,6 +13,8 @@ Local patches (do not drop when re-vendoring):
 - ui/speech.ts `ipaToPhrases`: do not split IPA on `.` (syllable boundary). Unglish
   pronunciations use `.` between syllables; treating those as phrase breaks inserted
   ~300ms pauses and made multi-syllable words sound stop-start.
+- ui/speech.ts `speakIpaLines`: Unglish poetry mode — one Chimera phrase per line with
+  explicit inter-line pause (planPhrases), without splitting on syllable `.`.
 - ui/colors.ts: Unglish grayscale light/dark palette (not Chimera phosphor); syncTheme().
 - ui/render/beams3d.ts: NormalBlending (MaxEquation only works on black clear).
 - ui/render/anatomy.ts: thin faceHandles + ViewFlags only (no 2D AnatomyRenderer).
