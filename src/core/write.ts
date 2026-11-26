@@ -733,7 +733,7 @@ export interface SyllableBoundary {
  * Mutates `cleanParts` and `hyphenatedParts` in place.
  *
  * @backstop Since Phase A (#250) moved full-cluster SSP validation into
- * `adjustBoundary` (generate.ts), this function no longer fires in practice
+ * `adjustBoundary` (segment-boundaries.ts), this function no longer fires in practice
  * — measured at 0 repairs across 50k words (2026-02-21). Retained as a
  * safety net in case upstream generation changes reintroduce invalid
  * junctions. If this fires, it likely indicates a regression in the
