@@ -62,7 +62,7 @@ import {
   type NucleusRepairPolicy,
 } from "./nucleus-repair.js";
 import { RejectionTraceCollector } from "./rejection-trace.js";
-import { chooseRootAttempt, type AttemptCriteria } from "./root-attempt-search.js";
+import { chooseRootAttempt } from "./root-attempt-search.js";
 import {
   assertRootRimeCompatibility,
   buildRootRimePolicy,
@@ -82,7 +82,7 @@ import {
 } from "./morphology/index.js";
 import type { PreparedMorphology } from "./morphology/index.js";
 import { clonePhoneme, cloneSyllables } from "./lexical.js";
-import { resolveLetterLengthAcceptance, scoreGenerationAttempt } from "./length-semantics.js";
+import { ROOT_ATTEMPT_CRITERIA, scoreGenerationAttempt } from "./length-semantics.js";
 import { sampleRootLengths, type RootLengthPolicy } from "./syllable-sampling.js";
 import {
   TraceCollector,
@@ -1795,16 +1795,6 @@ function resolveGenerationOptions(
   };
 }
 
-/** Maximum retries for letter-length rejection sampling. */
-const MAX_LENGTH_RETRIES = 3;
-/** Maximum retries for top-down phoneme target matching. */
-const MAX_TOPDOWN_RETRIES = 16;
-const ATTEMPT_CRITERIA: AttemptCriteria = {
-  maxAttempts: MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES + 1,
-  warmupAttempts: MAX_LENGTH_RETRIES,
-  relaxedLetterPenalty: 0.5,
-};
-
 function countPhonemes(syllables: Syllable[]): number {
   let total = 0;
   for (const syl of syllables) {
@@ -2157,9 +2147,9 @@ function generateOneWord(
     ),
   };
   const { letterLengthTargets, letterLengthRelaxedAfter } = rt.config.syllableStructure;
-  const rejectionTrace = enableTrace ? new RejectionTraceCollector(ATTEMPT_CRITERIA) : undefined;
+  const rejectionTrace = enableTrace ? new RejectionTraceCollector(ROOT_ATTEMPT_CRITERIA) : undefined;
 
-  const selection = chooseRootAttempt(ATTEMPT_CRITERIA, targetPhonemeCountRoot, (attempt) => {
+  const selection = chooseRootAttempt(ROOT_ATTEMPT_CRITERIA, targetPhonemeCountRoot, (attempt) => {
     const streams = wordStreams.attempt(attempt);
     // Shape planning runs before the attempt has a context, so it takes its stream directly.
     const syllablePlans = distributePhonemes(
@@ -2215,10 +2205,7 @@ function generateOneWord(
       value: { context, spelled },
       score: attemptScore,
       lengths: { syllables: root.length, phonemes: rootPhonemeCount, letters: letterLength },
-      acceptance: resolveLetterLengthAcceptance(
-        ATTEMPT_CRITERIA, root.length, letterLength, attemptScore.letterPenalty,
-        letterLengthRelaxedAfter, letterLengthTargets,
-      ),
+      relaxedAfter: letterLengthRelaxedAfter?.[root.length]?.[letterLength],
     };
   }, rejectionTrace);
   const { context, spelled } = selection.selected.value;

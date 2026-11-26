@@ -16,10 +16,18 @@ export interface AcceptanceCriteria {
   relaxedLetterPenalty: number;
 }
 
+export const ROOT_ATTEMPT_CRITERIA = {
+  maxAttempts: 20,
+  warmupAttempts: 3,
+  relaxedLetterPenalty: 0.5,
+} as const;
+
 export interface AttemptAssessment {
   /** null means the attempt was rejected. */
   acceptedBy: "exact" | "relaxed" | null;
-  /** Conditions that rejected the attempt; several can fail at once. */
+  /** Earliest eligible index when the schedule was needed for acceptance. */
+  scheduledRelaxedAfter?: number;
+  /** Failed global conditions, counted only on rejection. */
   failed: { phonemeTarget: boolean; letterLength: boolean; warmup: boolean };
 }
 
@@ -105,37 +113,6 @@ export function scoreGenerationAttempt(
 }
 
 /**
- * Resolve acceptance criteria for a concrete `(syllables, letters)` shape.
- *
- * When {@link letterLengthRelaxedAfter} lists that shape and the length sits
- * inside the outer `[min, max]` letter band for its syllable count, relaxed
- * acceptance is allowed from attempt N even if the band-derived letter
- * penalty exceeds the global relaxed cap. Lengths outside the outer band are
- * unchanged (the map cannot reopen completely out-of-range spellings). The
- * band score itself is left untouched so fallback ranking matches an
- * absent-config generator. Absent map entries keep the global criteria.
- */
-export function resolveLetterLengthAcceptance(
-  globalCriteria: AcceptanceCriteria,
-  syllableCount: number,
-  letterLength: number,
-  letterPenalty: number,
-  relaxedAfter?: Record<number, Record<number, number>>,
-  letterTargets?: Record<number, [number, number, number, number]>,
-): AcceptanceCriteria {
-  const override = relaxedAfter?.[syllableCount]?.[letterLength];
-  if (override === undefined) return globalCriteria;
-  const bounds = resolveLetterLengthBounds(letterTargets, syllableCount);
-  if (!bounds) return globalCriteria;
-  const [min, , , max] = bounds;
-  if (letterLength < min || letterLength > max) return globalCriteria;
-  return {
-    warmupAttempts: override,
-    relaxedLetterPenalty: Math.max(globalCriteria.relaxedLetterPenalty, letterPenalty),
-  };
-}
-
-/**
  * True when an attempt's outcome is already decided by its phoneme count: it
  * misses the target, so no acceptance criterion can pass, and its total score
  * cannot fall below the best attempt so far, so it cannot become the fallback.
@@ -147,12 +124,13 @@ export function isDecidedRejection(phonemeDistance: number, bestScore: number): 
 
 /**
  * Decide whether an attempt is accepted. An exact match is always accepted;
- * after the warmup, a matching phoneme count with a small letter penalty is too.
+ * a phoneme match can also pass either the global thresholds or its schedule.
  */
 export function assessAttempt(
   score: AttemptScore,
   attemptIndex: number,
   criteria: AcceptanceCriteria,
+  relaxedAfter?: number,
 ): AttemptAssessment {
   // Preserve the original positive acceptance checks: NaN must not be accepted
   // merely because it fails neither a greater-than nor a warmup comparison.
@@ -164,5 +142,9 @@ export function assessAttempt(
     letterLength: !(score.letterPenalty <= criteria.relaxedLetterPenalty),
     warmup: attemptIndex < criteria.warmupAttempts && score.letterPenalty !== 0,
   };
+  if (!exact && !relaxed && relaxedAfter !== undefined && attemptIndex >= relaxedAfter
+      && score.phonemeDistance === 0 && Number.isFinite(score.letterPenalty)) {
+    return { acceptedBy: "relaxed", scheduledRelaxedAfter: relaxedAfter, failed };
+  }
   return { acceptedBy: exact ? "exact" : relaxed ? "relaxed" : null, failed };
 }

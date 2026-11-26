@@ -4,6 +4,7 @@ import {
 } from "../utils/sonority.js";
 import { matchesPhoneme, type PhonemeSelector } from "../utils/phonemes.js";
 import { VOWEL_LETTERS } from "../utils/letters.js";
+import { resolveLetterLengthBounds, ROOT_ATTEMPT_CRITERIA } from "../core/length-semantics.js";
 import {
   Phoneme,
   Grapheme,
@@ -179,9 +180,9 @@ export interface SyllableStructureRules {
    * attempt index N (0-based) and that length lies inside the outer
    * `[min, max]` band from {@link letterLengthTargets}, a phoneme-matching
    * attempt may be relaxed-accepted from attempt N even if the band-derived
-   * letter penalty exceeds the global relaxed cap. Band scoring (and
-   * therefore fallback ranking) is unchanged. Absent config preserves legacy
-   * acceptance exactly and does not affect proposal bias.
+   * letter penalty exceeds the global relaxed cap. The schedule adds an
+   * acceptance path alongside the global rule. Indices must fall within
+   * the root retry budget. Band scoring still determines fallback ranking.
    */
   letterLengthRelaxedAfter?: Record<number, Record<number, number>>;
 }
@@ -2685,11 +2686,11 @@ export function validateConfig(config: LanguageConfig): void {
     }
   }
 
-  validateLetterLengthRelaxedAfter(config.syllableStructure.letterLengthRelaxedAfter);
+  validateLetterLengthRelaxedAfter(config.syllableStructure);
 }
 
 function validateLetterLengthRelaxedAfter(
-  map: Record<number, Record<number, number>> | undefined,
+  { letterLengthRelaxedAfter: map, letterLengthTargets }: SyllableStructureRules,
 ): void {
   if (map === undefined) return;
   const label = "syllableStructure.letterLengthRelaxedAfter";
@@ -2698,7 +2699,7 @@ function validateLetterLengthRelaxedAfter(
   }
   for (const [syllableKey, lengths] of Object.entries(map)) {
     const syllableCount = Number(syllableKey);
-    if (!Number.isInteger(syllableCount) || syllableCount < 1) {
+    if (!Number.isSafeInteger(syllableCount) || syllableCount < 1 || String(syllableCount) !== syllableKey) {
       throw new Error(
         `${label} has invalid syllable-count key "${syllableKey}"`,
       );
@@ -2708,17 +2709,23 @@ function validateLetterLengthRelaxedAfter(
         `${label}.${syllableCount} must be an object of letter-length values`,
       );
     }
+    const band = resolveLetterLengthBounds(letterLengthTargets, syllableCount);
     for (const [letterKey, value] of Object.entries(lengths)) {
       const letterLength = Number(letterKey);
-      if (!Number.isInteger(letterLength) || letterLength < 1) {
+      if (!Number.isSafeInteger(letterLength) || letterLength < 1 || String(letterLength) !== letterKey) {
         throw new Error(
           `${label}.${syllableCount} has invalid letter-length key "${letterKey}"`,
         );
       }
-      if (!Number.isInteger(value) || value < 0) {
+      const path = `${label}.${syllableCount}.${letterLength}`;
+      if (!Number.isInteger(value) || value < 0 || value >= ROOT_ATTEMPT_CRITERIA.maxAttempts) {
         throw new Error(
-          `${label}.${syllableCount}.${letterLength} attempt index must be a non-negative integer`,
+          `${path} attempt index must be an integer from 0 to ${ROOT_ATTEMPT_CRITERIA.maxAttempts - 1}`,
         );
+      }
+      if (!band) throw new Error(`${path} requires letterLengthTargets`);
+      if (!(letterLength >= band[0] && letterLength <= band[3])) {
+        throw new Error(`${path} is outside the letter-length band [${band[0]}, ${band[3]}]`);
       }
     }
   }

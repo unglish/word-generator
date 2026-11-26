@@ -12,7 +12,7 @@ function phones(word: Word): number {
 describe("complete rejection accounting", () => {
   it("distinguishes executed attempts from an early selected fallback", () => {
     const targets: Record<number, [number, number, number, number]> = { 1: [1000, 1000, 1000, 1000] };
-    const generator = createGenerator({ ...englishConfig, syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets: targets } });
+    const generator = createGenerator({ ...englishConfig, syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets: targets, letterLengthRelaxedAfter: undefined } });
     // Every attempt is rejected; "early" means the best-scoring one was not the last.
     const { word } = findExample(word => word.trace!.selection!.selectedAttempt < word.trace!.selection!.attemptsExecuted - 1, {
       property: "a fallback selecting an attempt before the last", limit: 50, generator, options: { syllableCount: 1, morphology: false },
@@ -44,7 +44,7 @@ describe("complete rejection accounting", () => {
   });
 
   it("reports the first exact acceptance without inventing rejections", () => {
-    const generator = createGenerator({ ...englishConfig, syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets: undefined } });
+    const generator = createGenerator({ ...englishConfig, syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets: undefined, letterLengthRelaxedAfter: undefined } });
     const { word } = findExample(word => word.trace!.selection!.selectedAttempt === 0, {
       property: "a root accepted on its first attempt", limit: 50, generator, options: { morphology: false },
     });

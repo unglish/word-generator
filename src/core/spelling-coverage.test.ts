@@ -51,7 +51,7 @@ function fixedRoot(finals: Grapheme[], policy: "preserve-phones" | false = "pres
     phonemeMaps: { onset: new Map([["b", [phone("b")]]]), nucleus: new Map([["æ", [phone("æ")]]]), coda: new Map([[finals[0].phoneme, [phone(finals[0].phoneme)]]]) },
     clusterConstraint: undefined, clusterWeights: undefined, clusterLimits: { maxOnset: 1, maxCoda: 1 },
     codaConstraints: { allowedFinal: [finals[0].phoneme] },
-    syllableStructure: { ...englishConfig.syllableStructure, maxOnsetLength: 1, maxCodaLength: 1, letterLengthTargets: undefined },
+    syllableStructure: { ...englishConfig.syllableStructure, maxOnsetLength: 1, maxCodaLength: 1, letterLengthTargets: undefined, letterLengthRelaxedAfter: undefined },
     phonemeLengthWeights: { text: [[3, 1]], lexicon: [[3, 1]] },
     generationWeights: { ...englishConfig.generationWeights,
       onsetLength: { monosyllabic: one, followingNucleus: one, default: one, long: one },

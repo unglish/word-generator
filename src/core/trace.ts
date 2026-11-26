@@ -24,10 +24,12 @@ export interface SelectionTrace {
   selectedAttempt: number;
   /** Includes the selected attempt when it was returned as a fallback. */
   rejectedAttempts: number;
-  /** Counts failures against each rejected attempt's criteria; reasons can overlap. */
+  /** Counts failures against the global criteria on rejected attempts; reasons can overlap. */
   rejectionReasons: { phonemeTarget: number; letterLength: number; warmup: number };
-  /** Retry limit and acceptance thresholds for the selected attempt. */
+  /** Search-wide retry limit and global acceptance thresholds. */
   criteria: AcceptanceCriteria & { maxAttempts: number };
+  /** Zero-based opening index when the schedule accepted the selected root. */
+  scheduledRelaxedAfter?: number;
   selected: AttemptLengths & { score: AttemptScore };
   /**
    * Compact distribution of spelled root proposals; no rejected spelling or Word

@@ -1,15 +1,68 @@
 import { describe, expect, it } from "vitest";
-import { createGenerator, englishConfig } from "../index.js";
+import { createGenerator, englishConfig, type LanguageConfig } from "../index.js";
 import { findExample } from "../test-support/find-example.js";
 import { createSeededRng } from "../utils/random.js";
 import {
   assessAttempt,
   isDecidedRejection,
-  resolveLetterLengthAcceptance,
   scoreGenerationAttempt,
   scoreLetterLength,
   type AcceptanceCriteria,
 } from "./length-semantics.js";
+
+function generatorWithLengthRules(rules: Partial<LanguageConfig["syllableStructure"]>) {
+  return createGenerator({
+    ...englishConfig,
+    syllableStructure: { ...englishConfig.syllableStructure, ...rules },
+  });
+}
+
+describe("letterLengthRelaxedAfter configuration", () => {
+  it.each([
+    [{ "01": { 2: 5 } }, /invalid syllable-count key/],
+    [{ 1: { "02": 5 } }, /invalid letter-length key/],
+    [{ 1: { 2: 20 } }, /attempt index/],
+    [{ 1: { 1: 5 } }, /outside the letter-length band/],
+  ])("rejects an unusable schedule %j", (letterLengthRelaxedAfter, message) => {
+    expect(() => generatorWithLengthRules({ letterLengthRelaxedAfter })).toThrow(message);
+  });
+
+  it("rejects a schedule without letter-length targets", () => {
+    expect(() => generatorWithLengthRules({ letterLengthTargets: undefined })).toThrow(/requires letterLengthTargets/);
+  });
+
+  it("keeps a root already eligible under the global policy", () => {
+    const letterLengthTargets: LanguageConfig["syllableStructure"]["letterLengthTargets"] = { 1: [2, 3, 6, 8] };
+    const baseline = generatorWithLengthRules({ letterLengthTargets, letterLengthRelaxedAfter: undefined });
+    const scheduled = generatorWithLengthRules({ letterLengthTargets });
+    const { word, options } = findExample(word => {
+      const selection = word.trace!.selection!;
+      return selection.acceptedBy === "relaxed" && selection.selected.letters === 2
+        && selection.selectedAttempt < 5;
+    }, {
+      generator: baseline,
+      property: "a two-letter root that passes global acceptance before attempt 5",
+      limit: 500,
+      options: { syllableCount: 1, morphology: false },
+    });
+    expect(scheduled.generateWord(options)).toEqual(word);
+  });
+
+  it("counts rejections against the published global thresholds", () => {
+    const baseline = generatorWithLengthRules({ letterLengthRelaxedAfter: undefined });
+    const { word, options } = findExample(word => {
+      const selection = word.trace!.selection!;
+      return selection.acceptedBy === "exact" && selection.selectedAttempt === 4
+        && selection.proposedLengths.some(bin => bin.syllables === 1 && bin.letters === 2);
+    }, {
+      generator: baseline,
+      property: "an exact match that follows a two-letter rejection before the schedule opens",
+      limit: 100,
+      options: { syllableCount: 1, morphology: false },
+    });
+    expect(generatorWithLengthRules({}).generateWord(options).trace!.selection).toEqual(word.trace!.selection);
+  });
+});
 
 describe("letterLengthRelaxedAfter acceptance", () => {
   const globalCriteria: AcceptanceCriteria = {
@@ -25,53 +78,27 @@ describe("letterLengthRelaxedAfter acceptance", () => {
     expect(scoreLetterLength(4, 1, monoTargets)).toBe(0);
   });
 
-  it("keeps global criteria when the shape is not listed", () => {
+  it("opens relaxed acceptance at the scheduled index", () => {
     const score = scoreGenerationAttempt(3, 3, 2, 1, monoTargets);
     expect(score.letterPenalty).toBe(1);
-    const criteria = resolveLetterLengthAcceptance(
-      globalCriteria,
-      1,
-      2,
-      score.letterPenalty,
-      undefined,
-    );
-    expect(criteria).toEqual(globalCriteria);
-    expect(assessAttempt(score, 5, criteria).acceptedBy).toBeNull();
+    expect(assessAttempt(score, 5, globalCriteria).acceptedBy).toBeNull();
+    expect(assessAttempt(score, 4, globalCriteria, 5).acceptedBy).toBeNull();
+    expect(assessAttempt(score, 5, globalCriteria, 5)).toMatchObject({
+      acceptedBy: "relaxed",
+      scheduledRelaxedAfter: 5,
+    });
+    expect(assessAttempt(score, 0, globalCriteria, 0)).toMatchObject({
+      acceptedBy: "relaxed",
+      scheduledRelaxedAfter: 0,
+    });
   });
 
-  it("allows relaxed accept from attempt N for a listed in-band shape without changing the band penalty", () => {
-    const score = scoreGenerationAttempt(3, 3, 2, 1, monoTargets);
-    expect(score.letterPenalty).toBe(1);
-    const criteria = resolveLetterLengthAcceptance(
-      globalCriteria,
-      1,
-      2,
-      score.letterPenalty,
-      { 1: { 2: 5 } },
-      monoTargets,
-    );
-    expect(criteria.warmupAttempts).toBe(5);
-    expect(criteria.relaxedLetterPenalty).toBe(1);
-    expect(assessAttempt(score, 4, criteria).acceptedBy).toBeNull();
-    expect(assessAttempt(score, 5, criteria).acceptedBy).toBe("relaxed");
-  });
-
-  it("ignores the override for lengths outside the outer letter band", () => {
-    const impossible: Record<number, [number, number, number, number]> = {
-      1: [1000, 1000, 1000, 1000],
-    };
-    const score = scoreGenerationAttempt(3, 3, 2, 1, impossible);
-    expect(score.letterPenalty).toBeGreaterThan(1);
-    const criteria = resolveLetterLengthAcceptance(
-      globalCriteria,
-      1,
-      2,
-      score.letterPenalty,
-      { 1: { 2: 0 } },
-      impossible,
-    );
-    expect(criteria).toEqual(globalCriteria);
-    expect(assessAttempt(score, 5, criteria).acceptedBy).toBeNull();
+  it("still requires the target phoneme count", () => {
+    const score = scoreGenerationAttempt(2, 3, 2, 1, monoTargets);
+    expect(assessAttempt(score, 5, globalCriteria, 5)).toMatchObject({
+      acceptedBy: null,
+      failed: { phonemeTarget: true, letterLength: true, warmup: false },
+    });
   });
 });
 
@@ -118,12 +145,14 @@ describe("English letterLengthRelaxedAfter distribution", () => {
       options: { mode: "lexicon", syllableCount: 1, morphology: false },
     });
     const selection = word.trace!.selection!;
-    expect(selection.criteria).toMatchObject({ warmupAttempts: 5, relaxedLetterPenalty: 1 });
+    expect(selection.criteria).toMatchObject({ warmupAttempts: 3, relaxedLetterPenalty: 0.5 });
+    expect(selection.scheduledRelaxedAfter).toBe(5);
     expect(selection.selected.score).toMatchObject({ phonemeDistance: 0, letterPenalty: 1 });
     expect(selection.selectedAttempt).toBeGreaterThanOrEqual(5);
 
     const baseline = generator.generateWord(options).trace!.selection!;
-    expect(baseline.criteria).toMatchObject({ warmupAttempts: 3, relaxedLetterPenalty: 0.5 });
+    expect(baseline.criteria).toEqual(selection.criteria);
+    expect(baseline.scheduledRelaxedAfter).toBeUndefined();
     expect(baseline.attemptsExecuted).toBeGreaterThan(selection.attemptsExecuted);
   });
 });

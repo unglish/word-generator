@@ -23,18 +23,20 @@ The root selection result supplies both the winning attempt and the executed
 count. Run `npm run test:root-attempts:model` to check that the generator's
 selector and trace agree on every sequence in the model's four-attempt bound.
 
-Rejection reasons count failed conditions on rejected attempts and can overlap:
+Rejection reasons count failed global conditions on rejected attempts and can overlap:
 
 - `phonemeTarget`: the root phoneme count differs from its target.
 - `letterLength`: the letter penalty exceeds the relaxed limit.
 - `warmup`: a nonzero letter penalty occurs before relaxed acceptance is allowed.
 
 Selection scores roots before any planned affixes are attached, so every
-recorded length describes a root attempt. The trace records the actual
+recorded length describes a root attempt. The trace records the global
 thresholds, selected root lengths/score, and a compact histogram of all proposed
 root lengths; the root phoneme target is `trace.targetPhonemeCount`. Bins contain
 syllables, phonemes, letters, and multiplicity. For an affixed word, the selected
 root lengths differ from the returned word's lengths.
+When the selected root needed a letter-length schedule to qualify,
+`selection.scheduledRelaxedAfter` records its zero-based opening index.
 These bins include both rejected and selected candidates. They allow comparison of
 proposal and output distributions without retaining rejected words or their large
 traces.

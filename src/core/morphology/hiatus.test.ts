@@ -35,7 +35,7 @@ function fixedBoundary(options: {
     ...englishConfig, phonemeMaps, graphemeMaps, graphemes,
     clusterConstraint: undefined, clusterWeights: undefined,
     clusterLimits: { maxOnset: 1, maxCoda: 1 }, codaConstraints: { allowedFinal: coda ? [coda] : [] },
-    syllableStructure: { ...englishConfig.syllableStructure, maxOnsetLength: 1, maxCodaLength: 1, letterLengthTargets: undefined },
+    syllableStructure: { ...englishConfig.syllableStructure, maxOnsetLength: 1, maxCodaLength: 1, letterLengthTargets: undefined, letterLengthRelaxedAfter: undefined },
     phonemeLengthWeights: { text: [[target, 1]], lexicon: [[target, 1]] },
     generationWeights: {
       ...englishConfig.generationWeights,

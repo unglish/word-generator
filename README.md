@@ -170,7 +170,10 @@ described in [quality baselines](./docs/quality-baselines.md).
 count and spelling length to the zero-based attempt index that opens relaxed
 acceptance. English uses `{ 1: { 2: 5 } }` for two-letter monosyllables. The
 root must match the phoneme target and be inside its outer letter-length band.
-The schedule changes acceptance timing and leaves the fallback score intact.
+The schedule adds an acceptance path alongside the global rule. Each index
+must be within the retry budget. Custom configs that remove the English letter
+band or move the scheduled shapes outside it must also remove or revise the
+schedule. Fallback ranking still uses the original band score.
 
 ### Root repetition
 
