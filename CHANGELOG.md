@@ -10,6 +10,8 @@
   change only within seed noise, but every seeded output changes once.
   `WordTrace.random` (`RandomStreamTrace`) records the scheme and the word's
   key.
+- English can accept a phoneme-exact two-letter monosyllable root from the
+  sixth proposal (#449). This changes seeded output in lexicon and text mode.
 
 ### Fixed
 
@@ -32,6 +34,9 @@
 
 ### Breaking Changes
 
+- Custom configurations derived from `englishConfig` must clear or revise
+  `syllableStructure.letterLengthRelaxedAfter` when removing the letter-length
+  band or moving a scheduled shape outside it (#449).
 - `options.rand` now keys each word instead of feeding individual choices
   (#556). Each word takes exactly two draws from it, so a custom `rand` such as
   `() => 0` no longer picks the first option of every weighted choice, and a
@@ -44,6 +49,10 @@
 
 ### Added
 
+- `syllableStructure.letterLengthRelaxedAfter` adds an acceptance path for
+  in-band, phoneme-exact roots by syllable count and spelling length.
+  `SelectionTrace.scheduledRelaxedAfter` records the zero-based opening index
+  when the selected root needed the schedule (#449).
 - `codaConstraints.bannedOnsetRimeCombinations`: nuclei and coda sounds banned
   after an onset ending in one of `onsetFinal` within a lexical-root syllable.
   Generation and nucleus repairs skip them; affix syllables are exempt (#497).

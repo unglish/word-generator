@@ -11,6 +11,7 @@ function ungated(): LanguageConfig {
     syllableStructure: {
       ...englishConfig.syllableStructure,
       letterLengthTargets: undefined,
+      letterLengthRelaxedAfter: undefined,
     },
   };
 }

@@ -27,7 +27,7 @@ function fixedRime(nucleus: string, codas: string[], banned: NonNullable<Languag
     pronunciation: { ...englishConfig.pronunciation, aspiration: { enabled: false, targets: [{ segment: "onset", manner: ["stop"] }], rules: [{ id: "off", when: {}, probability: 0 }], fallbackProbability: 0 } },
     gapSpellings: [],
     codaConstraints: { ...englishConfig.codaConstraints, bannedNucleusCodaCombinations: banned },
-    syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets: undefined },
+    syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets: undefined, letterLengthRelaxedAfter: undefined },
     phonemeLengthWeights: { text: singleton(3), lexicon: singleton(3) },
     phonemeToSyllableWeights: { text: { 3: singleton(1) }, lexicon: { 3: singleton(1) } },
     generationWeights: {

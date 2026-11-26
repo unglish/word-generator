@@ -35,6 +35,10 @@ Use these fields to answer specific diagnostic questions:
 - `syllablePlans`
   - Question: How did the planner distribute the root consonant budget across syllables?
   - Typical signal: an onsetless VC target is visible here before any later repairs.
+- `selection`
+  - `criteria` shows the retry limit and the global thresholds used to count
+    rejections. `scheduledRelaxedAfter` gives the opening index when the
+    selected root needed its letter-length schedule to qualify.
 - `graphemeSelections`
   - Question: Is the written trigram caused by grapheme weighting/conditioning?
   - Typical signal: low-probability grapheme repeatedly selected for the same phoneme context.

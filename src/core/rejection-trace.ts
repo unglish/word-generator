@@ -31,7 +31,7 @@ export class RejectionTraceCollector {
     this.reasons.phonemeTarget++;
   }
 
-  finish({ selected, selectedAttempt, attemptsExecuted, acceptedBy }: RootSelection<unknown>): SelectionTrace {
+  finish({ selected, selectedAttempt, attemptsExecuted, acceptedBy, scheduledRelaxedAfter }: RootSelection<unknown>): SelectionTrace {
     return {
       status: acceptedBy === null ? "fallback" : "accepted",
       acceptedBy,
@@ -40,6 +40,7 @@ export class RejectionTraceCollector {
       rejectedAttempts: attemptsExecuted - Number(acceptedBy !== null),
       rejectionReasons: { ...this.reasons },
       criteria: { ...this.criteria },
+      ...(scheduledRelaxedAfter === undefined ? {} : { scheduledRelaxedAfter }),
       selected: { ...selected.lengths, score: { ...selected.score } },
       proposedLengths: [...this.proposals.values()],
       prunedLengths: [...this.pruned.values()],

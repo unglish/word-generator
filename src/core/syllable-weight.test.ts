@@ -26,7 +26,7 @@ function configFor(options: { policy?: SyllableWeightPolicy; primary?: PrimarySt
     phonemeMaps: { onset: new Map([["b", [onset]]]), nucleus: new Map([["ɪ", [light]], ["aɪ", [heavy]]]), coda: new Map() },
     clusterConstraint: undefined, clusterWeights: undefined, codaConstraints: undefined,
     clusterLimits: { maxOnset: 1, maxCoda: 0 },
-    syllableStructure: { ...englishConfig.syllableStructure, maxOnsetLength: 1, maxCodaLength: 0, letterLengthTargets: undefined },
+    syllableStructure: { ...englishConfig.syllableStructure, maxOnsetLength: 1, maxCodaLength: 0, letterLengthTargets: undefined, letterLengthRelaxedAfter: undefined },
     phonemeLengthWeights: { text: [[6, 1]], lexicon: [[6, 1]] },
     generationWeights: {
       ...englishConfig.generationWeights,

@@ -23,7 +23,7 @@ function fixedShape(nuclei: Phoneme[], onset: number, coda: number, syllables = 
     morphology: undefined,
     // The English hard-c rule names short vowels this reduced inventory lacks.
     writtenFormConstraints: { ...englishConfig.writtenFormConstraints, hardLetters: undefined },
-    syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets: undefined },
+    syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets: undefined, letterLengthRelaxedAfter: undefined },
     phonemeLengthWeights: { text: [[phonemeCount, 1]], lexicon: [[phonemeCount, 1]] },
     phonemeToSyllableWeights: { text: { [phonemeCount]: [[syllables, 1]] }, lexicon: { [phonemeCount]: [[syllables, 1]] } },
     generationWeights: {

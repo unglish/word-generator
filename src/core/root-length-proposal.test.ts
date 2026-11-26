@@ -10,7 +10,7 @@ function generator(letterLengthTargets: LanguageConfig["syllableStructure"]["let
       4: [[1, 1], [2, 1]],
       8: [[1, 1], [2, 1]],
     } },
-    syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets },
+    syllableStructure: { ...englishConfig.syllableStructure, letterLengthTargets, letterLengthRelaxedAfter: undefined },
   });
 }
 

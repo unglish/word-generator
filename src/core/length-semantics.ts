@@ -16,10 +16,19 @@ export interface AcceptanceCriteria {
   relaxedLetterPenalty: number;
 }
 
+export const ROOT_ATTEMPT_CRITERIA = {
+  // The initial proposal plus three letter-length and sixteen phoneme-target retries.
+  maxAttempts: 20,
+  warmupAttempts: 3,
+  relaxedLetterPenalty: 0.5,
+} as const;
+
 export interface AttemptAssessment {
   /** null means the attempt was rejected. */
   acceptedBy: "exact" | "relaxed" | null;
-  /** Conditions that rejected the attempt; several can fail at once. */
+  /** Earliest eligible index when the schedule was needed for acceptance. */
+  scheduledRelaxedAfter?: number;
+  /** Failed global conditions, counted only on rejection. */
   failed: { phonemeTarget: boolean; letterLength: boolean; warmup: boolean };
 }
 
@@ -75,12 +84,19 @@ export function scoreLetterLength(
   if (!bounds) return 0;
   const [min, peakMin, peakMax, max] = bounds;
   if (letterLength >= peakMin && letterLength <= peakMax) return 0;
-  if (letterLength >= min && letterLength <= max) {
+  if (isWithinLetterLengthBand(letterLength, bounds)) {
     const edgeDistance = letterLength < peakMin ? peakMin - letterLength : letterLength - peakMax;
     return edgeDistance * 0.5;
   }
   const outsideDistance = letterLength < min ? min - letterLength : letterLength - max;
   return 1 + outsideDistance;
+}
+
+export function isWithinLetterLengthBand(
+  letterLength: number,
+  [min, , , max]: [number, number, number, number],
+): boolean {
+  return letterLength >= min && letterLength <= max;
 }
 
 /** The phoneme part of an attempt's score; letter penalties only add to it. */
@@ -116,12 +132,13 @@ export function isDecidedRejection(phonemeDistance: number, bestScore: number): 
 
 /**
  * Decide whether an attempt is accepted. An exact match is always accepted;
- * after the warmup, a matching phoneme count with a small letter penalty is too.
+ * a phoneme match can also pass either the global thresholds or its schedule.
  */
 export function assessAttempt(
   score: AttemptScore,
   attemptIndex: number,
   criteria: AcceptanceCriteria,
+  relaxedAfter?: number,
 ): AttemptAssessment {
   // Preserve the original positive acceptance checks: NaN must not be accepted
   // merely because it fails neither a greater-than nor a warmup comparison.
@@ -133,5 +150,9 @@ export function assessAttempt(
     letterLength: !(score.letterPenalty <= criteria.relaxedLetterPenalty),
     warmup: attemptIndex < criteria.warmupAttempts && score.letterPenalty !== 0,
   };
+  if (!exact && !relaxed && relaxedAfter !== undefined && attemptIndex >= relaxedAfter
+      && score.phonemeDistance === 0 && Number.isFinite(score.letterPenalty)) {
+    return { acceptedBy: "relaxed", scheduledRelaxedAfter: relaxedAfter, failed };
+  }
   return { acceptedBy: exact ? "exact" : relaxed ? "relaxed" : null, failed };
 }

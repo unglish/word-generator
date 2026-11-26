@@ -12,13 +12,13 @@ interface ScoredAttempt<T> {
   lengths: AttemptLengths;
   score: AttemptScore;
   value: T;
+  relaxedAfter?: number;
 }
 
-export interface RootSelection<T> {
+export interface RootSelection<T> extends Pick<AttemptAssessment, "acceptedBy" | "scheduledRelaxedAfter"> {
   selected: ScoredAttempt<T>;
   selectedAttempt: number;
   attemptsExecuted: number;
-  acceptedBy: AttemptAssessment["acceptedBy"];
 }
 
 interface AttemptObserver {
@@ -42,10 +42,13 @@ export function chooseRootAttempt<P extends RootProposal, T>(
       continue;
     }
     const candidate = score(proposal, attempt);
-    const assessment = assessAttempt(candidate.score, attempt, criteria);
+    const assessment = assessAttempt(candidate.score, attempt, criteria, candidate.relaxedAfter);
     observer?.record(candidate.lengths, assessment);
     if (assessment.acceptedBy) {
-      return { selected: candidate, selectedAttempt: attempt, attemptsExecuted: attempt + 1, acceptedBy: assessment.acceptedBy };
+      return {
+        selected: candidate, selectedAttempt: attempt, attemptsExecuted: attempt + 1,
+        acceptedBy: assessment.acceptedBy, scheduledRelaxedAfter: assessment.scheduledRelaxedAfter,
+      };
     }
     if (candidate.score.total < bestScore) {
       best = { selected: candidate, selectedAttempt: attempt };

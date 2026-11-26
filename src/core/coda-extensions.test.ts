@@ -53,7 +53,7 @@ function extensionGenerator(fixture: Fixture) {
         fallbackProbability: 0,
       },
     },
-    syllableStructure: { ...englishConfig.syllableStructure, maxOnsetLength: 0, maxCodaLength: maxCoda, letterLengthTargets: undefined },
+    syllableStructure: { ...englishConfig.syllableStructure, maxOnsetLength: 0, maxCodaLength: maxCoda, letterLengthTargets: undefined, letterLengthRelaxedAfter: undefined },
     phonemeLengthWeights: { text: [[target, 1]], lexicon: [[target, 1]] },
     generationWeights: {
       ...englishConfig.generationWeights,

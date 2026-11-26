@@ -4,6 +4,7 @@ import {
 } from "../utils/sonority.js";
 import { matchesPhoneme, type PhonemeSelector } from "../utils/phonemes.js";
 import { VOWEL_LETTERS } from "../utils/letters.js";
+import { isWithinLetterLengthBand, resolveLetterLengthBounds, ROOT_ATTEMPT_CRITERIA } from "../core/length-semantics.js";
 import {
   Phoneme,
   Grapheme,
@@ -173,6 +174,17 @@ export interface SyllableStructureRules {
   maxNucleusLength: number;
   /** Root letter-length targets per root syllable count: [min, peak_min, peak_max, max]. */
   letterLengthTargets?: Record<number, [number, number, number, number]>;
+  /**
+   * Optional per-syllable-count, per-letter-length schedule for relaxed
+   * letter-length acceptance. When `(syllables, letters)` is listed with
+   * attempt index N (0-based) and that length lies inside the outer
+   * `[min, max]` band from {@link letterLengthTargets}, a phoneme-matching
+   * attempt may be relaxed-accepted from attempt N even if the band-derived
+   * letter penalty exceeds the global relaxed cap. The schedule adds an
+   * acceptance path alongside the global rule. Indices must fall within
+   * the root retry budget. Band scoring still determines fallback ranking.
+   */
+  letterLengthRelaxedAfter?: Record<number, Record<number, number>>;
 }
 
 /**
@@ -2670,6 +2682,74 @@ export function validateConfig(config: LanguageConfig): void {
         throw new Error(
           `phonemeToSyllableWeights.${mode}.${phonemeCount} is required because phonemeLengthWeights.${mode} includes ${phonemeCount}`,
         );
+      }
+    }
+  }
+
+  validateLetterLengthRelaxedAfter(config.syllableStructure);
+}
+
+function isScheduleRecord(value: unknown): value is object {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function isRootAttemptIndex(value: unknown): value is number {
+  return typeof value === "number" && Number.isInteger(value)
+    && value >= 0 && value < ROOT_ATTEMPT_CRITERIA.maxAttempts;
+}
+
+/** Configs are caller-owned. Check the current entry and band even after construction. */
+export function resolveLetterLengthRelaxedAfter(
+  { letterLengthRelaxedAfter: schedule, letterLengthTargets }: SyllableStructureRules,
+  syllableCount: number,
+  letterLength: number,
+): number | undefined {
+  if (!isScheduleRecord(schedule) || !Object.prototype.propertyIsEnumerable.call(schedule, syllableCount)) return undefined;
+  const row = schedule[syllableCount];
+  if (!isScheduleRecord(row) || !Object.prototype.propertyIsEnumerable.call(row, letterLength)) return undefined;
+  const index = row[letterLength];
+  if (!isRootAttemptIndex(index)) return undefined;
+  const band = resolveLetterLengthBounds(letterLengthTargets, syllableCount);
+  return band && isWithinLetterLengthBand(letterLength, band) ? index : undefined;
+}
+
+function validateLetterLengthRelaxedAfter(
+  { letterLengthRelaxedAfter: map, letterLengthTargets }: SyllableStructureRules,
+): void {
+  if (map === undefined) return;
+  const label = "syllableStructure.letterLengthRelaxedAfter";
+  if (!isScheduleRecord(map)) {
+    throw new Error(`${label} must be an object when provided`);
+  }
+  for (const [syllableKey, lengths] of Object.entries(map)) {
+    const syllableCount = Number(syllableKey);
+    if (!Number.isSafeInteger(syllableCount) || syllableCount < 1 || String(syllableCount) !== syllableKey) {
+      throw new Error(
+        `${label} has invalid syllable-count key "${syllableKey}"`,
+      );
+    }
+    if (!isScheduleRecord(lengths)) {
+      throw new Error(
+        `${label}.${syllableCount} must be an object of letter-length values`,
+      );
+    }
+    const band = resolveLetterLengthBounds(letterLengthTargets, syllableCount);
+    for (const [letterKey, value] of Object.entries(lengths)) {
+      const letterLength = Number(letterKey);
+      if (!Number.isSafeInteger(letterLength) || letterLength < 1 || String(letterLength) !== letterKey) {
+        throw new Error(
+          `${label}.${syllableCount} has invalid letter-length key "${letterKey}"`,
+        );
+      }
+      const path = `${label}.${syllableCount}.${letterLength}`;
+      if (!isRootAttemptIndex(value)) {
+        throw new Error(
+          `${path} attempt index must be an integer from 0 to ${ROOT_ATTEMPT_CRITERIA.maxAttempts - 1}`,
+        );
+      }
+      if (!band) throw new Error(`${path} requires letterLengthTargets`);
+      if (!isWithinLetterLengthBand(letterLength, band)) {
+        throw new Error(`${path} is outside the letter-length band [${band[0]}, ${band[3]}]`);
       }
     }
   }

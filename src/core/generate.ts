@@ -19,6 +19,7 @@ import {
   computeSonorityLevels,
   defaultFallbackBridgeOnsets,
   validateConfig,
+  resolveLetterLengthRelaxedAfter,
   ClusterLimits,
   SonorityConstraints,
   expandClusterConstraintBans,
@@ -62,7 +63,7 @@ import {
   type NucleusRepairPolicy,
 } from "./nucleus-repair.js";
 import { RejectionTraceCollector } from "./rejection-trace.js";
-import { chooseRootAttempt, type AttemptCriteria } from "./root-attempt-search.js";
+import { chooseRootAttempt } from "./root-attempt-search.js";
 import {
   assertRootRimeCompatibility,
   buildRootRimePolicy,
@@ -82,7 +83,7 @@ import {
 } from "./morphology/index.js";
 import type { PreparedMorphology } from "./morphology/index.js";
 import { clonePhoneme, cloneSyllables } from "./lexical.js";
-import { scoreGenerationAttempt } from "./length-semantics.js";
+import { ROOT_ATTEMPT_CRITERIA, scoreGenerationAttempt } from "./length-semantics.js";
 import { sampleRootLengths, type RootLengthPolicy } from "./syllable-sampling.js";
 import {
   TraceCollector,
@@ -1795,16 +1796,6 @@ function resolveGenerationOptions(
   };
 }
 
-/** Maximum retries for letter-length rejection sampling. */
-const MAX_LENGTH_RETRIES = 3;
-/** Maximum retries for top-down phoneme target matching. */
-const MAX_TOPDOWN_RETRIES = 16;
-const ATTEMPT_CRITERIA: AttemptCriteria = {
-  maxAttempts: MAX_LENGTH_RETRIES + MAX_TOPDOWN_RETRIES + 1,
-  warmupAttempts: MAX_LENGTH_RETRIES,
-  relaxedLetterPenalty: 0.5,
-};
-
 function countPhonemes(syllables: Syllable[]): number {
   let total = 0;
   for (const syl of syllables) {
@@ -2156,9 +2147,10 @@ function generateOneWord(
       rt, mode, targetPhonemeCountRoot, sampledSyllableCount, finalCodaLength, constraintsRand,
     ),
   };
-  const rejectionTrace = enableTrace ? new RejectionTraceCollector(ATTEMPT_CRITERIA) : undefined;
+  const lengthRules = rt.config.syllableStructure;
+  const rejectionTrace = enableTrace ? new RejectionTraceCollector(ROOT_ATTEMPT_CRITERIA) : undefined;
 
-  const selection = chooseRootAttempt(ATTEMPT_CRITERIA, targetPhonemeCountRoot, (attempt) => {
+  const selection = chooseRootAttempt(ROOT_ATTEMPT_CRITERIA, targetPhonemeCountRoot, (attempt) => {
     const streams = wordStreams.attempt(attempt);
     // Shape planning runs before the attempt has a context, so it takes its stream directly.
     const syllablePlans = distributePhonemes(
@@ -2202,17 +2194,19 @@ function generateOneWord(
     const spelled = spellAttempt(rt, context, affixed);
     const root = spelled.root;
     const rootPhonemeCount = countPhonemes(root);
+    const letterLength = context.word.written.clean.length;
     const attemptScore = scoreGenerationAttempt(
       rootPhonemeCount,
       targetPhonemeCountRoot,
-      context.word.written.clean.length,
+      letterLength,
       root.length,
-      rt.config.syllableStructure.letterLengthTargets,
+      lengthRules.letterLengthTargets,
     );
     return {
       value: { context, spelled },
       score: attemptScore,
-      lengths: { syllables: root.length, phonemes: rootPhonemeCount, letters: context.word.written.clean.length },
+      lengths: { syllables: root.length, phonemes: rootPhonemeCount, letters: letterLength },
+      relaxedAfter: resolveLetterLengthRelaxedAfter(lengthRules, root.length, letterLength),
     };
   }, rejectionTrace);
   const { context, spelled } = selection.selected.value;
