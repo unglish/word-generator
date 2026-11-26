@@ -90,7 +90,7 @@
         {"clean":"sanoantoor","hyphenated":"sa&shy;noan&shy;toor","pronunciation":"sæˈnəʊnˌtʰur"}
       ]
     },
-    {"name":"lexicon, morphology","seed":3,"mode":"lexicon","morphology":true,"stageDraws":{"set_constraints":149,"plan_morphology":65,"plan_shape":143,"select_segments":218,"assign_stress":342,"post_stress_repair":21,"spell":153,"render_pronunciation":27},
+    {"name":"lexicon, morphology","seed":3,"mode":"lexicon","morphology":true,"stageDraws":{"set_constraints":149,"plan_morphology":65,"plan_shape":143,"select_segments":217,"adjust_boundary":1,"assign_stress":342,"post_stress_repair":21,"spell":153,"render_pronunciation":27},
       "words": [
         {"clean":"palled","hyphenated":"palled","pronunciation":"pʰæld"},
         {"clean":"orase","hyphenated":"o&shy;rase","pronunciation":"ˈɑˌreɪs"},
@@ -134,7 +134,7 @@
         {"clean":"ranetrot","hyphenated":"rane&shy;trot","pronunciation":"ˌreɪnˈtrʌt"}
       ]
     },
-    {"name":"lexicon, bare","seed":4,"mode":"lexicon","morphology":false,"stageDraws":{"set_constraints":149,"plan_shape":131,"select_segments":210,"assign_stress":327,"post_stress_repair":24,"spell":138,"render_pronunciation":18},
+    {"name":"lexicon, bare","seed":4,"mode":"lexicon","morphology":false,"stageDraws":{"set_constraints":149,"plan_shape":131,"select_segments":208,"adjust_boundary":2,"assign_stress":327,"post_stress_repair":23,"spell":138,"render_pronunciation":18},
       "words": [
         {"clean":"loke","hyphenated":"loke","pronunciation":"ləʊk"},
         {"clean":"faploang","hyphenated":"fa&shy;ploang","pronunciation":"ˈfæ.pləʊŋ"},

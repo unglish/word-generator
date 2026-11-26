@@ -8,7 +8,8 @@ export type StructuralRecorder = Pick<TraceCollector, "recordStructural">;
 export interface SegmentSelectionInput {
   mode: GenerationMode;
   rootRepetition?: RootRepetitionPolicy;
-  rand: RNG;
+  /** Only streams belonging to segment selection on this attempt. */
+  streams(stage: "select_segments" | "adjust_boundary" | "repair_vowel_hiatus"): RNG;
   trace?: StructuralRecorder;
 }
 

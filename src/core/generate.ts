@@ -1073,12 +1073,12 @@ function runPipeline(
   if (plans.length !== context.syllableCount) {
     throw new Error(`Top-down syllable plan mismatch: expected ${context.syllableCount}, got ${plans.length}`);
   }
-  inStage(context, "select_segments", () => traceStage(t, "generateSyllables", word, () => {
+  traceStage(t, "generateSyllables", word, () => {
     word.syllables = rt.segmentEngine.selectSegments(plans, {
-      mode, rand: context.rand, rootRepetition: context.rootRepetition, trace: t,
+      mode, streams: context.streams, rootRepetition: context.rootRepetition, trace: t,
     });
     context.currSyllableIndex = word.syllables.length;
-  }));
+  });
   // The structural repairs take no random stream.
   traceStage(t, "repairClusters", word, () => {
     if (rt.bannedSet)
