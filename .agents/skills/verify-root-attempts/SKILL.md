@@ -5,7 +5,7 @@ description: Check root acceptance, fallback, and rejection accounting when chan
 
 # Verify root attempt selection
 
-Run `npm run test:root-attempts:model`. The checker enumerates four proposals from nine combinations of phoneme distance and letter penalty. Its reference calculation evaluates the full sequence, including proposals that the engine prunes. A fallback must return the first best-scoring proposal and count every executed attempt, even when the winning proposal is early.
+Run `npm run test:root-attempts:model`. The checker enumerates four proposals from nine combinations of phoneme distance and letter penalty, with absent, early, and delayed schedules. Its reference calculation evaluates the full sequence, including proposals that the engine prunes. A fallback must return the first best-scoring proposal and count every executed attempt, even when the winning proposal is early.
 
 The checker uses the actual selector, rejection collector, and public trace projection. The bound includes exact acceptance, relaxed acceptance after two warmup attempts, ties, pruning, and exhaustion. It models the supplied scores. Run the public generator tests for scoring, spelling, RNG consumption, and full-length retries.
 
@@ -19,4 +19,4 @@ In a scratch checkout, replace `this.selection.attemptsExecuted - 1` in `TraceCo
 
 Run `npm test -- src/core/rejection-trace.test.ts src/core/golden-output.test.ts`. The Tests workflow runs the model on every merge into main.
 
-The modeled functions are `chooseRootAttempt` in `src/core/root-attempt-search.ts`, `assessAttempt` and `isDecidedRejection` in `src/core/length-semantics.ts`, `RejectionTraceCollector.finish`, and `TraceCollector.toTrace`. `generateOneWord` connects the selector to the public API. Last confirmed against commit 589833d2. When a covered function changes, rerun the historical failure and the restored model, confirm the bounds, and update that commit.
+The modeled functions are `chooseRootAttempt` in `src/core/root-attempt-search.ts`, `assessAttempt` and `isDecidedRejection` in `src/core/length-semantics.ts`, `RejectionTraceCollector.finish`, and `TraceCollector.toTrace`. `generateOneWord` connects the selector to the public API. Last confirmed against commit 12d92cfb. When a covered function changes, rerun the historical failure and the restored model, confirm the bounds, and update that commit.
