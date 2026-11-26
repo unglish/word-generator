@@ -44,6 +44,8 @@ const VECTORS: Array<[Stage, number, number]> = [
   ["plan_morphology", 0, 0x389f5e60],
   ["plan_shape", 1, 0xe4552a42],
   ["select_segments", 1, 0x0282e1a7],
+  ["adjust_boundary", 1, 0xcc35bfc0],
+  ["repair_vowel_hiatus", 1, 0x98b06d7f],
   ["assign_stress", 1, 0xd3e93052],
   ["post_stress_repair", 1, 0x8f420d90],
   ["preview_morphology", 1, 0x8cff5056],

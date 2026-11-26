@@ -9,6 +9,7 @@ import { excludedAfterOnset, isNucleusCodaPairAllowed } from "./rime-compatibili
 import { weightMatchingCoda } from "./root-repetition.js";
 import { adjustBoundary, repairVowelHiatus } from "./segment-boundaries.js";
 import type { SegmentEngine, SegmentSelectionInput } from "./segment-selection.js";
+import type { RNG } from "../utils/random.js";
 import { noDraws } from "./stage-streams.js";
 import type { CodaExtensionRejectionReason } from "./trace.js";
 
@@ -51,7 +52,8 @@ export interface LegacySelectionRuntime {
 type FinalCodasByNucleus = Map<string, Map<number, [Phoneme[], number][]>>;
 const DEFAULT_POST_VOWEL_GLIDE_MULTIPLIER = 0.08;
 
-interface SelectionCursor extends Omit<SegmentSelectionInput, "mode"> {
+interface SelectionCursor extends Pick<SegmentSelectionInput, "rootRepetition" | "trace"> {
+  rand: RNG;
   syllables: Syllable[];
   syllableCount: number;
   currSyllableIndex: number;
@@ -979,7 +981,8 @@ export function createLegacyWeightedEngine(rt: LegacySelectionRuntime): SegmentE
   }
 
   return {
-    selectSegments(plans, { mode, rand, rootRepetition, trace }) {
+    selectSegments(plans, { mode, streams, rootRepetition, trace }) {
+      const rand = streams("select_segments");
       const syllables: Syllable[] = new Array(plans.length);
       const cursor: SelectionCursor = {
         syllables, syllableCount: plans.length, currSyllableIndex: 0, rand, rootRepetition, trace,
@@ -988,10 +991,12 @@ export function createLegacyWeightedEngine(rt: LegacySelectionRuntime): SegmentE
       for (let i = 0; i < plans.length; i++) {
         cursor.currSyllableIndex = i;
         const syllable = generateSyllable(rt, cursor, plans[i], finalCodas);
-        if (i > 0) adjustBoundary(rt, syllables[i - 1], syllable, rand, i, trace);
+        if (i > 0) adjustBoundary(rt, syllables[i - 1], syllable, streams("adjust_boundary"), i, trace);
         syllables[i] = syllable;
       }
-      repairVowelHiatus(rt.bridgePhonemeOptions, syllables, rand, trace);
+      if (syllables.length > 1) {
+        repairVowelHiatus(rt.bridgePhonemeOptions, syllables, streams("repair_vowel_hiatus"), trace);
+      }
       return syllables;
     },
   };

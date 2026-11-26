@@ -4,6 +4,10 @@
 
 ### Changed
 
+- Root boundary drops and vowel-hiatus bridges now draw from separate random
+  streams on each root attempt (#555). This changes some seeded polysyllables.
+  Replay a trace with the same generator version, config and options.
+
 - Each generation stage now draws from its own random stream, derived from a
   per-word key, the stage name and the root attempt (#556). Changing how one
   stage draws no longer moves the draws of other stages. Word distributions
