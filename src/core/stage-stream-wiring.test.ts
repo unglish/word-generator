@@ -9,7 +9,7 @@
 import { describe, expect, it } from "vitest";
 import { createGenerator, englishConfig, generateWord } from "../index.js";
 import type { Word, WordGenerationOptions } from "../types.js";
-import { withShiftedStage, withStageDraws, type Stage } from "../test-support/stage-stream-probe.js";
+import { stageCount, withShiftedStage, withStageDraws, type Stage, type StageDraws } from "../test-support/stage-stream-probe.js";
 import { ATTEMPT_STAGES, WORD_STAGES } from "./stage-streams.js";
 
 const SEEDS = Array.from({ length: 300 }, (_, i) => 556_000 + i);
@@ -72,17 +72,20 @@ describe("stage stream wiring (#556)", () => {
 
   // The golden fixture records first-attempt draws per stage on this property:
   // a change to one stage leaves the draws of every stage that runs before it.
+  // A bare word renders its pronunciation before finalize_root_spelling, so
+  // that stage does not count as earlier than render_pronunciation.
   // preview_morphology is left out: its first attempt draws in about one word in
   // 1,000, too rarely for this search. Its own-stream test above still covers it.
   const shiftable = ATTEMPT_STAGES.slice(1).filter(stage => stage !== "preview_morphology");
   it.each(shiftable)("shifting %s leaves the first attempt's earlier stages' draws alone", stage => {
-    const earlier = [...WORD_STAGES, ...ATTEMPT_STAGES.slice(0, ATTEMPT_STAGES.indexOf(stage)).map(s => `${s}#0`)];
-    const counts = (draws: Record<string, number>) => earlier.map(label => draws[label] ?? 0);
+    const earlier: Stage[] = [...WORD_STAGES, ...ATTEMPT_STAGES.slice(0, ATTEMPT_STAGES.indexOf(stage))]
+      .filter(before => stage !== "render_pronunciation" || before !== "finalize_root_spelling");
+    const counts = (draws: StageDraws) => earlier.map(before => stageCount(draws, before, 0));
     // Only words whose first attempt draws from the shifted stage can show a moved draw.
     let drew = 0;
     for (let seed = 556_000; seed < 566_000 && drew < 40; seed++) {
       const base = withStageDraws(() => generate({ seed, morphology: true }));
-      if (!base.draws[`${stage}#0`]) continue;
+      if (!stageCount(base.draws, stage, 0)) continue;
       const shifted = withStageDraws(() => generate({ seed, morphology: true }, stage));
       // A bare word's gap spelling redraws from spell after its pronunciation.
       if (stage === "render_pronunciation" && (gapSpelled(base.value) || gapSpelled(shifted.value))) continue;
@@ -115,20 +118,34 @@ describe("stage stream wiring (#556)", () => {
     expect(flipped).toBeGreaterThan(0);
   });
 
-  it.each([false, true])("finishing stages use the selected attempt's streams (morphology %s)", morphology => {
-    let laterAttempts = 0;
-    for (const seed of SEEDS) {
-      const base = generate({ seed, morphology });
+  // A finishing stage runs once, for the selected attempt, after every attempt
+  // has run. Only words whose selected attempt is a later one, and whose
+  // finishing stage draws, can tell its streams apart from attempt 0's or the
+  // last attempt's. Medial doubling draws for about one such word in 120.
+  it.each([
+    { stage: "finalize_root_spelling", morphology: false, words: 15, changed: 5, notLast: 0 },
+    { stage: "finalize_root_spelling", morphology: true, words: 15, changed: 5, notLast: 0 },
+    { stage: "render_pronunciation", morphology: true, words: 150, changed: 50, notLast: 3 },
+  ] as const)("$stage uses the selected attempt's stream (morphology $morphology)", ({
+    stage, morphology, words, changed, notLast,
+  }) => {
+    const counts = { words: 0, changed: 0, notLast: 0 };
+    for (let seed = 556_000; seed < 566_000 && counts.words < words; seed++) {
+      const { value: base, draws } = withStageDraws(() => generate({ seed, morphology }));
       const chosen = selected(base);
-      if (chosen > 0) laterAttempts++;
-      const elsewhere = (attempt: number) => attempt !== chosen;
-      expect(untraced(generate({ seed, morphology }, "finalize_root_spelling", elsewhere)), `seed ${seed}`)
+      // A bare word renders its pronunciation inside every attempt, not after selection.
+      const finishes = stage !== "render_pronunciation" || base.trace!.morphology?.template !== "bare";
+      if (chosen === 0 || !finishes || !stageCount(draws, stage, chosen)) continue;
+      counts.words++;
+      expect(untraced(generate({ seed, morphology }, stage, attempt => attempt !== chosen)), `seed ${seed}`)
         .toEqual(untraced(base));
-      if (base.trace!.morphology && base.trace!.morphology.template !== "bare") {
-        expect(untraced(generate({ seed, morphology }, "render_pronunciation", elsewhere)), `seed ${seed}`)
-          .toEqual(untraced(base));
-      }
+      const shifted = generate({ seed, morphology }, stage, attempt => attempt === chosen);
+      if (JSON.stringify(untraced(shifted)) !== JSON.stringify(untraced(base))) counts.changed++;
+      // A fallback can select an attempt before the last one run.
+      if (chosen !== base.trace!.selection!.attemptsExecuted - 1) counts.notLast++;
     }
-    expect(laterAttempts).toBeGreaterThan(30);
+    expect(counts.words, `words whose selected later attempt draws from ${stage}`).toBe(words);
+    expect(counts.changed, "words that shifting the selected attempt's stream changes").toBeGreaterThanOrEqual(changed);
+    expect(counts.notLast, "words whose selected attempt is not the last one run").toBeGreaterThanOrEqual(notLast);
   });
 });

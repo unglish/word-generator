@@ -26,9 +26,13 @@ export const STAGE_STREAM_SCHEME = "stage-streams/1";
 export const WORD_STAGES = ["set_constraints", "plan_morphology"] as const;
 
 /**
- * Stages that draw for one root attempt. The finishing stages
+ * Stages that draw for one root attempt, in the order they run. The golden
+ * fixture and the wiring tests rely on this order. The finishing stages
  * (`finalize_root_spelling`, and `render_pronunciation` of an affixed word) run
- * for the selected attempt and use its streams.
+ * for the selected attempt and use its streams. A bare word renders its
+ * pronunciation inside each attempt, after `spell` and before
+ * `finalize_root_spelling`, and its gap spelling draws from `spell` again
+ * after that.
  */
 export const ATTEMPT_STAGES = [
   "plan_shape", "select_segments", "assign_stress", "post_stress_repair",
@@ -143,7 +147,7 @@ export function inStage<T>(context: StreamContext, stage: AttemptStage, run: () 
 }
 
 /**
- * Test hook: sees every draw of a stream made while it is set, and returns the
+ * @internal Test hook: sees every draw of a stream made while it is set, and returns the
  * value the stage receives. `attempt` is undefined for a word stage. Only
  * `src/test-support/stage-stream-probe.ts` sets it. Internal, and synchronous
  * only: it applies to streams made during `run`.

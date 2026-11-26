@@ -33,10 +33,12 @@ const CYCLE = 2n ** 32n;
 const MULBERRY_INCREMENT = 0x6d2b79f5n;
 /**
  * Each word takes exactly two draws from the caller's stream since #556. A
- * `--generator-root` checkout from before #556 took about 86 per lexicon word;
- * the check after the run uses the draws each run actually took.
+ * `--generator-root` checkout may predate #556, when a lexicon word took about
+ * 86, so the check before the run assumes the old conservative 100 for any
+ * other checkout. The check after the run uses the draws each run actually took.
  */
 const DRAWS_PER_WORD = 2;
+const OTHER_CHECKOUT_DRAWS_PER_WORD = 100;
 
 interface Thresholds {
   sampleSize: number;
@@ -252,7 +254,8 @@ async function main() {
   const k = Number(values.k);
   if (!Number.isFinite(k) || k < 0) throw new Error("--k must be a non-negative number.");
 
-  const estimatedDraws = thresholds.sampleSize * DRAWS_PER_WORD;
+  const drawsPerWord = generatorRoot === resolve(REPO_ROOT) ? DRAWS_PER_WORD : OTHER_CHECKOUT_DRAWS_PER_WORD;
+  const estimatedDraws = thresholds.sampleSize * drawsPerWord;
   const likelyOverlaps = findOverlaps(seeds.map(seed => ({ seed, draws: estimatedDraws })));
   if (likelyOverlaps.length > 0) {
     throw new Error(`RNG streams would likely overlap (assuming ${estimatedDraws} draws per run):\n${likelyOverlaps.join("\n")}`);

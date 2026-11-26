@@ -5,6 +5,7 @@ import type { Word } from "../types.js";
 import type { GraphemeTrace } from "./trace.js";
 import { verifyBaseSpellingEvidence } from "./spelling-evidence.js";
 import { findExample, searchSeeds } from "../test-support/find-example.js";
+import { stageCount, withoutStage, withStageDraws } from "../test-support/stage-stream-probe.js";
 
 const rule = "medialOnsetDoubling";
 
@@ -150,14 +151,20 @@ describe("root-internal consonant doubling (#517)", () => {
     expect(word.written.clean).toBe(written.slice(0, edit.start) + written.slice(edit.start + 1));
   });
 
-  it("preserves lexical roots and selection over a continuous stream", () => {
+  it("preserves lexical roots, selection and other stages' draws over a continuous stream", () => {
     const legacy = createGenerator(legacyEnglishConfig());
     const oldRand = createSeededRng(20261124);
     const newRand = createSeededRng(20261124);
     let visibleDoubles = 0;
+    let doublerDraws = 0;
     for (let i = 0; i < 1_000; i++) {
-      const before = legacy.generateWord({ rand: oldRand, mode: "lexicon", trace: true });
-      const after = generateWord({ rand: newRand, mode: "lexicon", trace: true });
+      const { value: before, draws: legacyDraws } = withStageDraws(() =>
+        legacy.generateWord({ rand: oldRand, mode: "lexicon", trace: true }));
+      const { value: after, draws } = withStageDraws(() => generateWord({ rand: newRand, mode: "lexicon", trace: true }));
+      // The policy draws only from finalize_root_spelling, which the legacy config never reads.
+      expect(stageCount(legacyDraws, "finalize_root_spelling"), `word ${i}`).toBe(0);
+      expect(withoutStage(draws, "finalize_root_spelling"), `word ${i}`).toEqual(legacyDraws);
+      if (stageCount(draws, "finalize_root_spelling") > 0) doublerDraws++;
       expect(after.lexical).toEqual(before.lexical);
       expect(after.pronunciation).toBe(before.pronunciation);
       expect(after.trace?.selection).toEqual(before.trace?.selection);
@@ -169,6 +176,7 @@ describe("root-internal consonant doubling (#517)", () => {
       }
     }
     expect(visibleDoubles).toBeGreaterThan(0);
+    expect(doublerDraws).toBeGreaterThan(visibleDoubles);
   });
 
   it("preserves the version 1 certificate context for custom configs without the new policy", () => {

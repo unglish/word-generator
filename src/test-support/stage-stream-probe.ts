@@ -12,29 +12,52 @@
  *
  * Not part of the published build (excluded in tsconfig.json).
  */
-import { withStageDrawHook, type AttemptStage, type WordStage } from "../core/stage-streams.js";
+import { WORD_STAGES, withStageDrawHook, type AttemptStage, type WordStage } from "../core/stage-streams.js";
 
 export type Stage = WordStage | AttemptStage;
 
-/** Draws per stream: `stage` for a word stage, `stage#n` for attempt `n` (0-based). */
-export type StageDraws = Record<string, number>;
+/** Draws per stream: each word stage's, and each attempt stage's by root attempt (0-based). */
+export interface StageDraws {
+  word: Partial<Record<WordStage, number>>;
+  attempts: Array<Partial<Record<AttemptStage, number>>>;
+}
+
+const WORD_STAGE_SET: ReadonlySet<Stage> = new Set(WORD_STAGES);
+
+function isWordStage(stage: Stage): stage is WordStage {
+  return WORD_STAGE_SET.has(stage);
+}
 
 /** Run `run`, counting the draws of every stage stream it reads. */
 export function withStageDraws<T>(run: () => T): { value: T; draws: StageDraws } {
-  const draws: StageDraws = {};
+  const draws: StageDraws = { word: {}, attempts: [] };
   const value = withStageDrawHook((stage, attempt, r) => {
-    const label = attempt === undefined ? stage : `${stage}#${attempt}`;
-    draws[label] = (draws[label] ?? 0) + 1;
+    if (attempt === undefined) {
+      const wordStage = stage as WordStage;
+      draws.word[wordStage] = (draws.word[wordStage] ?? 0) + 1;
+    } else {
+      while (draws.attempts.length <= attempt) draws.attempts.push({});
+      const counts = draws.attempts[attempt];
+      const attemptStage = stage as AttemptStage;
+      counts[attemptStage] = (counts[attemptStage] ?? 0) + 1;
+    }
     return r;
   }, run);
   return { value, draws };
 }
 
-/** Total draws of `stage` over every attempt. */
-export function stageTotal(draws: StageDraws, stage: Stage): number {
-  return Object.entries(draws)
-    .filter(([label]) => label.split("#")[0] === stage)
-    .reduce((sum, [, count]) => sum + count, 0);
+/** Draws of `stage`: a word stage's, or an attempt stage's on `attempt`, or over every attempt when it is omitted. */
+export function stageCount(draws: StageDraws, stage: Stage, attempt?: number): number {
+  if (isWordStage(stage)) return draws.word[stage] ?? 0;
+  const attempts = attempt === undefined ? draws.attempts : draws.attempts.slice(attempt, attempt + 1);
+  return attempts.reduce((sum, counts) => sum + (counts[stage] ?? 0), 0);
+}
+
+/** The same draws with `stage`'s left out. */
+export function withoutStage(draws: StageDraws, stage: Stage): StageDraws {
+  const without = <K extends Stage>(counts: Partial<Record<K, number>>) =>
+    Object.fromEntries(Object.entries(counts).filter(([drawn]) => drawn !== stage)) as Partial<Record<K, number>>;
+  return { word: without(draws.word), attempts: draws.attempts.map(without) };
 }
 
 /**

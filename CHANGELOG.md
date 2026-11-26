@@ -34,8 +34,10 @@
 
 - `options.rand` now keys each word instead of feeding individual choices
   (#556). Each word takes exactly two draws from it, so a custom `rand` such as
-  `() => 0` no longer picks the first option of every weighted choice. A value
-  outside [0, 1) from it now throws a `RangeError`.
+  `() => 0` no longer picks the first option of every weighted choice, and a
+  coarse source limits how many words it can give: each value is read to 32
+  bits, so a `rand` with 100 distinct values gives at most 10,000 words. A
+  value outside [0, 1) from it now throws a `RangeError`.
 - Removed `Grapheme.origin` and the `ORIGINS` export. The codes were unsourced,
   nothing in the generator read them, and a spelling's origin does not
   determine a word's etymology. Generated output is unchanged.

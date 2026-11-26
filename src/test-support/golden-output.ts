@@ -7,18 +7,24 @@
  * it: review the diff and regenerate deliberately.
  *
  * Each case also records each stage's draws on every word's first root attempt,
- * which always runs. Within that attempt the stages run in order on their own
- * streams, so a change leaves the counts of every stage that runs before it
- * unchanged. A count that moves in an earlier stage means a draw moved to the
- * wrong stream. Totals over all attempts cannot show this: any change that
- * alters output changes which attempts run, and so every stage's total.
+ * which always runs. Within that attempt the stages run in the order of
+ * `ATTEMPT_STAGES` on their own streams, so a change leaves the counts of every
+ * stage that runs before it unchanged. A count that moves in an earlier stage
+ * means a draw moved to the wrong stream. Totals over all attempts cannot show
+ * this: any change that alters output changes which attempts run, and so every
+ * stage's total. Three exceptions:
+ * - the finishing stages (`finalize_root_spelling`, and `render_pronunciation`
+ *   of an affixed word) draw on the first attempt only when it is selected, so
+ *   their counts also move with selection;
+ * - a bare word renders its pronunciation before `finalize_root_spelling`;
+ * - a bare word's gap spelling draws from `spell` after its pronunciation.
  *
  * Not part of the published build (excluded in tsconfig.json).
  */
 import { generateWords } from "../index.js";
 import { ATTEMPT_STAGES, WORD_STAGES } from "../core/stage-streams.js";
 import type { GenerationMode } from "../types.js";
-import { withStageDraws, type Stage } from "./stage-stream-probe.js";
+import { stageCount, withStageDraws, type Stage } from "./stage-stream-probe.js";
 
 export const GOLDEN_FIXTURE_URL = new URL("../core/golden-output.json", import.meta.url);
 export const GOLDEN_UPDATE_COMMAND = "npm run golden:update";
@@ -60,8 +66,10 @@ function captureCase(golden: GoldenCase): GoldenCaseOutput {
   const { value, draws } = withStageDraws(() =>
     generateWords(GOLDEN_WORDS_PER_CASE, { seed: golden.seed, mode: golden.mode, morphology: golden.morphology }));
   const stageDraws: Partial<Record<Stage, number>> = {};
-  for (const stage of WORD_STAGES) if (draws[stage]) stageDraws[stage] = draws[stage];
-  for (const stage of ATTEMPT_STAGES) if (draws[`${stage}#0`]) stageDraws[stage] = draws[`${stage}#0`];
+  for (const stage of [...WORD_STAGES, ...ATTEMPT_STAGES]) {
+    const count = stageCount(draws, stage, 0);
+    if (count > 0) stageDraws[stage] = count;
+  }
   const words = value.map(({ written, pronunciation }) => ({ clean: written.clean, hyphenated: written.hyphenated, pronunciation }));
   return { ...golden, stageDraws, words };
 }

@@ -94,6 +94,13 @@ stream can then change that word's spelling. In English only the two-syllable
 overrides (*any*, *people*) can be reached this way. Affixed words render after
 spelling and are not affected.
 
+Medial doubling is a second such path. It reads the word's syllables, which for
+a bare word are the realized ones, since its pronunciation is already rendered,
+and for an affixed word are the ones before realization. With
+`reduceSecondaryStress: true`, a reduced vowel can therefore change whether a
+bare word's medial onset doubles. English sets it to false and reduces only lax
+vowels the doubler does not check, so English cannot reach this path.
+
 The affix plan has its own stream because it takes a varying number of draws:
 a bare plan takes fewer than a suffixed one. Sharing `set_constraints` would let
 any affix change move the root edge draws that follow it. A word whose plan
@@ -143,12 +150,19 @@ changes no word.
 
 The golden fixture (`src/core/golden-output.json`) records, for each case, the
 draws of each word stage and of each attempt stage on every word's first root
-attempt. That attempt always runs, and its stages run in order, so a change
-leaves the counts of every stage that runs before it unchanged. When a change
-moves a draw into an earlier stage's stream, which the wiring test below cannot
-always see, the fixture diff shows draws arriving in that earlier stage.
-Totals over all attempts would not show it: a change that alters output changes
-which attempts run, and with them every stage's total.
+attempt. That attempt always runs, and its stages run in the order of
+`ATTEMPT_STAGES`, so a change leaves the counts of every stage that runs before
+it unchanged. When a change moves a draw into an earlier stage's stream, which
+the wiring test below cannot always see, the fixture diff shows draws arriving
+in that earlier stage. Totals over all attempts would not show it: a change that
+alters output changes which attempts run, and with them every stage's total.
+Three exceptions apply:
+
+- the finishing stages draw on the first attempt only when it is selected, so
+  their counts also move with selection;
+- a bare word renders its pronunciation inside each attempt, before
+  `finalize_root_spelling`;
+- a bare word's gap spelling draws from `spell` after its pronunciation.
 
 `src/core/stage-stream-wiring.test.ts` shifts one stage's draws at a time and
 checks that:
@@ -157,12 +171,14 @@ checks that:
 - shifting the spelling streams leaves the root and the pronunciation alone,
   and shifting the pronunciation stream leaves the root and the spelling alone
   (apart from gap spellings, above), whenever the same attempt is selected;
-- the finishing stages use the selected attempt's streams: shifting another
-  attempt's leaves the word unchanged;
+- the finishing stages use the selected attempt's streams. Over words whose
+  selected attempt is a later one and draws from the stage, shifting another
+  attempt's stream leaves the word unchanged, and shifting the selected
+  attempt's changes some words. For `render_pronunciation` this includes
+  fallback words whose selected attempt is not the last one run;
 - shifting a stage leaves the first attempt's draws in every earlier stage
-  unchanged, which is what the golden fixture's counts rely on. A bare word's
-  gap spelling is the exception, since it draws from `spell` after
-  `render_pronunciation`. `preview_morphology` is left out, because its first
+  unchanged, which is what the golden fixture's counts rely on. The bare-word
+  exceptions above apply. `preview_morphology` is left out, because its first
   attempt draws in about one word in 1,000.
 
 Changing a stage's draws still changes that stage's later draws within the word.

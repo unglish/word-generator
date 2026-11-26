@@ -4,7 +4,7 @@ import {
   type LanguageConfig,
 } from "../index.js";
 import type { Word } from "../types.js";
-import { stageTotal, withStageDraws, type StageDraws } from "../test-support/stage-stream-probe.js";
+import { stageCount, withoutStage, withStageDraws } from "../test-support/stage-stream-probe.js";
 import {
   ATTEMPT_STAGES, createWordStreams, deriveStreamSeed, STAGE_STREAM_SCHEME, WORD_STAGES,
 } from "./stage-streams.js";
@@ -30,11 +30,6 @@ function alternationConfig(probability: number | undefined): LanguageConfig {
     ...englishConfig,
     unstressedRootNuclei: { ...policy, initial: at(policy.initial), final: at(policy.final) },
   };
-}
-
-/** Draws of every stream except `stage`'s. */
-function withoutStage(draws: StageDraws, stage: string): StageDraws {
-  return Object.fromEntries(Object.entries(draws).filter(([label]) => label.split("#")[0] !== stage));
 }
 
 describe("per-stage random streams (#556)", () => {
@@ -163,7 +158,7 @@ describe("per-stage random streams (#556)", () => {
       expect(drawn.value, `seed ${seed}`).toEqual(notDrawn.value);
       expect(withoutStage(drawn.draws, "post_stress_repair"), `seed ${seed}`)
         .toEqual(withoutStage(notDrawn.draws, "post_stress_repair"));
-      if (stageTotal(drawn.draws, "post_stress_repair") > stageTotal(notDrawn.draws, "post_stress_repair")) drewMore++;
+      if (stageCount(drawn.draws, "post_stress_repair") > stageCount(notDrawn.draws, "post_stress_repair")) drewMore++;
     }
     // About 140 seeds in 400 draw more (106 to 153 over 20 windows). With one
     // shared stream these draws would have moved every later draw of the word.

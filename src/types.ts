@@ -350,7 +350,9 @@ export interface WordGenerationOptions {
    * values throw a `RangeError`. Each word takes exactly two values from it as
    * the word's key, and every generation stage then draws from its own stream
    * derived from that key (see `docs/stage-random-streams.md`). It picks the
-   * word; it does not make individual choices.
+   * word; it does not make individual choices. Each value is read to 32 bits,
+   * so a coarser source limits how many words it can give: a `rand` with 100
+   * distinct values gives at most 10,000.
    */
   rand?: RNG;
   /**
