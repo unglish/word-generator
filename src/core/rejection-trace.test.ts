@@ -5,7 +5,6 @@ import { scoreGenerationAttempt } from "./length-semantics.js";
 import { findExample } from "../test-support/find-example.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-
 function phones(word: Word): number {
   return word.syllables.reduce((count, syllable) => count + syllable.onset.length + syllable.nucleus.length + syllable.coda.length, 0);
 }

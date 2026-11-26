@@ -11,6 +11,7 @@ import { englishConfig } from "../config/english";
 import { createDefaultRng } from "../utils/random";
 import { buildGraphemeMaps } from "../elements/graphemes/index";
 import { findExample } from "../test-support/find-example";
+import { isVowelChar } from "../utils/letters";
 import type { WordTrace } from "./trace";
 
 const maxVowelLetters = englishConfig.writtenFormConstraints!.maxVowelLetters!;
@@ -23,6 +24,17 @@ function repairsFor(word: Word, rule: string) {
 
 function finalVowelRun(spelling: string): number {
   return /[aeiouy]*$/.exec(spelling)![0].length;
+}
+
+/** The longest run of vowel letters, read as the vowel-letter cap reads them. */
+function longestVowelRun(spelling: string): number {
+  let longest = 0;
+  let run = 0;
+  for (let i = 0; i < spelling.length; i++) {
+    run = isVowelChar(spelling[i], i, spelling) ? run + 1 : 0;
+    longest = Math.max(longest, run);
+  }
+  return longest;
 }
 
 function endsInConsonantLetters(spelling: string, count: number): boolean {
@@ -557,6 +569,50 @@ describe("Word Generator", () => {
     );
     expect(word.written.clean.endsWith(lastSelection(word).emitted)).toBe(true);
     expect(traced).toEqual(
+      generator.generateWord({ ...options, trace: false }),
+    );
+  });
+
+  it("does not protect terminal y belonging to a selected consonant spelling", () => {
+    const graphemes = englishConfig.graphemes.map((g) =>
+      g.phoneme === "s" ? { ...g, form: "aeay" } : g,
+    );
+    const generator = createGenerator(
+      withLegacyRepairs({
+        ...englishConfig,
+        graphemes,
+        graphemeMaps: buildGraphemeMaps(graphemes).graphemeMaps,
+      }),
+    );
+    const { word, options } = findExample(
+      (word) =>
+        lastSelection(word).phoneme === "s" &&
+        lastSelection(word).selected === "aeay" &&
+        repairsFor(word, "repairVowelLetters").some((repair) =>
+          repair.before.endsWith("aeay"),
+        ),
+      {
+        property: "a word-final /s/ spelled aeay that the vowel-letter cap shortens",
+        limit: 2000,
+        generator,
+        options: { syllableCount: 1, morphology: false },
+      },
+    );
+    expect(lastSelection(word)).toMatchObject({
+      phoneme: "s",
+      position: "coda",
+      selected: "aeay",
+    });
+    const cap = repairsFor(word, "repairVowelLetters").find((repair) =>
+      repair.before.endsWith("aeay"),
+    );
+    expect(cap, "vowel cap of the consonant spelling").toBeDefined();
+    expect(cap!.after.endsWith("y")).toBe(false);
+    // The cap reads y before a vowel as a consonant, so a spelling of vowel
+    // letters such as aeyoa can still meet it.
+    expect(longestVowelRun(cap!.after)).toBeLessThanOrEqual(maxVowelLetters);
+    expect(word.written.clean).toBe(cap!.after);
+    expect({ ...word, trace: undefined }).toEqual(
       generator.generateWord({ ...options, trace: false }),
     );
   });

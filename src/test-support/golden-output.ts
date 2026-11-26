@@ -4,16 +4,21 @@
  * `src/core/golden-output.test.ts` compares a fresh capture with the committed
  * fixture; `npm run golden:update` rewrites the fixture. Any change to how a
  * stage draws, to the stream derivation or to weighting is expected to change
- * it: review the diff and regenerate deliberately. Each case also records every
- * stage's draws over its words: a change in a stage the change did not touch
- * means a draw moved to the wrong stream.
+ * it: review the diff and regenerate deliberately.
+ *
+ * Each case also records each stage's draws on every word's first root attempt,
+ * which always runs. Within that attempt the stages run in order on their own
+ * streams, so a change leaves the counts of every stage that runs before it
+ * unchanged. A count that moves in an earlier stage means a draw moved to the
+ * wrong stream. Totals over all attempts cannot show this: any change that
+ * alters output changes which attempts run, and so every stage's total.
  *
  * Not part of the published build (excluded in tsconfig.json).
  */
 import { generateWords } from "../index.js";
 import { ATTEMPT_STAGES, WORD_STAGES } from "../core/stage-streams.js";
 import type { GenerationMode } from "../types.js";
-import { stageTotal, withStageDraws, type Stage } from "./stage-stream-probe.js";
+import { withStageDraws, type Stage } from "./stage-stream-probe.js";
 
 export const GOLDEN_FIXTURE_URL = new URL("../core/golden-output.json", import.meta.url);
 export const GOLDEN_UPDATE_COMMAND = "npm run golden:update";
@@ -40,7 +45,7 @@ export interface GoldenWord {
 }
 
 export interface GoldenCaseOutput extends GoldenCase {
-  /** Draws of each stage stream over the case's words, summed over attempts. */
+  /** Draws of each stage over the case's words: word stages, and attempt stages on the first attempt. */
   stageDraws: Partial<Record<Stage, number>>;
   words: GoldenWord[];
 }
@@ -55,10 +60,8 @@ function captureCase(golden: GoldenCase): GoldenCaseOutput {
   const { value, draws } = withStageDraws(() =>
     generateWords(GOLDEN_WORDS_PER_CASE, { seed: golden.seed, mode: golden.mode, morphology: golden.morphology }));
   const stageDraws: Partial<Record<Stage, number>> = {};
-  for (const stage of [...WORD_STAGES, ...ATTEMPT_STAGES]) {
-    const total = stageTotal(draws, stage);
-    if (total > 0) stageDraws[stage] = total;
-  }
+  for (const stage of WORD_STAGES) if (draws[stage]) stageDraws[stage] = draws[stage];
+  for (const stage of ATTEMPT_STAGES) if (draws[`${stage}#0`]) stageDraws[stage] = draws[`${stage}#0`];
   const words = value.map(({ written, pronunciation }) => ({ clean: written.clean, hyphenated: written.hyphenated, pronunciation }));
   return { ...golden, stageDraws, words };
 }

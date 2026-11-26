@@ -4,7 +4,6 @@ import type { LanguageConfig } from "../config/language.js";
 import type { Phoneme, Syllable, Word, WordGenerationContext } from "../types.js";
 import { findExample } from "../test-support/find-example.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
-
 import { assertRootRimeCompatibility, isNucleusCodaPairAllowed, isNucleusCompatibleWithCoda } from "./rime-compatibility.js";
 import { repairRootNuclei, repairStressedNuclei } from "./nucleus-repair.js";
 

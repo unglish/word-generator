@@ -145,7 +145,8 @@ export function inStage<T>(context: StreamContext, stage: AttemptStage, run: () 
 /**
  * Test hook: sees every draw of a stream made while it is set, and returns the
  * value the stage receives. `attempt` is undefined for a word stage. Only
- * `src/test-support/stage-stream-probe.ts` sets it.
+ * `src/test-support/stage-stream-probe.ts` sets it. Internal, and synchronous
+ * only: it applies to streams made during `run`.
  */
 export type StageDrawHook = (stage: WordStage | AttemptStage, attempt: number | undefined, r: number) => number;
 
@@ -165,11 +166,14 @@ export function withStageDrawHook<T>(hook: StageDrawHook, run: () => T): T {
   }
 }
 
-function createStream(key: StreamKey, stage: WordStage | AttemptStage, index: number): RNG {
-  const rng = createSeededRng(deriveStreamSeed(key, stage, index));
+/**
+ * The stream of a word stage (`attempt` undefined), at index 0, or of root
+ * attempt `attempt` (0-based), at index `attempt + 1`.
+ */
+function createStream(key: StreamKey, stage: WordStage | AttemptStage, attempt: number | undefined): RNG {
+  const rng = createSeededRng(deriveStreamSeed(key, stage, attempt === undefined ? 0 : attempt + 1));
   const hook = drawHook;
   if (!hook) return rng;
-  const attempt = index === 0 ? undefined : index - 1;
   return () => hook(stage, attempt, rng());
 }
 
@@ -187,14 +191,14 @@ function memoize<K, V>(make: (key: K) => V): (key: K) => V {
 
 /**
  * Draw one word's stream key from `rand` (two draws) and return its stage
- * streams. Word stages use index 0; attempt `n` (0-based) uses index `n + 1`.
+ * streams.
  */
 export function createWordStreams(rand: RNG): WordStreams {
   const key = drawStreamKey(rand);
   return {
     key,
-    word: memoize((stage: WordStage) => createStream(key, stage, 0)),
-    attempt: memoize((attempt: number) => memoize((stage: AttemptStage) => createStream(key, stage, attempt + 1))),
+    word: memoize((stage: WordStage) => createStream(key, stage, undefined)),
+    attempt: memoize((attempt: number) => memoize((stage: AttemptStage) => createStream(key, stage, attempt))),
   };
 }
 

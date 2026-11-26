@@ -5,7 +5,6 @@ import type { PrimaryStressRules } from "../config/language.js";
 import type { Phoneme, Syllable } from "../types.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-
 const moraic: SyllableWeightPolicy = { type: "moraic", analysis: "fixture", coda: "weight-by-position", unknown: "legacy-segment-count" };
 
 function configFor(options: { policy?: SyllableWeightPolicy; primary?: PrimaryStressRules; quantities?: boolean | "english"; secondary?: boolean } = {}): LanguageConfig {

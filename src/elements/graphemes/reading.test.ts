@@ -5,7 +5,6 @@ import { buildGraphemeMaps, graphemes } from "./index.js";
 import { withEnglishReadings } from "./reading.js";
 import { withStageDraws } from "../../test-support/stage-stream-probe.js";
 
-
 function entry(phoneme: string, form: string): Grapheme {
   return { phoneme, form, frequency: 1, startWord: 1, midWord: 1, endWord: 1 };
 }

@@ -6,7 +6,6 @@ import { isNucleusWordPositionAllowed, nucleusWordEdges } from "./nucleus-positi
 import { findExample } from "../test-support/find-example.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-
 const foot = englishConfig.phonemes.find(p => p.sound === "ʊ")!;
 const goose = englishConfig.phonemes.find(p => p.sound === "u")!;
 const schwa = englishConfig.phonemes.find(p => p.sound === "ə")!;

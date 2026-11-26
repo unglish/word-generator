@@ -9,9 +9,8 @@
 import { describe, expect, it } from "vitest";
 import { createGenerator, englishConfig, generateWord } from "../index.js";
 import type { Word, WordGenerationOptions } from "../types.js";
-import { withShiftedStage, type Stage } from "../test-support/stage-stream-probe.js";
+import { withShiftedStage, withStageDraws, type Stage } from "../test-support/stage-stream-probe.js";
 import { ATTEMPT_STAGES, WORD_STAGES } from "./stage-streams.js";
-
 
 const SEEDS = Array.from({ length: 300 }, (_, i) => 556_000 + i);
 
@@ -69,6 +68,28 @@ describe("stage stream wiring (#556)", () => {
         expect(rendered.written, `seed ${seed}`).toEqual(base.written);
     }
     expect(compared).toBeGreaterThan(SEEDS.length);
+  });
+
+  // The golden fixture records first-attempt draws per stage on this property:
+  // a change to one stage leaves the draws of every stage that runs before it.
+  // preview_morphology is left out: its first attempt draws in about one word in
+  // 1,000, too rarely for this search. Its own-stream test above still covers it.
+  const shiftable = ATTEMPT_STAGES.slice(1).filter(stage => stage !== "preview_morphology");
+  it.each(shiftable)("shifting %s leaves the first attempt's earlier stages' draws alone", stage => {
+    const earlier = [...WORD_STAGES, ...ATTEMPT_STAGES.slice(0, ATTEMPT_STAGES.indexOf(stage)).map(s => `${s}#0`)];
+    const counts = (draws: Record<string, number>) => earlier.map(label => draws[label] ?? 0);
+    // Only words whose first attempt draws from the shifted stage can show a moved draw.
+    let drew = 0;
+    for (let seed = 556_000; seed < 566_000 && drew < 40; seed++) {
+      const base = withStageDraws(() => generate({ seed, morphology: true }));
+      if (!base.draws[`${stage}#0`]) continue;
+      const shifted = withStageDraws(() => generate({ seed, morphology: true }, stage));
+      // A bare word's gap spelling redraws from spell after its pronunciation.
+      if (stage === "render_pronunciation" && (gapSpelled(base.value) || gapSpelled(shifted.value))) continue;
+      drew++;
+      expect(counts(shifted.draws), `seed ${seed}`).toEqual(counts(base.draws));
+    }
+    expect(drew, `words whose first attempt draws from ${stage}`).toBe(40);
   });
 
   it("draws a bare word's gap spelling choice from its spell stream", () => {

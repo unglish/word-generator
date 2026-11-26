@@ -10,7 +10,6 @@ import {
 } from "./grapheme-selection.js";
 import { findExample } from "../test-support/find-example.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
-
 import { withPhonemeWeights } from "../test-support/phoneme-weights.js";
 
 function withGraphemes(graphemes: Grapheme[]) {
@@ -99,6 +98,8 @@ describe("legal grapheme selection", () => {
     { nextSound: "l", nextPosition: "onset", left: "ə", form: "dg", limit: 6_000 },
     { nextSound: "g", nextPosition: "onset", tense: false, form: "ge" },
     { nextSound: "g", nextPosition: "onset", tense: true, form: "ge" },
+    // /i:/ before the /dʒ.w/ junction is rare: about one word in 2,200.
+    { nextSound: "w", nextPosition: "onset", left: "i:", form: "j", limit: 12_000 },
     { nextSound: "j", nextPosition: "onset", form: "j" },
     { nextSound: "ə", nextPosition: "nucleus", form: "di" },
     { nextSound: "ɚ", nextPosition: "nucleus", form: "di" },
@@ -143,6 +144,22 @@ describe("legal grapheme selection", () => {
     expect(choice?.weights).toEqual([["ge", 6 * 0.15], ["dge", 10 * 0.15], ["j", 0.15]]);
     expect(choice?.roll).toBeGreaterThanOrEqual(0);
     expect(choice?.roll).toBeLessThan(6 * 0.15 + 10 * 0.15 + 0.15);
+  });
+
+  // #520: di before a consonant lost its i in the written word, so the root was
+  // scored on letters it was not spelled with.
+  it("scores the root it spells when /dʒ/ before /w/ samples past its first slots", () => {
+    const { word } = findExample((candidate) => {
+      const choice = codaAffricateBefore(candidate, "w", "onset");
+      return !!choice && choice.roll >= 6;
+    }, {
+      property: "a /dʒ.w/ junction sampling past the affricate's first slots",
+      generator: codaAffricateGenerator("w"), limit: 3_000,
+      options: { syllableCount: 2, morphology: false },
+    });
+
+    expect(codaAffricateBefore(word, "w", "onset")?.selected).not.toBe("di");
+    expect(word.trace?.selection?.selected.letters).toBe(word.written.clean.length);
   });
 
   it("spells isolated /ɛ/ with ordinary e or ea, including before /t/, without a fallback", () => {

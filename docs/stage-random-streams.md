@@ -141,10 +141,14 @@ tests use it to show that tracing or an inert config draws nothing: identical
 words alone cannot show that, because a draw at the end of a stage's stream
 changes no word.
 
-The golden fixture (`src/core/golden-output.json`) records each stage's draws
-for each case. When a change moves a draw to another stage's stream, which the
-wiring test below cannot always see, the fixture diff shows draws leaving one
-stage and arriving in another.
+The golden fixture (`src/core/golden-output.json`) records, for each case, the
+draws of each word stage and of each attempt stage on every word's first root
+attempt. That attempt always runs, and its stages run in order, so a change
+leaves the counts of every stage that runs before it unchanged. When a change
+moves a draw into an earlier stage's stream, which the wiring test below cannot
+always see, the fixture diff shows draws arriving in that earlier stage.
+Totals over all attempts would not show it: a change that alters output changes
+which attempts run, and with them every stage's total.
 
 `src/core/stage-stream-wiring.test.ts` shifts one stage's draws at a time and
 checks that:
@@ -154,7 +158,12 @@ checks that:
   and shifting the pronunciation stream leaves the root and the spelling alone
   (apart from gap spellings, above), whenever the same attempt is selected;
 - the finishing stages use the selected attempt's streams: shifting another
-  attempt's leaves the word unchanged.
+  attempt's leaves the word unchanged;
+- shifting a stage leaves the first attempt's draws in every earlier stage
+  unchanged, which is what the golden fixture's counts rely on. A bare word's
+  gap spelling is the exception, since it draws from `spell` after
+  `render_pronunciation`. `preview_morphology` is left out, because its first
+  attempt draws in about one word in 1,000.
 
 Changing a stage's draws still changes that stage's later draws within the word.
 Changing which attempt is selected changes the finishing stages' streams,

@@ -4,7 +4,6 @@ import type { Syllable } from "../types.js";
 import { weightMatchingCoda } from "./root-repetition.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-
 function hasNucleusTriple(syllables: readonly Syllable[]): boolean {
   return syllables.some(({ nucleus }, index) => {
     const sound = nucleus[0]?.sound;

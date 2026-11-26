@@ -10,7 +10,6 @@ import { createGenerator } from "../generate.js";
 import { TraceCollector } from "../trace.js";
 import { cloneSyllables } from "../lexical.js";
 import { withStageDraws } from "../../test-support/stage-stream-probe.js";
-
 import { prepareMorphology, writeMorphology } from "./attach.js";
 import {
   bindMorphophonemicGuard,

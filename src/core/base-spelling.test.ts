@@ -6,7 +6,6 @@ import type { Word } from "../types.js";
 import { findExample, searchSeeds } from "../test-support/find-example.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
-
 // These tests pin the legacy (version-1) repair ledger; the phone-preserving
 // policy has its own coverage in spelling-coverage.test.ts.
 const legacyConfig = { ...englishConfig, doubling: { ...englishConfig.doubling!, realizations: undefined }, writtenFormConstraints: { ...englishConfig.writtenFormConstraints, policy: undefined } };

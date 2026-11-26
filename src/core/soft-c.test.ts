@@ -130,6 +130,37 @@ describe("soft c and sc before written vowels (#495)", () => {
     expect(untraced.pronunciation).toBe(word.pronunciation);
   });
 
+  it("keeps /s/ when a suffix drops the e that softened a root-final c", () => {
+    // Every word takes a suffix that starts with a back vowel, before which a bare c reads /k/.
+    const morphology = englishConfig.morphology!;
+    const suffixed = { bare: 0, prefixed: 0, suffixed: 100, both: 0 };
+    const generator = createGenerator({
+      ...englishConfig,
+      morphology: {
+        ...morphology,
+        suffixes: morphology.suffixes.filter(affix => "aou".includes(affix.written[0])),
+        templateWeights: { lexicon: suffixed, text: suffixed },
+      },
+    });
+    const rootPart = (word: Word) => word.trace?.morphology?.realization?.emittedParts.find(part => part.role === "root");
+    const finalCe = (word: Word) => word.trace?.graphemeSelections.find(selection =>
+      selection.phoneme === "s" && selection.position === "coda" && selection.selected === "ce"
+      && selection.syllableIndex === word.lexical!.root.length - 1);
+    const { word, options } = findExample(candidate => {
+      const base = candidate.trace?.baseSpelling;
+      return !!finalCe(candidate) && !!base && rootPart(candidate)?.text === base.surface.slice(0, -1);
+    }, {
+      property: "a root-final /s/ spelled ce whose e a back-vowel suffix drops",
+      limit: 3_000,
+      generator,
+      options: { mode: "lexicon" },
+    });
+    expect(finalCe(word)!.letterRespelled).toMatchObject({ form: "s", rule: "letterContext:soft-c" });
+    expect(rootPart(word)!.text.endsWith("s")).toBe(true);
+    expect(word.lexical!.root.at(-1)!.coda.at(-1)?.sound).toBe("s");
+    expect(generator.generateWord({ ...options, trace: false }).written).toEqual(word.written);
+  });
+
   it.each([
     { phoneme: "s", source: "c", letters: "eiy", limit: 300 },
     { phoneme: "s", source: "sc", letters: "eiy", limit: 2_500 },

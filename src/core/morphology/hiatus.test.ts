@@ -5,7 +5,6 @@ import type { Affix, LanguageConfig, MorphologyConfig } from "../../config/langu
 import type { Grapheme, Word } from "../../types.js";
 import { withStageDraws } from "../../test-support/stage-stream-probe.js";
 
-
 function fixedBoundary(options: {
   prefix?: string; suffix?: string; onset?: string; coda?: string;
   policy?: MorphologyConfig["boundaryPolicy"];
