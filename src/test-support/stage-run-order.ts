@@ -17,16 +17,24 @@ import type { Word } from "../types.js";
 export type WordKind = "bare" | "affixed";
 
 /** Each attempt stage's runs in order. A stage listed twice resumes its stream. */
-export const ATTEMPT_RUN_ORDER: Readonly<Record<WordKind, readonly AttemptStage[]>> = {
+const AFTER_SELECTION: Readonly<Record<WordKind, readonly AttemptStage[]>> = {
   bare: [
-    "plan_shape", "select_segments", "assign_stress", "post_stress_repair",
+    "assign_stress", "post_stress_repair",
     "spell", "render_pronunciation", "spell", "finalize_root_spelling",
   ],
   affixed: [
-    "plan_shape", "select_segments", "assign_stress", "post_stress_repair",
+    "assign_stress", "post_stress_repair",
     "preview_morphology", "spell", "finalize_root_spelling", "render_pronunciation",
   ],
 };
+
+/** A boundary can draw only after both adjacent syllables have been selected. */
+function attemptRunOrder(kind: WordKind, syllables: number): AttemptStage[] {
+  const order: AttemptStage[] = ["plan_shape", "select_segments"];
+  for (let i = 1; i < syllables; i++) order.push("select_segments", "adjust_boundary");
+  if (syllables > 1) order.push("repair_vowel_hiatus");
+  return [...order, ...AFTER_SELECTION[kind]];
+}
 
 /** Stages that run only for the selected attempt, after every attempt has run. */
 export const FINISHING_STAGES: Readonly<Record<WordKind, ReadonlySet<AttemptStage>>> = {
@@ -40,8 +48,8 @@ export function wordKind(word: Word): WordKind {
 }
 
 /** Stages whose every run comes before `stage` first runs, so a change to `stage` cannot move their draws. */
-export function stagesBefore(kind: WordKind, stage: AttemptStage): AttemptStage[] {
-  const order = ATTEMPT_RUN_ORDER[kind];
+export function stagesBefore(kind: WordKind, syllables: number, stage: AttemptStage): AttemptStage[] {
+  const order = attemptRunOrder(kind, syllables);
   const first = order.indexOf(stage);
   return [...new Set(order)].filter(before => before !== stage && order.lastIndexOf(before) < first);
 }
@@ -52,8 +60,8 @@ export function stagesBefore(kind: WordKind, stage: AttemptStage): AttemptStage[
  * missing. A stage's later listing resumes it, so it matches only after the
  * stage has run.
  */
-export function followsRunOrder(kind: WordKind, runs: readonly AttemptStage[]): boolean {
-  const order = ATTEMPT_RUN_ORDER[kind];
+export function followsRunOrder(kind: WordKind, syllables: number, runs: readonly AttemptStage[]): boolean {
+  const order = attemptRunOrder(kind, syllables);
   const ran = new Set<AttemptStage>();
   let at = 0;
   for (const stage of runs) {
@@ -63,5 +71,5 @@ export function followsRunOrder(kind: WordKind, runs: readonly AttemptStage[]): 
     ran.add(stage);
     at++;
   }
-  return true;
+  return ran.has("select_segments");
 }

@@ -7,7 +7,7 @@
  * it: review the diff and regenerate deliberately.
  *
  * Each case also records each stage's draws on every word's first root attempt,
- * which always runs, in the order `ATTEMPT_RUN_ORDER` in `./stage-run-order.ts`
+ * which always runs, in the order `./stage-run-order.ts`
  * records for its kind of word. A change to one stage therefore leaves the
  * counts of every stage that runs before it unchanged (`stagesBefore`), and a
  * count that moves in an earlier stage means a draw moved to the wrong stream.
