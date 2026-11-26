@@ -70,7 +70,10 @@ Duplicate or invalid seeds and fractional draw counts are rejected. Distinct see
 can still select overlapping stretches of the generator's single RNG cycle. The
 default seeds are at least 155 million draws apart, far more than the 800,000
 draws (two per word) a 400,000-word replicate consumes, but custom `--seeds` are
-not checked for overlap.
+not checked for overlap. That spacing keeps word keys distinct between
+replicates, so no word repeats. Each word's stage streams are other windows on
+the same cycle, so words in different replicates can still share a stretch of
+draws, offset ([Per-stage random streams](./stage-random-streams.md#stage-streams)).
 
 Tests cover absent/zero categories, extreme finite counts, known divergence,
 continuous sampling, trace replay, and persisted report/witness consistency.

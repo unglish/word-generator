@@ -13,9 +13,12 @@
 import { createSeededRng, type RNG } from "../utils/random.js";
 
 /**
- * Version of the derivation recorded in the trace. Bump it when any stream
- * changes: a stage name, the fold, or how the key is drawn. The known-answer
- * vectors in `stage-streams.test.ts` fail on any such change.
+ * Version of the derivation recorded in the trace: how the key is drawn, how a
+ * stage name is hashed, how the index is numbered and the fold. Bump it when
+ * any of these changes, since every stream then changes. Adding, renaming or
+ * splitting a stage changes only that stage's streams under the same
+ * derivation, and does not bump it. The known-answer vectors in
+ * `stage-streams.test.ts` are listed under the scheme they pin.
  */
 export const STAGE_STREAM_SCHEME = "stage-streams/1";
 
@@ -26,13 +29,10 @@ export const STAGE_STREAM_SCHEME = "stage-streams/1";
 export const WORD_STAGES = ["set_constraints", "plan_morphology"] as const;
 
 /**
- * Stages that draw for one root attempt, in the order they run. The golden
- * fixture and the wiring tests rely on this order. The finishing stages
+ * Stages that draw for one root attempt. The finishing stages
  * (`finalize_root_spelling`, and `render_pronunciation` of an affixed word) run
- * for the selected attempt and use its streams. A bare word renders its
- * pronunciation inside each attempt, after `spell` and before
- * `finalize_root_spelling`, and its gap spelling draws from `spell` again
- * after that.
+ * for the selected attempt and use its streams. The order they run in depends
+ * on the kind of word; `src/test-support/stage-run-order.ts` records it.
  */
 export const ATTEMPT_STAGES = [
   "plan_shape", "select_segments", "assign_stress", "post_stress_repair",
@@ -41,6 +41,12 @@ export const ATTEMPT_STAGES = [
 
 export type WordStage = (typeof WORD_STAGES)[number];
 export type AttemptStage = (typeof ATTEMPT_STAGES)[number];
+export type Stage = WordStage | AttemptStage;
+
+/** One stream of a word: a word stage's, or an attempt stage's on root attempt `attempt` (0-based). */
+export type StreamId =
+  | { readonly stage: WordStage; readonly attempt?: undefined }
+  | { readonly stage: AttemptStage; readonly attempt: number };
 
 /** Two 32-bit words drawn from a caller's stream; it keys every stage stream of one word. */
 export interface StreamKey {
@@ -96,7 +102,7 @@ function fold(h: number, input: number): number {
  * a different 64-to-32-bit map, and a seed collision in one stream does not
  * repeat in the others.
  */
-export function deriveStreamSeed(key: StreamKey, stage: WordStage | AttemptStage, index: number): number {
+export function deriveStreamSeed(key: StreamKey, stage: Stage, index: number): number {
   return fold(fold(fold(fold(0x811c9dc5, hashStage(stage)), index), key.hi), key.lo);
 }
 
@@ -132,27 +138,28 @@ export interface StreamContext {
 }
 
 /**
- * Run `run` with `context.rand` bound to the attempt's `stage` stream, then put
- * back what was bound before. Contexts start with {@link BETWEEN_STAGES}, so
- * outside every `inStage` a draw throws.
+ * Run `run` with `context.rand` bound to the attempt's `stage` stream, then
+ * bind {@link BETWEEN_STAGES} again, so outside every `inStage` a draw throws.
+ * Stages do not nest: calling it inside another stage throws.
  */
 export function inStage<T>(context: StreamContext, stage: AttemptStage, run: () => T): T {
-  const outer = context.rand;
+  if (context.rand !== BETWEEN_STAGES) {
+    throw new Error(`inStage(context, "${stage}", ...) ran inside another stage; stages do not nest.`);
+  }
   context.rand = context.streams(stage);
   try {
     return run();
   } finally {
-    context.rand = outer;
+    context.rand = BETWEEN_STAGES;
   }
 }
 
 /**
  * @internal Test hook: sees every draw of a stream made while it is set, and returns the
- * value the stage receives. `attempt` is undefined for a word stage. Only
- * `src/test-support/stage-stream-probe.ts` sets it. Internal, and synchronous
- * only: it applies to streams made during `run`.
+ * value the stage receives. Only `src/test-support/stage-stream-probe.ts` sets
+ * it. Internal, and synchronous only: it applies to streams made during `run`.
  */
-export type StageDrawHook = (stage: WordStage | AttemptStage, attempt: number | undefined, r: number) => number;
+export type StageDrawHook = (stream: StreamId, r: number) => number;
 
 let drawHook: StageDrawHook | undefined;
 
@@ -162,7 +169,7 @@ let drawHook: StageDrawHook | undefined;
  */
 export function withStageDrawHook<T>(hook: StageDrawHook, run: () => T): T {
   const outer = drawHook;
-  drawHook = outer ? (stage, attempt, r) => hook(stage, attempt, outer(stage, attempt, r)) : hook;
+  drawHook = outer ? (stream, r) => hook(stream, outer(stream, r)) : hook;
   try {
     return run();
   } finally {
@@ -170,15 +177,12 @@ export function withStageDrawHook<T>(hook: StageDrawHook, run: () => T): T {
   }
 }
 
-/**
- * The stream of a word stage (`attempt` undefined), at index 0, or of root
- * attempt `attempt` (0-based), at index `attempt + 1`.
- */
-function createStream(key: StreamKey, stage: WordStage | AttemptStage, attempt: number | undefined): RNG {
-  const rng = createSeededRng(deriveStreamSeed(key, stage, attempt === undefined ? 0 : attempt + 1));
+/** A word stage's stream is at index 0, and root attempt `attempt`'s at `attempt + 1`. */
+function createStream(key: StreamKey, stream: StreamId): RNG {
+  const rng = createSeededRng(deriveStreamSeed(key, stream.stage, stream.attempt === undefined ? 0 : stream.attempt + 1));
   const hook = drawHook;
   if (!hook) return rng;
-  return () => hook(stage, attempt, rng());
+  return () => hook(stream, rng());
 }
 
 function memoize<K, V>(make: (key: K) => V): (key: K) => V {
@@ -201,8 +205,8 @@ export function createWordStreams(rand: RNG): WordStreams {
   const key = drawStreamKey(rand);
   return {
     key,
-    word: memoize((stage: WordStage) => createStream(key, stage, undefined)),
-    attempt: memoize((attempt: number) => memoize((stage: AttemptStage) => createStream(key, stage, attempt))),
+    word: memoize((stage: WordStage) => createStream(key, { stage })),
+    attempt: memoize((attempt: number) => memoize((stage: AttemptStage) => createStream(key, { stage, attempt }))),
   };
 }
 

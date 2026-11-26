@@ -3,7 +3,7 @@ import { createGenerator, englishConfig, generateWord, TraceCollector } from "..
 import type { LanguageConfig } from "../config/language.js";
 import type { Phoneme, Syllable, Word, WordGenerationContext } from "../types.js";
 import { findExample } from "../test-support/find-example.js";
-import { withStageDraws } from "../test-support/stage-stream-probe.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 import { assertRootRimeCompatibility, isNucleusCodaPairAllowed, isNucleusCompatibleWithCoda } from "./rime-compatibility.js";
 import { repairRootNuclei, repairStressedNuclei } from "./nucleus-repair.js";
 
@@ -308,21 +308,15 @@ describe("lexical-root nucleus/coda compatibility", () => {
     const plain = createGenerator(plainConfig), constrained = createGenerator(constrainedConfig);
     for (let seed = 712; seed < 712 + 100; seed++) {
       const options = { seed, syllableCount: 2, morphology: false };
-      const withPair = withStageDraws(() => constrained.generateWord(options));
-      const withoutPair = withStageDraws(() => plain.generateWord(options));
-      expect(withPair.value, `seed ${seed}`).toEqual(withoutPair.value);
-      expect(withPair.draws, `seed ${seed}`).toEqual(withoutPair.draws);
+      expectSameWordsAndDraws(() => constrained.generateWord(options), () => plain.generateWord(options), `seed ${seed}`);
     }
   });
 
   it.each([false, true])("preserves trace/no-trace output and stage draws with morphology=%s", morphology => {
     for (let seed = 1777; seed < 1777 + 1000; seed++) {
-      const on = withStageDraws(() => generateWord({ seed, morphology, trace: true }));
-      const off = withStageDraws(() => generateWord({ seed, morphology }));
-      const { trace, ...traced } = on.value;
-      expect(trace).toBeDefined();
-      expect(traced, `seed ${seed}`).toEqual(off.value);
-      expect(on.draws, `seed ${seed}`).toEqual(off.draws);
+      const [on] = expectSameWordsAndDraws(
+        () => generateWord({ seed, morphology, trace: true }), () => generateWord({ seed, morphology }), `seed ${seed}`);
+      expect(on.trace).toBeDefined();
     }
   });
 });

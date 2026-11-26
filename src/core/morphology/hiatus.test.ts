@@ -3,7 +3,7 @@ import { createGenerator, createSeededRng, englishConfig, generateWord, generate
 import type { MorphHiatusDecisionTrace } from "../../index.js";
 import type { Affix, LanguageConfig, MorphologyConfig } from "../../config/language.js";
 import type { Grapheme, Word } from "../../types.js";
-import { withStageDraws } from "../../test-support/stage-stream-probe.js";
+import { expectSameWordsAndDraws } from "../../test-support/expect-same-draws.js";
 
 function fixedBoundary(options: {
   prefix?: string; suffix?: string; onset?: string; coda?: string;
@@ -128,10 +128,7 @@ describe("morphological vowel adjacency", () => {
 
   it("keeps tracing observational for output and stage draws over 2,000 public-API words", () => {
     for (let seed = 20260926; seed < 20260926 + 2000; seed++) {
-      const traced = withStageDraws(() => generateWord({ seed, trace: true }));
-      const plain = withStageDraws(() => generateWord({ seed }));
-      expect({ ...traced.value, trace: undefined }, `seed ${seed}`).toEqual(plain.value);
-      expect(traced.draws, `seed ${seed}`).toEqual(plain.draws);
+      expectSameWordsAndDraws(() => generateWord({ seed, trace: true }), () => generateWord({ seed }), `seed ${seed}`);
     }
   });
 });

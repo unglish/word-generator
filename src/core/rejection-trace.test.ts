@@ -3,7 +3,7 @@ import { createGenerator, englishConfig, generateWord, generateWords } from "../
 import type { Word } from "../types.js";
 import { scoreGenerationAttempt } from "./length-semantics.js";
 import { findExample } from "../test-support/find-example.js";
-import { withStageDraws } from "../test-support/stage-stream-probe.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 
 function phones(word: Word): number {
   return word.syllables.reduce((count, syllable) => count + syllable.onset.length + syllable.nucleus.length + syllable.coda.length, 0);
@@ -60,12 +60,9 @@ describe("complete rejection accounting", () => {
 
   it.each([false, true])("tracing preserves outputs and stage draws with morphology=%s", morphology => {
     for (let seed = 97412; seed < 97412 + 500; seed++) {
-      const traced = withStageDraws(() => generateWord({ seed, morphology, trace: true }));
-      const plain = withStageDraws(() => generateWord({ seed, morphology }));
-      const { trace, ...output } = traced.value;
-      expect(output, `seed ${seed}`).toEqual(plain.value);
-      expect(traced.draws, `seed ${seed}`).toEqual(plain.draws);
-      expect(trace!.selection).toBeDefined();
+      const [traced] = expectSameWordsAndDraws(
+        () => generateWord({ seed, morphology, trace: true }), () => generateWord({ seed, morphology }), `seed ${seed}`);
+      expect(traced.trace!.selection).toBeDefined();
     }
   });
 

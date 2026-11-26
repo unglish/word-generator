@@ -4,9 +4,11 @@ import {
   type LanguageConfig,
 } from "../index.js";
 import type { Word } from "../types.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 import { stageCount, withoutStage, withStageDraws } from "../test-support/stage-stream-probe.js";
 import {
-  ATTEMPT_STAGES, createWordStreams, deriveStreamSeed, STAGE_STREAM_SCHEME, WORD_STAGES,
+  ATTEMPT_STAGES, BETWEEN_STAGES, createWordStreams, deriveStreamSeed, inStage, STAGE_STREAM_SCHEME, WORD_STAGES,
+  type Stage,
 } from "./stage-streams.js";
 
 function countingRng(seed: number) {
@@ -32,25 +34,42 @@ function alternationConfig(probability: number | undefined): LanguageConfig {
   };
 }
 
+/** The key each scheme's vectors use. */
+const VECTOR_KEY = { hi: 0x01234567, lo: 0x89abcdef };
+
+/**
+ * Known-answer seeds under each scheme, as [stage, index, seed]. A scheme's
+ * vectors never change: a change to the derivation is a new scheme, with new
+ * vectors under it. A new stage adds its vector under the current scheme.
+ */
+const VECTORS: Record<typeof STAGE_STREAM_SCHEME, Array<[Stage, number, number]>> = {
+  "stage-streams/1": [
+    ["set_constraints", 0, 0xdcfa87f7],
+    ["plan_morphology", 0, 0x389f5e60],
+    ["plan_shape", 1, 0xe4552a42],
+    ["select_segments", 1, 0x0282e1a7],
+    ["assign_stress", 1, 0xd3e93052],
+    ["post_stress_repair", 1, 0x8f420d90],
+    ["preview_morphology", 1, 0x8cff5056],
+    ["spell", 1, 0x93129b51],
+    ["finalize_root_spelling", 1, 0xc5bf49b7],
+    ["render_pronunciation", 1, 0x52076d70],
+    ["spell", 3, 0x3e2add64],
+  ],
+};
+
+/** A caller stream that gives a traced word's key back, `hi` then `lo`. */
+function replayKey(key: string): () => number {
+  const draws = [key.slice(0, 8), key.slice(8)].map(half => parseInt(half, 16) / 2 ** 32);
+  return () => draws.shift()!;
+}
+
 describe("per-stage random streams (#556)", () => {
   it("derives the documented seeds for a fixed key", () => {
-    // A failure here means every word changes: bump STAGE_STREAM_SCHEME, then
-    // update these vectors and docs/stage-random-streams.md together.
-    expect(STAGE_STREAM_SCHEME).toBe("stage-streams/1");
-    const key = { hi: 0x01234567, lo: 0x89abcdef };
-    const vectors: Array<[(typeof WORD_STAGES)[number] | (typeof ATTEMPT_STAGES)[number], number, number]> = [
-      ["set_constraints", 0, 0xdcfa87f7],
-      ["plan_morphology", 0, 0x389f5e60],
-      ["plan_shape", 1, 0xe4552a42],
-      ["select_segments", 1, 0x0282e1a7],
-      ["assign_stress", 1, 0xd3e93052],
-      ["post_stress_repair", 1, 0x8f420d90],
-      ["preview_morphology", 1, 0x8cff5056],
-      ["spell", 1, 0x93129b51],
-      ["finalize_root_spelling", 1, 0xc5bf49b7],
-      ["render_pronunciation", 1, 0x52076d70],
-      ["spell", 3, 0x3e2add64],
-    ];
+    // A failure here means every word changes. A change to the derivation needs
+    // a new STAGE_STREAM_SCHEME, with its vectors and docs/stage-random-streams.md.
+    const key = VECTOR_KEY;
+    const vectors = VECTORS[STAGE_STREAM_SCHEME];
     for (const [stage, index, seed] of vectors) expect(deriveStreamSeed(key, stage, index), `${stage} at ${index}`).toBe(seed);
     // Every stage has a vector, so a new or renamed stage fails here too.
     expect(new Set(vectors.map(([stage]) => stage))).toEqual(new Set([...WORD_STAGES, ...ATTEMPT_STAGES]));
@@ -92,6 +111,24 @@ describe("per-stage random streams (#556)", () => {
     expect(new Set(batch.map(word => word.trace?.random?.key)).size).toBe(40);
   });
 
+  it("regenerates a traced word from its key through the public API", () => {
+    const generator = createGenerator(englishConfig);
+    for (const options of [{ mode: "lexicon" as const }, { mode: "text" as const, morphology: false }]) {
+      for (const word of generateWords(30, { ...options, seed: 556, trace: true })) {
+        expect(generator.generateWord({ ...options, rand: replayKey(word.trace!.random!.key), trace: true })).toEqual(word);
+      }
+    }
+  });
+
+  it("refuses to nest stages and leaves the context between stages", () => {
+    const streams = createWordStreams(createSeededRng(556));
+    const context = { rand: BETWEEN_STAGES, streams: streams.attempt(0) };
+    expect(() => inStage(context, "spell", () => inStage(context, "render_pronunciation", () => 0))).toThrow(/do not nest/);
+    expect(context.rand).toBe(BETWEEN_STAGES);
+    expect(inStage(context, "spell", () => context.rand())).toBe(createWordStreams(createSeededRng(556)).attempt(0)("spell")());
+    expect(context.rand).toBe(BETWEEN_STAGES);
+  });
+
   it("records the scheme and the word's key", () => {
     const word = generateWord({ seed: 556, trace: true });
     const key = createWordStreams(createSeededRng(556)).key;
@@ -120,12 +157,11 @@ describe("per-stage random streams (#556)", () => {
       .toEqual(first(fresh.word("plan_morphology")).slice(0, 2));
   });
 
-  it.each(["text", "lexicon"] as const)("takes the same draws from every stage stream with tracing on or off (%s)", mode => {
+  it.each(["text", "lexicon"] as const)("gives the same words and stage draws with tracing on or off (%s)", mode => {
     for (const morphology of [false, true]) {
       for (let seed = 0; seed < 200; seed++) {
         const options = { seed, mode, morphology };
-        expect(withStageDraws(() => generateWord({ ...options, trace: true })).draws, `seed ${seed}`)
-          .toEqual(withStageDraws(() => generateWord(options)).draws);
+        expectSameWordsAndDraws(() => generateWord({ ...options, trace: true }), () => generateWord(options), `seed ${seed}`);
       }
     }
   });

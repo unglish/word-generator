@@ -136,8 +136,8 @@ index to a particular word.
   under English weights, build a narrower config with `createGenerator`.
 - **Compare stage draws, not caller draws.** To show that a change draws
   nothing, generate each word with and without it from the same seed, and
-  require identical words and identical per-stage draw counts. Count them with
-  `withStageDraws` from `src/test-support/stage-stream-probe.ts`. Identical
+  require identical words and identical per-stage draw counts with
+  `expectSameWordsAndDraws` from `src/test-support/expect-same-draws.ts`. Identical
   words alone do not show it: a draw added at the end of a stage's stream
   changes no word. Counting the caller's draws shows nothing either, since
   every word takes exactly two.

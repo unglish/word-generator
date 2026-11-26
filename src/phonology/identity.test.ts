@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { englishConfig, generateWord } from "../index.js";
 import { ipaToArpabet } from "../phonotactic/ipa-to-arpabet.js";
-import { withStageDraws } from "../test-support/stage-stream-probe.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 import {
   LEGACY_ENGLISH_IDENTITIES, observeCmuToken, observeWordIdentity,
   projectIdentityStress, projectLegacyArpabet,
@@ -91,17 +91,14 @@ describe("phoneme identity contract", () => {
 
   it("preserves source objects and stage draws over 2,000 public API draws", () => {
     for (let seed = 161616; seed < 161616 + 2000; seed++) {
-      const observed = withStageDraws(() => generateWord({ seed, trace: true, morphology: true }));
-      const observedWord = observed.value;
+      const [observedWord] = expectSameWordsAndDraws(
+        () => generateWord({ seed, trace: true, morphology: true }), () => generateWord({ seed, morphology: true }), `seed ${seed}`);
       const before = JSON.stringify(observedWord);
       const observation = observeWordIdentity(observedWord, options);
       expect(observeWordIdentity(observedWord, options)).toEqual(observation);
       projectLegacyArpabet(observation); projectIdentityStress(observation);
       observation.segments[0].stress.raw = "mutated";
       expect(JSON.stringify(observedWord)).toBe(before);
-      const unobserved = withStageDraws(() => generateWord({ seed, morphology: true }));
-      expect({ ...observedWord, trace: undefined }, `seed ${seed}`).toEqual(unobserved.value);
-      expect(observed.draws, `seed ${seed}`).toEqual(unobserved.draws);
     }
   });
 });

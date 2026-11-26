@@ -9,8 +9,11 @@
 import { describe, expect, it } from "vitest";
 import { createGenerator, englishConfig, generateWord } from "../index.js";
 import type { Word, WordGenerationOptions } from "../types.js";
-import { stageCount, withShiftedStage, withStageDraws, type Stage, type StageDraws } from "../test-support/stage-stream-probe.js";
-import { ATTEMPT_STAGES, WORD_STAGES } from "./stage-streams.js";
+import {
+  attemptStageCount, stageCount, withShiftedStage, withStageDraws, withStageRuns, type StageDraws,
+} from "../test-support/stage-stream-probe.js";
+import { FINISHING_STAGES, followsRunOrder, stagesBefore, wordKind, type WordKind } from "../test-support/stage-run-order.js";
+import { ATTEMPT_STAGES, WORD_STAGES, type Stage } from "./stage-streams.js";
 
 const SEEDS = Array.from({ length: 300 }, (_, i) => 556_000 + i);
 
@@ -70,27 +73,34 @@ describe("stage stream wiring (#556)", () => {
     expect(compared).toBeGreaterThan(SEEDS.length);
   });
 
+  it.each([false, true])("runs every attempt's stages in the recorded order (morphology %s)", morphology => {
+    for (const seed of SEEDS) {
+      const { value, runs } = withStageRuns(() => generate({ seed, morphology }));
+      for (const [attempt, stages] of runs.entries()) {
+        expect(followsRunOrder(wordKind(value), stages), `seed ${seed}, attempt ${attempt}: ${stages.join(" > ")}`).toBe(true);
+      }
+    }
+  });
+
   // The golden fixture records first-attempt draws per stage on this property:
   // a change to one stage leaves the draws of every stage that runs before it.
-  // A bare word renders its pronunciation before finalize_root_spelling, so
-  // that stage does not count as earlier than render_pronunciation.
   // preview_morphology is left out: its first attempt draws in about one word in
   // 1,000, too rarely for this search. Its own-stream test above still covers it.
   const shiftable = ATTEMPT_STAGES.slice(1).filter(stage => stage !== "preview_morphology");
   it.each(shiftable)("shifting %s leaves the first attempt's earlier stages' draws alone", stage => {
-    const earlier: Stage[] = [...WORD_STAGES, ...ATTEMPT_STAGES.slice(0, ATTEMPT_STAGES.indexOf(stage))]
-      .filter(before => stage !== "render_pronunciation" || before !== "finalize_root_spelling");
-    const counts = (draws: StageDraws) => earlier.map(before => stageCount(draws, before, 0));
+    const counts = (kind: WordKind, draws: StageDraws) => [
+      ...WORD_STAGES.map(before => stageCount(draws, before)),
+      ...stagesBefore(kind, stage).map(before => attemptStageCount(draws, before, 0)),
+    ];
     // Only words whose first attempt draws from the shifted stage can show a moved draw.
     let drew = 0;
     for (let seed = 556_000; seed < 566_000 && drew < 40; seed++) {
       const base = withStageDraws(() => generate({ seed, morphology: true }));
-      if (!stageCount(base.draws, stage, 0)) continue;
+      if (!attemptStageCount(base.draws, stage, 0)) continue;
       const shifted = withStageDraws(() => generate({ seed, morphology: true }, stage));
-      // A bare word's gap spelling redraws from spell after its pronunciation.
-      if (stage === "render_pronunciation" && (gapSpelled(base.value) || gapSpelled(shifted.value))) continue;
+      const kind = wordKind(base.value);
       drew++;
-      expect(counts(shifted.draws), `seed ${seed}`).toEqual(counts(base.draws));
+      expect(counts(kind, shifted.draws), `seed ${seed}`).toEqual(counts(kind, base.draws));
     }
     expect(drew, `words whose first attempt draws from ${stage}`).toBe(40);
   });
@@ -133,9 +143,7 @@ describe("stage stream wiring (#556)", () => {
     for (let seed = 556_000; seed < 566_000 && counts.words < words; seed++) {
       const { value: base, draws } = withStageDraws(() => generate({ seed, morphology }));
       const chosen = selected(base);
-      // A bare word renders its pronunciation inside every attempt, not after selection.
-      const finishes = stage !== "render_pronunciation" || base.trace!.morphology?.template !== "bare";
-      if (chosen === 0 || !finishes || !stageCount(draws, stage, chosen)) continue;
+      if (chosen === 0 || !FINISHING_STAGES[wordKind(base)].has(stage) || !attemptStageCount(draws, stage, chosen)) continue;
       counts.words++;
       expect(untraced(generate({ seed, morphology }, stage, attempt => attempt !== chosen)), `seed ${seed}`)
         .toEqual(untraced(base));

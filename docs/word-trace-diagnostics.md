@@ -67,8 +67,11 @@ Use these fields to answer specific diagnostic questions:
 - `random`
   - Question: Which random streams produced this word?
   - `scheme` is the stream derivation version and `key` the word's 64-bit
-    stream key as 16 hex digits. Together they rebuild every stage's stream;
-    see [Per-stage random streams](./stage-random-streams.md). Absent in traces
+    stream key as 16 hex digits, `hi` then `lo`. To regenerate the word, pass
+    a `rand` that returns `hi / 2**32` and then `lo / 2**32` (the key's first
+    and last eight hex digits), with the same config, options and package
+    version. The derivation itself is internal; see
+    [Per-stage random streams](./stage-random-streams.md). Absent in traces
     from before #556.
 - `summary`
   - Question: Quick sanity check for trace volume and repair density.

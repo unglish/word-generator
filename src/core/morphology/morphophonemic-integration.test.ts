@@ -9,7 +9,7 @@ import type { WordGenerationContext } from "../../types.js";
 import { createGenerator } from "../generate.js";
 import { TraceCollector } from "../trace.js";
 import { cloneSyllables } from "../lexical.js";
-import { withStageDraws } from "../../test-support/stage-stream-probe.js";
+import { expectSameWordsAndDraws } from "../../test-support/expect-same-draws.js";
 import { prepareMorphology, writeMorphology } from "./attach.js";
 import {
   bindMorphophonemicGuard,
@@ -101,10 +101,7 @@ describe("atomic morphophonemic legality", () => {
     const a = createGenerator(omitted);
     const b = createGenerator(disabled);
     for (let seed = 20261004; seed < 20261004 + 50; seed++) {
-      const omittedWord = withStageDraws(() => a.generateWord({ seed, trace: true }));
-      const disabledWord = withStageDraws(() => b.generateWord({ seed, trace: true }));
-      expect(omittedWord.value, `seed ${seed}`).toEqual(disabledWord.value);
-      expect(omittedWord.draws, `seed ${seed}`).toEqual(disabledWord.draws);
+      expectSameWordsAndDraws(() => a.generateWord({ seed, trace: true }), () => b.generateWord({ seed, trace: true }), `seed ${seed}`);
     }
   });
 
@@ -251,11 +248,7 @@ describe("atomic morphophonemic legality", () => {
   it("keeps enabled public trace/plain output and stage draws equal", () => {
     const generator = createGenerator(englishConfig);
     for (let seed = 20261003; seed < 20261003 + 100; seed++) {
-      const traced = withStageDraws(() => generator.generateWord({ seed, trace: true }));
-      const plain = withStageDraws(() => generator.generateWord({ seed }));
-      delete traced.value.trace;
-      expect(traced.value, `seed ${seed}`).toEqual(plain.value);
-      expect(traced.draws, `seed ${seed}`).toEqual(plain.draws);
+      expectSameWordsAndDraws(() => generator.generateWord({ seed, trace: true }), () => generator.generateWord({ seed }), `seed ${seed}`);
     }
   });
 

@@ -3,7 +3,7 @@ import { createGenerator, englishConfig } from "../../index.js";
 import type { Grapheme } from "../../types.js";
 import { buildGraphemeMaps, graphemes } from "./index.js";
 import { withEnglishReadings } from "./reading.js";
-import { withStageDraws } from "../../test-support/stage-stream-probe.js";
+import { expectSameWordsAndDraws } from "../../test-support/expect-same-draws.js";
 
 function entry(phoneme: string, form: string): Grapheme {
   return { phoneme, form, frequency: 1, startWord: 1, midWord: 1, endWord: 1 };
@@ -126,10 +126,7 @@ describe("English grapheme reading obligations", () => {
     const annotated = createGenerator(config);
     for (let seed = 20261001; seed < 20261001 + 200; seed++) {
       const options = { seed, morphology: seed % 2 === 0 };
-      const actual = withStageDraws(() => annotated.generateWord(options));
-      const expected = withStageDraws(() => plain.generateWord(options));
-      expect(actual.value, `seed ${seed}`).toEqual(expected.value);
-      expect(actual.draws, `seed ${seed}`).toEqual(expected.draws);
+      expectSameWordsAndDraws(() => annotated.generateWord(options), () => plain.generateWord(options), `seed ${seed}`);
     }
   });
 });

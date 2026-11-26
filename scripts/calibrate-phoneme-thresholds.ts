@@ -9,8 +9,11 @@
  *   npm run calibrate:phonemes -- [--stage roots|fullCmu] [--seeds 42,7,...] [--count 30] [--k 3] [--jobs 8] [--output file.json]
  *
  * Default seeds are 42 plus seeds whose Mulberry32 streams start evenly spaced
- * around the 2^32 cycle, so no two runs share a stretch of the RNG stream. Custom
- * seeds are checked for overlap using the draws each run actually consumed.
+ * around the 2^32 cycle, so no two runs share a stretch of the caller's stream
+ * and no word key repeats between runs. Each word's stage streams are other
+ * windows on the same cycle and can overlap between runs
+ * (docs/stage-random-streams.md). Custom seeds are checked for overlap using the
+ * draws each run actually consumed.
  */
 import { spawn } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createGenerator, createSeededRng, englishConfig, generateWord, generateWords } from "../index.js";
 import type { Syllable } from "../types.js";
 import { weightMatchingCoda } from "./root-repetition.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 import { withStageDraws } from "../test-support/stage-stream-probe.js";
 
 function hasNucleusTriple(syllables: readonly Syllable[]): boolean {
@@ -41,12 +42,11 @@ describe("root repetition weights", () => {
     const rand = createSeededRng(503);
     const withoutPolicyRand = createSeededRng(503);
     for (let index = 0; index < 100; index++) {
-      const word = withStageDraws(() => generateWord({ mode: "text", rand, trace: true }));
-      const withoutPolicyWord = withStageDraws(() => withoutPolicy.generateWord({
-        mode: "text", rand: withoutPolicyRand, trace: true,
-      }));
-      expect(word.value).toEqual(withoutPolicyWord.value);
-      expect(word.draws, `word ${index}`).toEqual(withoutPolicyWord.draws);
+      expectSameWordsAndDraws(
+        () => generateWord({ mode: "text", rand, trace: true }),
+        () => withoutPolicy.generateWord({ mode: "text", rand: withoutPolicyRand, trace: true }),
+        `word ${index}`,
+      );
     }
   });
 

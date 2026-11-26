@@ -382,7 +382,11 @@ export interface OrthographyTrace {
 export interface RandomStreamTrace {
   /** Derivation version, such as `stage-streams/1`. */
   scheme: string;
-  /** The word's stream key as 16 hex digits; with the scheme it rebuilds every stage's stream. */
+  /**
+   * The word's stream key as 16 hex digits, `hi` then `lo`. A `rand` that
+   * returns `hi / 2**32` and then `lo / 2**32` regenerates the word, with the
+   * same config, options and package version.
+   */
   key: string;
 }
 

@@ -9,7 +9,7 @@ import {
   advanceGraphemePrefix, doublingNucleusForm, INITIAL_GRAPHEME_PREFIX, rollGraphemePrefixSyllable,
 } from "./grapheme-selection.js";
 import { findExample } from "../test-support/find-example.js";
-import { withStageDraws } from "../test-support/stage-stream-probe.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 import { withPhonemeWeights } from "../test-support/phoneme-weights.js";
 
 function withGraphemes(graphemes: Grapheme[]) {
@@ -214,11 +214,8 @@ describe("legal grapheme selection", () => {
 
   it("is deterministic and trace collection leaves output and stage draws unchanged", () => {
     for (let seed = 0; seed < 40; seed++) {
-      const { value: plain, draws: plainDraws } = withStageDraws(() => generateWord({ seed, morphology: false }));
-      const { value: traced, draws: tracedDraws } = withStageDraws(() => generateWord({ seed, morphology: false, trace: true }));
-      expect(traced.written).toEqual(plain.written);
-      expect(traced.pronunciation).toBe(plain.pronunciation);
-      expect(tracedDraws, `seed ${seed}`).toEqual(plainDraws);
+      const [traced] = expectSameWordsAndDraws(
+        () => generateWord({ seed, morphology: false, trace: true }), () => generateWord({ seed, morphology: false }), `seed ${seed}`);
       expect(generateWord({ seed, morphology: false, trace: true })).toEqual(traced);
     }
   });

@@ -6,7 +6,7 @@ import type { LanguageConfig } from "../config/language.js";
 import { buildGraphemeMaps } from "../elements/graphemes/index.js";
 import { verifyBaseSpellingEvidence } from "./spelling-evidence.js";
 import { findExample } from "../test-support/find-example.js";
-import { withStageDraws } from "../test-support/stage-stream-probe.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 import { BaseSpelling } from "./base-spelling.js";
 import { createSpellingCoveragePlanner, SPELLING_COVERAGE_SEARCH_LIMIT } from "./spelling-coverage.js";
 import type { SpellingChoiceState } from "./spelling-coverage.js";
@@ -357,12 +357,8 @@ describe("whole-unit spelling budgets", () => {
   it("keeps trace on/off output and stage draws equal with active policy", () => {
     for (let seed = 129; seed < 129 + 200; seed++) {
       const options = { seed, morphology: seed % 2 === 0 };
-      const traced = withStageDraws(() => generateWord({ ...options, trace: true }));
-      const plain = withStageDraws(() => generateWord(options));
-      verifyBaseSpellingEvidence(traced.value.trace!.baseSpelling!, englishConfig);
-      delete traced.value.trace;
-      expect(traced.value, `seed ${seed}`).toEqual(plain.value);
-      expect(traced.draws, `seed ${seed}`).toEqual(plain.draws);
+      const [traced] = expectSameWordsAndDraws(() => generateWord({ ...options, trace: true }), () => generateWord(options), `seed ${seed}`);
+      verifyBaseSpellingEvidence(traced.trace!.baseSpelling!, englishConfig);
     }
   });
 });

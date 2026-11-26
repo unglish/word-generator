@@ -55,6 +55,14 @@ Folded last, the key reaches each stream through a different 64-to-32-bit map.
 Two words can still share one stream's seed, as any 32-bit seed allows, but
 not every stream's seed at once.
 
+Every stage stream is a window on Mulberry32's single cycle of 2³² states, and
+the seed only picks where the window starts. Two streams, of one word or of
+two words, can therefore cover overlapping stretches of the cycle, offset from
+each other. They overlap about as often as random starting points would: over
+1.6 million streams, about 300 pairs share a seed and about 18,000 pairs share
+part of their draws. Seeds spaced along the cycle (as the diagnostics' default
+seeds are) keep word keys distinct, not stage streams apart.
+
 | Stage | Index | Draws (today's code) |
 | --- | --- | --- |
 | `set_constraints` | 0 | root phoneme and syllable counts, root edge lengths |
@@ -74,9 +82,9 @@ not every stream's seed at once.
 Each root attempt's context carries that attempt's streams. Every stage that
 runs on the context, including the finishing stages of the selected attempt,
 binds its stream with `inStage(context, stage, ...)` in `src/core/generate.ts`
-for exactly the code of the stage, and puts back what was bound before when
-the stage ends. Between stages the context holds an RNG that throws, so a new
-draw outside a stage fails loudly. The stages that run before there is a
+for exactly the code of the stage. Between stages the context holds an RNG that
+throws, so a new draw outside a stage fails loudly, and stages do not nest:
+`inStage` throws when called inside another stage. The stages that run before there is a
 context (`set_constraints`, `plan_morphology`, `plan_shape`) take their stream
 as an argument.
 
@@ -85,14 +93,18 @@ streams. A bare word renders its pronunciation during its attempt, before
 scoring, and an affixed word renders it after selection; both use the
 `render_pronunciation` stream of the attempt whose root is rendered. A stage
 that runs twice (bare-word spelling resumes after the pronunciation is
-rendered) continues its own stream.
+rendered) continues its own stream. `src/test-support/stage-run-order.ts`
+records the order for each kind of word, and the wiring test checks it against
+every attempt's draws.
 
 Streams separate draws, not data. A bare word's gap spellings are exact
 whole-word overrides matched against its realized syllables, so a different
-vowel reduction can change which override applies: the `render_pronunciation`
-stream can then change that word's spelling. In English only the two-syllable
-overrides (*any*, *people*) can be reached this way. Affixed words render after
-spelling and are not affected.
+vowel reduction can change which override applies. The gap spelling is applied
+before the attempt is scored, so the `render_pronunciation` stream can change
+not only that word's spelling but its letter count, its score, which attempt is
+selected and with it the root. In English only the two-syllable overrides
+(*any*, *people*) can be reached this way. Affixed words render after spelling
+and selection and are not affected.
 
 Medial doubling is a second such path. It reads the word's syllables, which for
 a bare word are the realized ones, since its pronunciation is already rendered,
@@ -112,13 +124,20 @@ engine behind it without moving any other stage's draws.
 ## Trace
 
 `WordTrace.random` records `{ scheme, key }`: the derivation version
-(`stage-streams/1`) and the key as 16 hex digits, `hi` then `lo`. With the table above, they
-rebuild any stage's stream for that word. Bump `STAGE_STREAM_SCHEME` whenever a
-stage is added, renamed or split, or the fold changes, since that changes which
-numbers a stage receives. Known-answer vectors in `stage-streams.test.ts` pin
-every stage's seed for a fixed key, and the first draws of streams built from a
-fixed caller stream, so any such change fails there and not only in the golden
-fixture.
+(`stage-streams/1`) and the key as 16 hex digits, `hi` then `lo`. A `rand` that
+returns `hi / 2**32` and then `lo / 2**32` regenerates the word through the
+public API, with the same config, options and package version.
+
+The scheme versions the derivation only: how the key is drawn, the stage-name
+hash, the index and the fold. Bump `STAGE_STREAM_SCHEME` when any of these
+changes, since every stream then changes. Adding, renaming or splitting a stage
+changes that stage's streams under the same derivation and needs no bump, like
+any other change to generation; the golden fixture shows it. Known-answer
+vectors in `stage-streams.test.ts` are listed under the scheme they pin: every
+stage's seed for a fixed key, and the first draws of streams built from a fixed
+caller stream. A scheme's vectors never change; a new derivation adds a new
+scheme with its own vectors, and a new stage adds its vector under the current
+scheme.
 
 ## Guarantees and tests
 
@@ -129,7 +148,10 @@ fixture.
   values (which pins the key, the attempt index and the generator);
 - each word takes two draws from the caller's stream, with tracing on or off,
   and a draw outside [0, 1) throws;
-- tracing takes the same number of draws from every stage stream;
+- a traced word's key regenerates it through the public API;
+- `inStage` refuses to nest and leaves the context between stages;
+- tracing gives the same words and takes the same number of draws from every
+  stage stream;
 - `seed` and an equivalent `rand` give identical words and traces, and
   `generateWords` matches word-by-word generation over one stream;
 - a word whose affix plan is bare equals the word generated with morphology
@@ -142,44 +164,43 @@ fixture.
   more for many seeds.
 
 Both files use the probe in `src/test-support/stage-stream-probe.ts`, which
-counts each stage stream's draws (`withStageDraws`) or shifts one stage's draws
-(`withShiftedStage`) through an internal hook in `stage-streams.ts`. Other
-tests use it to show that tracing or an inert config draws nothing: identical
-words alone cannot show that, because a draw at the end of a stage's stream
-changes no word.
+counts each stage stream's draws (`withStageDraws`), records the order stages
+draw in (`withStageRuns`) or shifts one stage's draws (`withShiftedStage`)
+through an internal hook in `stage-streams.ts`. Other tests use
+`expectSameWordsAndDraws` (`src/test-support/expect-same-draws.ts`) to show that
+tracing or an inert config draws nothing: identical words alone cannot show
+that, because a draw at the end of a stage's stream changes no word.
 
 The golden fixture (`src/core/golden-output.json`) records, for each case, the
 draws of each word stage and of each attempt stage on every word's first root
-attempt. That attempt always runs, and its stages run in the order of
-`ATTEMPT_STAGES`, so a change leaves the counts of every stage that runs before
-it unchanged. When a change moves a draw into an earlier stage's stream, which
+attempt. That attempt always runs, in the order `stage-run-order.ts` records
+for its kind of word, so a change leaves the counts of every stage that runs
+before it unchanged. When a change moves a draw into an earlier stage's stream, which
 the wiring test below cannot always see, the fixture diff shows draws arriving
 in that earlier stage. Totals over all attempts would not show it: a change that
 alters output changes which attempts run, and with them every stage's total.
-Three exceptions apply:
-
-- the finishing stages draw on the first attempt only when it is selected, so
-  their counts also move with selection;
-- a bare word renders its pronunciation inside each attempt, before
-  `finalize_root_spelling`;
-- a bare word's gap spelling draws from `spell` after its pronunciation.
+The finishing stages draw on the first attempt only when it is selected, so
+their counts also move with selection.
 
 `src/core/stage-stream-wiring.test.ts` shifts one stage's draws at a time and
 checks that:
 
 - every stage in the table reads its own stream: shifting it changes some word;
+- every attempt's stages draw in the order `stage-run-order.ts` records;
 - shifting the spelling streams leaves the root and the pronunciation alone,
   and shifting the pronunciation stream leaves the root and the spelling alone
-  (apart from gap spellings, above), whenever the same attempt is selected;
+  whenever the same attempt is selected. Gap-spelled words are left out of the
+  second check, since their pronunciation draws can change the spelling and the
+  selected attempt (above);
 - the finishing stages use the selected attempt's streams. Over words whose
   selected attempt is a later one and draws from the stage, shifting another
   attempt's stream leaves the word unchanged, and shifting the selected
   attempt's changes some words. For `render_pronunciation` this includes
   fallback words whose selected attempt is not the last one run;
-- shifting a stage leaves the first attempt's draws in every earlier stage
-  unchanged, which is what the golden fixture's counts rely on. The bare-word
-  exceptions above apply. `preview_morphology` is left out, because its first
-  attempt draws in about one word in 1,000.
+- shifting a stage leaves the first attempt's draws in every stage that runs
+  before it for that kind of word unchanged, which is what the golden fixture's
+  counts rely on. `preview_morphology` is left out, because its first attempt
+  draws in about one word in 1,000.
 
 Changing a stage's draws still changes that stage's later draws within the word.
 Changing which attempt is selected changes the finishing stages' streams,

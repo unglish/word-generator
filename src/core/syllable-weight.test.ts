@@ -3,7 +3,7 @@ import { analyzeWordWeight, createGenerator, createSeededRng, englishConfig, gen
 import type { LanguageConfig, NuclearQuantity, OTConstraint, SyllableWeightPolicy } from "../index.js";
 import type { PrimaryStressRules } from "../config/language.js";
 import type { Phoneme, Syllable } from "../types.js";
-import { withStageDraws } from "../test-support/stage-stream-probe.js";
+import { expectSameWordsAndDraws } from "../test-support/expect-same-draws.js";
 
 const moraic: SyllableWeightPolicy = { type: "moraic", analysis: "fixture", coda: "weight-by-position", unknown: "legacy-segment-count" };
 
@@ -139,11 +139,7 @@ describe("shared analytical and operational syllable weight", () => {
 
   it("keeps active-model tracing observational for complete outputs and stage draws", () => {
     for (let seed = 917; seed < 917 + 500; seed++) {
-      const traced = withStageDraws(() => generateWord({ seed, trace: true }));
-      const plain = withStageDraws(() => generateWord({ seed }));
-      delete traced.value.trace;
-      expect(traced.value, `seed ${seed}`).toEqual(plain.value);
-      expect(traced.draws, `seed ${seed}`).toEqual(plain.draws);
+      expectSameWordsAndDraws(() => generateWord({ seed, trace: true }), () => generateWord({ seed }), `seed ${seed}`);
     }
   });
 
@@ -265,10 +261,8 @@ describe("shared analytical and operational syllable weight", () => {
     const configs = [configFor({ secondary: true }), configFor({ policy: { type: "legacy-segment-count" }, secondary: true })];
     const generators = configs.map(createGenerator);
     for (let seed = 281; seed < 281 + 200; seed++) {
-      const [a, b] = generators.map((generator, index) => withStageDraws(() => generator.generateWord({ seed, syllableCount: 3, morphology: false, trace: index === 0 })));
-      delete a.value.trace;
-      expect(a.value, `seed ${seed}`).toEqual(b.value);
-      expect(a.draws, `seed ${seed}`).toEqual(b.draws);
+      const [a, b] = generators.map((generator, index) => () => generator.generateWord({ seed, syllableCount: 3, morphology: false, trace: index === 0 }));
+      expectSameWordsAndDraws(a, b, `seed ${seed}`);
     }
   });
 
