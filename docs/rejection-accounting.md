@@ -81,9 +81,11 @@ The coupling is kept on purpose:
 The measurements are in the #393 discussion, and that option's code is at tag
 `archive/issue-393`.
 
-To measure the stress rules themselves, generate with
-`syllableStructure.letterLengthTargets: undefined`. Returned stress patterns then
-follow the stress rules, because phoneme-count matching doesn't read stress.
+To measure the stress rules themselves, set both
+`syllableStructure.letterLengthTargets` and
+`syllableStructure.letterLengthRelaxedAfter` to `undefined` before creating the
+generator. Returned stress patterns then follow the stress rules because
+phoneme-count matching doesn't read stress.
 Stress changes measured on default output also include this selection effect.
 
 ## Preregistered verification

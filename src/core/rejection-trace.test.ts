@@ -30,9 +30,12 @@ describe("complete rejection accounting", () => {
     expect(selection.selected).toMatchObject({ syllables: word.syllables.length, phonemes: phones(word), letters: word.written.clean.length });
   });
 
-  it("identifies relaxed acceptance after warmup", () => {
-    const { word } = findExample(word => word.trace!.selection!.acceptedBy === "relaxed", {
-      property: "a relaxed acceptance", limit: 200, options: { morphology: false },
+  it("identifies global relaxed acceptance after warmup", () => {
+    const { word } = findExample(word => {
+      const selection = word.trace!.selection!;
+      return selection.acceptedBy === "relaxed" && selection.scheduledRelaxedAfter === undefined;
+    }, {
+      property: "a global relaxed acceptance", limit: 200, options: { morphology: false },
     });
     const selection = word.trace!.selection!;
     const lastAttempt = selection.attemptsExecuted - 1;

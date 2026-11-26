@@ -19,6 +19,7 @@ import {
   computeSonorityLevels,
   defaultFallbackBridgeOnsets,
   validateConfig,
+  resolveLetterLengthRelaxedAfter,
   ClusterLimits,
   SonorityConstraints,
   expandClusterConstraintBans,
@@ -2146,7 +2147,7 @@ function generateOneWord(
       rt, mode, targetPhonemeCountRoot, sampledSyllableCount, finalCodaLength, constraintsRand,
     ),
   };
-  const { letterLengthTargets, letterLengthRelaxedAfter } = rt.config.syllableStructure;
+  const lengthRules = rt.config.syllableStructure;
   const rejectionTrace = enableTrace ? new RejectionTraceCollector(ROOT_ATTEMPT_CRITERIA) : undefined;
 
   const selection = chooseRootAttempt(ROOT_ATTEMPT_CRITERIA, targetPhonemeCountRoot, (attempt) => {
@@ -2199,13 +2200,13 @@ function generateOneWord(
       targetPhonemeCountRoot,
       letterLength,
       root.length,
-      letterLengthTargets,
+      lengthRules.letterLengthTargets,
     );
     return {
       value: { context, spelled },
       score: attemptScore,
       lengths: { syllables: root.length, phonemes: rootPhonemeCount, letters: letterLength },
-      relaxedAfter: letterLengthRelaxedAfter?.[root.length]?.[letterLength],
+      relaxedAfter: resolveLetterLengthRelaxedAfter(lengthRules, root.length, letterLength),
     };
   }, rejectionTrace);
   const { context, spelled } = selection.selected.value;

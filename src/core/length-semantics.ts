@@ -17,6 +17,7 @@ export interface AcceptanceCriteria {
 }
 
 export const ROOT_ATTEMPT_CRITERIA = {
+  // The initial proposal plus three letter-length and sixteen phoneme-target retries.
   maxAttempts: 20,
   warmupAttempts: 3,
   relaxedLetterPenalty: 0.5,
@@ -83,12 +84,19 @@ export function scoreLetterLength(
   if (!bounds) return 0;
   const [min, peakMin, peakMax, max] = bounds;
   if (letterLength >= peakMin && letterLength <= peakMax) return 0;
-  if (letterLength >= min && letterLength <= max) {
+  if (isWithinLetterLengthBand(letterLength, bounds)) {
     const edgeDistance = letterLength < peakMin ? peakMin - letterLength : letterLength - peakMax;
     return edgeDistance * 0.5;
   }
   const outsideDistance = letterLength < min ? min - letterLength : letterLength - max;
   return 1 + outsideDistance;
+}
+
+export function isWithinLetterLengthBand(
+  letterLength: number,
+  [min, , , max]: [number, number, number, number],
+): boolean {
+  return letterLength >= min && letterLength <= max;
 }
 
 /** The phoneme part of an attempt's score; letter penalties only add to it. */

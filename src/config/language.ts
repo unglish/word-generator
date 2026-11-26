@@ -4,7 +4,7 @@ import {
 } from "../utils/sonority.js";
 import { matchesPhoneme, type PhonemeSelector } from "../utils/phonemes.js";
 import { VOWEL_LETTERS } from "../utils/letters.js";
-import { resolveLetterLengthBounds, ROOT_ATTEMPT_CRITERIA } from "../core/length-semantics.js";
+import { isWithinLetterLengthBand, resolveLetterLengthBounds, ROOT_ATTEMPT_CRITERIA } from "../core/length-semantics.js";
 import {
   Phoneme,
   Grapheme,
@@ -2689,12 +2689,36 @@ export function validateConfig(config: LanguageConfig): void {
   validateLetterLengthRelaxedAfter(config.syllableStructure);
 }
 
+function isScheduleRecord(value: unknown): value is object {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function isRootAttemptIndex(value: unknown): value is number {
+  return typeof value === "number" && Number.isInteger(value)
+    && value >= 0 && value < ROOT_ATTEMPT_CRITERIA.maxAttempts;
+}
+
+/** Configs are caller-owned. Check the current entry and band even after construction. */
+export function resolveLetterLengthRelaxedAfter(
+  { letterLengthRelaxedAfter: schedule, letterLengthTargets }: SyllableStructureRules,
+  syllableCount: number,
+  letterLength: number,
+): number | undefined {
+  if (!isScheduleRecord(schedule) || !Object.prototype.propertyIsEnumerable.call(schedule, syllableCount)) return undefined;
+  const row = schedule[syllableCount];
+  if (!isScheduleRecord(row) || !Object.prototype.propertyIsEnumerable.call(row, letterLength)) return undefined;
+  const index = row[letterLength];
+  if (!isRootAttemptIndex(index)) return undefined;
+  const band = resolveLetterLengthBounds(letterLengthTargets, syllableCount);
+  return band && isWithinLetterLengthBand(letterLength, band) ? index : undefined;
+}
+
 function validateLetterLengthRelaxedAfter(
   { letterLengthRelaxedAfter: map, letterLengthTargets }: SyllableStructureRules,
 ): void {
   if (map === undefined) return;
   const label = "syllableStructure.letterLengthRelaxedAfter";
-  if (!map || typeof map !== "object" || Array.isArray(map)) {
+  if (!isScheduleRecord(map)) {
     throw new Error(`${label} must be an object when provided`);
   }
   for (const [syllableKey, lengths] of Object.entries(map)) {
@@ -2704,7 +2728,7 @@ function validateLetterLengthRelaxedAfter(
         `${label} has invalid syllable-count key "${syllableKey}"`,
       );
     }
-    if (!lengths || typeof lengths !== "object" || Array.isArray(lengths)) {
+    if (!isScheduleRecord(lengths)) {
       throw new Error(
         `${label}.${syllableCount} must be an object of letter-length values`,
       );
@@ -2718,13 +2742,13 @@ function validateLetterLengthRelaxedAfter(
         );
       }
       const path = `${label}.${syllableCount}.${letterLength}`;
-      if (!Number.isInteger(value) || value < 0 || value >= ROOT_ATTEMPT_CRITERIA.maxAttempts) {
+      if (!isRootAttemptIndex(value)) {
         throw new Error(
           `${path} attempt index must be an integer from 0 to ${ROOT_ATTEMPT_CRITERIA.maxAttempts - 1}`,
         );
       }
       if (!band) throw new Error(`${path} requires letterLengthTargets`);
-      if (!(letterLength >= band[0] && letterLength <= band[3])) {
+      if (!isWithinLetterLengthBand(letterLength, band)) {
         throw new Error(`${path} is outside the letter-length band [${band[0]}, ${band[3]}]`);
       }
     }
