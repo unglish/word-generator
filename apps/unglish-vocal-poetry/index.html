@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Speak Unglish nonce words with the Chimera physical-modeling vocal synthesizer." />
+  <title>Speak Unglish nonce words with Chimera’s 3D vocal tract</title>
+  <link rel="canonical" href="https://unglish.github.io/word-generator/vocal.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Unglish" />
+  <meta property="og:url" content="https://unglish.github.io/word-generator/vocal.html" />
+  <meta property="og:title" content="Speak Unglish nonce words · Vocal demo" />
+  <meta property="og:description" content="Speak Unglish nonce words with Chimera’s physical-model voice — a looping 3D head babbling nonsense." />
+  <meta property="og:image" content="https://unglish.github.io/word-generator/vocal-og-poster.png" />
+  <meta property="og:image:secure_url" content="https://unglish.github.io/word-generator/vocal-og-poster.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Unglish — Nonce words, spoken aloud. Try the Chimera vocal demo." />
+  <meta property="og:video" content="https://unglish.github.io/word-generator/vocal-og-loop.mp4" />
+  <meta property="og:video:secure_url" content="https://unglish.github.io/word-generator/vocal-og-loop.mp4" />
+  <meta property="og:video:type" content="video/mp4" />
+  <meta property="og:video:width" content="1080" />
+  <meta property="og:video:height" content="1080" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Speak Unglish nonce words · Vocal demo" />
+  <meta name="twitter:description" content="Speak Unglish nonce words with Chimera’s physical-model voice — a looping 3D head babbling nonsense." />
+  <meta name="twitter:image" content="https://unglish.github.io/word-generator/vocal-og-poster.png" />
+  <meta name="twitter:player:stream" content="https://unglish.github.io/word-generator/vocal-og-loop.mp4" />
+  <meta name="twitter:player:stream:content_type" content="video/mp4" />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #fff;
+      --fg: #191919;
+      --muted: #626262;
+      --line: #c5c5c5;
+      --soft: #f3f3f3;
+      --focus: #444;
+      --card-border: silver;
+      --card-bg: whitesmoke;
+      --warn: #8a3b12;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111;
+        --fg: #eee;
+        --muted: #b3b3b3;
+        --line: #666;
+        --soft: #242424;
+        --focus: #ddd;
+        --card-border: dimgray;
+        --card-bg: #1a1a1a;
+        --warn: #e08a5a;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: ui-serif, Georgia, serif;
+      background: var(--bg);
+      color: var(--fg);
+      max-width: 42em;
+      margin: 0 auto;
+      padding: 2em 1em 3em;
+      accent-color: var(--fg);
+    }
+
+    header { text-align: center; margin-bottom: 1.5em; }
+    header h1 {
+      font-size: 1.65rem;
+      font-weight: 400;
+      margin: 0 0 0.35em;
+      text-wrap: balance;
+    }
+    header .lede {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.45;
+      margin: 0 auto 0.75em;
+      max-width: 36em;
+    }
+    .nav {
+      font-size: 0.85em;
+      margin-top: 0.4em;
+    }
+    .nav a { color: inherit; text-underline-offset: 0.2em; }
+    .nav .sep { color: var(--muted); margin: 0 0.35em; }
+
+    .stage {
+      border: 1px solid var(--card-border);
+      border-radius: 4px;
+      padding: 1.15em 1.25em 1.35em;
+      margin: 1em 0;
+      background: var(--card-bg);
+    }
+
+    .head {
+      position: relative;
+      width: 100%;
+      height: min(52vh, 28rem);
+      min-height: 16rem;
+      margin: 0 0 1em;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--soft);
+    }
+    .head.head-failed {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 1em;
+      text-align: center;
+    }
+    .head-hint {
+      margin: 0.35em 0 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .word {
+      font-size: clamp(2.2rem, 8vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin: 0.15em 0 0.25em;
+      min-height: 1.15em;
+      overflow-wrap: anywhere;
+      transition: opacity 0.2s ease;
+    }
+    .word.poem {
+      font-size: clamp(1.35rem, 4.8vw, 2.05rem);
+      font-weight: 600;
+      line-height: 1.45;
+      white-space: pre-line;
+      min-height: 5.8em;
+    }
+    .word.flash { opacity: 0.45; }
+
+    .ipa {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--muted);
+      font-size: 1.05rem;
+      min-height: 1.4em;
+      margin-bottom: 1.1em;
+      word-break: break-word;
+    }
+    .ipa.poem {
+      white-space: pre-line;
+      line-height: 1.45;
+      min-height: 5.6em;
+      font-size: 0.95rem;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55em;
+      align-items: center;
+      margin-bottom: 0.85em;
+    }
+
+    button, select, input {
+      font: inherit;
+    }
+    button {
+      min-height: 2.6rem;
+      padding: 0.55rem 1.1rem;
+      border: 1px solid var(--fg);
+      border-radius: 4px;
+      background: var(--fg);
+      color: var(--bg);
+      cursor: pointer;
+    }
+    button:hover:not(:disabled) { opacity: 0.8; }
+    button:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+    button.secondary {
+      background: var(--bg);
+      color: var(--fg);
+      border-color: var(--line);
+    }
+    select {
+      min-height: 2.4rem;
+      padding: 0.35rem 0.6rem;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    label.field {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .status {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      color: var(--muted);
+      min-height: 1.3em;
+    }
+    .status.error { color: var(--warn); }
+
+    .meter {
+      margin-top: 1rem;
+      height: 6px;
+      border-radius: 2px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .meter > i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--fg);
+      transition: width 80ms linear;
+    }
+
+    footer {
+      margin-top: 1.5em;
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      border-top: 1px solid var(--line);
+      padding-top: 1em;
+    }
+    footer a { color: inherit; text-underline-offset: 0.2em; }
+    footer code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    @media (max-width: 420px) {
+      body { padding: 1.5rem 1rem 2.5rem; }
+      .row.actions { flex-direction: column; align-items: stretch; }
+      .row.actions button { width: 100%; }
+    }
+  </style>
+  <script type="module" crossorigin src="./vocal.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="./assets/identity-p-nrC7ZP.js">
+</head>
+<body>
+  <header>
+    <h1>Unglish Vocal Demo</h1>
+    <p class="lede">
+      Generate an English-like nonce word — or free verse drawn from a fresh Unglish lexicon —
+      then hear it spoken by
+      <a href="https://github.com/jamesondh/chimera-vocal-synth">Chimera</a> —
+      a physical-model voice (airway + folds), not a sample bank.
+    </p>
+    <p class="nav">
+      <a href="./index.html">Unglish home</a><span class="sep">·</span>
+      <a href="./review.html">Human review</a>
+    </p>
+  </header>
+
+  <section class="stage" aria-live="polite">
+    <div class="head" id="head" aria-hidden="false"></div>
+    <p class="head-hint">Drag to turn the head · scroll to zoom · double-click to reset</p>
+    <div class="word" id="word">—</div>
+    <div class="ipa" id="ipa">/ /</div>
+
+    <div class="row actions">
+      <button id="generate" type="button">Generate</button>
+      <button id="speak" type="button" disabled>Speak</button>
+      <button class="secondary" id="stop" type="button" disabled>Stop</button>
+      <button class="secondary" id="both" type="button">Generate + speak</button>
+    </div>
+
+    <div class="row">
+      <label class="field">Mode
+        <select id="mode" aria-label="Generation mode">
+          <option value="word" selected>Word</option>
+          <option value="poem">Poem</option>
+        </select>
+      </label>
+      <label class="field">Voice
+        <select id="body" aria-label="Voice body">
+          <option value="female" selected>Adult female</option>
+          <option value="male">Adult male</option>
+          <option value="child">Child</option>
+        </select>
+      </label>
+      <label class="field">Rate
+        <select id="rate" aria-label="Speaking rate">
+          <option value="0.85">0.85×</option>
+          <option value="1" selected>1.0×</option>
+          <option value="1.25">1.25×</option>
+          <option value="1.5">1.5×</option>
+        </select>
+      </label>
+      <label class="field">
+        <input id="morph" type="checkbox" checked />
+        Include affixes
+      </label>
+    </div>
+
+    <div class="status" id="status">Loading voice engine…</div>
+    <div class="meter" aria-hidden="true"><i id="level"></i></div>
+  </section>
+
+  <footer>
+    <p>
+      Credits:
+      <a href="https://github.com/jamesondh/chimera-vocal-synth">Chimera</a>
+      (physical-model voice + 3D anatomy head, MIT) ·
+      <a href="https://unglish.github.io/word-generator/">Unglish</a>
+      (<a href="https://github.com/unglish/word-generator">word-generator</a>).
+    </p>
+    <p>
+      <a href="./index.html">Back to Unglish home</a>.
+      Tap Generate or Speak once to unlock audio. On iPhone/iPad Safari the Ring/Silent switch used
+      to mute Web Audio — this page claims the media playback session so speech still plays. The
+      meter tracks the speaker path; the head follows live Chimera articulator telemetry.
+    </p>
+  </footer>
+</body>
+</html>
