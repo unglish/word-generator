@@ -37,6 +37,10 @@ function validateSelection(word: Word, selection: SelectionTrace): void {
   const phones = word.syllables.reduce((total, syllable) => total + syllable.onset.length + syllable.nucleus.length + syllable.coda.length, 0);
   const accepted = selection.status === "accepted";
   const count = selection.attemptsExecuted;
+  // Bare spelling can gain a medial double after the root has been scored.
+  const addedLetters = word.trace!.baseSpelling?.edits
+    .filter(edit => edit.rule === "medialOnsetDoubling")
+    .reduce((total, edit) => total + edit.after.length - edit.before.length, 0) ?? 0;
   if (!Number.isInteger(count) || count < 1 || count > selection.criteria.maxAttempts ||
       !Number.isInteger(selection.selectedAttempt) || selection.selectedAttempt < 0 || selection.selectedAttempt >= count ||
       selection.rejectedAttempts !== count - (accepted ? 1 : 0) ||
@@ -47,7 +51,7 @@ function validateSelection(word: Word, selection: SelectionTrace): void {
         (selection.prunedLengths ?? []).reduce((sum, bin) => sum + bin.count, 0) !== count ||
       // Selection scores the root; only words without attached affixes share its lengths.
       (!isAffixed(word) && (selection.selected.syllables !== word.syllables.length || selection.selected.phonemes !== phones ||
-        selection.selected.letters !== word.written.clean.length)) ||
+        selection.selected.letters !== word.written.clean.length - addedLetters)) ||
       Object.values(selection.rejectionReasons).some(value => !Number.isInteger(value) || value < 0 || value > selection.rejectedAttempts) ||
       Object.values(selection.rejectionReasons).reduce((sum, value) => sum + value, 0) < selection.rejectedAttempts) {
     throw new Error("Inconsistent selection trace.");

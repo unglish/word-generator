@@ -118,8 +118,10 @@ a bare plan takes fewer than a suffixed one. Sharing `set_constraints` would let
 any affix change move the root edge draws that follow it. A word whose plan
 comes out bare is therefore the same word that `morphology: false` gives.
 
-`select_segments` has its own stream so that S1 can put a replaceable selection
-engine behind it without moving any other stage's draws.
+`select_segments` passes its stream to the internal `legacy-weighted` engine. The engine
+receives the per-attempt syllable shape plan and returns the root syllables. It
+adjusts each boundary after choosing the right syllable, then repairs vowel
+hiatus after choosing the full root. Both helpers share the selection stream.
 
 ## Trace
 
