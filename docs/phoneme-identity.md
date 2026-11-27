@@ -188,3 +188,7 @@ every shard, fingerprints, test results and reproduction commands) is kept at ta
 git fetch origin tag archive/evidence-pre-cleanup
 git show archive/evidence-pre-cleanup:evaluation/experiments/phoneme-identity/README.md
 ```
+
+The evaluation-side [CMU syllabified root reference](cmu-syllabified-reference.md)
+uses these observed identities alongside a versioned, native-token-preserving
+fitting adapter for #555.
