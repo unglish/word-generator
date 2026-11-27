@@ -11,6 +11,9 @@ type Changes = Packet["summaries"]["pooled"]["outputChanges"]["overall"];
 type ChangedDraw = Packet["changedDraws"][number];
 type Mover = Packet["movers"][number]["positive"][number];
 type Capture = Packet["captures"]["before"];
+type Guide = Packet["guide"];
+type GuideArm = Guide["pooled"]["before"];
+type GuideRange = Guide["seedRanges"]["before"][keyof Guide["seedRanges"]["before"]];
 
 const number = (value: number | null) => value === null ? "—" : value.toFixed(3);
 const points = (value: number | null) => value === null ? "—" : number(100 * value);
@@ -55,7 +58,10 @@ function word(word: Word): string {
   const annotated = `${form(word)} · root ${word.rootSyllables}`;
   if (surface.kind === "ineligible") return `${annotated} · ${surface.reason}`;
   const { fold, peers, unigram, bigram } = surface.score;
-  return `${annotated} · ${code(surface.phones.join(" "))} · fold ${fold} / ${peers} peers · U ${number(unigram.raw)} / ${number(unigram.percentile)} · B ${number(bigram.raw)} / ${number(bigram.percentile)}`;
+  const { trigram, rarePairs, realPronunciation } = surface.guide;
+  const flags = [...rarePairs.length ? [`rare ${rarePairs.map(pair => code(pair.symbols.join(" "))).join(", ")}`] : [],
+    ...realPronunciation ? ["dictionary pronunciation"] : [], ...word.realSpelling ? ["dictionary spelling"] : []];
+  return `${annotated} · ${code(surface.phones.join(" "))} · fold ${fold} / ${peers} peers · U ${number(unigram.raw)} / ${number(unigram.percentile)} · B ${number(bigram.raw)} / ${number(bigram.percentile)} · T ${number(trigram.raw)} / ${number(trigram.percentile)}${flags.map(flag => ` · ${flag}`).join("")}`;
 }
 
 function exampleRow(example: Example): string {
@@ -165,6 +171,66 @@ function provenance(name: string, capture: Capture): string {
   return `| ${name} ${code(capture.id)} | ${code(capture.generatorCommit)} (${capture.dirty ? "dirty" : "clean"}) · source ${code(capture.generatorSourceSha256)} | ${code(capture.effectiveConfigSha256)} | ${engine} | ${generation}${generation === evaluation ? "" : ` · evaluation ${evaluation}`} |`;
 }
 
+const ratio = (value: { numerator: number; denominator: number }) => `${value.numerator}/${value.denominator}`;
+const percent = (value: number | null) => value === null ? "—" : `${(100 * value).toFixed(2)}%`;
+const signedPoints = (value: number | null) => value === null ? "—" : `${value > 0 ? "+" : ""}${(100 * value).toFixed(2)}`;
+
+function guideCells(arm: GuideArm, duplicates: string[]): string[] {
+  return [number(arm.trigram.median), `${ratio(arm.trigram.below10)} (${percent(arm.trigram.below10.rate)})`,
+    `${ratio(arm.rarePair)} (${percent(arm.rarePair.rate)})`, `${ratio(arm.realPronunciation)} (${percent(arm.realPronunciation.rate)})`,
+    `${ratio(arm.realSpelling)} (${percent(arm.realSpelling.rate)})`, ...duplicates];
+}
+
+function guideHeader(): string[] {
+  return ["| Sample | Arm | T median | T < 10 | Rare pair | Dictionary pronunciation | Dictionary spelling | Duplicate spelling | Duplicate IPA |",
+    "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"];
+}
+
+function spread(value: GuideRange, format: (value: number | null) => string): string {
+  return value ? `${format(value.min)} to ${format(value.max)} (mean ${format(value.mean)})` : "—";
+}
+
+function guideSection(guide: Guide, metric: Packet["metric"]["guide"]): string[] {
+  const { pooled, bySeed, seedRanges, rarePairs } = guide;
+  const { reference } = metric.rarePair;
+  const dup = (d: { draws: number; distinct: number; rate: number | null }) => `${d.draws - d.distinct}/${d.draws} (${percent(d.rate)})`;
+  const lines = [
+    "## Guide metrics", "",
+    `Context for UCI, not thresholds. A UCI gain that comes with more dictionary words, duplicates or rare pairs needs a look at the words. T is the held-out phone trigram percentile (${metric.version}, additive smoothing ${metric.trigram.smoothing} over ${metric.trigram.vocabulary} outcomes). A rare pair is an adjacent pair found in at most ${metric.rarePair.maxReferenceRows} reference spellings' pronunciations; ${ratio(reference)} reference words (${percent(reference.rate)}) contain one once their own vote is removed. Rare-pair, trigram and dictionary-pronunciation rates use projectable draws. Spelling and duplicate rates use every draw. Duplicates repeat an earlier draw of the same seed.`,
+    "", ...guideHeader(),
+  ];
+  for (const arm of ["before", "after"] as const) {
+    const range = seedRanges[arm];
+    lines.push(`| Pooled | ${arm} | ${guideCells(pooled[arm], [`${spread(range.duplicateSpellingRate, percent)} per seed`, `${spread(range.duplicateIpaRate, percent)} per seed`]).join(" | ")} |`);
+  }
+  for (const seed of bySeed) {
+    for (const arm of ["before", "after"] as const) {
+      lines.push(`| Seed ${seed.seed} | ${arm} | ${guideCells(seed[arm], [dup(seed[arm].duplicates.spelling), dup(seed[arm].duplicates.ipa)]).join(" | ")} |`);
+    }
+  }
+  const delta = seedRanges.delta;
+  lines.push("", "Seed-to-seed spread of each arm and of the after − before change. Rates are in percent, changes in percentage points, trigram medians in percentile points.", "",
+    "| Metric | Before across seeds | After across seeds | Change across seeds | Pooled change |", "| --- | --- | --- | --- | ---: |");
+  const rows = [
+    ["T median", "trigramMedian", number, number], ["T < 10", "trigramBelow10Rate", percent, signedPoints],
+    ["Rare pair", "rarePairRate", percent, signedPoints], ["Dictionary pronunciation", "realPronunciationRate", percent, signedPoints],
+    ["Dictionary spelling", "realSpellingRate", percent, signedPoints], ["Duplicate spelling", "duplicateSpellingRate", percent, signedPoints],
+    ["Duplicate IPA", "duplicateIpaRate", percent, signedPoints],
+  ] as const;
+  for (const [label, key, format, change] of rows) {
+    const pooledChange = change(pooled.delta[key]);
+    lines.push(`| ${label} | ${spread(seedRanges.before[key], format)} | ${spread(seedRanges.after[key], format)} | ${spread(delta[key], change)} | ${pooledChange} |`);
+  }
+  lines.push("", `${rarePairs.distinct} distinct rare pairs occur. The most frequent in each arm, by draws containing them:`, "",
+    "| Arm | Sound pair | Reference spellings | Before draws | After draws |", "| --- | --- | ---: | ---: | ---: |");
+  for (const arm of ["before", "after"] as const) {
+    for (const pair of rarePairs.top[arm]) {
+      lines.push(`| ${arm} | ${code(pair.symbols.join(" "))} | ${pair.referenceRows} | ${pair.before} | ${pair.after} |`);
+    }
+  }
+  return [...lines, ""];
+}
+
 export function renderPacket(packet: Packet): string {
   const { schedule, summaries, captures, metric } = packet;
   const lines = [
@@ -187,6 +253,7 @@ export function renderPacket(packet: Packet): string {
     summaryRow("All", summaries.pooled.overall),
     ...summaries.pooled.rootBuckets.map(bucket => summaryRow(bucket.bucket, bucket)),
     "",
+    ...guideSection(packet.guide, metric.guide),
     "## Paired seeds",
     "",
     "| Seed | Median paired difference U | Matched U pairs | Median paired difference B | Matched B pairs |",
@@ -204,7 +271,7 @@ export function renderPacket(packet: Packet): string {
       ...seed.rootBuckets.map(bucket => summaryRow(bucket.bucket, bucket)), "");
   }
   lines.push("## First four paired draws per seed", "",
-    "Each pronunciation shows spelling, IPA, realized root syllables, projected phones, fold, peer count, and each metric’s raw score / percentile.",
+    "Each pronunciation shows spelling, IPA, realized root syllables, projected phones, fold, peer count, each metric’s raw score / percentile (U, B and the trigram T), any rare pairs and any match with a dictionary pronunciation or spelling.",
     "",
     "| Seed/draw | Before | After | Δ B percentile |",
     "| --- | --- | --- | ---: |",

@@ -2,6 +2,7 @@ import { gunzipSync } from "node:zlib";
 import { git, gitBytes } from "../git.js";
 import { ROOT, loadReference, sha256 } from "./reference.js";
 import { fitUci, type Score } from "./scorer.js";
+import { duplicateRate, fitMembership, fitPhoneTrigram } from "./guide.js";
 import { median } from "./statistics.js";
 import { historicalRootStrata, type HistoricalScore } from "./archive-traces.js";
 
@@ -54,6 +55,8 @@ export async function verifyArchive(withRootStrata = false) {
   if (git(ROOT, "rev-parse", `${TAG}^{}`) !== COMMIT) throw new Error(`Expected ${TAG} at ${COMMIT}.`);
   const { descriptor, descriptorSha256, rows, spellings } = await loadReference();
   const scorer = fitUci(descriptor, rows);
+  const trigram = fitPhoneTrigram(descriptor, rows);
+  const membership = fitMembership(rows, spellings);
   const reference = readOracle("reference");
   for (const [index, [spelling, phones, ...columns]] of reference.entries()) {
     if (spelling !== spellings[index] || phones !== rows[index].join(" ")) {
@@ -67,10 +70,17 @@ export async function verifyArchive(withRootStrata = false) {
   const pair: number[] = [];
   const scores = withRootStrata ? new Map<string, HistoricalScore>() : undefined;
   const noPeers: Array<{ seed: number; draw: number; fold: number; length: number }> = [];
+  const guide = { trigram: [] as number[], rarePair: 0, realPronunciation: 0, realSpelling: 0 };
   for (const [index, [seed, draw, spelling, phones, ...columns]] of generated.entries()) {
     compareNumber("Generated seed", seed, 201 + Math.floor(index / 1000));
     compareNumber("Generated draw", draw, index % 1000);
-    const score = scorer.score(phones.split(" "));
+    const symbols = phones.split(" ");
+    const score = scorer.score(symbols);
+    const trigramPercentile = trigram.score(symbols).percentile;
+    if (trigramPercentile !== null) guide.trigram.push(trigramPercentile);
+    if (membership.rarePairs(symbols).length) guide.rarePair++;
+    if (membership.isReferencePronunciation(symbols)) guide.realPronunciation++;
+    if (membership.isReferenceSpelling(spelling)) guide.realSpelling++;
     compareScore(`${seed}/${draw} ${spelling}`, score, columns);
     scores?.set(`${seed}/${draw}`, { spelling, phones, score });
     if (score.unigram.percentile === null || score.bigram.percentile === null) {
@@ -92,10 +102,45 @@ export async function verifyArchive(withRootStrata = false) {
     { seed: 221, draw: 645, fold: 0, length: 17 },
   ];
   if (JSON.stringify(noPeers) !== JSON.stringify(expectedNoPeers)) throw new Error("Unexpected draws without peers.");
+  const guideMetrics = archivedGuide(guide, generated, membership.referenceRarePairRate.numerator);
   return {
     archive: { tag: TAG, commit: COMMIT, generator: GENERATOR, oracles: ORACLES },
     reference: { descriptor, descriptorSha256, rows: reference.length },
     generated: { rows: generated.length, unigramMedian, bigramMedian, bigramBelow10: { numerator: below10, denominator: pair.length }, noPeers },
+    guide: guideMetrics,
     ...(scores && { traceJoin: historicalRootStrata(scores) }),
+  };
+}
+
+/**
+ * The #555 analysis reported these figures for the archived draws (`a4.py`, `b1.py` in
+ * archive/issue-555-selection-strategy). Rare pairs and pooled phone duplicates match it
+ * exactly. `b1.py` scored the trigram and dictionary pronunciations against folds 0–3
+ * only; the packet holds out each word's own fold and matches against the whole reference.
+ */
+function archivedGuide(guide: { trigram: number[]; rarePair: number; realPronunciation: number; realSpelling: number },
+  generated: string[][], referenceRare: number) {
+  const trigramMedian = median(guide.trigram);
+  const trigramBelow10 = guide.trigram.filter(value => value < 10).length;
+  const pooledPhoneDuplicates = duplicateRate(generated.map(columns => columns[3]));
+  const bySeed = new Map<string, string[]>();
+  for (const [seed, , , phones] of generated) bySeed.set(seed, [...bySeed.get(seed) ?? [], phones]);
+  const perSeed = [...bySeed.values()].map(duplicateRate);
+  compareNumber("Trigram median percentile", 5.741279069767442, trigramMedian);
+  compareNumber("Trigram tail numerator", 27234, trigramBelow10);
+  compareNumber("Trigram tail denominator", 45902, guide.trigram.length);
+  compareNumber("Rare-pair draws", 3233, guide.rarePair);
+  compareNumber("Reference rows with a rare pair", 488, referenceRare);
+  compareNumber("Dictionary-pronunciation draws", 2269, guide.realPronunciation);
+  compareNumber("Dictionary-spelling draws", 1578, guide.realSpelling);
+  compareNumber("Distinct pooled phone sequences", 44132, pooledPhoneDuplicates.distinct);
+  return {
+    trigram: { median: trigramMedian, below10: { numerator: trigramBelow10, denominator: guide.trigram.length } },
+    rarePair: { numerator: guide.rarePair, denominator: generated.length },
+    referenceRarePair: { numerator: referenceRare, denominator: 45904 },
+    realPronunciation: { numerator: guide.realPronunciation, denominator: generated.length },
+    realSpelling: { numerator: guide.realSpelling, denominator: generated.length },
+    pooledPhoneDuplicates,
+    perSeedPhoneDuplicates: { seeds: perSeed.length, duplicates: perSeed.reduce((sum, seed) => sum + seed.draws - seed.distinct, 0) },
   };
 }

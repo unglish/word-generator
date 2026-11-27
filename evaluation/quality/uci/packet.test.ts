@@ -29,12 +29,16 @@ function manifest(protocol: Protocol): Manifest {
   };
 }
 
+const guide = (percentile: number | null) => ({
+  trigram: { raw: -1, percentile, fold: 0, peers: percentile === null ? 0 : 1 }, rarePairs: [], realPronunciation: false,
+});
+
 function scored(rootSyllables: number, value: number | null): DrawEvidence["before"] {
   const metric = { raw: 1, percentile: value };
   return {
-    spelling: "a", ipa: "ə", rootSyllables, selectedAttempt: 0, surface: { kind: "scored", phones: ["AH"], score: {
+    spelling: "a", ipa: "ə", rootSyllables, selectedAttempt: 0, realSpelling: false, surface: { kind: "scored", phones: ["AH"], score: {
       length: 1, fold: 0, peers: value === null ? 0 : 1, unigram: metric, bigram: metric,
-    } },
+    }, guide: guide(value) },
   };
 }
 
@@ -121,7 +125,7 @@ describe("UCI comparison packet", () => {
 
   it("stratifies each arm by its own realized root, excludes missing percentiles and keeps tail denominators", () => {
     const ineligible: DrawEvidence["after"] = {
-      spelling: "a", ipa: "ʔ", rootSyllables: 7, selectedAttempt: 0,
+      spelling: "a", ipa: "ʔ", rootSyllables: 7, selectedAttempt: 0, realSpelling: false,
       surface: { kind: "ineligible", reason: "unmapped-phones", phones: [null], unmapped: [{ index: 0, sound: "ʔ" }] },
     };
     const { pooled, bySeed, seedDeltaRanges } = summarizeDraws([
@@ -145,7 +149,7 @@ describe("UCI comparison packet", () => {
     function arm(phones: string[], ipa: string): DrawEvidence["before"] {
       const base = scored(1, null);
       const raw = { raw: 1, percentile: null };
-      return { ...base, ipa, surface: { kind: "scored", phones, score: { length: phones.length, fold: 0, peers: 0, unigram: raw, bigram: raw } } };
+      return { ...base, ipa, surface: { kind: "scored", phones, score: { length: phones.length, fold: 0, peers: 0, unigram: raw, bigram: raw }, guide: guide(null) } };
     }
     const a = arm(["A", "A", "A"], "aː");
     const b = arm(["A", "A", "B"], "aːb");
