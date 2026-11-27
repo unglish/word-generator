@@ -12,6 +12,7 @@ import type { Word, WordGenerationOptions } from "../types.js";
 import {
   attemptStageCount, stageCount, withShiftedStage, withStageDraws, withStageRuns, type StageDraws,
 } from "../test-support/stage-stream-probe.js";
+import { withPhonemeWeights } from "../test-support/phoneme-weights.js";
 import { FINISHING_STAGES, followsRunOrder, stagesBefore, wordKind, type WordKind } from "../test-support/stage-run-order.js";
 import { ATTEMPT_STAGES, createWordStreams, WORD_STAGES, type Stage } from "./stage-streams.js";
 
@@ -39,10 +40,37 @@ const bridgeGenerator = createGenerator({
   },
 });
 
+// Four CVC syllables with /t.k/ joins. Both stops have equal sonority here,
+// and the junction is legal, so the probabilistic drop is the deciding roll.
+const one: [number, number][] = [[1, 1]];
+const boundaryGenerator = createGenerator({
+  ...withPhonemeWeights(englishConfig, phone => ({
+    ...phone,
+    onset: phone.onset && phone.sound !== "k" ? 0 : phone.onset,
+    coda: phone.coda && phone.sound !== "t" ? 0 : phone.coda,
+  })),
+  rootRepetition: undefined,
+  sonorityHierarchy: { ...englishConfig.sonorityHierarchy, placeOfArticulation: {}, voicedBonus: 0, tenseBonus: 0 },
+  phonemeLengthWeights: { ...englishConfig.phonemeLengthWeights, text: [[12, 1]] },
+  phonemeToSyllableWeights: { ...englishConfig.phonemeToSyllableWeights, text: { 12: [[4, 1]] } },
+  generationWeights: {
+    ...englishConfig.generationWeights,
+    onsetLength: { monosyllabic: one, followingNucleus: one, default: one },
+    codaLength: {
+      monosyllabic: {}, monosyllabicDefault: one, polysyllabicNonzero: one,
+      zeroWeightEndOfWord: 0, zeroWeightMidWord: 0,
+    },
+    boundaryPolicy: { equalSonorityDrop: 50, risingCodaDrop: 0 },
+  },
+});
+
 function probeStage(stage: Stage, seed: number, morphology: boolean, shifted = false): Word {
-  const run = () => stage === "repair_vowel_hiatus"
-    ? bridgeGenerator.generateWord({ seed, morphology, syllableCount: 3, mode: "text", trace: true })
-    : generate({ seed, morphology });
+  const run = () => {
+    const options = { seed, morphology, mode: "text", trace: true } as const;
+    if (stage === "repair_vowel_hiatus") return bridgeGenerator.generateWord({ ...options, syllableCount: 3 });
+    if (stage === "adjust_boundary") return boundaryGenerator.generateWord({ ...options, syllableCount: 4 });
+    return generate({ seed, morphology });
+  };
   return shifted ? withShiftedStage(stage, run) : run();
 }
 
@@ -134,6 +162,21 @@ describe("stage stream wiring (#556)", () => {
       expect(followsRunOrder(kind, 3, ["select_segments", "repair_vowel_hiatus", "adjust_boundary"])).toBe(false);
       expect(followsRunOrder(kind, 3, ["select_segments", "assign_stress", "adjust_boundary"])).toBe(false);
     }
+  });
+
+  it("uses successive boundary rolls from the selected attempt for its three eligible joins", () => {
+    let laterAttempts = 0;
+    for (const seed of SEEDS.slice(0, 20)) {
+      const { value, draws } = withStageDraws(() => probeStage("adjust_boundary", seed, false));
+      const attempt = selected(value);
+      if (attempt > 0) laterAttempts++;
+      const rand = createWordStreams(createSeededRng(seed)).attempt(attempt)("adjust_boundary");
+      const expected = [1, 2, 3].filter(() => rand() < 0.5);
+      const dropped = value.trace!.structural.flatMap(e => e.event === "boundaryDrop" ? [e.rightSyllableIndex] : []);
+      expect(dropped, `seed ${seed}`).toEqual(expected);
+      for (const counts of draws.attempts) expect(counts.adjust_boundary).toBe(3);
+    }
+    expect(laterAttempts).toBeGreaterThan(0);
   });
 
   it("chooses both bridges from the selected attempt's successive hiatus rolls", () => {
