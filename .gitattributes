@@ -1,0 +1,5 @@
+# These frozen reference inputs are verified byte for byte.
+/data/cmu/ordinary/spellings.txt text eol=lf
+/data/cmu/phoneme-normalization.json text eol=lf
+/evaluation/corpus/root-coda-exclusions.json text eol=lf
+/evaluation/quality/uci/data/reference.json text eol=lf

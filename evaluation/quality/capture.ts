@@ -15,7 +15,7 @@ import type { WordObservations, WordStrata } from "./metrics.js";
 import { distributionDistance } from "./distribution.js";
 import type { ArchivedProvenance, Artifact, Cohort, Draw, FidelityProbe, Manifest, MetricCounts, ProfileSummary, Protocol, RunEnvironment, RunSummary, SourceArchive, StratumSummary } from "./model.js";
 
-async function collectFiles(root: string, directory: string, recursive = true): Promise<SourceFile[]> {
+export async function collectFiles(root: string, directory: string, recursive = true): Promise<SourceFile[]> {
   const files: SourceFile[] = [];
   const entries = await readdir(join(root, directory), { withFileTypes: true });
   for (const entry of entries.sort((a, b) => a.name.localeCompare(b.name, "en"))) {
@@ -393,9 +393,15 @@ async function readPinnedJson<T>(directory: string, manifest: Manifest, file: st
   return JSON.parse((file.endsWith(".gz") ? gunzipSync(bytes) : bytes).toString()) as T;
 }
 
-async function* archivedDraws(path: string): AsyncGenerator<Draw> {
+async function* archivedDraws(path: string, expected?: Artifact): AsyncGenerator<Draw> {
   const input = createReadStream(path);
   const decompressed = createGunzip();
+  const hash = createHash("sha256");
+  let bytes = 0;
+  if (expected) input.on("data", chunk => {
+    hash.update(chunk);
+    bytes += Buffer.byteLength(chunk);
+  });
   input.on("error", error => decompressed.destroy(error));
   input.pipe(decompressed);
   decompressed.setEncoding("utf8");
@@ -410,10 +416,30 @@ async function* archivedDraws(path: string): AsyncGenerator<Draw> {
       }
     }
     if (remaining.length) yield JSON.parse(remaining) as Draw;
+    if (expected && (bytes !== expected.bytes || hash.digest("hex") !== expected.sha256)) {
+      throw new Error(`Artifact verification failed while reading: ${expected.file}`);
+    }
   } finally {
     input.destroy();
     decompressed.destroy();
   }
+}
+
+/** Read a pinned shard and check every scheduled draw identity in order. */
+export async function* readCapturedDraws(directory: string, manifest: Manifest, profile: string, seed: number): AsyncGenerator<Draw> {
+  const file = `words/${profile}-${seed}.jsonl.gz`;
+  if (!/^[a-z0-9-]+$/.test(profile) || !manifest.protocol.profiles.find(entry => entry.id === profile)?.seeds[manifest.cohort].includes(seed)) {
+    throw new Error(`Unscheduled capture shard: ${file}.`);
+  }
+  let index = 0;
+  for await (const draw of archivedDraws(join(directory, file), pinnedArtifact(manifest, file))) {
+    if (draw.profile !== profile || draw.seed !== seed || draw.drawIndex !== index || index >= manifest.protocol.wordsPerReplicate) {
+      throw new Error(`Invalid draw identity or order in ${file}: expected index ${index}.`);
+    }
+    index++;
+    yield draw;
+  }
+  if (index !== manifest.protocol.wordsPerReplicate) throw new Error(`Incomplete capture shard: ${file}.`);
 }
 
 export interface RescoreOptions {

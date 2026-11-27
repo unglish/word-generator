@@ -34,7 +34,9 @@ recorded length describes a root attempt. The trace records the global
 thresholds, selected root lengths/score, and a compact histogram of all proposed
 root lengths; the root phoneme target is `trace.targetPhonemeCount`. Bins contain
 syllables, phonemes, letters, and multiplicity. For an affixed word, the selected
-root lengths differ from the returned word's lengths.
+root lengths differ from the returned word's lengths. A bare word can gain a
+letter after selection through medial-onset doubling. The audit reconciles its
+final spelling with the selected length using the edits in `trace.baseSpelling`.
 When the selected root needed a letter-length schedule to qualify,
 `selection.scheduledRelaxedAfter` records its zero-based opening index.
 These bins include both rejected and selected candidates. They allow comparison of

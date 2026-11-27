@@ -92,6 +92,8 @@ for the corpus inputs and reproduction steps.
 
 Heavier diagnostics (`npm run quality:pr`, `npm run quality:capture`,
 `npx vitest bench --run`) are run locally, on demand.
+For phoneme-selection changes, use those captures to produce the
+[paired pronunciation review packet](docs/uci-review-packet.md).
 
 ## Coding Guidelines
 

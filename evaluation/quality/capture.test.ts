@@ -1,9 +1,9 @@
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { resolve, join } from "node:path";
-import { gunzipSync } from "node:zlib";
+import { gunzipSync, gzipSync } from "node:zlib";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { captureRun, readRun, validateProtocol } from "./capture.js";
+import { captureRun, readCapturedDraws, readRun, validateProtocol } from "./capture.js";
 import type { Draw, Protocol, RunSummary } from "./model.js";
 
 const root = resolve(import.meta.dirname, "../..");
@@ -54,6 +54,26 @@ describe("frozen quality capture", () => {
     await writeFile(path, "corrupt");
     await expect(readRun(join(directory, "first"), true)).rejects.toThrow("Artifact verification failed");
     await writeFile(path, original);
+  });
+
+  it("checks shard bytes again while replaying verified capture draws", async () => {
+    const run = join(directory, "first");
+    const path = join(run, "words/lexicon-42.jsonl.gz");
+    const original = await readFile(path);
+    const { manifest } = await readRun(run, true);
+    const indices = async () => {
+      const result: number[] = [];
+      for await (const draw of readCapturedDraws(run, manifest, "lexicon", 42)) result.push(draw.drawIndex);
+      return result;
+    };
+    expect(await indices()).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
+    try {
+      const altered = gzipSync(gunzipSync(original).toString().replace(/\n/g, " \n"));
+      await writeFile(path, altered);
+      await expect(indices()).rejects.toThrow("Artifact verification failed while reading");
+    } finally {
+      await writeFile(path, original);
+    }
   });
 
   it("rejects overlapping streams and invalid fixed sample selections", () => {

@@ -48,6 +48,7 @@
     "review:wordlikeness": "node --import tsx evaluation/review/wordlikeness/cli.ts",
     "quality:capture": "node --import tsx evaluation/quality/cli.ts capture",
     "quality:compare": "node --import tsx evaluation/quality/cli.ts compare",
+    "quality:uci": "node --import tsx evaluation/quality/uci/cli.ts",
     "quality:verify": "node --import tsx evaluation/quality/cli.ts verify",
     "quality:rescore": "node --import tsx evaluation/quality/cli.ts rescore",
     "quality:pr": "node --import tsx evaluation/quality/cli.ts pr",
