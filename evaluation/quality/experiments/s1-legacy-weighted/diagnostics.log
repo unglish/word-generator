@@ -1,0 +1,19 @@
+
+> @unglish/word-generator@0.6.0 test:diagnostics
+> tsc && node --test scripts/lib/analyzer-sampling.test.mjs
+
+✔ ordinary spelling targets count every within-word window from the KenLM vocabulary (87.805ms)
+✔ each replicate consumes a continuous public-API RNG stream, reproducibly (97.105792ms)
+✔ replayed outliers retain their exact stream locations and full trace (32.258834ms)
+✔ reject duplicate, aliased or invalid seed schedules and fractional sample sizes (0.342667ms)
+✔ CLI phoneme scores use the same union-aware implementation as the core gate (0.775209ms)
+✔ trigram gap rankings and distances include missing and generated-only categories (0.382167ms)
+✔ both CLIs persist truthful sample sizes and category-matching full witnesses (600.37025ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 970.343708

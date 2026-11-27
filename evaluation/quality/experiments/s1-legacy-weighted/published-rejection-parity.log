@@ -1,0 +1,26 @@
+
+> @unglish/word-generator@0.6.0 audit:rejections
+> node --import tsx scripts/audit-rejection-trace.ts --generator-root <extraction> --out <evidence>/a-published-rejections.json --compare <evidence>/base-rejections.json
+
+lexicon-default: 69212153, 1000 words
+lexicon-default: 101601885, 1000 words
+lexicon-default: 3921817393, 1000 words
+lexicon-default: 3948943232, 1000 words
+lexicon-default: 2089697863, 1000 words
+lexicon-bare: 2380207674, 1000 words
+lexicon-bare: 772709128, 1000 words
+lexicon-bare: 1304238451, 1000 words
+lexicon-bare: 1696751198, 1000 words
+lexicon-bare: 1498885173, 1000 words
+monosyllables-bare: 462530651, 1000 words
+monosyllables-bare: 62358955, 1000 words
+monosyllables-bare: 3297327738, 1000 words
+monosyllables-bare: 2001884366, 1000 words
+monosyllables-bare: 2353354178, 1000 words
+text-default: 4167471042, 1000 words
+text-default: 2666001996, 1000 words
+text-default: 3562318933, 1000 words
+text-default: 1999736106, 1000 words
+text-default: 1665836705, 1000 words
+Saved 20000 words of rejection evidence: <evidence>/a-published-rejections.json
+Output, selected-index, and RNG parity: PASS
