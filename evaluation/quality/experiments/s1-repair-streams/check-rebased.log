@@ -1,0 +1,26 @@
+> @unglish/word-generator@0.6.0 check
+> npm run lint && npm run typecheck && npm run test:root-attempts:model && npm run test:review:model && npm test && npm run test:review
+> @unglish/word-generator@0.6.0 lint
+> node scripts/check-tracked-files.mjs && eslint "src/**/*.ts" "evaluation/review/**/*.ts" "evaluation/quality/**/*.ts" "demo/review/**/*.ts"
+> @unglish/word-generator@0.6.0 typecheck
+> tsc --noEmit && npm run review:typecheck && npm run quality:typecheck
+> @unglish/word-generator@0.6.0 review:typecheck
+> tsc -p tsconfig.review.json
+> @unglish/word-generator@0.6.0 quality:typecheck
+> tsc -p tsconfig.quality.json
+> @unglish/word-generator@0.6.0 test:root-attempts:model
+> node --import tsx evaluation/quality/verification/check-root-attempts.ts
+Root attempt search verified across 6561 proposal sequences with absent, early, and delayed schedules.
+> @unglish/word-generator@0.6.0 test:review:model
+> node --import tsx evaluation/review/verification/check-continuation.ts
+Review continuation verified: 12 states, 85 transitions.
+> @unglish/word-generator@0.6.0 test
+> vitest run
+ Test Files  91 passed (91)
+      Tests  1389 passed (1389)
+   Duration  341.75s (transform 1.93s, setup 0ms, collect 10.13s, tests 662.84s, environment 10ms, prepare 3.48s)
+> @unglish/word-generator@0.6.0 test:review
+> vitest run --config vitest.review.config.ts
+ Test Files  15 passed (15)
+      Tests  314 passed (314)
+   Duration  13.69s (transform 1.27s, setup 0ms, collect 5.05s, tests 39.25s, environment 2ms, prepare 789ms)

@@ -1,0 +1,1945 @@
+[
+  {
+    "id": [
+      "text-default",
+      1665836705,
+      8475
+    ],
+    "side": "before",
+    "key": "bfcec70a68f34fe2",
+    "selected": 2,
+    "draws": {
+      "word": {
+        "set_constraints": 2,
+        "plan_morphology": 1
+      },
+      "attempts": [
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "spell": 8,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 10,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 12,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 6,
+          "render_pronunciation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "text-default",
+      4167471042,
+      8148
+    ],
+    "side": "before",
+    "key": "271e7398592404e9",
+    "selected": 9,
+    "draws": {
+      "word": {
+        "set_constraints": 2,
+        "plan_morphology": 1
+      },
+      "attempts": [
+        {
+          "plan_shape": 9,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "spell": 8,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 10,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 13,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 11,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "spell": 6
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 10,
+          "select_segments": 13,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 13,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 10,
+          "post_stress_repair": 1,
+          "spell": 5,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 12,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 12,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 10,
+          "select_segments": 12,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "spell": 6,
+          "render_pronunciation": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 8,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 10
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 10,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "lexicon-default",
+      3921817393,
+      851
+    ],
+    "side": "before",
+    "key": "8ee478ba0f0650c7",
+    "selected": 2,
+    "draws": {
+      "word": {
+        "set_constraints": 4,
+        "plan_morphology": 2
+      },
+      "attempts": [
+        {
+          "plan_shape": 5,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 5
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "spell": 8
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "spell": 6,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 12,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "assign_stress": 10
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "assign_stress": 12
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "text-default",
+      1999736106,
+      8083
+    ],
+    "side": "before",
+    "key": "33f9fb2936706d91",
+    "selected": 1,
+    "draws": {
+      "word": {
+        "set_constraints": 2,
+        "plan_morphology": 2
+      },
+      "attempts": [
+        {
+          "plan_shape": 8,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "spell": 4
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 8,
+          "assign_stress": 10,
+          "spell": 3
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "lexicon-bare",
+      2380207674,
+      8526
+    ],
+    "side": "before",
+    "key": "c060333675b7f387",
+    "selected": 7,
+    "draws": {
+      "word": {
+        "set_constraints": 4
+      },
+      "attempts": [
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 2,
+          "spell": 4,
+          "render_pronunciation": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 9,
+          "assign_stress": 10,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 9,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 7,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 2,
+          "spell": 7
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 3
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 7,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 8,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 4,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 10
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 9,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "lexicon-bare",
+      772709128,
+      6799
+    ],
+    "side": "before",
+    "key": "08b972a939c962b9",
+    "selected": 19,
+    "draws": {
+      "word": {
+        "set_constraints": 4
+      },
+      "attempts": [
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 7,
+          "render_pronunciation": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 10
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "spell": 8
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "spell": 7,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 13,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 10,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 3,
+          "spell": 2,
+          "render_pronunciation": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 2,
+          "spell": 5
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 12,
+          "assign_stress": 10,
+          "spell": 6,
+          "render_pronunciation": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "spell": 7
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 13,
+          "assign_stress": 10,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 2,
+          "spell": 3,
+          "render_pronunciation": 4
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "lexicon-default",
+      101601885,
+      2620
+    ],
+    "side": "before",
+    "key": "3c546b2eb26fd539",
+    "selected": 5,
+    "draws": {
+      "word": {
+        "set_constraints": 4,
+        "plan_morphology": 1
+      },
+      "attempts": [
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 3,
+          "spell": 5,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 10,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 12,
+          "assign_stress": 13,
+          "post_stress_repair": 1,
+          "spell": 7,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 13,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 10,
+          "assign_stress": 10
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 8,
+          "assign_stress": 13,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 13
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 12,
+          "assign_stress": 13
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 13,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "text-default",
+      4167471042,
+      5601
+    ],
+    "side": "before",
+    "key": "6e07cf1130115d4b",
+    "selected": 3,
+    "draws": {
+      "word": {
+        "set_constraints": 2,
+        "plan_morphology": 2
+      },
+      "attempts": [
+        {
+          "plan_shape": 11,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "spell": 8
+        },
+        {
+          "plan_shape": 13,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 10,
+          "select_segments": 13,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 12,
+          "select_segments": 13,
+          "assign_stress": 12,
+          "spell": 8,
+          "render_pronunciation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "text-default",
+      1999736106,
+      9530
+    ],
+    "side": "before",
+    "key": "99b575b84a38226e",
+    "selected": 0,
+    "draws": {
+      "word": {
+        "set_constraints": 2,
+        "plan_morphology": 2
+      },
+      "attempts": [
+        {
+          "plan_shape": 15,
+          "select_segments": 13,
+          "assign_stress": 13,
+          "post_stress_repair": 1,
+          "spell": 5,
+          "render_pronunciation": 2
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "lexicon-bare",
+      1696751198,
+      997
+    ],
+    "side": "before",
+    "key": "3153b483dc2b5ead",
+    "selected": 9,
+    "draws": {
+      "word": {
+        "set_constraints": 4
+      },
+      "attempts": [
+        {
+          "plan_shape": 7,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 5,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "spell": 7,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "spell": 4,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "spell": 7,
+          "render_pronunciation": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 5,
+          "render_pronunciation": 4
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 4,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 12,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 9,
+          "assign_stress": 12
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "text-default",
+      1665836705,
+      8475
+    ],
+    "side": "after",
+    "key": "bfcec70a68f34fe2",
+    "selected": 1,
+    "draws": {
+      "word": {
+        "set_constraints": 2,
+        "plan_morphology": 1
+      },
+      "attempts": [
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "spell": 8,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 9,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "spell": 7,
+          "render_pronunciation": 2
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "text-default",
+      4167471042,
+      8148
+    ],
+    "side": "after",
+    "key": "271e7398592404e9",
+    "selected": 2,
+    "draws": {
+      "word": {
+        "set_constraints": 2,
+        "plan_morphology": 1
+      },
+      "attempts": [
+        {
+          "plan_shape": 9,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "spell": 8,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 10,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 12,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "spell": 7
+        },
+        {
+          "plan_shape": 11,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "spell": 6
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 10,
+          "select_segments": 13,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 12,
+          "adjust_boundary": 1,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 10,
+          "post_stress_repair": 1,
+          "spell": 5,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 9,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 12,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 12,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 10,
+          "select_segments": 12,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "spell": 6,
+          "render_pronunciation": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 8,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 10
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 10,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "lexicon-default",
+      3921817393,
+      851
+    ],
+    "side": "after",
+    "key": "8ee478ba0f0650c7",
+    "selected": 2,
+    "draws": {
+      "word": {
+        "set_constraints": 4,
+        "plan_morphology": 2
+      },
+      "attempts": [
+        {
+          "plan_shape": 5,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 5
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "spell": 8
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "spell": 5,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "assign_stress": 10
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "assign_stress": 12
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "text-default",
+      1999736106,
+      8083
+    ],
+    "side": "after",
+    "key": "33f9fb2936706d91",
+    "selected": 0,
+    "draws": {
+      "word": {
+        "set_constraints": 2,
+        "plan_morphology": 2
+      },
+      "attempts": [
+        {
+          "plan_shape": 8,
+          "select_segments": 10,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "spell": 6,
+          "render_pronunciation": 2
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "lexicon-bare",
+      2380207674,
+      8526
+    ],
+    "side": "after",
+    "key": "c060333675b7f387",
+    "selected": 7,
+    "draws": {
+      "word": {
+        "set_constraints": 4
+      },
+      "attempts": [
+        {
+          "plan_shape": 7,
+          "select_segments": 9,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 5,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 9,
+          "assign_stress": 10,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "spell": 6,
+          "render_pronunciation": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 9,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 7,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 2,
+          "spell": 6
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 9,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "adjust_boundary": 1,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 3
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 7,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 8,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "adjust_boundary": 1,
+          "assign_stress": 10,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 4,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 10
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 9,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "lexicon-bare",
+      772709128,
+      6799
+    ],
+    "side": "after",
+    "key": "08b972a939c962b9",
+    "selected": 3,
+    "draws": {
+      "word": {
+        "set_constraints": 4
+      },
+      "attempts": [
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 7,
+          "render_pronunciation": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 10
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "spell": 7,
+          "render_pronunciation": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "adjust_boundary": 2,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "adjust_boundary": 1,
+          "assign_stress": 10
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 3
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "adjust_boundary": 2,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "lexicon-default",
+      101601885,
+      2620
+    ],
+    "side": "after",
+    "key": "3c546b2eb26fd539",
+    "selected": 6,
+    "draws": {
+      "word": {
+        "set_constraints": 4,
+        "plan_morphology": 1
+      },
+      "attempts": [
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 3,
+          "spell": 5,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "adjust_boundary": 1,
+          "assign_stress": 10,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 13,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 8,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 13,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 10,
+          "assign_stress": 10
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 8,
+          "assign_stress": 13,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "assign_stress": 13
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 13
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "assign_stress": 13,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 11,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "text-default",
+      4167471042,
+      5601
+    ],
+    "side": "after",
+    "key": "6e07cf1130115d4b",
+    "selected": 6,
+    "draws": {
+      "word": {
+        "set_constraints": 2,
+        "plan_morphology": 2
+      },
+      "attempts": [
+        {
+          "plan_shape": 11,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "spell": 8
+        },
+        {
+          "plan_shape": 13,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 10,
+          "select_segments": 13,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 12,
+          "select_segments": 12,
+          "adjust_boundary": 1,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 11,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 9,
+          "select_segments": 10,
+          "assign_stress": 13
+        },
+        {
+          "plan_shape": 8,
+          "select_segments": 12,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 8,
+          "render_pronunciation": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "text-default",
+      1999736106,
+      9530
+    ],
+    "side": "after",
+    "key": "99b575b84a38226e",
+    "selected": 1,
+    "draws": {
+      "word": {
+        "set_constraints": 2,
+        "plan_morphology": 2
+      },
+      "attempts": [
+        {
+          "plan_shape": 15,
+          "select_segments": 12,
+          "adjust_boundary": 1,
+          "assign_stress": 13,
+          "post_stress_repair": 1,
+          "spell": 5
+        },
+        {
+          "plan_shape": 10,
+          "select_segments": 11,
+          "assign_stress": 13,
+          "spell": 7,
+          "render_pronunciation": 3
+        }
+      ]
+    }
+  },
+  {
+    "id": [
+      "lexicon-bare",
+      1696751198,
+      997
+    ],
+    "side": "after",
+    "key": "3153b483dc2b5ead",
+    "selected": 4,
+    "draws": {
+      "word": {
+        "set_constraints": 4
+      },
+      "attempts": [
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1,
+          "spell": 4,
+          "render_pronunciation": 3
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "spell": 7,
+          "render_pronunciation": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "spell": 6,
+          "render_pronunciation": 3
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 9,
+          "assign_stress": 12,
+          "post_stress_repair": 2
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 11,
+          "adjust_boundary": 1,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 6,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 5,
+          "select_segments": 10,
+          "assign_stress": 12,
+          "post_stress_repair": 1
+        },
+        {
+          "plan_shape": 7,
+          "select_segments": 9,
+          "assign_stress": 12
+        }
+      ]
+    }
+  }
+]

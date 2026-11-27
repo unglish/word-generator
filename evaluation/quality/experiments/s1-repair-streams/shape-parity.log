@@ -1,0 +1,22 @@
+{
+  "wordKeysWordStageDrawsAndFirstAttemptShapeDraws": "identical",
+  "bareMonosyllableWordsTracesAndAllDrawCounts": "identical",
+  "results": [
+    {
+      "profile": "lexicon-default",
+      "checked": 5000
+    },
+    {
+      "profile": "lexicon-bare",
+      "checked": 5000
+    },
+    {
+      "profile": "monosyllables-bare",
+      "checked": 5000
+    },
+    {
+      "profile": "text-default",
+      "checked": 5000
+    }
+  ]
+}

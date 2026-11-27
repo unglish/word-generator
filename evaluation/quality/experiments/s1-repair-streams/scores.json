@@ -1,0 +1,1763 @@
+{
+  "train": 36747,
+  "held": 9157,
+  "changes": {
+    "lexicon-default": {
+      "draws": 50000,
+      "full_trace_or_word": 232,
+      "surface": 11,
+      "selected_attempt": 7
+    },
+    "lexicon-bare": {
+      "draws": 50000,
+      "full_trace_or_word": 256,
+      "surface": 6,
+      "selected_attempt": 4
+    },
+    "monosyllables-bare": {
+      "draws": 50000
+    },
+    "text-default": {
+      "draws": 50000,
+      "full_trace_or_word": 215,
+      "surface": 27,
+      "selected_attempt": 25
+    }
+  },
+  "scores": {
+    "lexicon-default": {
+      "A": {
+        "n": 50000,
+        "matched": 49904,
+        "pair": 26.671511627906977,
+        "single": 46.63127956747015,
+        "trigram": 6.118286879673692,
+        "below10Pct": 24.070214812439886,
+        "kenLog10PerToken": -1.1935512569576188,
+        "rarePct": 7.62,
+        "realSpellingPct": 3.438,
+        "duplicateSpellingPct": 3.426
+      },
+      "B": {
+        "n": 50000,
+        "matched": 49904,
+        "pair": 26.671511627906977,
+        "single": 46.63212435233161,
+        "trigram": 6.118286879673692,
+        "below10Pct": 24.068210965052902,
+        "kenLog10PerToken": -1.1935631818779393,
+        "rarePct": 7.618,
+        "realSpellingPct": 3.438,
+        "duplicateSpellingPct": 3.426
+      }
+    },
+    "root syllables 2": {
+      "A": {
+        "n": 62959,
+        "matched": 62959,
+        "pair": 24.326599326599325,
+        "single": 43.968023255813954,
+        "trigram": 4.941860465116279,
+        "below10Pct": 25.341889165965153,
+        "kenLog10PerToken": -1.2469881000009422,
+        "rarePct": 8.584952111691736,
+        "realSpellingPct": 0.36531711113581855,
+        "duplicateSpellingPct": 2.2713194301053066
+      },
+      "B": {
+        "n": 62959,
+        "matched": 62959,
+        "pair": 24.326599326599325,
+        "single": 43.968023255813954,
+        "trigram": 4.941860465116279,
+        "below10Pct": 25.341889165965153,
+        "kenLog10PerToken": -1.2469881000009422,
+        "rarePct": 8.584952111691736,
+        "realSpellingPct": 0.36531711113581855,
+        "duplicateSpellingPct": 2.2713194301053066
+      }
+    },
+    "lexicon-default/69212153": {
+      "A": {
+        "n": 10000,
+        "matched": 9975,
+        "pair": 26.85185185185185,
+        "single": 46.81818181818182,
+        "trigram": 5.959302325581396,
+        "below10Pct": 24.100250626566417,
+        "kenLog10PerToken": -1.1943108090189014,
+        "rarePct": 7.16,
+        "realSpellingPct": 3.17,
+        "duplicateSpellingPct": 0.79
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9975,
+        "pair": 26.85185185185185,
+        "single": 46.875,
+        "trigram": 5.959302325581396,
+        "below10Pct": 24.11027568922306,
+        "kenLog10PerToken": -1.1943089243138316,
+        "rarePct": 7.14,
+        "realSpellingPct": 3.17,
+        "duplicateSpellingPct": 0.79
+      }
+    },
+    "root syllables 3": {
+      "A": {
+        "n": 22500,
+        "matched": 22486,
+        "pair": 16.7912984364378,
+        "single": 42.393351681431156,
+        "trigram": 1.618705035971223,
+        "below10Pct": 36.12469981321711,
+        "kenLog10PerToken": -1.3104707721906936,
+        "rarePct": 9.266666666666667,
+        "realSpellingPct": 0.0044444444444444444,
+        "duplicateSpellingPct": 0.044444444444444446
+      },
+      "B": {
+        "n": 22500,
+        "matched": 22486,
+        "pair": 16.7912984364378,
+        "single": 42.384105960264904,
+        "trigram": 1.618705035971223,
+        "below10Pct": 36.12469981321711,
+        "kenLog10PerToken": -1.3105263264389229,
+        "rarePct": 9.27111111111111,
+        "realSpellingPct": 0.0044444444444444444,
+        "duplicateSpellingPct": 0.044444444444444446
+      }
+    },
+    "root syllables 1": {
+      "A": {
+        "n": 103937,
+        "matched": 103761,
+        "pair": 57.70348837209303,
+        "single": 58.629441624365484,
+        "trigram": 37.93478260869565,
+        "below10Pct": 6.041769065448483,
+        "kenLog10PerToken": -1.1105743395056793,
+        "rarePct": 4.2718185054407956,
+        "realSpellingPct": 20.12661516110721,
+        "duplicateSpellingPct": 62.538845646882244
+      },
+      "B": {
+        "n": 103937,
+        "matched": 103761,
+        "pair": 57.70348837209303,
+        "single": 58.629441624365484,
+        "trigram": 37.93478260869565,
+        "below10Pct": 6.041769065448483,
+        "kenLog10PerToken": -1.1105743395056793,
+        "rarePct": 4.2718185054407956,
+        "realSpellingPct": 20.12661516110721,
+        "duplicateSpellingPct": 62.538845646882244
+      }
+    },
+    "root syllables 4+": {
+      "A": {
+        "n": 10604,
+        "matched": 10291,
+        "pair": 11.810154525386313,
+        "single": 40.94922737306843,
+        "trigram": 0.3367003367003367,
+        "below10Pct": 46.37061510057332,
+        "kenLog10PerToken": -1.3597387738233606,
+        "rarePct": 10.59977367031309,
+        "realSpellingPct": 0.0,
+        "duplicateSpellingPct": 0.0
+      },
+      "B": {
+        "n": 10604,
+        "matched": 10290,
+        "pair": 11.810154525386313,
+        "single": 40.94922737306843,
+        "trigram": 0.3367003367003367,
+        "below10Pct": 46.375121477162295,
+        "kenLog10PerToken": -1.3597509309734161,
+        "rarePct": 10.590343266691814,
+        "realSpellingPct": 0.0,
+        "duplicateSpellingPct": 0.0
+      }
+    },
+    "lexicon-default/101601885": {
+      "A": {
+        "n": 10000,
+        "matched": 9983,
+        "pair": 26.240652617267166,
+        "single": 45.85755813953488,
+        "trigram": 6.1447811447811445,
+        "below10Pct": 24.040869478112793,
+        "kenLog10PerToken": -1.1921276407341013,
+        "rarePct": 7.91,
+        "realSpellingPct": 3.71,
+        "duplicateSpellingPct": 0.92
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9983,
+        "pair": 26.240652617267166,
+        "single": 45.85755813953488,
+        "trigram": 6.1447811447811445,
+        "below10Pct": 24.020835420214365,
+        "kenLog10PerToken": -1.1921542158815954,
+        "rarePct": 7.91,
+        "realSpellingPct": 3.71,
+        "duplicateSpellingPct": 0.92
+      }
+    },
+    "lexicon-default/3921817393": {
+      "A": {
+        "n": 10000,
+        "matched": 9987,
+        "pair": 26.598837209302324,
+        "single": 46.16883116883117,
+        "trigram": 6.103896103896104,
+        "below10Pct": 24.36167017122259,
+        "kenLog10PerToken": -1.1922419434641591,
+        "rarePct": 7.64,
+        "realSpellingPct": 3.41,
+        "duplicateSpellingPct": 0.79
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9987,
+        "pair": 26.598837209302324,
+        "single": 46.16883116883117,
+        "trigram": 6.103896103896104,
+        "below10Pct": 24.36167017122259,
+        "kenLog10PerToken": -1.1922469694136097,
+        "rarePct": 7.64,
+        "realSpellingPct": 3.41,
+        "duplicateSpellingPct": 0.79
+      }
+    },
+    "lexicon-default/3948943232": {
+      "A": {
+        "n": 10000,
+        "matched": 9980,
+        "pair": 27.192386131883072,
+        "single": 47.792351136722,
+        "trigram": 6.228956228956229,
+        "below10Pct": 23.386773547094187,
+        "kenLog10PerToken": -1.1940041093215517,
+        "rarePct": 7.61,
+        "realSpellingPct": 3.65,
+        "duplicateSpellingPct": 1.04
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9980,
+        "pair": 27.192386131883072,
+        "single": 47.7696504077318,
+        "trigram": 6.228956228956229,
+        "below10Pct": 23.386773547094187,
+        "kenLog10PerToken": -1.1940179973158251,
+        "rarePct": 7.61,
+        "realSpellingPct": 3.65,
+        "duplicateSpellingPct": 1.04
+      }
+    },
+    "lexicon-default/2089697863": {
+      "A": {
+        "n": 10000,
+        "matched": 9979,
+        "pair": 26.671511627906977,
+        "single": 46.5843023255814,
+        "trigram": 6.103896103896104,
+        "below10Pct": 24.461368874636737,
+        "kenLog10PerToken": -1.1950717822493802,
+        "rarePct": 7.78,
+        "realSpellingPct": 3.25,
+        "duplicateSpellingPct": 0.93
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9979,
+        "pair": 26.671511627906977,
+        "single": 46.630434782608695,
+        "trigram": 6.103896103896104,
+        "below10Pct": 24.461368874636737,
+        "kenLog10PerToken": -1.1950878024648348,
+        "rarePct": 7.79,
+        "realSpellingPct": 3.25,
+        "duplicateSpellingPct": 0.93
+      }
+    },
+    "lexicon-bare": {
+      "A": {
+        "n": 50000,
+        "matched": 49927,
+        "pair": 28.488372093023255,
+        "single": 51.36363636363637,
+        "trigram": 5.869565217391305,
+        "below10Pct": 23.330061890359925,
+        "kenLog10PerToken": -1.2687841140205998,
+        "rarePct": 6.466,
+        "realSpellingPct": 5.558,
+        "duplicateSpellingPct": 9.988
+      },
+      "B": {
+        "n": 50000,
+        "matched": 49927,
+        "pair": 28.488372093023255,
+        "single": 51.36363636363637,
+        "trigram": 5.869565217391305,
+        "below10Pct": 23.32805896609049,
+        "kenLog10PerToken": -1.2687865034629773,
+        "rarePct": 6.466,
+        "realSpellingPct": 5.558,
+        "duplicateSpellingPct": 9.988
+      }
+    },
+    "lexicon-bare/2380207674": {
+      "A": {
+        "n": 10000,
+        "matched": 9983,
+        "pair": 28.877005347593585,
+        "single": 51.16883116883117,
+        "trigram": 5.846363018354861,
+        "below10Pct": 23.770409696484023,
+        "kenLog10PerToken": -1.267943327235024,
+        "rarePct": 6.35,
+        "realSpellingPct": 5.71,
+        "duplicateSpellingPct": 3.34
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9983,
+        "pair": 28.877005347593585,
+        "single": 51.16279069767442,
+        "trigram": 5.846363018354861,
+        "below10Pct": 23.780426725433237,
+        "kenLog10PerToken": -1.2679317668650238,
+        "rarePct": 6.36,
+        "realSpellingPct": 5.71,
+        "duplicateSpellingPct": 3.34
+      }
+    },
+    "lexicon-bare/772709128": {
+      "A": {
+        "n": 10000,
+        "matched": 9987,
+        "pair": 28.14411964649898,
+        "single": 51.25764785859959,
+        "trigram": 5.6686046511627906,
+        "below10Pct": 23.540602783618706,
+        "kenLog10PerToken": -1.270321020707459,
+        "rarePct": 6.33,
+        "realSpellingPct": 5.26,
+        "duplicateSpellingPct": 3.48
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9987,
+        "pair": 28.14569536423841,
+        "single": 51.26262626262626,
+        "trigram": 5.6686046511627906,
+        "below10Pct": 23.530589766696707,
+        "kenLog10PerToken": -1.2703534511547316,
+        "rarePct": 6.32,
+        "realSpellingPct": 5.26,
+        "duplicateSpellingPct": 3.48
+      }
+    },
+    "lexicon-bare/1304238451": {
+      "A": {
+        "n": 10000,
+        "matched": 9989,
+        "pair": 28.959891230455472,
+        "single": 51.434878587196465,
+        "trigram": 6.118286879673692,
+        "below10Pct": 23.445790369406346,
+        "kenLog10PerToken": -1.2676081592401705,
+        "rarePct": 6.56,
+        "realSpellingPct": 5.71,
+        "duplicateSpellingPct": 3.81
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9989,
+        "pair": 28.959891230455472,
+        "single": 51.434878587196465,
+        "trigram": 6.118286879673692,
+        "below10Pct": 23.445790369406346,
+        "kenLog10PerToken": -1.2676081592401705,
+        "rarePct": 6.56,
+        "realSpellingPct": 5.71,
+        "duplicateSpellingPct": 3.81
+      }
+    },
+    "lexicon-bare/1696751198": {
+      "A": {
+        "n": 10000,
+        "matched": 9987,
+        "pair": 27.941176470588236,
+        "single": 51.776649746192895,
+        "trigram": 5.846363018354861,
+        "below10Pct": 22.93982176829879,
+        "kenLog10PerToken": -1.2713522613251984,
+        "rarePct": 6.71,
+        "realSpellingPct": 5.31,
+        "duplicateSpellingPct": 3.57
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9987,
+        "pair": 27.941176470588236,
+        "single": 51.776649746192895,
+        "trigram": 5.846363018354861,
+        "below10Pct": 22.92980875137679,
+        "kenLog10PerToken": -1.2713433384598136,
+        "rarePct": 6.71,
+        "realSpellingPct": 5.31,
+        "duplicateSpellingPct": 3.57
+      }
+    },
+    "lexicon-bare/1498885173": {
+      "A": {
+        "n": 10000,
+        "matched": 9981,
+        "pair": 28.31168831168831,
+        "single": 50.97826086956522,
+        "trigram": 5.914343983684568,
+        "below10Pct": 22.953611862538825,
+        "kenLog10PerToken": -1.2666958015951466,
+        "rarePct": 6.38,
+        "realSpellingPct": 5.8,
+        "duplicateSpellingPct": 3.78
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9981,
+        "pair": 28.31168831168831,
+        "single": 50.97826086956522,
+        "trigram": 5.914343983684568,
+        "below10Pct": 22.953611862538825,
+        "kenLog10PerToken": -1.2666958015951466,
+        "rarePct": 6.38,
+        "realSpellingPct": 5.8,
+        "duplicateSpellingPct": 3.78
+      }
+    },
+    "monosyllables-bare": {
+      "A": {
+        "n": 50000,
+        "matched": 49869,
+        "pair": 60.91370558375635,
+        "single": 62.06521739130435,
+        "trigram": 42.89340101522843,
+        "below10Pct": 4.780524975435641,
+        "kenLog10PerToken": -1.131512485266254,
+        "rarePct": 3.166,
+        "realSpellingPct": 24.722,
+        "duplicateSpellingPct": 70.168
+      },
+      "B": {
+        "n": 50000,
+        "matched": 49869,
+        "pair": 60.91370558375635,
+        "single": 62.06521739130435,
+        "trigram": 42.89340101522843,
+        "below10Pct": 4.780524975435641,
+        "kenLog10PerToken": -1.131512485266254,
+        "rarePct": 3.166,
+        "realSpellingPct": 24.722,
+        "duplicateSpellingPct": 70.168
+      }
+    },
+    "monosyllables-bare/462530651": {
+      "A": {
+        "n": 10000,
+        "matched": 9977,
+        "pair": 60.97826086956522,
+        "single": 62.18274111675127,
+        "trigram": 43.14720812182741,
+        "below10Pct": 4.620627443119174,
+        "kenLog10PerToken": -1.129392337383869,
+        "rarePct": 3.04,
+        "realSpellingPct": 25.12,
+        "duplicateSpellingPct": 41.18
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9977,
+        "pair": 60.97826086956522,
+        "single": 62.18274111675127,
+        "trigram": 43.14720812182741,
+        "below10Pct": 4.620627443119174,
+        "kenLog10PerToken": -1.129392337383869,
+        "rarePct": 3.04,
+        "realSpellingPct": 25.12,
+        "duplicateSpellingPct": 41.18
+      }
+    },
+    "monosyllables-bare/62358955": {
+      "A": {
+        "n": 10000,
+        "matched": 9970,
+        "pair": 61.6751269035533,
+        "single": 61.91860465116279,
+        "trigram": 42.71739130434783,
+        "below10Pct": 4.81444332998997,
+        "kenLog10PerToken": -1.1308828702472382,
+        "rarePct": 3.04,
+        "realSpellingPct": 25.25,
+        "duplicateSpellingPct": 40.88
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9970,
+        "pair": 61.6751269035533,
+        "single": 61.91860465116279,
+        "trigram": 42.71739130434783,
+        "below10Pct": 4.81444332998997,
+        "kenLog10PerToken": -1.1308828702472382,
+        "rarePct": 3.04,
+        "realSpellingPct": 25.25,
+        "duplicateSpellingPct": 40.88
+      }
+    },
+    "monosyllables-bare/3297327738": {
+      "A": {
+        "n": 10000,
+        "matched": 9975,
+        "pair": 59.81104651162791,
+        "single": 62.28260869565217,
+        "trigram": 42.17391304347826,
+        "below10Pct": 4.5814536340852134,
+        "kenLog10PerToken": -1.1343893898997381,
+        "rarePct": 3.12,
+        "realSpellingPct": 24.24,
+        "duplicateSpellingPct": 41.02
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9975,
+        "pair": 59.81104651162791,
+        "single": 62.28260869565217,
+        "trigram": 42.17391304347826,
+        "below10Pct": 4.5814536340852134,
+        "kenLog10PerToken": -1.1343893898997381,
+        "rarePct": 3.12,
+        "realSpellingPct": 24.24,
+        "duplicateSpellingPct": 41.02
+      }
+    },
+    "monosyllables-bare/2001884366": {
+      "A": {
+        "n": 10000,
+        "matched": 9972,
+        "pair": 60.15228426395939,
+        "single": 61.92893401015228,
+        "trigram": 42.89340101522843,
+        "below10Pct": 4.9037304452466906,
+        "kenLog10PerToken": -1.1323287705251668,
+        "rarePct": 3.39,
+        "realSpellingPct": 24.23,
+        "duplicateSpellingPct": 40.9
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9972,
+        "pair": 60.15228426395939,
+        "single": 61.92893401015228,
+        "trigram": 42.89340101522843,
+        "below10Pct": 4.9037304452466906,
+        "kenLog10PerToken": -1.1323287705251668,
+        "rarePct": 3.39,
+        "realSpellingPct": 24.23,
+        "duplicateSpellingPct": 40.9
+      }
+    },
+    "monosyllables-bare/2353354178": {
+      "A": {
+        "n": 10000,
+        "matched": 9975,
+        "pair": 60.15228426395939,
+        "single": 61.52173913043478,
+        "trigram": 42.89340101522843,
+        "below10Pct": 4.982456140350878,
+        "kenLog10PerToken": -1.1305690582752579,
+        "rarePct": 3.24,
+        "realSpellingPct": 24.77,
+        "duplicateSpellingPct": 40.61
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9975,
+        "pair": 60.15228426395939,
+        "single": 61.52173913043478,
+        "trigram": 42.89340101522843,
+        "below10Pct": 4.982456140350878,
+        "kenLog10PerToken": -1.1305690582752579,
+        "rarePct": 3.24,
+        "realSpellingPct": 24.77,
+        "duplicateSpellingPct": 40.61
+      }
+    },
+    "text-default": {
+      "A": {
+        "n": 50000,
+        "matched": 49797,
+        "pair": 40.86021505376344,
+        "single": 46.954314720812185,
+        "trigram": 10.913705583756345,
+        "below10Pct": 18.223989396951623,
+        "kenLog10PerToken": -1.16301516865702,
+        "rarePct": 8.856,
+        "realSpellingPct": 8.582,
+        "duplicateSpellingPct": 20.726
+      },
+      "B": {
+        "n": 50000,
+        "matched": 49796,
+        "pair": 40.86021505376344,
+        "single": 46.954314720812185,
+        "trigram": 10.913705583756345,
+        "below10Pct": 18.22837175676761,
+        "kenLog10PerToken": -1.1630284319944089,
+        "rarePct": 8.858,
+        "realSpellingPct": 8.582,
+        "duplicateSpellingPct": 20.726
+      }
+    },
+    "text-default/4167471042": {
+      "A": {
+        "n": 10000,
+        "matched": 9953,
+        "pair": 41.08695652173913,
+        "single": 46.5843023255814,
+        "trigram": 10.828488372093023,
+        "below10Pct": 17.793630061288052,
+        "kenLog10PerToken": -1.165683974418573,
+        "rarePct": 8.45,
+        "realSpellingPct": 8.57,
+        "duplicateSpellingPct": 8.89
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9953,
+        "pair": 41.08695652173913,
+        "single": 46.55844155844156,
+        "trigram": 10.828488372093023,
+        "below10Pct": 17.80367728323119,
+        "kenLog10PerToken": -1.1657328654873909,
+        "rarePct": 8.46,
+        "realSpellingPct": 8.57,
+        "duplicateSpellingPct": 8.89
+      }
+    },
+    "text-default/2666001996": {
+      "A": {
+        "n": 10000,
+        "matched": 9957,
+        "pair": 39.89825581395349,
+        "single": 46.41304347826087,
+        "trigram": 10.65989847715736,
+        "below10Pct": 18.65019584212112,
+        "kenLog10PerToken": -1.162233979171121,
+        "rarePct": 8.91,
+        "realSpellingPct": 8.55,
+        "duplicateSpellingPct": 9.01
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9957,
+        "pair": 39.89825581395349,
+        "single": 46.41304347826087,
+        "trigram": 10.65989847715736,
+        "below10Pct": 18.65019584212112,
+        "kenLog10PerToken": -1.162217685362163,
+        "rarePct": 8.91,
+        "realSpellingPct": 8.55,
+        "duplicateSpellingPct": 9.01
+      }
+    },
+    "text-default/3562318933": {
+      "A": {
+        "n": 10000,
+        "matched": 9962,
+        "pair": 41.04231766102269,
+        "single": 47.461648793715895,
+        "trigram": 10.995588626488932,
+        "below10Pct": 17.606906243726158,
+        "kenLog10PerToken": -1.1612797050870267,
+        "rarePct": 8.56,
+        "realSpellingPct": 8.71,
+        "duplicateSpellingPct": 9.22
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9961,
+        "pair": 41.07744107744108,
+        "single": 47.46192893401015,
+        "trigram": 11.012916383412644,
+        "below10Pct": 17.60867382792892,
+        "kenLog10PerToken": -1.1613003688091181,
+        "rarePct": 8.57,
+        "realSpellingPct": 8.71,
+        "duplicateSpellingPct": 9.22
+      }
+    },
+    "text-default/1999736106": {
+      "A": {
+        "n": 10000,
+        "matched": 9959,
+        "pair": 41.1764705882353,
+        "single": 46.498980285520055,
+        "trigram": 11.428571428571429,
+        "below10Pct": 18.505874083743347,
+        "kenLog10PerToken": -1.1626387905819273,
+        "rarePct": 9.03,
+        "realSpellingPct": 8.92,
+        "duplicateSpellingPct": 8.47
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9959,
+        "pair": 41.1764705882353,
+        "single": 46.498980285520055,
+        "trigram": 11.428571428571429,
+        "below10Pct": 18.515915252535397,
+        "kenLog10PerToken": -1.162651085541452,
+        "rarePct": 9.02,
+        "realSpellingPct": 8.92,
+        "duplicateSpellingPct": 8.47
+      }
+    },
+    "text-default/1665836705": {
+      "A": {
+        "n": 10000,
+        "matched": 9966,
+        "pair": 40.41450777202073,
+        "single": 47.608695652173914,
+        "trigram": 10.913705583756345,
+        "below10Pct": 18.563114589604655,
+        "kenLog10PerToken": -1.1632393940264525,
+        "rarePct": 9.33,
+        "realSpellingPct": 8.16,
+        "duplicateSpellingPct": 7.95
+      },
+      "B": {
+        "n": 10000,
+        "matched": 9966,
+        "pair": 40.41074225810338,
+        "single": 47.608695652173914,
+        "trigram": 10.913705583756345,
+        "below10Pct": 18.563114589604655,
+        "kenLog10PerToken": -1.1632401547719204,
+        "rarePct": 9.33,
+        "realSpellingPct": 8.16,
+        "duplicateSpellingPct": 7.95
+      }
+    }
+  },
+  "pairs": [
+    [
+      "lexicon-default",
+      69212153,
+      0,
+      {
+        "word": "sontoarm",
+        "ipa": "\u02c8s\u0254n.t\u02b0\u0259\u028arm",
+        "key": "7a98900fe5ec8374",
+        "selected": 0,
+        "rootSyllables": 2
+      },
+      {
+        "word": "sontoarm",
+        "ipa": "\u02c8s\u0254n.t\u02b0\u0259\u028arm",
+        "key": "7a98900fe5ec8374",
+        "selected": 0,
+        "rootSyllables": 2
+      }
+    ],
+    [
+      "lexicon-default",
+      101601885,
+      0,
+      {
+        "word": "insmilled",
+        "ipa": "\u02cc\u026an\u02c8sm\u026ald",
+        "key": "9da8aec17e9ed9d1",
+        "selected": 0,
+        "rootSyllables": 1
+      },
+      {
+        "word": "insmilled",
+        "ipa": "\u02cc\u026an\u02c8sm\u026ald",
+        "key": "9da8aec17e9ed9d1",
+        "selected": 0,
+        "rootSyllables": 1
+      }
+    ],
+    [
+      "lexicon-default",
+      3921817393,
+      0,
+      {
+        "word": "dear",
+        "ipa": "d\u025br",
+        "key": "877834e49ec3a584",
+        "selected": 0,
+        "rootSyllables": 1
+      },
+      {
+        "word": "dear",
+        "ipa": "d\u025br",
+        "key": "877834e49ec3a584",
+        "selected": 0,
+        "rootSyllables": 1
+      }
+    ],
+    [
+      "lexicon-default",
+      3948943232,
+      0,
+      {
+        "word": "ceddetive",
+        "ipa": "\u02ccs\u025bd\u02c8\u025bt.\u026av",
+        "key": "8e4568a40f7c8159",
+        "selected": 0,
+        "rootSyllables": 2
+      },
+      {
+        "word": "ceddetive",
+        "ipa": "\u02ccs\u025bd\u02c8\u025bt.\u026av",
+        "key": "8e4568a40f7c8159",
+        "selected": 0,
+        "rootSyllables": 2
+      }
+    ],
+    [
+      "lexicon-default",
+      2089697863,
+      0,
+      {
+        "word": "mened",
+        "ipa": "mi:nd",
+        "key": "72b14002b0420db2",
+        "selected": 0,
+        "rootSyllables": 1
+      },
+      {
+        "word": "mened",
+        "ipa": "mi:nd",
+        "key": "72b14002b0420db2",
+        "selected": 0,
+        "rootSyllables": 1
+      }
+    ],
+    [
+      "lexicon-bare",
+      2380207674,
+      0,
+      {
+        "word": "oind",
+        "ipa": "\u0254\u026and",
+        "key": "368789cc907e5860",
+        "selected": 0,
+        "rootSyllables": 1
+      },
+      {
+        "word": "oind",
+        "ipa": "\u0254\u026and",
+        "key": "368789cc907e5860",
+        "selected": 0,
+        "rootSyllables": 1
+      }
+    ],
+    [
+      "lexicon-bare",
+      772709128,
+      0,
+      {
+        "word": "annimashan",
+        "ipa": "\u0259\u02c8n\u026am.\u00e6\u0283.\u0259n",
+        "key": "6e39a6fd70502308",
+        "selected": 0,
+        "rootSyllables": 4
+      },
+      {
+        "word": "annimashan",
+        "ipa": "\u0259\u02c8n\u026am.\u00e6\u0283.\u0259n",
+        "key": "6e39a6fd70502308",
+        "selected": 0,
+        "rootSyllables": 4
+      }
+    ],
+    [
+      "lexicon-bare",
+      1304238451,
+      0,
+      {
+        "word": "gind",
+        "ipa": "g\u026and",
+        "key": "fbf4d1e4a5d7e97d",
+        "selected": 0,
+        "rootSyllables": 1
+      },
+      {
+        "word": "gind",
+        "ipa": "g\u026and",
+        "key": "fbf4d1e4a5d7e97d",
+        "selected": 0,
+        "rootSyllables": 1
+      }
+    ],
+    [
+      "lexicon-bare",
+      1696751198,
+      0,
+      {
+        "word": "ashil",
+        "ipa": "\u02c8\u0251\u0283.\u0259l",
+        "key": "afe3669a6aa966c3",
+        "selected": 5,
+        "rootSyllables": 2
+      },
+      {
+        "word": "ashil",
+        "ipa": "\u02c8\u0251\u0283.\u0259l",
+        "key": "afe3669a6aa966c3",
+        "selected": 5,
+        "rootSyllables": 2
+      }
+    ],
+    [
+      "lexicon-bare",
+      1498885173,
+      0,
+      {
+        "word": "brasfiert",
+        "ipa": "\u02c8br\u00e6s.fi:rt",
+        "key": "6483acd85d4fe2a7",
+        "selected": 3,
+        "rootSyllables": 2
+      },
+      {
+        "word": "brasfiert",
+        "ipa": "\u02c8br\u00e6s.fi:rt",
+        "key": "6483acd85d4fe2a7",
+        "selected": 3,
+        "rootSyllables": 2
+      }
+    ],
+    [
+      "monosyllables-bare",
+      462530651,
+      0,
+      {
+        "word": "beat",
+        "ipa": "b\u025bt",
+        "key": "de14099f60405ab2",
+        "selected": 2,
+        "rootSyllables": 1
+      },
+      {
+        "word": "beat",
+        "ipa": "b\u025bt",
+        "key": "de14099f60405ab2",
+        "selected": 2,
+        "rootSyllables": 1
+      }
+    ],
+    [
+      "monosyllables-bare",
+      62358955,
+      0,
+      {
+        "word": "heap",
+        "ipa": "h\u025bp",
+        "key": "34425a2670a7caf6",
+        "selected": 0,
+        "rootSyllables": 1
+      },
+      {
+        "word": "heap",
+        "ipa": "h\u025bp",
+        "key": "34425a2670a7caf6",
+        "selected": 0,
+        "rootSyllables": 1
+      }
+    ],
+    [
+      "monosyllables-bare",
+      3297327738,
+      0,
+      {
+        "word": "slite",
+        "ipa": "sla\u026at",
+        "key": "6c012545a27bf732",
+        "selected": 1,
+        "rootSyllables": 1
+      },
+      {
+        "word": "slite",
+        "ipa": "sla\u026at",
+        "key": "6c012545a27bf732",
+        "selected": 1,
+        "rootSyllables": 1
+      }
+    ],
+    [
+      "monosyllables-bare",
+      2001884366,
+      0,
+      {
+        "word": "rale",
+        "ipa": "re\u026al",
+        "key": "d81d43051d5b2b6f",
+        "selected": 3,
+        "rootSyllables": 1
+      },
+      {
+        "word": "rale",
+        "ipa": "re\u026al",
+        "key": "d81d43051d5b2b6f",
+        "selected": 3,
+        "rootSyllables": 1
+      }
+    ],
+    [
+      "monosyllables-bare",
+      2353354178,
+      0,
+      {
+        "word": "bought",
+        "ipa": "b\u0254t",
+        "key": "9b64475ecb0ec003",
+        "selected": 0,
+        "rootSyllables": 1
+      },
+      {
+        "word": "bought",
+        "ipa": "b\u0254t",
+        "key": "9b64475ecb0ec003",
+        "selected": 0,
+        "rootSyllables": 1
+      }
+    ],
+    [
+      "text-default",
+      4167471042,
+      0,
+      {
+        "word": "yecringly",
+        "ipa": "\u02c8j\u025b.k\u02b0r\u026a\u014b.li:",
+        "key": "ae5007fd88ffccb4",
+        "selected": 0,
+        "rootSyllables": 2
+      },
+      {
+        "word": "yecringly",
+        "ipa": "\u02c8j\u025b.k\u02b0r\u026a\u014b.li:",
+        "key": "ae5007fd88ffccb4",
+        "selected": 0,
+        "rootSyllables": 2
+      }
+    ],
+    [
+      "text-default",
+      2666001996,
+      0,
+      {
+        "word": "missageal",
+        "ipa": "\u02ccm\u026as.s\u0259\u02c8gi:l",
+        "key": "279897a3d2faca51",
+        "selected": 0,
+        "rootSyllables": 2
+      },
+      {
+        "word": "missageal",
+        "ipa": "\u02ccm\u026as.s\u0259\u02c8gi:l",
+        "key": "279897a3d2faca51",
+        "selected": 0,
+        "rootSyllables": 2
+      }
+    ],
+    [
+      "text-default",
+      3562318933,
+      0,
+      {
+        "word": "yotorsto",
+        "ipa": "j\u0254\u02c8t\u02b0\u0254r\u02ccst\u0259\u028a",
+        "key": "6ef6161fd12f26dc",
+        "selected": 1,
+        "rootSyllables": 3
+      },
+      {
+        "word": "yotorsto",
+        "ipa": "j\u0254\u02c8t\u02b0\u0254r\u02ccst\u0259\u028a",
+        "key": "6ef6161fd12f26dc",
+        "selected": 1,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "text-default",
+      1999736106,
+      0,
+      {
+        "word": "sloocted",
+        "ipa": "\u02c8slukt.\u026ad",
+        "key": "820818948aa5fbf2",
+        "selected": 2,
+        "rootSyllables": 1
+      },
+      {
+        "word": "sloocted",
+        "ipa": "\u02c8slukt.\u026ad",
+        "key": "820818948aa5fbf2",
+        "selected": 2,
+        "rootSyllables": 1
+      }
+    ],
+    [
+      "text-default",
+      1665836705,
+      0,
+      {
+        "word": "ock",
+        "ipa": "\u028ck",
+        "key": "8b901e432591110d",
+        "selected": 5,
+        "rootSyllables": 1
+      },
+      {
+        "word": "ock",
+        "ipa": "\u028ck",
+        "key": "8b901e432591110d",
+        "selected": 5,
+        "rootSyllables": 1
+      }
+    ]
+  ],
+  "changedPairs": [
+    [
+      "lexicon-default",
+      69212153,
+      3025,
+      {
+        "word": "spathinlas",
+        "ipa": "\u02c8sp\u0251\u00f0.h\u0259n\u02ccl\u0251z",
+        "key": "026d66af52234277",
+        "selected": 13,
+        "rootSyllables": 3
+      },
+      {
+        "word": "bratwegners",
+        "ipa": "\u02c8br\u00e6t.w\u025bg.n\u025az",
+        "key": "026d66af52234277",
+        "selected": 2,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "lexicon-default",
+      69212153,
+      4696,
+      {
+        "word": "lerpoofcutlo",
+        "ipa": "l\u025br\u02c8p\u02b0uf.k\u02b0\u0259t.l\u0251",
+        "key": "4d61b744c794ede2",
+        "selected": 7,
+        "rootSyllables": 4
+      },
+      {
+        "word": "sadninmucter",
+        "ipa": "s\u0259d\u02c8n\u026an.m\u0259k.t\u025a",
+        "key": "4d61b744c794ede2",
+        "selected": 3,
+        "rootSyllables": 4
+      }
+    ],
+    [
+      "lexicon-default",
+      101601885,
+      1483,
+      {
+        "word": "actilprids",
+        "ipa": "\u0259k\u02c8t\u02b0\u026al.pr\u026adz",
+        "key": "7c21875be769341b",
+        "selected": 0,
+        "rootSyllables": 3
+      },
+      {
+        "word": "umsbilmases",
+        "ipa": "\u02c8\u028ams.b\u0259l.m\u0259s.\u0259z",
+        "key": "7c21875be769341b",
+        "selected": 4,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "lexicon-default",
+      101601885,
+      2620,
+      {
+        "word": "vapitmikely",
+        "ipa": "\u02c8v\u0251.p\u02b0\u026at.ma\u026ak.li:",
+        "key": "3c546b2eb26fd539",
+        "selected": 5,
+        "rootSyllables": 4
+      },
+      {
+        "word": "divitrifsa",
+        "ipa": "d\u026a.v\u026at\u02c8r\u026af.s\u0259",
+        "key": "3c546b2eb26fd539",
+        "selected": 6,
+        "rootSyllables": 4
+      }
+    ],
+    [
+      "lexicon-default",
+      101601885,
+      4930,
+      {
+        "word": "yitfeadzorly",
+        "ipa": "j\u026at\u02c8f\u025bd.z\u025a.li:",
+        "key": "52621afa48c53952",
+        "selected": 0,
+        "rootSyllables": 3
+      },
+      {
+        "word": "yitfeadmorly",
+        "ipa": "j\u026at\u02c8f\u025bd.m\u025a.li:",
+        "key": "52621afa48c53952",
+        "selected": 0,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "lexicon-default",
+      101601885,
+      6684,
+      {
+        "word": "elritrectury",
+        "ipa": "\u02c8\u025bl.r\u0259t.r\u0259kt.\u028a.ri:",
+        "key": "e7981218187bafae",
+        "selected": 0,
+        "rootSyllables": 5
+      },
+      {
+        "word": "elritrectoby",
+        "ipa": "\u02c8\u025bl.r\u0259t.r\u0259kt.\u0254.bi:",
+        "key": "e7981218187bafae",
+        "selected": 0,
+        "rootSyllables": 5
+      }
+    ],
+    [
+      "lexicon-default",
+      3921817393,
+      851,
+      {
+        "word": "modrimstiped",
+        "ipa": "\u02c8m\u028cd.r\u0259ms.t\u026apt",
+        "key": "8ee478ba0f0650c7",
+        "selected": 2,
+        "rootSyllables": 3
+      },
+      {
+        "word": "modrimspaled",
+        "ipa": "\u02c8m\u028cd.r\u0259ms.p\u00e6ld",
+        "key": "8ee478ba0f0650c7",
+        "selected": 2,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "lexicon-default",
+      3921817393,
+      4876,
+      {
+        "word": "baplanyutkeca",
+        "ipa": "\u02c8b\u0251p.l\u0259n\u02ccj\u028at.k\u026a.k\u0259",
+        "key": "f5420daa3e9e75dd",
+        "selected": 1,
+        "rootSyllables": 5
+      },
+      {
+        "word": "baplanyutkepa",
+        "ipa": "\u02c8b\u0251p.l\u0259n\u02ccj\u028at.k\u026a.p\u0259",
+        "key": "f5420daa3e9e75dd",
+        "selected": 1,
+        "rootSyllables": 5
+      }
+    ],
+    [
+      "lexicon-default",
+      3948943232,
+      7130,
+      {
+        "word": "atrimbeg",
+        "ipa": "\u0259\u02c8t\u02b0r\u026am\u02ccb\u025bg",
+        "key": "f5d30d51172e8722",
+        "selected": 6,
+        "rootSyllables": 3
+      },
+      {
+        "word": "ibbarmsot",
+        "ipa": "\u0259\u02c8b\u00e6rm.s\u0259t",
+        "key": "f5d30d51172e8722",
+        "selected": 5,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "lexicon-default",
+      3948943232,
+      8490,
+      {
+        "word": "inlatrinelind",
+        "ipa": "\u02cc\u026an.l\u0259\u02c8t\u02b0ra\u026an.l\u026and",
+        "key": "09364396e117da1c",
+        "selected": 1,
+        "rootSyllables": 3
+      },
+      {
+        "word": "inviptiplacs",
+        "ipa": "\u02cc\u026an.v\u026ap\u02c8t\u02b0\u026a.pl\u0259ks",
+        "key": "09364396e117da1c",
+        "selected": 10,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "lexicon-default",
+      2089697863,
+      1690,
+      {
+        "word": "methficras",
+        "ipa": "m\u026a\u03b8\u02c8f\u026ak.r\u0259s",
+        "key": "7b10c959534617ae",
+        "selected": 1,
+        "rootSyllables": 3
+      },
+      {
+        "word": "rafnictan",
+        "ipa": "\u02ccr\u0251f\u02c8n\u026ak.t\u02b0\u0259n",
+        "key": "7b10c959534617ae",
+        "selected": 4,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "lexicon-bare",
+      2380207674,
+      8526,
+      {
+        "word": "froglitsa",
+        "ipa": "\u02ccfr\u0251g\u02c8l\u026at.s\u0259",
+        "key": "c060333675b7f387",
+        "selected": 7,
+        "rootSyllables": 3
+      },
+      {
+        "word": "froglitha",
+        "ipa": "\u02ccfr\u0251g\u02c8l\u026at.\u03b8\u0259",
+        "key": "c060333675b7f387",
+        "selected": 7,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "lexicon-bare",
+      772709128,
+      5087,
+      {
+        "word": "grudginacs",
+        "ipa": "\u02c8gr\u028ad\u02ccd\u0292a\u026a.n\u0259ks",
+        "key": "71e934549045a2cf",
+        "selected": 6,
+        "rootSyllables": 3
+      },
+      {
+        "word": "clacnadent",
+        "ipa": "k\u02b0l\u0259k\u02c8n\u00e6\u02ccd\u025bnt",
+        "key": "71e934549045a2cf",
+        "selected": 3,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "lexicon-bare",
+      772709128,
+      6799,
+      {
+        "word": "tirzelmpic",
+        "ipa": "t\u02b0\u0259r\u02c8z\u025blm.p\u026ak",
+        "key": "08b972a939c962b9",
+        "selected": 19,
+        "rootSyllables": 3
+      },
+      {
+        "word": "ditnimstac",
+        "ipa": "\u02c8d\u026at\u02ccn\u026ams.t\u0259k",
+        "key": "08b972a939c962b9",
+        "selected": 3,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "lexicon-bare",
+      772709128,
+      8961,
+      {
+        "word": "flabbapto",
+        "ipa": "fl\u0259\u02c8b\u00e6p\u02cct\u02b0\u0259\u028a",
+        "key": "5b01bcb6ac7826f3",
+        "selected": 0,
+        "rootSyllables": 3
+      },
+      {
+        "word": "flabbapcha",
+        "ipa": "fl\u0259\u02c8b\u00e6p.t\u0283\u0259",
+        "key": "5b01bcb6ac7826f3",
+        "selected": 0,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "lexicon-bare",
+      1696751198,
+      595,
+      {
+        "word": "wuscurplaquy",
+        "ipa": "\u02c8w\u028as.k\u025ap\u02ccl\u0251.kwi:",
+        "key": "eb90345096b20c0b",
+        "selected": 5,
+        "rootSyllables": 4
+      },
+      {
+        "word": "badnatradewa",
+        "ipa": "\u02c8b\u0251d.n\u0251t\u02ccre\u026ad.w\u0259",
+        "key": "eb90345096b20c0b",
+        "selected": 0,
+        "rootSyllables": 4
+      }
+    ],
+    [
+      "lexicon-bare",
+      1696751198,
+      997,
+      {
+        "word": "smonturzin",
+        "ipa": "\u02c8sm\u0254n.t\u02b0\u0259r.z\u026an",
+        "key": "3153b483dc2b5ead",
+        "selected": 9,
+        "rootSyllables": 3
+      },
+      {
+        "word": "bretcalcos",
+        "ipa": "\u02c8br\u025bt.k\u0259l.k\u0259z",
+        "key": "3153b483dc2b5ead",
+        "selected": 4,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "text-default",
+      4167471042,
+      271,
+      {
+        "word": "watlamfoambory",
+        "ipa": "w\u0259t\u02ccl\u00e6m\u02c8f\u0259\u028amb.\u0254r.i:",
+        "key": "0f23d4da813539ff",
+        "selected": 8,
+        "rootSyllables": 3
+      },
+      {
+        "word": "funshelbomory",
+        "ipa": "\u02ccf\u028cns.h\u026al\u02c8b\u0259\u028am.\u0254r.i:",
+        "key": "0f23d4da813539ff",
+        "selected": 9,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      "text-default",
+      4167471042,
+      307,
+      {
+        "word": "eleamchetterian",
+        "ipa": "\u025b\u02ccl\u025bm\u02cct\u0283\u025bt\u02c8\u025br.i:.\u0259n",
+        "key": "b607bdfa0a480802",
+        "selected": 1,
+        "rootSyllables": 4
+      },
+      {
+        "word": "ackikyihirnian",
+        "ipa": "\u0259\u02cck\u02b0\u026ak.j\u026a\u02c8h\u025an.i:.\u0259n",
+        "key": "b607bdfa0a480802",
+        "selected": 0,
+        "rootSyllables": 4
+      }
+    ],
+    [
+      "text-default",
+      4167471042,
+      3599,
+      {
+        "word": "rewitennealolt",
+        "ipa": "\u02ccr\u026a.wa\u026at.\u026a\u02c8n\u025b.l\u0259\u028alt",
+        "key": "4ed16a7c4f5678ed",
+        "selected": 2,
+        "rootSyllables": 4
+      },
+      {
+        "word": "reribavinirce",
+        "ipa": "\u02ccr\u026a.r\u026a\u02ccb\u0251\u02c8v\u026a.na\u026ars",
+        "key": "4ed16a7c4f5678ed",
+        "selected": 1,
+        "rootSyllables": 4
+      }
+    ]
+  ],
+  "movers": [
+    [
+      -66.24579124579125,
+      [
+        "text-default",
+        1665836705,
+        8475
+      ],
+      68.0976430976431,
+      1.8518518518518519,
+      {
+        "word": "chillecans",
+        "ipa": "\u02cct\u0283\u026a\u02c8l\u025b.k\u02b0\u0259nz",
+        "key": "bfcec70a68f34fe2",
+        "selected": 2,
+        "rootSyllables": 3
+      },
+      {
+        "word": "ubramocks",
+        "ipa": "\u0259b\u02c8r\u00e6.m\u0254ks",
+        "key": "bfcec70a68f34fe2",
+        "selected": 1,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      -36.510791366906474,
+      [
+        "text-default",
+        4167471042,
+        8148
+      ],
+      43.34532374100719,
+      6.83453237410072,
+      {
+        "word": "hatritornts",
+        "ipa": "\u02c8he\u026a.tr\u0259.t\u025ants",
+        "key": "271e7398592404e9",
+        "selected": 9,
+        "rootSyllables": 3
+      },
+      {
+        "word": "brocraflose",
+        "ipa": "\u02c8br\u0254k.r\u0259f.l\u0259\u028as",
+        "key": "271e7398592404e9",
+        "selected": 2,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      -24.331550802139038,
+      [
+        "lexicon-default",
+        3921817393,
+        851
+      ],
+      35.56149732620321,
+      11.229946524064172,
+      {
+        "word": "modrimstiped",
+        "ipa": "\u02c8m\u028cd.r\u0259ms.t\u026apt",
+        "key": "8ee478ba0f0650c7",
+        "selected": 2,
+        "rootSyllables": 3
+      },
+      {
+        "word": "modrimspaled",
+        "ipa": "\u02c8m\u028cd.r\u0259ms.p\u00e6ld",
+        "key": "8ee478ba0f0650c7",
+        "selected": 2,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      -21.355630727206314,
+      [
+        "text-default",
+        1999736106,
+        8083
+      ],
+      22.075055187637968,
+      0.7194244604316546,
+      {
+        "word": "slalezalered",
+        "ipa": "\u02c8sle\u026al.z\u0259.l\u025ad",
+        "key": "33f9fb2936706d91",
+        "selected": 1,
+        "rootSyllables": 3
+      },
+      {
+        "word": "ibechternded",
+        "ipa": "\u02c8\u026a\u02ccb\u025b\u0283.t\u025and.\u026ad",
+        "key": "33f9fb2936706d91",
+        "selected": 0,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      -13.134657836644593,
+      [
+        "lexicon-bare",
+        2380207674,
+        8526
+      ],
+      22.29580573951435,
+      9.161147902869757,
+      {
+        "word": "froglitsa",
+        "ipa": "\u02ccfr\u0251g\u02c8l\u026at.s\u0259",
+        "key": "c060333675b7f387",
+        "selected": 7,
+        "rootSyllables": 3
+      },
+      {
+        "word": "froglitha",
+        "ipa": "\u02ccfr\u0251g\u02c8l\u026at.\u03b8\u0259",
+        "key": "c060333675b7f387",
+        "selected": 7,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      53.41726618705036,
+      [
+        "lexicon-bare",
+        772709128,
+        6799
+      ],
+      0.17985611510791366,
+      53.597122302158276,
+      {
+        "word": "tirzelmpic",
+        "ipa": "t\u02b0\u0259r\u02c8z\u025blm.p\u026ak",
+        "key": "08b972a939c962b9",
+        "selected": 19,
+        "rootSyllables": 3
+      },
+      {
+        "word": "ditnimstac",
+        "ipa": "\u02c8d\u026at\u02ccn\u026ams.t\u0259k",
+        "key": "08b972a939c962b9",
+        "selected": 3,
+        "rootSyllables": 3
+      }
+    ],
+    [
+      44.064748201438846,
+      [
+        "lexicon-default",
+        101601885,
+        2620
+      ],
+      1.9784172661870503,
+      46.0431654676259,
+      {
+        "word": "vapitmikely",
+        "ipa": "\u02c8v\u0251.p\u02b0\u026at.ma\u026ak.li:",
+        "key": "3c546b2eb26fd539",
+        "selected": 5,
+        "rootSyllables": 4
+      },
+      {
+        "word": "divitrifsa",
+        "ipa": "d\u026a.v\u026at\u02c8r\u026af.s\u0259",
+        "key": "3c546b2eb26fd539",
+        "selected": 6,
+        "rootSyllables": 4
+      }
+    ],
+    [
+      34.40860215053763,
+      [
+        "text-default",
+        4167471042,
+        5601
+      ],
+      21.50537634408602,
+      55.913978494623656,
+      {
+        "word": "unerrigmictiemb",
+        "ipa": "\u02cc\u028cn\u02c8\u025b\u02ccr\u026ag.m\u026akt.i:mb",
+        "key": "6e07cf1130115d4b",
+        "selected": 3,
+        "rootSyllables": 4
+      },
+      {
+        "word": "untrotorethkerk",
+        "ipa": "\u02cc\u028cn.t\u02b0r\u028c\u02c8t\u02b0\u0251.r\u025b\u03b8.k\u025ak",
+        "key": "6e07cf1130115d4b",
+        "selected": 6,
+        "rootSyllables": 4
+      }
+    ],
+    [
+      28.497409326424865,
+      [
+        "text-default",
+        1999736106,
+        9530
+      ],
+      41.968911917098445,
+      70.46632124352331,
+      {
+        "word": "ineradhipand",
+        "ipa": "\u02cc\u026an\u02c8\u025b.r\u0251d.h\u026a.p\u0259nd",
+        "key": "99b575b84a38226e",
+        "selected": 0,
+        "rootSyllables": 4
+      },
+      {
+        "word": "invalichtidid",
+        "ipa": "\u02cc\u026an\u02c8v\u0251.l\u0259t\u0283.t\u026a.d\u026ad",
+        "key": "99b575b84a38226e",
+        "selected": 1,
+        "rootSyllables": 4
+      }
+    ],
+    [
+      27.33812949640288,
+      [
+        "lexicon-bare",
+        1696751198,
+        997
+      ],
+      3.237410071942446,
+      30.575539568345324,
+      {
+        "word": "smonturzin",
+        "ipa": "\u02c8sm\u0254n.t\u02b0\u0259r.z\u026an",
+        "key": "3153b483dc2b5ead",
+        "selected": 9,
+        "rootSyllables": 3
+      },
+      {
+        "word": "bretcalcos",
+        "ipa": "\u02c8br\u025bt.k\u0259l.k\u0259z",
+        "key": "3153b483dc2b5ead",
+        "selected": 4,
+        "rootSyllables": 3
+      }
+    ]
+  ]
+}
