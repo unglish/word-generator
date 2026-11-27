@@ -7,13 +7,14 @@
  * stage reads it.
  */
 import { describe, expect, it } from "vitest";
-import { createGenerator, englishConfig, generateWord } from "../index.js";
+import { createGenerator, createSeededRng, englishConfig, generateWord } from "../index.js";
 import type { Word, WordGenerationOptions } from "../types.js";
 import {
   attemptStageCount, stageCount, withShiftedStage, withStageDraws, withStageRuns, type StageDraws,
 } from "../test-support/stage-stream-probe.js";
+import { withPhonemeWeights } from "../test-support/phoneme-weights.js";
 import { FINISHING_STAGES, followsRunOrder, stagesBefore, wordKind, type WordKind } from "../test-support/stage-run-order.js";
-import { ATTEMPT_STAGES, WORD_STAGES, type Stage } from "./stage-streams.js";
+import { ATTEMPT_STAGES, createWordStreams, WORD_STAGES, type Stage } from "./stage-streams.js";
 
 const SEEDS = Array.from({ length: 300 }, (_, i) => 556_000 + i);
 
@@ -26,6 +27,51 @@ function untraced(word: Word): Omit<Word, "trace"> {
 function generate(options: WordGenerationOptions, stage?: Stage, attempts?: (attempt: number) => boolean): Word {
   const run = () => generateWord({ ...options, mode: "lexicon", trace: true });
   return stage ? withShiftedStage(stage, run, attempts) : run();
+}
+
+// English always chooses /h/. Two equally weighted alternatives make a shifted
+// hiatus draw observable. Three vowels and no planned consonants force two rolls.
+const bridgeGenerator = createGenerator({
+  ...englishConfig,
+  phonemeLengthWeights: { ...englishConfig.phonemeLengthWeights, text: [[3, 1]] },
+  phonemeToSyllableWeights: { ...englishConfig.phonemeToSyllableWeights, text: { 3: [[3, 1]] } },
+  hiatusPolicy: {
+    ...englishConfig.hiatusPolicy!, planGuardProbability: 0, fallbackBridgeOnsets: [["h", 1], ["j", 1]],
+  },
+});
+
+// Four CVC syllables with /t.k/ joins. Both stops have equal sonority here,
+// and the junction is legal, so the probabilistic drop is the deciding roll.
+const one: [number, number][] = [[1, 1]];
+const boundaryGenerator = createGenerator({
+  ...withPhonemeWeights(englishConfig, phone => ({
+    ...phone,
+    onset: phone.onset && phone.sound !== "k" ? 0 : phone.onset,
+    coda: phone.coda && phone.sound !== "t" ? 0 : phone.coda,
+  })),
+  rootRepetition: undefined,
+  sonorityHierarchy: { ...englishConfig.sonorityHierarchy, placeOfArticulation: {}, voicedBonus: 0, tenseBonus: 0 },
+  phonemeLengthWeights: { ...englishConfig.phonemeLengthWeights, text: [[12, 1]] },
+  phonemeToSyllableWeights: { ...englishConfig.phonemeToSyllableWeights, text: { 12: [[4, 1]] } },
+  generationWeights: {
+    ...englishConfig.generationWeights,
+    onsetLength: { monosyllabic: one, followingNucleus: one, default: one },
+    codaLength: {
+      monosyllabic: {}, monosyllabicDefault: one, polysyllabicNonzero: one,
+      zeroWeightEndOfWord: 0, zeroWeightMidWord: 0,
+    },
+    boundaryPolicy: { equalSonorityDrop: 50, risingCodaDrop: 0 },
+  },
+});
+
+function probeStage(stage: Stage, seed: number, morphology: boolean, shifted = false): Word {
+  const run = () => {
+    const options = { seed, morphology, mode: "text", trace: true } as const;
+    if (stage === "repair_vowel_hiatus") return bridgeGenerator.generateWord({ ...options, syllableCount: 3 });
+    if (stage === "adjust_boundary") return boundaryGenerator.generateWord({ ...options, syllableCount: 4 });
+    return generate({ seed, morphology });
+  };
+  return shifted ? withShiftedStage(stage, run) : run();
 }
 
 const selected = (word: Word) => word.trace!.selection!.selectedAttempt;
@@ -45,8 +91,8 @@ describe("stage stream wiring (#556)", () => {
   // search runs past the shared sample.
   it.each(stages)("%s reads its own stream (morphology %s)", (stage, morphology) => {
     const changes = (seed: number) =>
-      JSON.stringify(untraced(generate({ seed, morphology }, stage))) !==
-      JSON.stringify(untraced(generate({ seed, morphology })));
+      JSON.stringify(untraced(probeStage(stage, seed, morphology, true))) !==
+      JSON.stringify(untraced(probeStage(stage, seed, morphology)));
     const witness = Array.from({ length: 5_000 }, (_, i) => 556_000 + i).find(changes);
     expect(witness, `a word that shifting ${stage} changes`).toBeDefined();
   });
@@ -77,7 +123,7 @@ describe("stage stream wiring (#556)", () => {
     for (const seed of SEEDS) {
       const { value, runs } = withStageRuns(() => generate({ seed, morphology }));
       for (const [attempt, stages] of runs.entries()) {
-        expect(followsRunOrder(wordKind(value), stages), `seed ${seed}, attempt ${attempt}: ${stages.join(" > ")}`).toBe(true);
+        expect(followsRunOrder(wordKind(value), value.trace!.syllableCount, stages), `seed ${seed}, attempt ${attempt}: ${stages.join(" > ")}`).toBe(true);
       }
     }
   });
@@ -88,21 +134,67 @@ describe("stage stream wiring (#556)", () => {
   // 1,000, too rarely for this search. Its own-stream test above still covers it.
   const shiftable = ATTEMPT_STAGES.filter(stage => stage !== "plan_shape" && stage !== "preview_morphology");
   it.each(shiftable)("shifting %s leaves the first attempt's earlier stages' draws alone", stage => {
-    const counts = (kind: WordKind, draws: StageDraws) => [
+    const counts = (kind: WordKind, syllables: number, draws: StageDraws) => [
       ...WORD_STAGES.map(before => stageCount(draws, before)),
-      ...stagesBefore(kind, stage).map(before => attemptStageCount(draws, before, 0)),
+      ...stagesBefore(kind, syllables, stage).map(before => attemptStageCount(draws, before, 0)),
     ];
     // Only words whose first attempt draws from the shifted stage can show a moved draw.
     let drew = 0;
     for (let seed = 556_000; seed < 566_000 && drew < 40; seed++) {
-      const base = withStageDraws(() => generate({ seed, morphology: true }));
+      const base = withStageDraws(() => probeStage(stage, seed, true));
       if (!attemptStageCount(base.draws, stage, 0)) continue;
-      const shifted = withStageDraws(() => generate({ seed, morphology: true }, stage));
+      const shifted = withStageDraws(() => probeStage(stage, seed, true, true));
       const kind = wordKind(base.value);
       drew++;
-      expect(counts(kind, shifted.draws), `seed ${seed}`).toEqual(counts(kind, base.draws));
+      expect(counts(kind, base.value.trace!.syllableCount, shifted.draws), `seed ${seed}`).toEqual(counts(kind, base.value.trace!.syllableCount, base.draws));
     }
     expect(drew, `words whose first attempt draws from ${stage}`).toBe(40);
+  });
+
+  it("resumes segment selection after a boundary roll, before the end-of-root repairs", () => {
+    const witnessed = SEEDS.some(seed => {
+      const { runs } = withStageRuns(() => generate({ seed, syllableCount: 4, morphology: false }));
+      return runs.some(attempt => attempt.some((stage, i) =>
+        stage === "adjust_boundary" && attempt[i - 1] === "select_segments" && attempt[i + 1] === "select_segments"));
+    });
+    expect(witnessed).toBe(true);
+    for (const kind of ["affixed", "bare"] as const) {
+      expect(followsRunOrder(kind, 3, ["select_segments", "repair_vowel_hiatus", "adjust_boundary"])).toBe(false);
+      expect(followsRunOrder(kind, 3, ["select_segments", "assign_stress", "adjust_boundary"])).toBe(false);
+    }
+  });
+
+  it("uses successive boundary rolls from the selected attempt for its three eligible joins", () => {
+    let laterAttempts = 0;
+    for (const seed of SEEDS.slice(0, 20)) {
+      const { value, draws } = withStageDraws(() => probeStage("adjust_boundary", seed, false));
+      const attempt = selected(value);
+      if (attempt > 0) laterAttempts++;
+      const rand = createWordStreams(createSeededRng(seed)).attempt(attempt)("adjust_boundary");
+      const expected = [1, 2, 3].filter(() => rand() < 0.5);
+      const dropped = value.trace!.structural.flatMap(e => e.event === "boundaryDrop" ? [e.rightSyllableIndex] : []);
+      expect(dropped, `seed ${seed}`).toEqual(expected);
+      for (const counts of draws.attempts) expect(counts.adjust_boundary).toBe(3);
+    }
+    expect(laterAttempts).toBeGreaterThan(0);
+  });
+
+  it("chooses both bridges from the selected attempt's successive hiatus rolls", () => {
+    let laterAttempts = 0;
+    for (const seed of SEEDS.slice(0, 20)) {
+      const { value, draws } = withStageDraws(() => probeStage("repair_vowel_hiatus", seed, false));
+      const attempt = selected(value);
+      if (attempt > 0) laterAttempts++;
+      const rand = createWordStreams(createSeededRng(seed)).attempt(attempt)("repair_vowel_hiatus");
+      const expected = [rand(), rand()].map(r => r < 0.5 ? "h" : "j");
+      const events = value.trace!.structural.flatMap(e => e.event === "vowelHiatusFallback" ? [e.inserted] : []);
+      expect(events, `seed ${seed}`).toEqual(expected);
+      for (const counts of draws.attempts) {
+        expect(counts.repair_vowel_hiatus).toBe(2);
+        expect(counts.adjust_boundary ?? 0).toBe(0);
+      }
+    }
+    expect(laterAttempts).toBeGreaterThan(0);
   });
 
   it("draws a bare word's gap spelling choice from its spell stream", () => {

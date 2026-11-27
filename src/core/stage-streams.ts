@@ -36,7 +36,7 @@ export const WORD_STAGES = ["set_constraints", "plan_morphology"] as const;
  * on the kind of word; `src/test-support/stage-run-order.ts` records it.
  */
 export const ATTEMPT_STAGES = [
-  "plan_shape", "select_segments", "assign_stress", "post_stress_repair",
+  "plan_shape", "select_segments", "adjust_boundary", "repair_vowel_hiatus", "assign_stress", "post_stress_repair",
   "preview_morphology", "spell", "finalize_root_spelling", "render_pronunciation",
 ] as const;
 

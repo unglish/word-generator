@@ -68,7 +68,9 @@ seeds are) keep word keys distinct, not stage streams apart.
 | `set_constraints` | 0 | root phoneme and syllable counts, root edge lengths |
 | `plan_morphology` | 0 | affix plan: template and affixes |
 | `plan_shape` | attempt | `distributePhonemes` |
-| `select_segments` | attempt | `generateSyllables`, including `adjustBoundary` and `repairVowelHiatus` |
+| `select_segments` | attempt | choose the onsets, nuclei and codas |
+| `adjust_boundary` | attempt | equal-sonority and rising-coda drop rolls, between adjacent syllables |
+| `repair_vowel_hiatus` | attempt | weighted bridge onsets for residual root hiatus |
 | `assign_stress` | attempt | `applyStress` |
 | `post_stress_repair` | attempt | stressed and positional nucleus repairs, unstressed-root alternation |
 | `preview_morphology` | attempt | affix assembly and final stressed-nucleus repair (was `lookaheadSeed`) |
@@ -80,7 +82,7 @@ seeds are) keep word keys distinct, not stage streams apart.
 `attach_morphology` draw nothing and have no stream.
 
 Each root attempt's context carries that attempt's streams. Every stage that
-runs on the context, including the finishing stages of the selected attempt,
+uses the ambient RNG on the context, including the finishing stages of the selected attempt,
 binds its stream with `inStage(context, stage, ...)` in `src/core/generate.ts`
 for exactly the code of the stage. Between stages the context holds an RNG that
 throws, so a new draw outside a stage fails loudly, and stages do not nest:
@@ -118,10 +120,13 @@ a bare plan takes fewer than a suffixed one. Sharing `set_constraints` would let
 any affix change move the root edge draws that follow it. A word whose plan
 comes out bare is therefore the same word that `morphology: false` gives.
 
-`select_segments` passes its stream to the internal `legacy-weighted` engine. The engine
-receives the per-attempt syllable shape plan and returns the root syllables. It
-adjusts each boundary after choosing the right syllable, then repairs vowel
-hiatus after choosing the full root. Both helpers share the selection stream.
+The internal `legacy-weighted` engine takes the shape plan and these three
+attempt streams directly. It selects the complete next syllable before
+adjusting its boundary with the previous syllable, then resumes selection.
+After the last boundary it repairs vowel hiatus from left to right. The
+`generateSyllables` trace snapshot covers all three operations. A changed
+boundary can change the scored root and which attempt wins. Affix hiatus
+choices still belong to `preview_morphology`.
 
 ## Trace
 
