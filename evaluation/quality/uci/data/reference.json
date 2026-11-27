@@ -1,0 +1,27 @@
+{
+  "descriptor": {
+    "schemaVersion": 1,
+    "id": "cmu-ordinary-surface-v1",
+    "sampling": "one vote for each ordinary spelling, in ordinary spellings.txt order; retain homophones",
+    "projection": "CMU unstressed ARPABET aligned with generated surface legacy-arpabet-v1 (no boundaries)",
+    "fold": {
+      "algorithm": "sha256-first-u64be-mod",
+      "encoding": "space-separated-ascii-uppercase-v1",
+      "count": 5
+    },
+    "provenance": {
+      "cmuRevision": "74790861f652b15e4ac49015a90074ad62a27690",
+      "cmuSha256": "81917843c7f44ce2b094ac63873c2c7a4cf802040792c455ba3ca406891c3d22",
+      "ordinarySpellingsSha256": "9b61f2af444a2177d3cac89464d81e39970ef65a0fab54b3a18465a5dc6c5f3b",
+      "cmuParser": "cmu-lossless-records-v1",
+      "cmuSelection": "cmu-ascii-first-v1",
+      "generatedIdentity": "phoneme-identity-v1",
+      "generatedInventory": "english-legacy-v1",
+      "rowsSha256": "8b19c3d1ae1de8ac6c963ab72e4cf4833941746c472d8dd47f4e70df43ae19ef",
+      "rowsEncoding": "UTF-8, one space-delimited phone sequence per spelling, LF-terminated",
+      "cmuLicense": "data/cmu/ordinary/CMUDICT-LICENSE.txt",
+      "scowlLicense": "data/cmu/ordinary/SCOWL-LICENSE.txt"
+    }
+  },
+  "descriptorSha256": "2c6d44fcb8e6aa3e31733bf10db2d60b2d80634f099c542f2fbdbc226f661597"
+}

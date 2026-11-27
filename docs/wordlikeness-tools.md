@@ -16,6 +16,10 @@ KenLM showed some agreement with written ratings on 200 previously reviewed spel
 
 ## UCI for pronunciation patterns
 
+Run `npm run quality:uci` on the two development captures from `quality:pr` to
+review pronunciations by root syllable count. The [review packet guide](uci-review-packet.md)
+describes paired examples, traced score changes, and how to replay the frozen pilot.
+
 Fit the type-weighted positional single-sound and adjacent-pair models on unstressed CMU phoneme sequences. Assign identical pronunciations to the same fold. Score the generator's emitted phonemes directly and compare against held-out dictionary peers with the same phoneme count. Report the two scores separately.
 
 Across 45,904 generated draws with morphology enabled, the median matched percentile was 46 for individual sounds and 28 for adjacent pairs. Of the 45,902 draws with same-length peers in their fold, 24.4% were below the reference's tenth percentile for pairs. This establishes a measurable batch difference. It leaves open where the difference arises and whether listeners find it objectionable.

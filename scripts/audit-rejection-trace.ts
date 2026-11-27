@@ -33,7 +33,7 @@ function isAffixed(word: Word): boolean {
   return Boolean(morphology && morphology.template !== "bare" && (morphology.prefix || morphology.suffix));
 }
 
-function validateSelection(word: Word, selection: SelectionTrace): void {
+export function validateSelection(word: Word, selection: SelectionTrace): void {
   const phones = word.syllables.reduce((total, syllable) => total + syllable.onset.length + syllable.nucleus.length + syllable.coda.length, 0);
   const accepted = selection.status === "accepted";
   const count = selection.attemptsExecuted;
@@ -166,4 +166,6 @@ async function main(): Promise<void> {
   if (report.parity) console.log(`Output, selected-index, and RNG parity: ${report.parity.matches ? "PASS" : "FAIL"}`);
 }
 
-main().catch(error => { console.error(error instanceof Error ? error.message : error); process.exitCode = 1; });
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch(error => { console.error(error instanceof Error ? error.message : error); process.exitCode = 1; });
+}

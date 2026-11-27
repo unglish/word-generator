@@ -61,6 +61,10 @@ Run it locally when a change could move generated output, and cite
 `comparison.md` for any distribution claim. CI deliberately does not run it: pull
 request checks stay fast and deterministic (see `CONTRIBUTING.md`).
 
+For selection changes, pass the same `baseline/` and `candidate/` directories
+to `npm run quality:uci` to compare surface pronunciations by realized root
+length and inspect the largest changes with their traces. [UCI review packet](uci-review-packet.md)
+
 ## Capture another revision
 
 To capture the current checkout as a single step, omit `--generator-root`:
@@ -252,10 +256,11 @@ environment: rescoring does not erase a difference in how the words were
 produced. Existing output directories are rejected, and interrupted
 rescoring has no completion manifest, just like interrupted capture.
 
-Using the same RNG schedules controls the experiment, but a change can consume
-random numbers differently. Equal draw indices are therefore **not matched words
-or causal before/after pairs**. Compare distributions and structural rules, and
-use targeted fixtures to establish the mechanism of a correction.
+With the older shared RNG, a change could shift every later draw in a stream.
+Compare distributions for those captures. With stage streams, the UCI packet
+checks the recorded word key on each side before pairing a draw. Even with a
+shared key, a different attempt can win selection. Use the two traces and a
+targeted fixture to establish what caused a change. [Paired UCI review](uci-review-packet.md)
 
 ## What counts as evidence
 
