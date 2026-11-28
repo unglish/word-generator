@@ -160,7 +160,7 @@ export function buildCluster(
   while (context.cluster.length < context.maxLength) {
     validBuf.length = 0;
     for (let i = 0; i < allPositionPhonemes.length; i++) {
-      if (isValidCandidate(allPositionPhonemes[i], rt, context)) {
+      if (isOrdinaryClusterCandidate(allPositionPhonemes[i], rt, context)) {
         validBuf.push(allPositionPhonemes[i]);
       }
     }
@@ -177,7 +177,7 @@ export function buildCluster(
   return context.cluster;
 }
 
-function isValidCandidate(
+export function isOrdinaryClusterCandidate(
   p: Phoneme,
   rt: LegacySelectionRuntime,
   context: ClusterContext,

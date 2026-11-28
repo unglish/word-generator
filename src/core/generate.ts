@@ -118,7 +118,7 @@ function getPlanGuardProbability(rt: GeneratorRuntime): number {
   );
 }
 
-function buildRuntime(config: LanguageConfig): GeneratorRuntime {
+export function buildRuntime(config: LanguageConfig): GeneratorRuntime {
   validateConfig(config);
   const sonorityLevels = computeSonorityLevels(config);
   const resolvedStress = resolveStressRules(config.pronunciation.stress);
