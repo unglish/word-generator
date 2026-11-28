@@ -1,0 +1,48 @@
+{
+  "base": "0494aced4e4417af8e91f6747a39d6659d017c5a",
+  "head": "d209248ecedf312b8aca49d9bfd2eed3cd2caa3e",
+  "profile": "lexicon-bare",
+  "wordsPerSeed": 10000,
+  "equalFiles": {
+    "gold-2380207674.jsonl.gz": {
+      "rows": 10000,
+      "sha256Uncompressed": "8561f8041685ed0f47694be4153c870b2a89d6b8372406d539b5178cf35633f7"
+    },
+    "witness-2380207674.jsonl.gz": {
+      "rows": 42,
+      "sha256Uncompressed": "9e8d02173264522499fa9a0231b100285a87d88b56c6eeefff323e880bf9abac"
+    },
+    "gold-772709128.jsonl.gz": {
+      "rows": 10000,
+      "sha256Uncompressed": "c741389284cf2cc4cf60e8a6d4abfc570121906a09136e6a8281fd0cd86811aa"
+    },
+    "witness-772709128.jsonl.gz": {
+      "rows": 39,
+      "sha256Uncompressed": "6b59aee6aa8c248190d14e760881e8f455473f0b76b881e07c2984f8cd4c1ca8"
+    },
+    "gold-1304238451.jsonl.gz": {
+      "rows": 10000,
+      "sha256Uncompressed": "39d67c2958fcafb9ac453b5c435795b8d4561882b90f4cc335b06084960fe8fe"
+    },
+    "witness-1304238451.jsonl.gz": {
+      "rows": 42,
+      "sha256Uncompressed": "016a12a5e4592e3d11c0cbaf58d0b99fb95b7358a44a6a8159a5fb5cbb85b6b7"
+    },
+    "gold-1696751198.jsonl.gz": {
+      "rows": 10000,
+      "sha256Uncompressed": "82b8d578aa07918e15320260aa1a0966a019002d1206bd1992b2a8229c95d950"
+    },
+    "witness-1696751198.jsonl.gz": {
+      "rows": 43,
+      "sha256Uncompressed": "edd11940f1979d4e777e3a1fea446765fff893a30b7b4b256d490e0b5d8d3880"
+    },
+    "gold-1498885173.jsonl.gz": {
+      "rows": 10000,
+      "sha256Uncompressed": "24ebaa3e63993b1afdbe47932e9609ce435443ca2ad306c3a3f1f468e674127f"
+    },
+    "witness-1498885173.jsonl.gz": {
+      "rows": 41,
+      "sha256Uncompressed": "3d5df2548141df223fb05dedb363bf7a5774bdaf69511f0a5a838713c869059e"
+    }
+  }
+}
