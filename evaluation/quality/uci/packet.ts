@@ -10,6 +10,8 @@ import { median } from "./statistics.js";
 import { renderPacket } from "./report.js";
 import { changedFields, countOutputChanges, generatedPairCounts } from "./output-changes.js";
 import { traceChanges } from "./trace-difference.js";
+import { GUIDE_VERSION, RARE_PAIR_MAX_ROWS, TRIGRAM_SMOOTHING, type RarePair, type TrigramScore } from "./guide.js";
+import { summarizeGuide } from "./guide-summary.js";
 
 const PROFILE = "lexicon-default";
 const COHORT = "development";
@@ -23,14 +25,21 @@ type Word = Draw["word"];
 type Trace = NonNullable<Word["trace"]>;
 type Stream = NonNullable<Trace["random"]>;
 
+type Surface = Awaited<ReturnType<typeof loadSurfaceScorer>>;
+interface GuideEvidence {
+  trigram: TrigramScore;
+  rarePairs: RarePair[];
+  realPronunciation: boolean;
+}
 type PhoneEvidence =
-  | { kind: "scored"; phones: string[]; score: Score }
+  | { kind: "scored"; phones: string[]; score: Score; guide: GuideEvidence }
   | Extract<ReturnType<typeof projectSurface>, { kind: "ineligible" }>;
 interface DrawArm {
   spelling: string;
   ipa: string;
   rootSyllables: number;
   selectedAttempt: number;
+  realSpelling: boolean;
   surface: PhoneEvidence;
 }
 
@@ -93,7 +102,7 @@ export function pairIdentity(before: Draw, after: Draw) {
   };
 }
 
-function observe(word: Word, scorer: UciScorer): DrawArm {
+function observe(word: Word, { scorer, trigram, membership }: Surface): DrawArm {
   const root = word.lexical?.root;
   if (!Array.isArray(root) || !root.length) throw new Error("Capture is missing the realized lexical root.");
   if (typeof word.pronunciation !== "string") throw new Error("Capture is missing the emitted IPA transcription.");
@@ -101,8 +110,12 @@ function observe(word: Word, scorer: UciScorer): DrawArm {
   return {
     spelling: word.written.clean, ipa: word.pronunciation, rootSyllables: root.length,
     selectedAttempt: word.trace!.selection!.selectedAttempt,
+    realSpelling: membership.isReferenceSpelling(word.written.clean),
     surface: projection.kind === "projected"
-      ? { kind: "scored", phones: projection.phones, score: scorer.score(projection.phones) }
+      ? { kind: "scored", phones: projection.phones, score: scorer.score(projection.phones), guide: {
+        trigram: trigram.score(projection.phones), rarePairs: membership.rarePairs(projection.phones),
+        realPronunciation: membership.isReferencePronunciation(projection.phones),
+      } }
       : projection,
   };
 }
@@ -309,8 +322,8 @@ export async function buildPacket(input: PacketInput) {
           break;
         }
         const { key, traces } = pairIdentity(left.value, right.value);
-        const a = observe(left.value.word, source.scorer);
-        const b = observe(right.value.word, source.scorer);
+        const a = observe(left.value.word, source);
+        const b = observe(right.value.word, source);
         const row = { ...key, before: a, after: b };
         rows.push(row);
         const fields = changedFields(row);
@@ -337,7 +350,7 @@ export async function buildPacket(input: PacketInput) {
     }
   }
   return {
-    schemaVersion: 2, schedule, committedProtocolSha256: sha256(committed),
+    schemaVersion: 3, schedule, committedProtocolSha256: sha256(committed),
     captureProtocol: before.manifest.protocol,
     captures: {
       before: captureProvenance(before.manifest, input.engineLabels?.before),
@@ -345,8 +358,13 @@ export async function buildPacket(input: PacketInput) {
     },
     metric: { tailStrictlyBelow: TAIL_THRESHOLD, scorer: scorerPin, reference: {
       descriptor: source.descriptor, descriptorSha256: source.descriptorSha256,
+    }, guide: {
+      version: GUIDE_VERSION,
+      trigram: { order: 3, smoothing: TRIGRAM_SMOOTHING, vocabulary: source.trigram.vocabulary },
+      rarePair: { maxReferenceRows: RARE_PAIR_MAX_ROWS, reference: source.membership.referenceRarePairRate },
     } },
     summaries: summarizeDraws(rows, schedule.seeds),
+    guide: summarizeGuide(rows, schedule.seeds),
     examples, changedDraws, generatedPairs: generatedPairCounts(rows),
     movers: [...buckets].map(([beforeRootBucket, directions]) => ({ beforeRootBucket, ...directions })),
     draws: rows,
@@ -371,7 +389,7 @@ export async function writePacket(input: PacketInput, out: string) {
         await file.close();
       }
     }
-    return { ...packet.summaries.pooled.overall, outputChanges: packet.summaries.pooled.outputChanges.overall };
+    return { ...packet.summaries.pooled.overall, outputChanges: packet.summaries.pooled.outputChanges.overall, guide: packet.guide.pooled };
   } catch (error) {
     await Promise.all(created.map(path => unlink(path)));
     await rmdir(out);

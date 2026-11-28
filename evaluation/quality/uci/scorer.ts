@@ -97,7 +97,8 @@ function bound(sorted: readonly number[], score: number, inclusive: boolean): nu
   return low;
 }
 
-function percentile(sorted: number[], raw: number): number | null {
+/** `100 × (peers below + peers tied / 2) / all peers` over ascending peer scores. */
+export function matchedPercentile(sorted: readonly number[], raw: number): number | null {
   if (!sorted.length) return null;
   const lower = bound(sorted, raw, false);
   const equal = bound(sorted, raw, true) - lower;
@@ -166,8 +167,8 @@ export function fitUci(descriptor: ReferenceDescriptor, rows: readonly Symbols[]
       const group = byFold.get(fold)?.get(symbols.length) ?? peers();
       return {
         length: symbols.length, fold, peers: group.unigram.length,
-        unigram: { raw: result.unigram, percentile: percentile(group.unigram, result.unigram) },
-        bigram: { raw: result.bigram, percentile: percentile(group.bigram, result.bigram) },
+        unigram: { raw: result.unigram, percentile: matchedPercentile(group.unigram, result.unigram) },
+        bigram: { raw: result.bigram, percentile: matchedPercentile(group.bigram, result.bigram) },
       };
     },
     explain(symbols) {

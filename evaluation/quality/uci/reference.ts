@@ -7,6 +7,7 @@ import { CMU_COMPATIBILITY_POLICY, CMU_PARSER_VERSION, CONSONANTS, VOWELS, parse
 import { CMU_REVISION, CMU_SHA256 } from "../../review/wordlikeness/model.js";
 import { type ObservedWordInput, PHONEME_IDENTITY_CONTRACT, observeWordIdentity, projectLegacyArpabet } from "../../../src/phonology/identity.js";
 import { digest } from "../serialization.js";
+import { fitMembership, fitPhoneTrigram } from "./guide.js";
 import { fitUci, type ReferenceDescriptor } from "./scorer.js";
 
 export const ROOT = fileURLToPath(new URL("../../../", import.meta.url));
@@ -92,8 +93,11 @@ export async function loadReference() {
 }
 
 export async function loadSurfaceScorer() {
-  const { descriptor, descriptorSha256, rows } = await loadReference();
-  return { descriptor, descriptorSha256, scorer: fitUci(descriptor, rows) };
+  const { descriptor, descriptorSha256, rows, spellings } = await loadReference();
+  return {
+    descriptor, descriptorSha256, scorer: fitUci(descriptor, rows),
+    trigram: fitPhoneTrigram(descriptor, rows), membership: fitMembership(rows, spellings),
+  };
 }
 
 export type SurfaceProjection =

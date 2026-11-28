@@ -95,7 +95,17 @@ it("distinguishes different winning attempts and explains scored movers through 
   const keys = ["d0fe2239bb0cec68", "80828c69eae06a4e", "4dd9af6811c9eaa9"].map((key, i) => ({
     profile: "lexicon-default", seed: seeds[i], drawIndex: 0, random: { scheme: "stage-streams/1", key },
   }));
-  expect(packet.schemaVersion).toBe(2);
+  expect(packet.schemaVersion).toBe(3);
+  expect(packet.guide.bySeed.map(seed => seed.seed)).toEqual(seeds);
+  expect(packet.guide.pooled.before.draws).toBe(seeds.length);
+  expect(packet.metric.guide.rarePair.reference).toEqual({ numerator: 488, denominator: 45904, rate: 488 / 45904 });
+  expect(markdown).toContain("## Guide metrics");
+  for (const draw of packet.draws) {
+    for (const side of [draw.before, draw.after]) {
+      if (side.surface.kind !== "scored") throw new Error("Fixture draws should project.");
+      expect(markdown).toContain(`T ${side.surface.guide.trigram.raw.toFixed(3)} / `);
+    }
+  }
   expect(packet.draws.map(pairKey)).toEqual(keys);
   expect(packet.examples.map(pairKey)).toEqual(keys);
   expect(packet.changedDraws.map(pairKey)).toEqual(keys);
@@ -143,6 +153,7 @@ it("distinguishes different winning attempts and explains scored movers through 
   }
   expect(modelComparisons).toEqual(new Set([false, true]));
 
-  const earlierV2 = JSON.parse(JSON.stringify(packet, (key, value: unknown) => key === "attemptComparison" ? undefined : value));
-  expect(renderPacket(earlierV2)).toBe(markdown);
+  // Packets written before attempt comparisons existed render identically.
+  const withoutAttempts = JSON.parse(JSON.stringify(packet, (key, value: unknown) => key === "attemptComparison" ? undefined : value));
+  expect(renderPacket(withoutAttempts)).toBe(markdown);
 });

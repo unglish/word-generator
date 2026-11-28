@@ -29,8 +29,9 @@ The CLI accepts development captures. Reserve validation streams for the final
 review before a default changes.
 [Capture and regeneration](quality-baselines.md) · [Stage streams](stage-random-streams.md)
 
-Open `packet.md` for the counts, the first four paired draws per seed and the
-largest pair-percentile changes. The version 2 JSON contains the complete data.
+Open `packet.md` for the counts, the guide metrics, the first four paired draws
+per seed and the largest pair-percentile changes. The version 3 JSON contains
+the complete data.
 
 - **Changed draws.** Each `draws` row carries the pair key and both spellings,
   emitted IPA strings, realized root lengths, selected attempt indices and
@@ -108,6 +109,59 @@ draws and the number strictly below percentile 10 divided by the eligible
 count. The peer match uses **surface phone count**, independently of the root
 syllable grouping in the packet.
 
+## Guide metrics
+
+UCI is a positional pair model. It rewards common pairs and copying dictionary
+words, so the packet reports four guide metrics beside it. They give context,
+not thresholds. A UCI gain that comes with more dictionary words, duplicates or
+rare pairs needs a look at the words; it does not reject the change. Each metric
+is reported for both arms, pooled and for each seed, with the after − before
+change and its range across seeds. Every draw row carries its own values.
+
+All four read the same reference rows and descriptor as UCI and treat phones as
+opaque symbols. Trigram, rare-pair and dictionary-pronunciation rates use the
+projectable draws. Spelling and duplicate rates use every draw.
+
+- **Phone trigram (T).** A second-order model of the projected phones, with
+  two word-start markers and one word-end marker. Each event's probability is
+  `(count + 0.1) / (context count + 0.1 × V)`, where V is the number of distinct
+  reference symbols plus the end, which is 40 for the English reference. The raw
+  score is the mean natural-log probability per predicted symbol, including the
+  end. It uses the UCI folds: a word in fold *f* is scored by a model trained
+  without fold *f*, and ranked against the fold-*f* dictionary words with the
+  same phone count, each scored the same way. The percentile, median and tail
+  use the UCI formulas. It differs from UCI by conditioning on the previous two
+  phones rather than absolute position, counting every token, and smoothing
+  unseen events.
+- **Rare pair.** A draw contains a rare pair when an adjacent phone pair, at
+  any position, appears in at most four reference rows, counting each row once
+  however often it repeats the pair. Unseen pairs count as rare. The reference
+  is the surface lexicon, not the root census: generated words are scored at the
+  surface, including affixes and the joins between them. As context, the packet
+  also reports the share of reference words with a rare pair once their own vote
+  is removed (488 of 45,904, 1.06%).
+- **Dictionary words.** A draw has a dictionary pronunciation when its
+  projected phones equal any reference row. It has a dictionary spelling when
+  its spelling, lowercased, is one of the 45,904 ordinary spellings. The packet
+  reports both, separately. Pronunciation is what UCI rewards, so it is the
+  copying signal to watch. Spelling is what a reader sees; a word can match in
+  one and not the other because of homophones and the ə/ʌ merge in the
+  projection. Both match against the whole reference, not a held-out fold,
+  because a dictionary match is a property of the word, not a prediction.
+- **Duplicates.** Within each seed's batch of 10,000 draws, the share that
+  repeat the spelling, or the emitted IPA, of an earlier draw:
+  `1 − distinct / draws`. The packet does not pool duplicates across seeds,
+  since the rate grows with batch size. The pooled row gives the per-seed range
+  and mean.
+
+Applied to the 45,904 archived draws, `verify-archive` reproduces the #555
+figures. The share with a rare pair is 7.04% (3,233), matching `a4.py`. The
+7.7% from `b1.py` came from counting pairs over folds 0–3 only. The trigram
+median is 5.7 (6 in `b1.py`, which scored every word against fold 4). The
+pooled phone duplicate rate is 3.86%, matching `b1.py`'s 3.9%. Matching against
+the full reference finds 4.94% dictionary pronunciations, against 4.0% in
+`b1.py`, which matched against folds 0–3.
+
 ## Rebuild and verify the frozen result
 
 The shipped English phone rows allow offline scoring. To check them against
@@ -119,7 +173,8 @@ npm run quality:uci -- build-reference --dictionary "$CMU_SOURCE" --out /tmp/uci
 ```
 
 Fetch the evidence tags once if needed. The replay checks the dictionary rows,
-folds, both raw scores and each available generated percentile row by row.
+folds, both raw scores and each available generated percentile row by row,
+then the guide metrics for the generated draws.
 The optional root-strata check joins the later trace regeneration to the scored
 draws using seed, draw index and emitted phones. Some spellings changed between
 the scored revision and the revision used for tracing.
