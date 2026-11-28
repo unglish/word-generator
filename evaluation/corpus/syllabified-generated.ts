@@ -1,10 +1,23 @@
 import { createHash } from "node:crypto";
 import { createSeededRng, generateWord } from "../../src/index.js";
-import { addCount, histogram } from "./joint.js";
-import { inferSyllables, POLICIES, suppliedSyllables, type OnsetInventories, type Policy } from "./syllabified-reference.js";
-import { mapLegacyRoot } from "./variety-adapter.js";
+import { addCount, histogram, type Histogram } from "./joint.js";
+import { BASELINE_POLICY, inferSyllables, POLICIES, suppliedSyllables, type OnsetInventories, type Policy } from "./syllabified-reference.js";
+import { cmuLegacyEnglishAdapter } from "./variety-adapter.js";
 
 const uniqueSorted = (values: string[]) => [...new Set(values)].sort();
+
+interface BoundaryDecision {
+  policy: Policy;
+  outcome: "match" | "disagree" | "unavailable";
+}
+
+export function countBoundaryChanges(totals: Histogram, decisions: readonly BoundaryDecision[]) {
+  const baseline = decisions.find(decision => decision.policy === BASELINE_POLICY);
+  if (!baseline) throw new Error(`Missing boundary decision for baseline policy ${BASELINE_POLICY}.`);
+  for (const { policy, outcome } of decisions) {
+    if (policy !== BASELINE_POLICY) addCount(totals, `${policy}/boundary-change:${baseline.outcome}>${outcome}`);
+  }
+}
 
 export function compareGenerated(seed: number, words: number, inventories: OnsetInventories, morphology: boolean) {
   const rand = createSeededRng(seed);
@@ -24,7 +37,7 @@ export function compareGenerated(seed: number, words: number, inventories: Onset
     const word = generateWord({ mode: "lexicon", morphology, rand, trace: true });
     if (!word.lexical || !word.trace) throw new Error("Public generator did not return a lexical root and trace.");
     const root = { syllables: word.lexical.root };
-    const phones = mapLegacyRoot(root);
+    const phones = cmuLegacyEnglishAdapter.mapGenerated(root);
     for (const phone of phones) addCount(actualCoverage, `${phone.raw}|${phone.stress}|${phone.fit.status}`);
     const supplied = suppliedSyllables(root);
     const repairRules = uniqueSorted(word.trace.repairs.map(repair => repair.rule));
@@ -55,7 +68,7 @@ export function compareGenerated(seed: number, words: number, inventories: Onset
         `cluster-size:${cluster.length}`, `cluster:${cluster.map(i => phones[i].raw).join(" ")}`,
         `supplied-split:${left.coda.length}+${right.onset.length}`,
       ];
-      const decisions = trials.map(({ policy, analysis, outcomes }) => {
+      const decisions = trials.map<BoundaryDecision>(({ policy, analysis, outcomes }) => {
         const inferred = analysis.boundaries.find(boundary => boundary.leftNucleus === left.nucleus.at(-1) && boundary.rightNucleus === right.nucleus[0]);
         const outcome = inferred?.chosenCodaSize == null ? "unavailable"
           : inferred.chosenCodaSize === left.coda.length ? "match" : "disagree";
@@ -66,10 +79,7 @@ export function compareGenerated(seed: number, words: number, inventories: Onset
       if (decisions.every(decision => decision.outcome !== "unavailable")) {
         for (const { policy, outcome } of decisions) addCount(matchedCoverage, `${policy}/boundary:${outcome}`);
       }
-      const baseline = decisions[0].outcome;
-      for (const { policy, outcome } of decisions) {
-        if (policy !== "304") addCount(totals, `${policy}/boundary-change:${baseline}>${outcome}`);
-      }
+      countBoundaryChanges(totals, decisions);
     }
     for (const { policy, analysis: analyses, outcomes } of trials) {
       const matches = analyses.status === "inferred" && analyses.syllables.length === supplied.syllables.length

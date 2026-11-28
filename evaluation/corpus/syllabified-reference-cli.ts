@@ -3,20 +3,19 @@ import { mkdir, open, readFile, rmdir, unlink } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isDeepStrictEqual, parseArgs } from "node:util";
-import { englishConfig } from "../../src/config/english.js";
 import { git } from "../quality/git.js";
 import { validateProtocol } from "../quality/capture.js";
 import type { Protocol } from "../quality/model.js";
-import { sha256, type ReferenceModel } from "../review/wordlikeness/model.js";
+import { sha256 } from "../review/wordlikeness/model.js";
 import { LEGACY_ENGLISH_IDENTITIES } from "../../src/phonology/identity.js";
 import { CONSONANTS, VOWELS } from "./cmu.js";
 import { jsonDigest } from "./identity.js";
-import { addCount, histogram } from "./joint.js";
 import { compareGenerated } from "./syllabified-generated.js";
 import { loadAuditedPopulation, X5_POPULATION } from "./syllabified-population.js";
-import { CMU_ROOT_SYLLABIFICATION_V1, configClusterLicense, inferSyllables, onsetInventories, POLICIES } from "./syllabified-reference.js";
-import { compatibilityConstituents, countConstituents, createConstituentTables } from "./syllabified-tables.js";
-import { cmuLegacyEnglishAdapter } from "./variety-adapter.js";
+import { CMU_ROOT_SYLLABIFICATION_V1, CONFIG_MEDIAL_CHECK } from "./syllabified-reference.js";
+import { buildSyllabifiedReference } from "./syllabified-reference-builder.js";
+import { cmuLegacyEnglishAdapter, mapReferenceTokens } from "./variety-adapter.js";
+import { loadPinnedRootPairCensus } from "./uci-root-counts.js";
 
 const { values: { source, "phase-one": phaseOne, out, "words-per-seed": limit, profile, cohort } } = parseArgs({
   options: {
@@ -51,17 +50,7 @@ if (!Number.isSafeInteger(words) || words < 0) throw new Error("--words-per-seed
 
 const population = await loadAuditedPopulation({ source, phaseOne,
   audit: join(root, "evaluation/corpus/root-coda-exclusions.json"), projection: join(root, "data/cmu/phoneme-normalization.json") });
-const roots = population.roots.map(({ source, surfaces }) => ({ source, surfaces, phones: cmuLegacyEnglishAdapter.mapReference(source.tokens) }));
-const inventories = onsetInventories(frozen.model.initial_onsets, roots.map(row => row.phones), configClusterLicense(englishConfig));
-const policies = POLICIES.map(policy => ({ policy, distinct: createConstituentTables(), surfaceWeighted: createConstituentTables(),
-  changesFrom304: histogram(), boundaryChangesFrom304: histogram() }));
-
-const compatibility: ReferenceModel["constituents"] = {};
-for (const { tokens } of population.entries) {
-  const phones = cmuLegacyEnglishAdapter.mapReference(tokens);
-  compatibilityConstituents(compatibility, phones, inferSyllables(phones, "304", inventories), 1);
-}
-if (!isDeepStrictEqual(compatibility, frozen.model.constituents)) throw new Error("Recount differs from frozen #304 constituents.");
+const census = await loadPinnedRootPairCensus();
 
 async function generatorIdentity() {
   const revision = git(root, "rev-parse", "HEAD");
@@ -95,62 +84,25 @@ try {
   throw error;
 }
 
-async function writeOutput() {
+async function buildReferenceFile() {
   const rowFingerprint = createHash("sha256");
   const rowsName = "mapped-roots.jsonl";
   const rows = await open(join(outputDirectory, rowsName), "wx");
   ownedFiles.push(rowsName);
   try {
-    for (const { source: { line, label, spelling }, surfaces, phones } of roots) {
-      const splits = Object.fromEntries(POLICIES.map(policy => [policy, inferSyllables(phones, policy, inventories)]));
-      for (const { policy, distinct, surfaceWeighted, changesFrom304, boundaryChangesFrom304 } of policies) {
-        const analysis = splits[policy];
-        const weight = surfaces.length;
-        countConstituents(distinct, phones, analysis, 1);
-        countConstituents(surfaceWeighted, phones, analysis, weight);
-        const baseline = splits["304"];
-        if (baseline.status !== "inferred") throw new Error("Unexpected reference boundary status.");
-        const differences = analysis.boundaries.filter((boundary, index) => boundary.chosenCodaSize !== baseline.boundaries[index].chosenCodaSize);
-        addCount(changesFrom304, analysis.status === "unavailable" ? "unavailable" : differences.length ? "different" : "equal", weight);
-        for (const boundary of differences) {
-          const cluster = boundary.cluster.map(i => phones[i].raw).join(" ");
-          const key = `${boundary.cluster.length}|${phones[boundary.leftNucleus].stress}>${phones[boundary.rightNucleus].stress}|${cluster}`;
-          addCount(boundaryChangesFrom304, key, weight);
-        }
-      }
-      const row = JSON.stringify({ source: { line, label, spelling }, surfaces, phones,
-        adapter: cmuLegacyEnglishAdapter.descriptor.version, policy: CMU_ROOT_SYLLABIFICATION_V1.policy, splits }) + "\n";
-      await rows.writeFile(row);
-      rowFingerprint.update(row);
-    }
+    const result = await buildSyllabifiedReference({ population, census, frozen, adapter: cmuLegacyEnglishAdapter }, async line => {
+      await rows.writeFile(line);
+      rowFingerprint.update(line);
+    });
+    files[rowsName] = rowFingerprint.digest("hex");
+    return result;
   } finally {
     await rows.close();
   }
-  files[rowsName] = rowFingerprint.digest("hex");
+}
 
-  const expectedTotals = {
-    distinct: { rows: 20_851, phones: 137_008, pairs: 116_157 },
-    surfaceWeighted: { rows: 42_670, phones: 255_100, pairs: 212_430 },
-  };
-  for (const { policy, distinct, surfaceWeighted } of policies) {
-    for (const [tables, expected] of [[distinct, expectedTotals.distinct], [surfaceWeighted, expectedTotals.surfaceWeighted]] as const) {
-      if (tables.rows.total !== expected.rows || tables.nativePhones.total !== expected.phones ||
-        tables.nativeAdjacentPairs.total !== expected.pairs || tables.nativeBoundedPairs.total !== expected.phones + expected.rows) {
-        throw new Error(`Native phones and adjacent pair totals disagree for ${policy}.`);
-      }
-      if ((tables.rows.counts.unavailable ?? 0) === 0 && (!isDeepStrictEqual(tables.reconstructedNativePhones, tables.nativePhones) ||
-        !isDeepStrictEqual(tables.reconstructedNativeBoundedPairs, tables.nativeBoundedPairs))) {
-        throw new Error(`Syllable reconstruction lost source tokens or adjacency for ${policy}.`);
-      }
-      const sumCounts = (group: Record<string, { total: number }>) =>
-        Object.values(group).reduce((sum, cell) => sum + cell.total, 0);
-      const onsetCount = sumCounts(tables.onset.permitted) + sumCounts(tables.onset.withheld);
-      const rimeCount = sumCounts(tables.rime.permitted) + sumCounts(tables.rime.withheld);
-      if (onsetCount !== rimeCount || onsetCount * 2 !== sumCounts(tables.compatibility)) {
-        throw new Error(`Syllable constituent totals disagree for ${policy}.`);
-      }
-    }
-  }
+async function writeOutput() {
+  const { inventories, ...tables } = await buildReferenceFile();
   const legacyCoverage = LEGACY_ENGLISH_IDENTITIES.map(({ sound, kind }) => {
     const phone = { sound };
     const syllable = kind === "vowel" ? { onset: [], nucleus: [phone], coda: [], stress: "ˈ" }
@@ -158,16 +110,13 @@ async function writeOutput() {
     return cmuLegacyEnglishAdapter.mapGenerated({ syllables: [syllable] })[0];
   });
   const inventoryCoverage = {
-    cmu: cmuLegacyEnglishAdapter.mapReference([...CONSONANTS, ...[...VOWELS].flatMap(base => [0, 1, 2].map(stress => base + stress))]),
+    cmu: mapReferenceTokens([...CONSONANTS, ...[...VOWELS].flatMap(base => [0, 1, 2].map(stress => base + stress))], cmuLegacyEnglishAdapter),
     legacy: legacyCoverage,
+    legacyUnmarkedNuclei: LEGACY_ENGLISH_IDENTITIES.filter(identity => identity.kind === "vowel").map(({ sound }) =>
+      cmuLegacyEnglishAdapter.mapGenerated({ syllables: [{ onset: [], nucleus: [{ sound }], coda: [] }] })[0]),
   };
-  const onsets = { frozen: [...inventories.frozen].sort(), audited: [...inventories.audited].sort(),
-    minimumThree: [...inventories.minimumThree].sort() };
   const report = { descriptor: cmuLegacyEnglishAdapter.descriptor, syllabification: CMU_ROOT_SYLLABIFICATION_V1,
-    population: X5_POPULATION, inventoryCoverage, onsets, parity304: { digest: frozenDigest, entries: population.entries.length,
-      constituentCells: Object.values(compatibility).reduce((sum, context) => sum + Object.keys(context.counts).length, 0),
-      countsDigest: jsonDigest(compatibility) },
-    expectedTotals, policies,
+    configuredBoundaryCheck: CONFIG_MEDIAL_CHECK, population: X5_POPULATION, inventoryCoverage, ...tables,
   };
   await writeJson("reference.json", report);
   for (const seed of words > 0 ? seeds : []) {
@@ -177,7 +126,7 @@ async function writeOutput() {
 
   if (!isDeepStrictEqual(generator, await generatorIdentity())) throw new Error("Generator source changed during measurement.");
   await writeJson("manifest.json", {
-    version: "x5-reference-run-v1",
+    version: "x5-reference-run-v2",
     generator,
     protocol: { id: protocol.id, sha256: sha256(protocolText), profile, cohort, seeds: words > 0 ? seeds : [], wordsPerSeed: words },
     descriptor: cmuLegacyEnglishAdapter.descriptor.version,

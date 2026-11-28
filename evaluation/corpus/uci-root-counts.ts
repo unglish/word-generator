@@ -3,7 +3,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
-import { gzipSync } from "node:zlib";
+import { gunzipSync, gzipSync } from "node:zlib";
 import { parseCmuPhone, type CmuPhone, type SelectedCmuEntry } from "./cmu.js";
 import { jsonDigest } from "./identity.js";
 import type { LedgerRow } from "./root-stripping.js";
@@ -34,6 +34,7 @@ interface PhaseOneArtifact extends RootPopulation {
   implementation: Array<{ path: string; sha256: string }>;
 }
 type Audit = Readonly<Record<string, readonly string[]>>;
+interface WeightedRoot { phones: readonly CmuPhone[]; surfaceWeight: number }
 
 function slotOf(left: CmuPhone, right: CmuPhone, leftStress: Stress | null, rightStress: Stress | null): Slot {
   if (leftStress === null) return right.kind === "vowel" ? "initial-CV" : "initial-CC";
@@ -80,10 +81,8 @@ export function countAuditedRootPairs(population: RootPopulation, audit: Audit, 
       excluded.set(spelling, coda);
     }
   }
-  const retained: PopulationCounts = { distinctStems: 0, surfaceObservations: 0 };
+  const roots: WeightedRoot[] = [];
   const removed: PopulationCounts = { distinctStems: 0, surfaceObservations: 0 };
-  const pairTotals: PairCounts = { stemWeightedOccurrences: 0, surfaceWeightedOccurrences: 0 };
-  const counts = new Map<string, Pair & PairCounts>();
   for (const { spelling, tokens } of population.roots) {
     const weight = weights.get(spelling);
     if (!weight) throw new Error(`Unrepresented or duplicate terminal stem: ${spelling}`);
@@ -100,6 +99,19 @@ export function countAuditedRootPairs(population: RootPopulation, audit: Audit, 
       removed.surfaceObservations += weight;
       continue;
     }
+    roots.push({ phones, surfaceWeight: weight });
+  }
+  if (weights.size || excluded.size) throw new Error("A ledger or coda audit stem is missing from the root inventory.");
+  const { retained, pairTotals, rows } = countRetainedRootPairs(roots);
+  return { retained, removed, pairTotals, rows };
+}
+
+export function countRetainedRootPairs(roots: Iterable<WeightedRoot>) {
+  const retained: PopulationCounts = { distinctStems: 0, surfaceObservations: 0 };
+  const pairTotals: PairCounts = { stemWeightedOccurrences: 0, surfaceWeightedOccurrences: 0 };
+  const counts = new Map<string, Pair & PairCounts>();
+  for (const { phones, surfaceWeight: weight } of roots) {
+    if (!Number.isSafeInteger(weight) || weight < 1) throw new Error("A retained root needs a positive surface weight.");
     retained.distinctStems++;
     retained.surfaceObservations += weight;
     pairTotals.stemWeightedOccurrences += phones.length - 1;
@@ -112,12 +124,20 @@ export function countAuditedRootPairs(population: RootPopulation, audit: Audit, 
       counts.set(key, row);
     }
   }
-  if (weights.size || excluded.size) throw new Error("A ledger or coda audit stem is missing from the root inventory.");
   const rows = Array.from(counts.keys()).sort().map(key => counts.get(key)!);
   for (const unit of ["stemWeightedOccurrences", "surfaceWeightedOccurrences"] as const) {
     if (rows.reduce((sum, row) => sum + row[unit], 0) !== pairTotals[unit]) throw new Error(`Unaccounted root pairs for ${unit}.`);
   }
-  return { retained, removed, pairTotals, rows };
+  return { retained, pairTotals, rows };
+}
+
+export async function loadPinnedRootPairCensus() {
+  const bytes = await readFile(resolve(corpusDirectory, "uci-root-pairs-v2.json.gz"));
+  const { digest, reference }: Awaited<ReturnType<typeof buildRootPairReference>> = JSON.parse(gunzipSync(bytes).toString("utf8"));
+  if (digest !== "06f1b3e75ce4dc49b8f081d193eceb9e1580354034e8bd3f271f9d70692cfe8d" || jsonDigest(reference) !== digest) {
+    throw new Error("Unexpected audited UCI root-pair census digest.");
+  }
+  return reference;
 }
 
 const sha256 = (bytes: Buffer) => createHash("sha256").update(bytes).digest("hex");

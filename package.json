@@ -8,7 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "check": "npm run lint && npm run typecheck && npm run test:root-attempts:model && npm run test:review:model && npm test && npm run test:review",
-    "typecheck": "tsc --noEmit && npm run review:typecheck && npm run quality:typecheck",
+    "typecheck": "tsc --noEmit && npm run review:typecheck && npm run quality:typecheck && npm run corpus:typecheck",
     "test": "vitest run",
     "test:root-attempts:model": "node --import tsx evaluation/quality/verification/check-root-attempts.ts",
     "test:perf": "vitest run --config vitest.perf.config.ts --reporter=verbose",
@@ -53,6 +53,7 @@
     "quality:rescore": "node --import tsx evaluation/quality/cli.ts rescore",
     "quality:pr": "node --import tsx evaluation/quality/cli.ts pr",
     "quality:typecheck": "tsc -p tsconfig.quality.json",
+    "corpus:typecheck": "tsc -p tsconfig.corpus.json",
     "review:compare": "node --import tsx evaluation/review/comparison/comparison-cli.ts",
     "perf:compare": "node scripts/perf-compare.mjs"
   },

@@ -1,8 +1,11 @@
 import { readFile } from "node:fs/promises";
+import { isDeepStrictEqual } from "node:util";
 import { CMU_SHA256, sha256 } from "../review/wordlikeness/model.js";
-import { CMU_COMPATIBILITY_POLICY, parseCmuRecords, selectCompatibleCmu, type SelectedCmuEntry } from "./cmu.js";
+import { CMU_COMPATIBILITY_POLICY, parseCmuPhone, parseCmuRecords, selectCompatibleCmu, type SelectedCmuEntry } from "./cmu.js";
 import { jsonDigest } from "./identity.js";
 import { JOINT_ENTRY_DIGEST } from "./joint.js";
+import { countRetainedRootPairs } from "./uci-root-counts.js";
+import type { MappedPhone } from "./variety-adapter.js";
 
 export const X5_POPULATION = {
   phaseOne: "2eacf788dd396e5207908c613d6689390e462d0488fa6e847606e08c124ce467",
@@ -22,6 +25,37 @@ interface SurfaceSource { line: number; spelling: string; stem: string }
 export interface RootObservation {
   source: SelectedCmuEntry;
   surfaces: SurfaceSource[];
+}
+
+interface MappedRoot { phones: readonly MappedPhone[]; surfaces: readonly SurfaceSource[] }
+
+function* censusInputs(roots: Iterable<MappedRoot>) {
+  for (const root of roots) {
+    const phones = root.phones.map((mapped, index) => {
+      const native = parseCmuPhone(mapped.raw);
+      if (!native || mapped.index !== index || mapped.kind !== native.kind || mapped.comparison !== native.base ||
+        mapped.stress !== (native.kind === "vowel" ? native.stress : "not-applicable")) {
+        throw new Error(`Mapped phone disagrees with its native CMU token: ${mapped.raw} at index ${index}.`);
+      }
+      return native;
+    });
+    yield { phones, surfaceWeight: root.surfaces.length };
+  }
+}
+
+function checkCensusCount(label: string, actual: unknown, expected: unknown) {
+  if (!isDeepStrictEqual(actual, expected)) {
+    throw new Error(`X5 differs from the audited UCI root-pair census at ${label}. Expected ${JSON.stringify(expected) ?? "(missing)"}, observed ${JSON.stringify(actual) ?? "(missing)"}.`);
+  }
+}
+
+export function verifyMappedRootPairs(roots: Iterable<MappedRoot>, expected: ReturnType<typeof countRetainedRootPairs>) {
+  const actual = countRetainedRootPairs(censusInputs(roots));
+  checkCensusCount("retained population", actual.retained, expected.retained);
+  checkCensusCount("pair totals", actual.pairTotals, expected.pairTotals);
+  for (let index = 0; index < Math.max(actual.rows.length, expected.rows.length); index++) {
+    checkCensusCount(`cell ${index + 1}`, actual.rows[index], expected.rows[index]);
+  }
 }
 
 export function checkTextPin(text: string, digest: string, description: string) {

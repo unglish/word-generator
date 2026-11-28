@@ -5,8 +5,8 @@ import {
 import { CMU_REVISION, CMU_SHA256 } from "../review/wordlikeness/model.js";
 import { parseCmuPhone, type CmuPhone } from "./cmu.js";
 
-export const CMU_LEGACY_ENGLISH_V1 = {
-  version: "cmu-legacy-english-v1",
+export const CMU_LEGACY_ENGLISH_V2 = {
+  version: "cmu-legacy-english-v2",
   variety: "rhotic-general-american-reference-v1",
   source: { name: "CMU Pronouncing Dictionary", revision: CMU_REVISION, sha256: CMU_SHA256,
     transcription: "CMU ARPAbet with explicit vowel stress", layer: "dictionary-lexical" },
@@ -16,7 +16,7 @@ export const CMU_LEGACY_ENGLISH_V1 = {
   comparisonOnly: ["e", "o"],
   narrowExport: "unsupported as a source of inventory identity",
   comparison: "#304 legacy ARPAbet projection",
-  stress: "CMU 0/1/2 are observed; generated unmarked stress remains unmarked",
+  stress: "CMU 0/1/2 are observed. Generated sound identities can fit independently of stress. Stress-conditioned events require observed stress.",
 } as const;
 
 type Stress = 0 | 1 | 2 | "unmarked" | "invalid" | "not-applicable" | "unavailable";
@@ -24,7 +24,7 @@ type Stress = 0 | 1 | 2 | "unmarked" | "invalid" | "not-applicable" | "unavailab
 type Fit =
   | { status: "permitted"; sound: string; identityId: string; basis: "identity" | "convention" }
   | { status: "ambiguous"; alternatives: readonly { sound: string; identityId: string }[] }
-  | { status: "unavailable"; reason: "unsupported-token" | "slot-mismatch" | "comparison-only" | "unavailable-stress" };
+  | { status: "unavailable"; reason: "unsupported-token" | "slot-mismatch" | "comparison-only" };
 
 export interface MappedPhone {
   index: number;
@@ -45,7 +45,7 @@ const rhoticAlternatives = Object.freeze(LEGACY_ENGLISH_IDENTITIES.filter(identi
 
 function fitCmu(phone: CmuPhone): Fit {
   if (phone.base === "ER") return { status: "ambiguous", alternatives: rhoticAlternatives };
-  const convention = CMU_LEGACY_ENGLISH_V1.fittingConvention;
+  const convention = CMU_LEGACY_ENGLISH_V2.fittingConvention;
   const sound = phone.base === "AH" && phone.kind === "vowel"
     ? convention[`AH${phone.stress}`]
     : phone.base === "OW" ? convention.OW : undefined;
@@ -88,7 +88,6 @@ export function mapLegacyRoot(root: ObservedWordInput): MappedPhone[] {
     if (!identity) fit = { status: "unavailable", reason: comparison ? "comparison-only" : "unsupported-token" };
     else if (!segment.slotCompatible) fit = { status: "unavailable", reason: "slot-mismatch" };
     else if (identity.interpretation === "ambiguous") fit = { status: "ambiguous", alternatives: rhoticAlternatives };
-    else if (stress === "unmarked" || stress === "invalid") fit = { status: "unavailable", reason: "unavailable-stress" };
     else fit = { status: "permitted", sound: identity.sound, identityId: identity.id, basis: "identity" };
     return { index, raw: segment.rawSound, kind: segment.identity.kind, stress, sourceIdentityId: segment.identity.id,
       rawStress: nucleus ? segment.stress.raw : null, fit, comparison, notationAlias: segment.notationAlias };
@@ -101,8 +100,20 @@ export interface VarietyAdapter {
   mapGenerated(root: ObservedWordInput): MappedPhone[];
 }
 
+export function mapReferenceTokens(tokens: readonly string[], adapter: VarietyAdapter): MappedPhone[] {
+  const phones = adapter.mapReference([...tokens]);
+  if (phones.length !== tokens.length) throw new Error("Reference adapters must retain every raw source token at its original index.");
+  for (const [index, raw] of tokens.entries()) {
+    const mapped = phones[index];
+    if (mapped?.index !== index || mapped.raw !== raw) {
+      throw new Error(`Expected ${raw} at original index ${index} of ${tokens.join(" ")}. ${adapter.descriptor.version} returned ${mapped?.raw} at ${mapped?.index}.`);
+    }
+  }
+  return phones;
+}
+
 export const cmuLegacyEnglishAdapter = {
-  descriptor: CMU_LEGACY_ENGLISH_V1,
+  descriptor: CMU_LEGACY_ENGLISH_V2,
   mapReference: mapCmuTokens,
   mapGenerated: mapLegacyRoot,
 } satisfies VarietyAdapter;

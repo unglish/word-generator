@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 import { englishConfig } from "../../src/config/english.js";
 import { LEGACY_ENGLISH_IDENTITIES } from "../../src/phonology/identity.js";
 import { CONSONANTS, VOWELS } from "../corpus/cmu.js";
-import { compareGenerated } from "../corpus/syllabified-generated.js";
-import { checkTextPin, phaseOneRows, X5_POPULATION } from "../corpus/syllabified-population.js";
+import { histogram } from "../corpus/joint.js";
+import { compareGenerated, countBoundaryChanges } from "../corpus/syllabified-generated.js";
+import { checkTextPin, phaseOneRows, verifyMappedRootPairs, X5_POPULATION } from "../corpus/syllabified-population.js";
 import {
   CMU_ROOT_SYLLABIFICATION_V1, configClusterLicense, inferSyllables, mapReferencePronunciation, nativePairs, onsetInventories, suppliedSyllables,
 } from "../corpus/syllabified-reference.js";
@@ -12,11 +13,42 @@ import { cmuLegacyEnglishAdapter, mapCmuTokens, mapLegacyRoot } from "../corpus/
 
 const license = configClusterLicense(englishConfig);
 const inventories = onsetInventories(["", "R", "P R", "S T R"], [
-  ["S", "T", "R", "AH1"],
+  ["S", "T", "R", "AH1"], ["S", "T", "R", "IH1"],
   ["P", "R", "OW1"], ["P", "R", "IH1"], ["P", "R", "IY1"],
   ["R", "IH1"], ["R", "OW1"], ["R", "IY1"],
 ].map(mapCmuTokens), license);
 const vowel = (sound: string, stress?: string) => ({ onset: [], nucleus: [{ sound }], coda: [], stress });
+
+describe("audited UCI root-pair parity", () => {
+  const roots = [
+    { phones: mapCmuTokens(["AH0", "N"]), surfaces: [{ line: 1, spelling: "a", stem: "a" }] },
+    { phones: mapCmuTokens(["AH1", "N"]), surfaces: [
+      { line: 2, spelling: "b", stem: "b" }, { line: 3, spelling: "bs", stem: "b" },
+    ] },
+  ];
+  const pair = { slot: "final-VC", left: "AH", right: "N", rightStress: null, stemWeightedOccurrences: 1 } as const;
+  const expected = {
+    retained: { distinctStems: 2, surfaceObservations: 3 },
+    pairTotals: { stemWeightedOccurrences: 2, surfaceWeightedOccurrences: 3 },
+    rows: [
+      { ...pair, leftStress: 0 as const, surfaceWeightedOccurrences: 1 },
+      { ...pair, leftStress: 1 as const, surfaceWeightedOccurrences: 2 },
+    ],
+  };
+
+  it("compares both weights in each stressed pair even when the overall totals match", () => {
+    verifyMappedRootPairs(roots, expected);
+    const swapped = roots.map((root, i) => ({ ...root, surfaces: roots[1 - i].surfaces }));
+    expect(() => verifyMappedRootPairs(swapped, expected)).toThrow(/cell 1.*Expected .*"surfaceWeightedOccurrences":1.*observed .*"surfaceWeightedOccurrences":2/);
+    const changedStress = [{ ...roots[0], phones: mapCmuTokens(["AH2", "N"]) }, roots[1]];
+    expect(() => verifyMappedRootPairs(changedStress, expected)).toThrow(/cell 1.*Expected .*"leftStress":0.*observed .*"leftStress":1/);
+  });
+
+  it("rejects a stress label that disagrees with the mapped row's native vowel", () => {
+    const phones = [{ ...roots[0].phones[0], stress: 1 as const }, roots[0].phones[1]];
+    expect(() => verifyMappedRootPairs([{ ...roots[0], phones }, roots[1]], expected)).toThrow("native CMU token");
+  });
+});
 
 describe("CMU root-to-variety fitting contract", () => {
   it("accounts for the entire 69-token native and 41-identity generated spaces", () => {
@@ -45,12 +77,39 @@ describe("CMU root-to-variety fitting contract", () => {
     expect(generated.map(phone => phone.comparison)).toEqual(["OW", "OW", null, "OW", "ER"]);
     expect(generated.map(phone => phone.fit)).toMatchObject([
       { status: "permitted", sound: "əʊ" }, { status: "unavailable", reason: "comparison-only" },
-      { status: "unavailable", reason: "unsupported-token" }, { status: "unavailable", reason: "unavailable-stress" },
+      { status: "unavailable", reason: "unsupported-token" }, { status: "permitted", sound: "əʊ" },
       { status: "ambiguous" },
     ]);
     expect(generated.map(phone => phone.stress)).toEqual([1, 1, 1, "unmarked", 2]);
     expect(generated[3].sourceIdentityId).toBe(generated[0].sourceIdentityId);
     expect(generated[4].sourceIdentityId).toBe("english-legacy:25c");
+  });
+
+  it.each([[undefined, "unmarked"], ["?", "invalid"]] as const)(
+    "fits known sounds with stress mark %s only in cells that have the required observations", (mark, stress) => {
+      const phones = mapLegacyRoot({ syllables: [{ ...vowel("ə", mark), onset: [{ sound: "t" }] }] });
+      expect(phones[1]).toMatchObject({ stress, fit: { status: "permitted", sound: "ə" } });
+      expect(fittingEvent(phones, [1])).toEqual({ identities: ["english-legacy:259"], conditioning: [] });
+      expect(fittingEvent(phones, [0], [1])).toEqual({ identities: ["english-legacy:74"], conditioning: ["english-legacy:259"] });
+      expect(fittingEvent(phones, [0], [], [1])).toBeNull();
+
+      const tables = createConstituentTables();
+      countConstituents(tables, phones, inferSyllables(phones, CMU_ROOT_SYLLABIFICATION_V1.policy, inventories), 2);
+      expect(tables.completeCase.phones.counts).toEqual({ t: 2, ə: 2 });
+      expect(tables.onset.permitted).toEqual({});
+      expect(tables.onset.withheld[`initial:${stress}`].counts).toEqual({ t: 2 });
+      expect(tables.rime.permitted).toEqual({});
+      expect(tables.rime.withheld[`final:${stress}`].counts).toEqual({ ə: 2 });
+      expect(tables.compatibility).toEqual({});
+    });
+
+  it("validates all slot, identity-context and stress indices even after an ambiguous phone", () => {
+    const phones = mapCmuTokens(["ER1", "T"]);
+    for (const invalid of [-1, 2, 0.5, NaN]) {
+      expect(() => fittingEvent(phones, [0, invalid])).toThrow(RangeError);
+      expect(() => fittingEvent(phones, [0], [0, invalid])).toThrow(RangeError);
+      expect(() => fittingEvent(phones, [0], [0], [1, invalid])).toThrow(RangeError);
+    }
   });
 
   it("retains raw aliases independently of the unchanged legacy comparator", () => {
@@ -59,6 +118,15 @@ describe("CMU root-to-variety fitting contract", () => {
       { raw: "ɡ", notationAlias: true, fit: { sound: "g" }, comparison: null, stress: "not-applicable" },
       { raw: "iː", notationAlias: true, fit: { sound: "i:" }, comparison: null, stress: 1 },
     ]);
+  });
+
+  it("fits an inferred syllable whose vowel has no #304 comparison symbol", () => {
+    const phones = mapLegacyRoot({ syllables: [vowel("iː", "ˈ")] });
+    const tables = createConstituentTables();
+    countConstituents(tables, phones, inferSyllables(phones, CMU_ROOT_SYLLABIFICATION_V1.policy, inventories), 1);
+    expect(phones[0].comparison).toBeNull();
+    expect(tables.rime.permitted["final:1"].counts).toEqual({ "english-legacy:69-3a": 1 });
+    expect(tables.compatibility).toEqual({});
   });
 
   it("preserves source indices and masks unknowns without joining their neighbors", () => {
@@ -122,6 +190,7 @@ describe("CMU root-to-variety fitting contract", () => {
     expect(tables.completeCase.rows.total).toBe(0);
     expect(fittingEvent(phones, [2])).toEqual({ identities: ["english-legacy:74"], conditioning: [] });
     expect(fittingEvent(phones, [2], [1])).toBeNull();
+    expect(fittingEvent(phones, [2], [], [1])).toEqual({ identities: ["english-legacy:74"], conditioning: [] });
   });
 
   it("retains an explicitly supplied multi-phone nucleus and rejects omitted source tokens", () => {
@@ -147,6 +216,19 @@ describe("CMU root-to-variety fitting contract", () => {
 });
 
 describe("root boundary policies", () => {
+  it("counts each policy's boundary change against 304 when 304 is listed second", () => {
+    const totals = histogram();
+    countBoundaryChanges(totals, [
+      { policy: "config-legal", outcome: "match" },
+      { policy: "304", outcome: "disagree" },
+      { policy: "audited-min3", outcome: "unavailable" },
+    ]);
+    expect(totals).toEqual({ total: 2, counts: {
+      "config-legal/boundary-change:disagree>match": 1,
+      "audited-min3/boundary-change:disagree>unavailable": 1,
+    } });
+  });
+
   it("chooses the longest supported onset and retains every candidate split", () => {
     const phones = mapCmuTokens(["AH0", "S", "T", "R", "IH1"]);
     const baseline = inferSyllables(phones, "304", inventories);
@@ -163,11 +245,30 @@ describe("root boundary policies", () => {
   });
 
   it("applies configured cluster and junction constraints without editing source phones", () => {
-    expect(license(mapCmuTokens(["N"]), mapCmuTokens(["T"]))).toBe(true);
-    expect(license(mapCmuTokens(["T"]), mapCmuTokens(["T"]))).toBe(false);
-    const analysis = inferSyllables(mapCmuTokens(["AH0", "K", "K", "IH1"]), "config-legal", inventories);
-    expect(analysis).toMatchObject({ status: "unavailable", reason: "no-licensed-split",
-      boundaries: [{ cluster: [1, 2], chosenCodaSize: null }] });
+    const licensed = (tokens: string[]) => inferSyllables(mapCmuTokens(tokens), "config-legal", inventories)
+      .boundaries[0].splits.filter(split => split.licensed).map(split => split.codaSize);
+    expect(licensed(["AH0", "N", "T", "IH1"])).toEqual([1, 2]);
+    expect(licensed(["AH0", "K", "K", "IH1"])).toEqual([]);
+    // Neither an ordinary /sts/ coda nor /st.s/ with a repeated coda sound in the onset can be selected.
+    expect(licensed(["AH0", "S", "T", "S", "IH1"])).toEqual([]);
+    expect(licensed(["AH0", "T", "R", "IY1"])).toContain(0);
+    expect(licensed(["AH0", "T", "R", "ER0"])).toEqual([]);
+    expect(licensed(["ER0", "R", "IH1"])).toEqual([]);
+    expect(licensed(["ER0", "NG", "IH0"])).toEqual([]);
+    expect(licensed(["ER0", "T", "IH0"])).toContain(0);
+  });
+
+  it("checks the generator's actual vowel ID while preserving uncertainty for fitting", () => {
+    const rhoticCoda = (sound: string) => mapLegacyRoot({ syllables: [{ ...vowel(sound), coda: [{ sound: "ŋ" }] }, vowel("ə")] });
+    expect(inferSyllables(rhoticCoda("ɚ"), "config-legal", inventories)).toMatchObject({
+      status: "unavailable", reason: "no-licensed-split", boundaries: [{ chosenCodaSize: null,
+        splits: [{ codaSize: 0, licensed: false }, { codaSize: 1, licensed: false }] }],
+    });
+    const observed = rhoticCoda("ɜ");
+    expect(fittingEvent(observed, [0])).toBeNull();
+    expect(inferSyllables(observed, "config-legal", inventories)).toMatchObject({
+      status: "inferred", boundaries: [{ chosenCodaSize: 1 }],
+    });
   });
 
   it("replays the archived flena boundary disagreement with the gold split held back", () => {
@@ -210,5 +311,15 @@ describe("root boundary policies", () => {
     expect(compareGenerated(2380207674, 12, inventories, false)).toEqual(first);
     expect(first.totals.counts["304/root:match"]).toBeGreaterThan(0);
     expect(first.totals.counts["304/boundary:disagree"]).toBeGreaterThan(0);
+    expect(first.totals.counts["config-legal/boundary-change:disagree>match"]).toBeGreaterThan(0);
+  });
+
+  it("keeps every supplied boundary in the agreement denominator when a policy abstains", () => {
+    const report = compareGenerated(2380207674, 12, { ...inventories, configLicense: () => false }, false);
+    const counts = report.totals.counts;
+    const boundaries = counts["304/boundary:match"] + counts["304/boundary:disagree"];
+    expect(boundaries).toBeGreaterThan(0);
+    expect(counts["config-legal/boundary:unavailable"]).toBe(boundaries);
+    expect(report.matchedCoverage.total).toBe(0);
   });
 });

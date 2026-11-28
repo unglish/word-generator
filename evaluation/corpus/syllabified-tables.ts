@@ -16,13 +16,22 @@ function add(tables: Tables, context: string, key: string, weight: number) {
   addLiteralCount(tables[context] ??= histogram(), key, weight);
 }
 
+function hasObservedStress(phone: MappedPhone) {
+  return typeof phone.stress === "number";
+}
+
+function hasComparisonProjection(phones: readonly MappedPhone[]) {
+  return phones.every(phone => phone.comparison !== null &&
+    (phone.kind === "consonant" ? phone.stress === "not-applicable" : phone.kind === "vowel" && hasObservedStress(phone)));
+}
+
 export function compatibilityConstituents(tables: ReferenceModel["constituents"], phones: readonly MappedPhone[],
   analysis: Syllabification, weight: number) {
   if (analysis.status === "unavailable") return;
   if (analysis.syllables.some(syllable => syllable.nucleus.length !== 1)) {
     throw new Error("#304 constituents require exactly one nucleus phone per syllable.");
   }
-  if (phones.some(phone => phone.comparison === null || phone.stress === "unmarked" || phone.stress === "invalid" || phone.stress === "unavailable")) {
+  if (!hasComparisonProjection(phones)) {
     throw new Error("#304 constituents require a complete CMU comparison projection and explicit stress.");
   }
   analysis.syllables.forEach(({ onset, nucleus, coda }, index) => {
@@ -56,6 +65,14 @@ function addPairs(target: Histogram, phones: readonly MappedPhone[], weight: num
 export function countConstituents(tables: ConstituentTables, phones: readonly MappedPhone[],
   analysis: Syllabification, weight: number) {
   if (!Number.isSafeInteger(weight) || weight <= 0) throw new Error("Constituent weights must be positive safe integers.");
+  const reconstructed = analysis.status === "unavailable" ? [] : analysis.syllables.flatMap(({ onset, nucleus, coda }) =>
+    [...onset, ...nucleus, ...coda].map(i => phones[i]));
+  if (analysis.status !== "unavailable" && (reconstructed.length !== phones.length || reconstructed.some((phone, index) => phone?.index !== index))) {
+    throw new Error("Syllables must preserve every input position in order.");
+  }
+  if (analysis.status === "inferred" && hasComparisonProjection(phones)) {
+    compatibilityConstituents(tables.compatibility, phones, analysis, weight);
+  }
   addCount(tables.rows, analysis.status, weight);
   if (analysis.status === "unavailable") addCount(tables.unavailableReasons, analysis.reason, weight);
   addPairs(tables.nativeBoundedPairs, phones, weight, true);
@@ -70,12 +87,6 @@ export function countConstituents(tables: ConstituentTables, phones: readonly Ma
     addPairs(tables.completeCase.adjacentPairs, phones, weight, false);
   }
   if (analysis.status === "unavailable") return;
-  if (analysis.status === "inferred") compatibilityConstituents(tables.compatibility, phones, analysis, weight);
-  const reconstructed = analysis.syllables.flatMap(({ onset, nucleus, coda }) =>
-    [...onset, ...nucleus, ...coda].map(i => phones[i]));
-  if (reconstructed.length !== phones.length || reconstructed.some((phone, index) => phone?.index !== index)) {
-    throw new Error("Syllables must preserve every input position in order.");
-  }
   for (const phone of reconstructed) addLiteralCount(tables.reconstructedNativePhones, phone.raw, weight);
   addPairs(tables.reconstructedNativeBoundedPairs, reconstructed, weight, true);
 
@@ -83,30 +94,41 @@ export function countConstituents(tables: ConstituentTables, phones: readonly Ma
     const stress = nucleus.map(i => phones[i].stress).join("+");
     const onsetContext = `${index === 0 ? "initial" : "medial"}:${stress}`;
     const rimeContext = `${index === analysis.syllables.length - 1 ? "final" : "medial"}:${stress}`;
-    countSlot(tables.onset, onsetContext, phones, onset, weight);
-    countSlot(tables.rime, rimeContext, phones, [...nucleus, ...coda], weight);
+    countSlot(tables.onset, onsetContext, phones, onset, nucleus, weight);
+    countSlot(tables.rime, rimeContext, phones, [...nucleus, ...coda], nucleus, weight);
   });
 }
 
-/** Include every phone used to condition a cell. An unresolved condition withholds the whole event. */
-export function fittingEvent(phones: readonly MappedPhone[], indices: readonly number[], conditioningIndices: readonly number[] = []) {
-  const fitIds = (positions: readonly number[]) => {
-    const ids: string[] = [];
-    for (const index of positions) {
-      const fit = phones[index]?.fit;
-      if (fit?.status !== "permitted") return null;
-      ids.push(fit.identityId);
+function phonesAt(phones: readonly MappedPhone[], indices: readonly number[]) {
+  return Array.from(indices, index => {
+    if (!Number.isSafeInteger(index) || index < 0 || index >= phones.length || !phones[index]) {
+      throw new RangeError(`Invalid fitting phone index ${index} for a pronunciation of length ${phones.length}.`);
     }
-    return ids;
-  };
-  const identities = fitIds(indices);
-  const conditioning = fitIds(conditioningIndices);
-  return identities === null || conditioning === null ? null : { identities, conditioning };
+    return phones[index];
+  });
+}
+
+function fittedIdentities(phones: readonly MappedPhone[]) {
+  const ids: string[] = [];
+  for (const { fit } of phones) {
+    if (fit.status !== "permitted") return null;
+    ids.push(fit.identityId);
+  }
+  return ids;
+}
+
+/** Only the listed identities and stress observations are prerequisites for this fitting cell. */
+export function fittingEvent(phones: readonly MappedPhone[], indices: readonly number[],
+  conditioningIndices: readonly number[] = [], requiredStressIndices: readonly number[] = []) {
+  const identities = fittedIdentities(phonesAt(phones, indices));
+  const conditioning = fittedIdentities(phonesAt(phones, conditioningIndices));
+  const stressKnown = phonesAt(phones, requiredStressIndices).every(hasObservedStress);
+  return identities === null || conditioning === null || !stressKnown ? null : { identities, conditioning };
 }
 
 function countSlot(tables: ConstituentTables["onset"], context: string,
-  phones: readonly MappedPhone[], indices: readonly number[], weight: number) {
-  const event = fittingEvent(phones, indices);
+  phones: readonly MappedPhone[], indices: readonly number[], nucleus: readonly number[], weight: number) {
+  const event = fittingEvent(phones, indices, [], nucleus);
   if (event) {
     add(tables.permitted, context, event.identities.join(" "), weight);
   } else {
